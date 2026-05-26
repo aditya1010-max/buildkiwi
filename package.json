@@ -3,7 +3,8 @@
   "private": true,
   "packageManager": "npm@10.8.2",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev",
@@ -11,6 +12,11 @@
     "lint": "turbo run lint"
   },
   "devDependencies": {
+    "tsconfig-paths": "^4.2.0",
     "turbo": "^2.9.14"
+  },
+  "dependencies": {
+    "zod": "^4.4.3",
+    "dotenv": "^17.4.2"
   }
 }

@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <h1>Dynamic Schema Form</h1>
-
+      
       <DynamicForm schema={taskSchema} />
     </div>
   );

@@ -29,10 +29,26 @@ export default function DynamicForm({
     }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log(formData);
+    console.log("Submitting:", formData);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      console.log("Server response:", data);
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   }
 
   function renderField(field: Field) {
