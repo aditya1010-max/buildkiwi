@@ -1,9 +1,19 @@
-import { Project } from "../models/project.models"
+import {
+  createProjectRepository,
+  getProjectsRepository
+} from "../repositories/project.repository";
 
-export const createProjectService = async (type: string, data: any) => {
-    return await Project.create({ type, data});
-}
+export const createProjectService =
+  async (data: any) => {
 
-export const getProjectsService = async () => {
-    return await Project.find().sort({ createdAt: -1});
-}
+    return await createProjectRepository({
+      type: "project",
+      data,
+    });
+  };
+
+export const getProjectsService =
+  async () => {
+
+    return await getProjectsRepository();
+  };

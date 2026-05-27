@@ -9,7 +9,7 @@ import { AppError } from "../utils/AppError";
 
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const validateData =
+    const validateData =    //extra validation to ensure that the data is correct before it hits the service layer, this is in addition to the zod validation in the route handler
       CreateProjectSchema.parse(req.body);
       const errors = validateSchemaData(projectSchema, validateData);
       if (errors.length > 0) {
@@ -18,10 +18,10 @@ export const createProject = asyncHandler(
           400
         );
       }
-    const project = await createProjectService("project", validateData);
+    const project = await createProjectService(validateData);
     
     res.status(201).json({
-      success: true,
+      success: true, 
       data: project,
     });
   }
