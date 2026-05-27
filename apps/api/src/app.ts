@@ -5,10 +5,12 @@ import projectRoutes from "./routes/project.routes";
 import testRoutes from "./routes/test.routes";
 import cors from "cors";
 import { errorHandler } from "./middleware/errorHandler";
+import { env } from "./config/env";
 
 dotenv.config();
 
 const app = express();
+const PORT = env.PORT;
 connectDB();
 
 app.use(express.json());
@@ -23,6 +25,6 @@ app.get("/health", (_req, res) => {  // _ infront of req to ignore the unused pa
 
 
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
