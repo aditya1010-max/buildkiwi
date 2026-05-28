@@ -30,8 +30,8 @@ export const createProject = asyncHandler(
 export const getProjects = asyncHandler(
 
   async (req, res) => {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
+    const page = Math.max(1, Number(req.query.page) || 1, 1);
+    const limit = Math.min(20, Math.max(1,Number(req.query.limit)) || 10);
     const result = await getProjectsService(page, limit);
 
     res.json({

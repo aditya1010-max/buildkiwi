@@ -10,7 +10,8 @@ export const getProjectsRepository = async ( page: number, limit: number ) => {
    await Project.find()
     .sort({ createdAt: -1 })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .lean();
 
   return projects;
 };
