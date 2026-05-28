@@ -16,5 +16,9 @@ const projectSchema = new mongoose.Schema(
     }
 );
 
+projectSchema.index({ createdAt: -1 });
+projectSchema.index({ type: 1 });
+projectSchema.index({ "data.tags": 1 });
+
 export const Project = mongoose.model("Project", projectSchema);
 
