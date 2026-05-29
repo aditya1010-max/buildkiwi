@@ -1,45 +1,35 @@
-import { useEffect, useState } from "react"
+import ProjectCard
+from "../components/ProjectCard";
+
+import { useProjects }
+from "../hooks/useProjects";
 
 export default function Home() {
 
-    const [projects, setProjects] = useState<any[]>([]);
-    
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await fetch(
-                    "http://localhost:3000/projects"
-                );
+  const { projects, loading, error } = useProjects();
 
-                const data = await response.json();
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-                setProjects(data);
+  if (error) {
+    return <p>{error}</p>;
+  }
 
-            } catch (error) {
-                console.log("error fetching projects,", error);
-            }
-        };
+  return (
+    <div className="max-w-2xl mx-auto p-4">
 
-        fetchProjects();
-    }, []);
-    return (
-        <div>
-            <h1>BuildKiwi</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        BuildKiwi Feed
+      </h1>
 
-            {projects.map((projects) => (
-                <div key={projects._id}>
-                    <h2>{projects.data.title}</h2>
-                    <p>{projects.data.description}</p>
-                        <a 
-                            href={projects.data.link}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                         Visit Project
-                        </a>
-                    
-                </div>
-            ))}
-        </div>
-    );
+      {projects.map((project) => (
+        <ProjectCard
+          key={project._id}
+          project={project}
+        />
+      ))}
+
+    </div>
+  );
 }
