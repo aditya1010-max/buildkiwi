@@ -6,6 +6,11 @@ const projectSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        creatorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
         data: {
             type: Object,
             required: true
