@@ -7,6 +7,7 @@ import cors from "cors";
 import { errorHandler } from "./middleware/errorHandler";
 import { env } from "./config/env";
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/api/projects", projectRoutes);
 app.use("/test", testRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 app.use(errorHandler);
 
 app.get("/health", (_req, res) => {
