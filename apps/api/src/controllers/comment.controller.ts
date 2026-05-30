@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
-
+import { CreateCommentSchema } from "@buildkiwi/validation";
 import {
   createCommentService,
   getCommentsByProjectService,
@@ -14,7 +14,7 @@ export const createComment = asyncHandler(
 
     const userId = (req as any).user.userId;
 
-    const { content } = req.body;
+    const { content } = CreateCommentSchema.parse(req.body);
 
     const comment = await createCommentService(projectId, userId, content);
 
