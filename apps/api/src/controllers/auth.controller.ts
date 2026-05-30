@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-
 import { asyncHandler } from "../utils/asyncHandler";
-
+import { findUserByIdService } from "../services/user.service";
 import {
   registerUserService,
   loginUserService,
@@ -21,13 +20,18 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await loginUserService(email, password);
+  const result = await loginUserService(email, password);
 
-  res.json({ success: true, user });
+  res.json({ success: true, user: result.user, token: result.token });
 });
 
-export const me = asyncHandler(async (_req: Request, res: Response) => {
+export const me = asyncHandler(async (req, res) => {
+  const userId = (req as any).user.userId;
+
+  const user = await findUserByIdService(userId);
+
   res.json({
-    message: "Me endpoint coming soon",
+    success: true,
+    user,
   });
 });

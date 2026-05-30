@@ -12,5 +12,5 @@ export const findUserByEmailRepository = async (email: string) => {
 
 export const findUserByIdRepository = async (id: string) => {
   // Consider .lean() later
-  return await User.findById(id);
+  return await User.findById(id).select("-passwordHash -__v");
 };

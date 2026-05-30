@@ -1,6 +1,7 @@
 import {
   createUserRepository,
   findUserByEmailRepository,
+  findUserByIdRepository,
 } from "../repositories/user.repository";
 
 export const createUserService = async (data: any) => {
@@ -9,4 +10,8 @@ export const createUserService = async (data: any) => {
 
 export const findUserByEmailService = async (email: string) => {
   return await findUserByEmailRepository(email);
+};
+
+export const findUserByIdService = async (id: string) => {
+  return await findUserByIdRepository(id);
 };

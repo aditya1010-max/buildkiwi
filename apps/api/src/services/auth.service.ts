@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
+import { env } from "../config/env";
 import {
   createUserRepository,
   findUserByEmailRepository,
@@ -37,6 +38,16 @@ export const loginUserService = async (email: string, password: string) => {
   if (!isValid) {
     throw new Error("Invalid credentials");
   }
+  const token = jwt.sign(
+    {
+      userId: user._id.toString(),
+      email: user.email,
+    },
+    env.JWT_SECRET as Secret,
+    {
+      expiresIn: "15m",
+    } as SignOptions,
+  );
 
-  return user;
+  return { user, token };
 };
