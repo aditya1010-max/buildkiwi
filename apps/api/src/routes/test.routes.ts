@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sum, square, cube } from "../controllers/test.controller"
+import { sum, square, cube } from "../controllers/test.controller";
 
 const router = Router();
 

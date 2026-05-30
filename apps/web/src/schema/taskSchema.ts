@@ -6,15 +6,15 @@ const taskSchema: FormSchema = {
       name: "title",
       label: "Title",
       type: "text",
-      placeholder: "Enter title"
+      placeholder: "Enter title",
     },
     {
       name: "description",
       label: "Description",
       type: "textarea",
-      placeholder: "Enter description"
-    }
-  ]
+      placeholder: "Enter description",
+    },
+  ],
 };
 
 export default taskSchema;

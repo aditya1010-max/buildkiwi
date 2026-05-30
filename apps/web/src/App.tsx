@@ -6,28 +6,19 @@ import taskSchema from "./schema/taskSchema";
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-        <Route
-          path="/"
-          element={<Home />}
-        />
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/create"
           element={
             <div className="p-6">
-              <h1 className="text-3xl font-bold mb-6">
-                Dynamic Schema Form
-              </h1>
-              <DynamicForm
-                schema={taskSchema}
-              />
+              <h1 className="text-3xl font-bold mb-6">Dynamic Schema Form</h1>
+              <DynamicForm schema={taskSchema} />
             </div>
           }
         />
       </Routes>
-
     </BrowserRouter>
   );
 }

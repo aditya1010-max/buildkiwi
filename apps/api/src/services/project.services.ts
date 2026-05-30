@@ -1,19 +1,17 @@
 import {
   createProjectRepository,
   getProjectsCountRepository,
-  getProjectsRepository
+  getProjectsRepository,
 } from "../repositories/project.repository";
 
-export const createProjectService =
-  async (data: any) => {
+export const createProjectService = async (data: any) => {
+  return await createProjectRepository({
+    type: "project",
+    data,
+  });
+};
 
-    return await createProjectRepository({
-      type: "project",
-      data,
-    });
-  };
-
-export const getProjectsService = async ( page: number, limit: number ) => {
+export const getProjectsService = async (page: number, limit: number) => {
   const projects = await getProjectsRepository(page, limit);
 
   const total = await getProjectsCountRepository();
@@ -22,10 +20,10 @@ export const getProjectsService = async ( page: number, limit: number ) => {
     projects,
     pagination: {
       total,
-      page, 
+      page,
       limit,
       totalPages: Math.ceil(total / limit),
-      hasMore: page * limit < total
-    }
-  }
-}
+      hasMore: page * limit < total,
+    },
+  };
+};

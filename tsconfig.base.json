@@ -18,9 +18,7 @@
     "ignoreDeprecations": "6.0",
 
     "paths": {
-      "@buildkiwi/validation": [
-        "packages/validation/src"
-      ]
+      "@buildkiwi/validation": ["packages/validation/src"]
     }
   }
 }

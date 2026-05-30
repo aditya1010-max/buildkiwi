@@ -8,10 +8,7 @@ type Schema = {
   fields: Field[];
 };
 
-export function validateSchemaData(
-  schema: Schema,
-  data: Record<string, any>
-) {
+export function validateSchemaData(schema: Schema, data: Record<string, any>) {
   const errors: string[] = [];
 
   for (const field of schema.fields) {
@@ -21,7 +18,7 @@ export function validateSchemaData(
       errors.push(`${field.name} is required`);
       continue;
     }
-    
+
     if (value) {
       switch (field.type) {
         case "text":

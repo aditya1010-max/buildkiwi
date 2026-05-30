@@ -13,4 +13,3 @@ bcrypt
 Future providers:
 Google
 GitHub
-

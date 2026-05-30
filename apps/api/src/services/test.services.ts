@@ -1,11 +1,11 @@
 export const sumService = (a: number, b: number) => {
-    return a + b;
-}
+  return a + b;
+};
 
 export const squareService = (a: number) => {
-    return a * a;
-}
+  return a * a;
+};
 
-export const cubeService = (a: number) =>  {
-    return a*a*a ;
-}
+export const cubeService = (a: number) => {
+  return a * a * a;
+};
