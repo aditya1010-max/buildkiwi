@@ -18,3 +18,11 @@ export const getProjectsRepository = async (page: number, limit: number) => {
 export const getProjectsCountRepository = async () => {
   return await Project.countDocuments();
 };
+
+export const getProjectsByUserRepository = async (userId: string) => {
+  return await Project.find({
+    creatorId: userId,
+  }).sort({
+    createdAt: -1,
+  });
+};

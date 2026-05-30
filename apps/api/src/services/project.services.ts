@@ -2,6 +2,7 @@ import {
   createProjectRepository,
   getProjectsCountRepository,
   getProjectsRepository,
+  getProjectsByUserRepository,
 } from "../repositories/project.repository";
 
 export const createProjectService = async (data: any, creatorId: string) => {
@@ -27,4 +28,8 @@ export const getProjectsService = async (page: number, limit: number) => {
       hasMore: page * limit < total,
     },
   };
+};
+
+export const getProjectsByUserService = async (userId: string) => {
+  return await getProjectsByUserRepository(userId);
 };

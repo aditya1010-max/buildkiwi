@@ -18,7 +18,7 @@ export const createProject = asyncHandler(
       throw new AppError("Validation failed", 400);
     }
     const creatorId = (req as any).user.userId;
-    const project = await createProjectService(validateData,creatorId);
+    const project = await createProjectService(validateData, creatorId);
 
     res.status(201).json({
       success: true,
