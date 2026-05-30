@@ -4,9 +4,10 @@ import {
   getProjectsRepository,
 } from "../repositories/project.repository";
 
-export const createProjectService = async (data: any) => {
+export const createProjectService = async (data: any, creatorId: string) => {
   return await createProjectRepository({
     type: "project",
+    creatorId,
     data,
   });
 };

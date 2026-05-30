@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { createProject, getProjects } from "../controllers/project.controller";
+import { authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.post("/", createProject);
-router.get("/", getProjects);
+router.post("/", authMiddleware, createProject);
+router.get("/", authMiddleware, getProjects);
 
 export default router;
