@@ -9,6 +9,7 @@ import { env } from "./config/env";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import feedRoutes from "./routes/feed.routes";
+import commentRoutes from "./routes/comment.routes";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/test", testRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/feed", feedRoutes);
+app.use("/api", commentRoutes);
 app.use(errorHandler);
 
 app.get("/health", (_req, res) => {
