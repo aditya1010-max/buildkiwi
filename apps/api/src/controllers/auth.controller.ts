@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 
 import { asyncHandler } from "../utils/asyncHandler";
 
-import { registerUserService } from "../services/auth.service";
+import {
+  registerUserService,
+  loginUserService,
+} from "../services/auth.service";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -15,16 +18,15 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const login = asyncHandler(
-  //temporary login endpoint, will be implemented properly in the future
-  async (_req, res) => {
-    res.json({
-      message: "Login coming soon",
-    });
-  },
-);
+export const login = asyncHandler(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-export const me = asyncHandler(async (_req, res) => {
+  const user = await loginUserService(email, password);
+
+  res.json({ success: true, user });
+});
+
+export const me = asyncHandler(async (_req: Request, res: Response) => {
   res.json({
     message: "Me endpoint coming soon",
   });
