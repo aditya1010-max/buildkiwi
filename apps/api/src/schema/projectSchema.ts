@@ -1,16 +1,14 @@
 export const projectSchema = {
-  title: {
-    required: true,
-    type: "string",
-  },
-
-  description: {
-    required: true,
-    type: "string",
-  },
-
-  status: {
-    required: true,
-    type: "string",
-  },
+  fields: [
+    {
+      name: "title",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "description",
+      type: "textarea",
+      required: true,
+    },
+  ],
 };

@@ -1,6 +1,6 @@
 import { Request, Response} from "express";
 import { createProjectService, getProjectsService } from "../services/project.services";
-import { projectSchema } from "../schema/serverSchema";   //this needs to be fixed
+import { projectSchema } from "../schema/projectSchema";   //this needs to be fixed
 import { validateSchemaData } from "../utils/validateSchema";  // and this too
 import { CreateProjectSchema } from "@buildkiwi/validation";
 import { asyncHandler } from "../utils/asyncHandler";
