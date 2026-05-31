@@ -12,6 +12,9 @@ import feedRoutes from "./routes/feed.routes";
 import commentRoutes from "./routes/comment.routes";
 import likeRoutes from "./routes/like.routes";
 import searchRoutes from "./routes/search.routes";
+import helmet from "helmet";
+import hpp from "hpp";
+import compression from "compression";
 
 dotenv.config();
 
@@ -19,6 +22,9 @@ const app = express();
 const PORT = env.PORT;
 connectDB();
 
+app.use(helmet());
+app.use(hpp());
+app.use(compression());
 app.use(express.json());
 app.use(cors());
 app.use("/api/projects", projectRoutes);
