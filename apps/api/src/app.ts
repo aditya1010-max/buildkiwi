@@ -36,14 +36,14 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", authLimiter, authRoutes);
-app.use("/users", userRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/feed", feedRoutes);
-app.use("/search", searchRoutes);
-app.use("/api", commentRoutes);
-app.use("/api", likeRoutes);
-app.use("/test", testRoutes);
+app.use("/api/v1/auth", authLimiter, authRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/feed", feedRoutes);
+app.use("/api/v1/search", searchRoutes);
+app.use("/api/v1/comments", commentRoutes);
+app.use("/api/v1/likes", likeRoutes);
+app.use("/api/v1/test", testRoutes);
 
 app.get("/health", (_req, res) => {
   res.send("Working fine");
