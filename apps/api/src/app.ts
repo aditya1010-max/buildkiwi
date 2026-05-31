@@ -15,6 +15,7 @@ import searchRoutes from "./routes/search.routes";
 import helmet from "helmet";
 import hpp from "hpp";
 import compression from "compression";
+import { apiLimiter, authLimiter } from "./middleware/rateLimiter";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ const app = express();
 const PORT = env.PORT;
 connectDB();
 
+app.use(apiLimiter);
 app.use(helmet());
 app.use(hpp());
 app.use(compression());
@@ -29,7 +31,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/projects", projectRoutes);
 app.use("/test", testRoutes);
-app.use("/auth", authRoutes);
+app.use("/auth", authLimiter, authRoutes);
 app.use("/users", userRoutes);
 app.use("/feed", feedRoutes);
 app.use("/api", commentRoutes);
