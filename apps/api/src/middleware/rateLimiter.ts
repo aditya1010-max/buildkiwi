@@ -16,8 +16,6 @@ export const authLimiter = rateLimit({
   },
 });
 
-
-
 //Future expansion ideas:
 
 // Per User
