@@ -11,6 +11,7 @@ import userRoutes from "./routes/user.routes";
 import feedRoutes from "./routes/feed.routes";
 import commentRoutes from "./routes/comment.routes";
 import likeRoutes from "./routes/like.routes";
+import searchRoutes from "./routes/search.routes";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/users", userRoutes);
 app.use("/feed", feedRoutes);
 app.use("/api", commentRoutes);
 app.use("/api", likeRoutes);
+app.use("/search", searchRoutes);
 app.use(errorHandler);
 
 app.get("/health", (_req, res) => {
