@@ -32,7 +32,7 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
     console.log("Submitting:", formData);
 
     try {
-      const response = await fetch("http://localhost:3000/api/projects", {
+      const response = await fetch("http://localhost:3000/api/v1/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
