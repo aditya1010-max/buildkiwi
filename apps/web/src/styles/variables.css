@@ -1,34 +1,91 @@
-:root {
-  /* Colors */
-  --primary-color: #22c55e;
-  --success-color: #16a34a;
-  --danger-color: #ef4444;
+ /*most of the colors will be changed*/
+:root {  
+  /* Light Theme */
 
-  --background-color: #f8fafc;
-  --surface-color: #ffffff;
+  --bg: #f8faf4;
+  --surface: #ffffff;
 
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
+  --text: #4a473f;
+  --text-h: #18210f;
 
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
+  --border: #dde3d2;
+  --code-bg: #eef3e6;
 
-  /* Radius */
+  /* Kiwi Accents */
+  --accent: #7cb342;
+  --accent-hover: #689f38;
+
+  --accent-bg: rgba(124, 179, 66, 0.10);
+  --accent-border: rgba(124, 179, 66, 0.35);
+
+  --social-bg: rgba(240, 242, 232, 0.6);
+
+  /* Status Colors */
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Shadows */
+  --shadow:
+    rgba(28, 35, 18, 0.06) 0 10px 15px -3px,
+    rgba(28, 35, 18, 0.03) 0 4px 6px -2px;
+
+  /* Typography */
+  --sans:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  --heading:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  --mono:
+    ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+
+  /* Layout */
+  --navbar-height: 64px;
+  --sidebar-width: 260px;
+  --right-sidebar-width: 320px;
+
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 18px;
 
-  /* Typography */
-  --font-sm: 14px;
-  --font-md: 16px;
-  --font-lg: 20px;
-  --font-xl: 28px;
+  color-scheme: light dark;
+}
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+/* Dark Theme */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171914;
+    --surface: #1e211b;
+
+    --text: #a7b19d;
+    --text-h: #edf2e8;
+
+    --border: #2f3528;
+    --code-bg: #23271f;
+
+    --accent: #9ccc65;
+    --accent-hover: #aed581;
+
+    --accent-bg: rgba(156, 204, 101, 0.15);
+    --accent-border: rgba(156, 204, 101, 0.45);
+
+    --social-bg: rgba(34, 38, 29, 0.6);
+
+    --shadow:
+      rgba(0, 0, 0, 0.5) 0 10px 15px -3px,
+      rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
+  }
 }

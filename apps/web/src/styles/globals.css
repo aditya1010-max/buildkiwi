@@ -1,9 +1,49 @@
-body {
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background: #f7f7f7;
+html {
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
+@media (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: var(--sans);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading);
+  color: var(--text-h);
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: var(--mono);
+  background: var(--code-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
