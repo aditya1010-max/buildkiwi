@@ -1,0 +1,40 @@
+.layout {
+  display: grid;
+
+  grid-template-columns:
+    var(--sidebar-width)
+    minmax(0, 1fr)
+    var(--right-sidebar-width);
+
+  min-height: 100svh;
+
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.layout__content {
+  padding: 24px;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns:
+      var(--sidebar-width)
+      1fr;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
