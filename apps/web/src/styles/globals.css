@@ -1,5 +1,7 @@
 html {
-  font: 18px/145% var(--sans);
+  font-size: 18px; /*change later, 16px also look good*/
+  line-height: 145%;
+  font-family: var(--sans);
   letter-spacing: 0.18px;
 
   font-synthesis: none;
@@ -19,7 +21,6 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-
   font-family: var(--sans);
 }
 
