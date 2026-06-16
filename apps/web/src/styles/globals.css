@@ -1,5 +1,20 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar { /*custom styling for scrollbar*/
+  width: 17px;
+}
+
+::-webkit-scrollbar-thumb { /*custom styling for scrollbar*/
+  background: rgb(68, 34, 34);
+  border-radius: 0px;
+}
+
 html {
-  font-size: 18px; /*change later, 16px also look good*/
+  font-size: 18px;
   line-height: 145%;
   font-family: var(--sans);
   letter-spacing: 0.18px;
@@ -9,6 +24,10 @@ html {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;  /*Always reserve scrollbar space, even if there is nothing to scroll.*/
 }
 
 @media (max-width: 1024px) {
@@ -17,15 +36,23 @@ html {
   }
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100dvh;
 }
 
-#root {
-  min-height: 100svh;
+body {
+  margin: 0;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: var(--sans);
 }
 
 h1,
