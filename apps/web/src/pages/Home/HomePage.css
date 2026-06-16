@@ -1,0 +1,13 @@
+.feed {
+  width: 100%;
+  max-width: 720px;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+/* this wpould be duplication of code , probably make a new css file styles/utilities.css and use class name can be page-container */
