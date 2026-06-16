@@ -1,0 +1,57 @@
+.settings-popup {
+  position: absolute;
+  left: 12px;
+  bottom: 32px;
+  width: 220px;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  animation: popup-in 0.15s ease-out;
+}
+
+.sidebar__footer {
+  position: relative;
+}
+
+.settings-popup {
+  position: absolute;
+  bottom: 30px;   /* Adjusted it later */
+  left: 12px;
+}
+
+.settings-popup__item {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.settings-popup__item:hover {
+  background: var(--accent-bg);
+}
+
+.settings-popup__divider {
+  border: none;
+  border-top: 1px solid var(--border);
+
+  margin: 8px 0;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
