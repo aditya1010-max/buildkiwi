@@ -1,17 +1,18 @@
 import "./Layout.css";
+
+import { Outlet } from "react-router-dom";
+
 import Sidebar from "./Sidebar";
 import RightSidebar from "./RightSidebar";
 
-type LayoutProps = {  //basically anything React knows how to render. for components like Layout, Modal, and Card, React.ReactNode is almost always the correct type for children.
-  children: React.ReactNode;
-};
-
-export default function Layout({ children }: LayoutProps) {
+export default function Layout() {
   return (
     <div className="layout">
       <Sidebar />
 
-      <main className="layout__content">{children}</main>
+      <main className="layout__content">
+        <Outlet />
+      </main>
 
       <RightSidebar />
     </div>
