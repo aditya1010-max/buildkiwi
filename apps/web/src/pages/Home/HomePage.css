@@ -1,6 +1,6 @@
 .feed {
   width: 100%;
-  max-width: 720px;
+  max-width: var(--feed-max-width);
 
   padding: 24px;
 
@@ -8,6 +8,5 @@
   flex-direction: column;
   gap: 16px;
 }
-
 
 /* this wpould be duplication of code , probably make a new css file styles/utilities.css and use class name can be page-container */

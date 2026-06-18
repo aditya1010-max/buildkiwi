@@ -40,6 +40,15 @@
   --sidebar-width: 260px;
   --right-sidebar-width: 320px;
 
+  --feed-max-width: 720px;
+
+  --mobile: 768px; /*below 5 lines values can be changed*/
+  --tablet: 1024px;
+  --desktop: 1280px;
+
+  --sidebar-width-expanded: 260px;
+  --sidebar-width-collapsed: 70px;
+
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 18px;

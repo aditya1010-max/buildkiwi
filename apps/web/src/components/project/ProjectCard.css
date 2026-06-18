@@ -6,6 +6,8 @@
   box-shadow: var(--shadow);
   margin-bottom: 16px;
   transition: 0.2s ease;
+  min-width: 420px;
+  max-width: 600px;
 }
 
 .project-card:hover {
