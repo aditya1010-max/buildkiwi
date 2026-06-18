@@ -4,11 +4,13 @@
   box-sizing: border-box;
 }
 
-::-webkit-scrollbar { /*custom styling for scrollbar*/
+::-webkit-scrollbar {
+  /*custom styling for scrollbar*/
   width: 17px;
 }
 
-::-webkit-scrollbar-thumb { /*custom styling for scrollbar*/
+::-webkit-scrollbar-thumb {
+  /*custom styling for scrollbar*/
   background: rgb(68, 34, 34);
   border-radius: 0px;
 }
@@ -27,7 +29,7 @@ html {
   -webkit-text-size-adjust: 100%;
 
   scroll-behavior: smooth;
-  scrollbar-gutter: stable;  /*Always reserve scrollbar space, even if there is nothing to scroll.*/
+  scrollbar-gutter: stable; /*Always reserve scrollbar space, even if there is nothing to scroll.*/
 }
 
 @media (max-width: 1024px) {

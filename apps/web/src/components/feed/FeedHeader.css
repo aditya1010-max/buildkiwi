@@ -23,3 +23,15 @@
   color: white;
   cursor: pointer;
 }
+
+.feed-header__subtitle {
+  font-size: 14px;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+@media (max-width: 1003px) {
+  .feed-header__subtitle {
+    display: none;
+  }
+}

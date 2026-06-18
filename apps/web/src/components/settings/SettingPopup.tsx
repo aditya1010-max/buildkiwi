@@ -29,7 +29,9 @@ export default function SettingsPopup({ onClose }: Props) {
 
   return (
     <div className="settings-popup" ref={popupRef}>
-      <button className="settings-item" onClick={onClose}>✕ Close </button>
+      <button className="settings-item" onClick={onClose}>
+        ✕ Close{" "}
+      </button>
 
       <button className="settings-item">..........🌙 Dark Mode</button>
 
@@ -38,7 +40,6 @@ export default function SettingsPopup({ onClose }: Props) {
       <button className="settings-item">..........👤 Profile</button>
 
       <button className="settings-item">..........🚪 Logout</button>
-
     </div>
   );
 }
