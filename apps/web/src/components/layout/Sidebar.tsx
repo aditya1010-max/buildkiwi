@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import SettingsPopup from "../settings/SettingPopup";
+import { HomeIcon } from "../../assets/icons";
 
 export default function Sidebar() {
   const location = useLocation();
@@ -10,15 +11,21 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar__logo">🥝</div>
+      <div className="sidebar__item">
+        <div className="sidebar__logo">🥝</div>
+      </div>
 
       <nav className="sidebar__nav">
         <NavLink to="/" className="sidebar__item">
-          🏠 Home
+          <span className="sidebar__icon">
+            <HomeIcon size={20} className="sidebar-icon" />
+          </span>
+          <span className="sidebar__label">Home</span>
         </NavLink>
 
         <NavLink to="/discover" className="sidebar__item">
-          🔍 Discover
+          <span className="sidebar__icon">🔍</span>
+          <span className="sidebar__label">Discover</span>
         </NavLink>
 
         <Link
@@ -26,30 +33,37 @@ export default function Sidebar() {
           state={{ background: location }}
           className="sidebar__item" // Added here too!
         >
-          ➕ Create
+          <span className="sidebar__icon">➕</span>
+          <span className="sidebar__label">Create</span>
         </Link>
 
         <NavLink to="/projects" className="sidebar__item">
-          📂 Projects
+          <span className="sidebar__icon">📂</span>
+          <span className="sidebar__label">Projects</span>
         </NavLink>
 
         <NavLink to="/saved" className="sidebar__item">
-          ❤️ Saved
+          <span className="sidebar__icon">❤️</span>
+          <span className="sidebar__label">Saved</span>
         </NavLink>
 
         <NavLink to="/profile/adi" className="sidebar__item">
-          👤 Profile
+          <span className="sidebar__icon">👤</span>
+          <span className="sidebar__label">Profile</span>
         </NavLink>
       </nav>
 
-      <button
-        className="sidebar__more"
-        onClick={() => setShowSettings((prev) => !prev)}
-      >
-        ☰
-      </button>
-
-      {showSettings && <SettingsPopup onClose={() => setShowSettings(false)} />}
+      <div className="sidebar__item">
+        <button
+          className="sidebar__more"
+          onClick={() => setShowSettings((prev) => !prev)}
+        >
+          ☰
+        </button>
+        {showSettings && (
+          <SettingsPopup onClose={() => setShowSettings(false)} />
+        )}
+      </div>
     </aside>
   );
 }
