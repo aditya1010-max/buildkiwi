@@ -1,0 +1,95 @@
+.feed-loader {
+  position: relative;
+  border-radius: 20px;
+  padding: 1px;
+  overflow: hidden;
+}
+
+.feed-loader::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+
+  background: conic-gradient(from 0deg, #8b5cf6, #06b6d4, #22c55e, #8b5cf6);
+
+  animation: rotateGlow 6s linear infinite;
+
+  filter: blur(32px);
+  opacity: 0.7;
+}
+
+.feed-loader__content {
+  position: relative;
+  z-index: 1;
+
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+
+  border-radius: 20px;
+  padding: 16px;
+}
+
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.04)
+  );
+
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.line {
+  height: 12px;
+  border-radius: 999px;
+}
+
+.short {
+  width: 120px;
+}
+
+.tiny {
+  width: 80px;
+}
+
+.medium {
+  width: 70%;
+}
+
+.full {
+  width: 100%;
+}
+
+.button {
+  width: 80px;
+  height: 32px;
+  border-radius: 999px;
+}
