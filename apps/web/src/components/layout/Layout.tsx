@@ -7,14 +7,16 @@ import RightSidebar from "./RightSidebar";
 
 export default function Layout() {
   return (
-    <div className="layout">
-      <Sidebar />
+    <div className="app-layout">
+      <div className="layout">
+        <Sidebar />
 
-      <main className="layout__content">
-        <Outlet />
-      </main>
+        <main className="layout__content">
+          <Outlet />
+        </main>
 
-      <RightSidebar />
+        <RightSidebar />
+      </div>
     </div>
   );
 }
