@@ -45,7 +45,6 @@
 @media (max-width: 1280px) {
   .sidebar__item {
     justify-content: right;
-    width: 20%;
   }
   .sidebar__label {
     display: none;

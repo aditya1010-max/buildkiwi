@@ -11,6 +11,11 @@
   /* align-items: center; */
 }
 
+.sidebar__logo-image {
+  width: 38px;
+  height: 38px;
+}
+
 .sidebar__logo {
   font-size: 24px;
   margin-bottom: 40px;
@@ -34,6 +39,16 @@
   transition: var(--transition);
 }
 
+.sidebar--collapsed .sidebar__item {
+  width: 48px;
+  height: 48px;
+
+  justify-content: center;
+  align-self: center;
+
+  border-radius: 12px;
+}
+
 .sidebar__item:hover {
   background: var(--accent-bg);
   color: var(--accent);
@@ -49,7 +64,6 @@
 @media (max-width: 768px) {
   .sidebar {
     display: none;
-    width: 10px;
   }
 }
 
@@ -58,14 +72,15 @@
 }
 
 .sidebar__label {
-  padding: 0 8px;
+  padding: 0 10px;
+  margin-bottom: 6px;
 }
 
-
-.sidebar {  /*nstead of doing this , change the width of entire sidebar component , maybe create a new classname*/
+/*instead of doing this , change the width of entire sidebar component , maybe create a new classname*/
+/* .sidebar {  
   width: clamp(
     18px,
     15vw,
-    260px
+    150px
   );
-}
+} */
