@@ -3,10 +3,7 @@ type HomeIconProps = {
   className?: string;
 };
 
-export function HomeIcon({
-  size = 24,
-  className = "",
-}: HomeIconProps) {
+export function HomeIcon({ size = 24, className = "" }: HomeIconProps) {
   return (
     <svg
       width={size}
