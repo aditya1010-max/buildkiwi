@@ -6,4 +6,7 @@ export const CreateProjectSchema = z.object({
   tags: z.array(z.string()).default([]),
 });
 
+export const UpdateProjectSchema = CreateProjectSchema.partial();
+
 export type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
+export type UpdateProjectInput = z.infer<typeof UpdateProjectSchema>;
