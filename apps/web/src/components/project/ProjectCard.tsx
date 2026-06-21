@@ -1,19 +1,21 @@
 import "./ProjectCard.css";
 
 import type { Project } from "../../types/project";
-import type { JSXElementConstructor, ReactElement, ReactNode, ReactPortal } from "react";
+import type { ReactElement } from "react";
 
 interface ProjectCardProps {
   project: Project;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps): ReactElement {
+export default function ProjectCard({
+  project,
+}: ProjectCardProps): ReactElement {
   return (
     <article className="project-card">
       <header className="project-card__header">
         <div className="project-card__meta">
           <span className="project-card__creator">
-            {project._id ?? "Unknown"}
+            {project.creatorId.username}
           </span>
 
           <span className="project-card__time">
@@ -26,10 +28,18 @@ export default function ProjectCard({ project }: ProjectCardProps): ReactElement
 
       <p className="project-card__description">{project.description}</p>
 
+      <div className="project-card__stats">
+        {" "}
+        //change these eventually to actual svg logo
+        <span>❤️ {project.stats.likes}</span>
+        <span>💬 {project.stats.comments}</span>
+        <span>👁️ {project.stats.views}</span>
+      </div>
+
       {project.tags?.length > 0 && (
         <div className="project-card__tags">
-          {project.tags.map((tag: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined) => (
-            <span key={String(tag)} className="project-card__tag">
+          {project.tags.map((tag: string) => (
+            <span key={tag} className="project-card__tag">
               #{tag}
             </span>
           ))}

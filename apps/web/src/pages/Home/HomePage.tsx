@@ -9,7 +9,11 @@ export default function Home() {
   const { projects, loading, error } = useProjects();
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <section className="feed">
+        <p>Failed to load projects.</p>
+      </section>
+    );
   }
 
   return (
@@ -19,17 +23,17 @@ export default function Home() {
         subtitle="Stay updated with the latest projects"
       />
 
-{loading ? (
-  <>
-    <FeedCardLoader />
-    <FeedCardLoader />
-    <FeedCardLoader />
-  </>
-) : (
-  projects?.map((project: any) => (
-    <ProjectCard key={project._id} project={project} />
-  ))
-)}
+      {loading ? (
+        <>
+          <FeedCardLoader />
+          <FeedCardLoader />
+          <FeedCardLoader />
+        </>
+      ) : (
+        projects.map((project) => (
+          <ProjectCard key={project.creatorId._id} project={project} />
+        ))
+      )}
     </section>
   );
 }
