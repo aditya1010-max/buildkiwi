@@ -9,12 +9,22 @@ export const useProjects = () => {
 
   const [error, setError] = useState<string | null>(null);
 
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 0,
+    hasMore: false,
+  });
+
   useEffect(() => {
     const loadProjects = async () => {
       try {
         setLoading(true);
-        const response = await fetchProjects(1, 10); // Fetch first page with 10 projects(needs to change based on pagination implementation)
-        setProjects(response.data);  // ideally we should do data.data but temporarily fixed in HomePage.tsx 
+        const response = await fetchProjects(1, 10);
+
+        setProjects(response.data);
+        setPagination(response.pagination);
       } catch (err) {
         setError("failed to load projects.");
       } finally {
@@ -29,5 +39,6 @@ export const useProjects = () => {
     projects,
     loading,
     error,
+    pagination,
   };
 };
