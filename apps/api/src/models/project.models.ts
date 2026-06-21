@@ -2,18 +2,51 @@ import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
   {
-    type: {
-      type: String,
-      required: true,
-    },
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    data: {
-      type: Object,
+
+    title: {
+      type: String,
       required: true,
+      trim: true,
+      maxlength: 100,
+    },
+
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 5000,
+    },
+
+    tags: {
+      type: [String],
+      default: [],
+    },
+
+    links: {
+      github: String,
+      demo: String,
+    },
+
+    coverImage: String,
+
+    stats: {
+      likes: {
+        type: Number,
+        default: 0,
+      },
+      comments: {
+        type: Number,
+        default: 0,
+      },
+      views: {
+        type: Number,
+        default: 0,
+      },
     },
   },
   {
@@ -22,11 +55,14 @@ const projectSchema = new mongoose.Schema(
 );
 
 projectSchema.index({
-  "data.title": "text",
-  "data.description": "text",
-}); //for text search on title and description initially,i will add more fields later if needed
+  title: "text",
+  description: "text",
+});
+
+projectSchema.index({ creatorId: 1 });
+
 projectSchema.index({ createdAt: -1 });
-projectSchema.index({ type: 1 });
-projectSchema.index({ "data.tags": 1 });
+
+projectSchema.index({ tags: 1 });
 
 export const Project = mongoose.model("Project", projectSchema);
