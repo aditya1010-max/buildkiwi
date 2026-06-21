@@ -14,7 +14,7 @@ export const useProjects = () => {
       try {
         setLoading(true);
         const response = await fetchProjects(1, 10); // Fetch first page with 10 projects(needs to change based on pagination implementation)
-        setProjects(response.data);
+        setProjects(response.data);  // ideally we should do data.data but temporarily fixed in HomePage.tsx 
       } catch (err) {
         setError("failed to load projects.");
       } finally {
