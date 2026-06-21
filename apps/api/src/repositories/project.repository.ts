@@ -8,6 +8,7 @@ export const projectRepository = {
   findAll: async (page: number, limit: number) => {
     const skip = (page - 1) * limit;
     return await Project.find()
+      .populate("creatorId", "username")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -20,12 +21,13 @@ export const projectRepository = {
 
   findByUserId: async (userId: string) => {
     return await Project.find({ creatorId: userId })
+      .populate("creatorId", "username")
       .sort({ createdAt: -1 })
       .lean();
   },
 
   findById: async (id: string) => {
-    return await Project.findById(id);
+    return await Project.findById(id).populate("creatorId", "username").lean();
   },
 
   update: async (id: string, updateData: any) => {
@@ -33,7 +35,7 @@ export const projectRepository = {
       id,
       { $set: updateData },
       { new: true, runValidators: true }, // { new: true } returns the updated doc instead of the old one
-    );
+    ).populate("creatorId", "username");
   },
 
   delete: async (id: string) => {
