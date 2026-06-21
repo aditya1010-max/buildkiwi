@@ -22,7 +22,7 @@ import testRoutes from "./routes/test.routes";
 
 dotenv.config();
 
-export const app = express();  //wll be used in tests 
+export const app = express(); //wll be used in tests
 const PORT = env.PORT;
 
 connectDB();
