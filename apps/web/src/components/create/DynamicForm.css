@@ -1,104 +1,82 @@
-/* The backdrop that covers the entire screen */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dim effect */
-  backdrop-filter: blur(4px); /* Modern frosted-glass blur */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Ensures it sits on top of everything else */
-}
-
-/* The actual floating modal card */
-.modal-container {
-  background-color: #ffffff;
+/* Container form styling */
+form {
+  max-width: 480px;
+  margin: 2rem auto;
   padding: 2rem;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 450px; /* Limits width on desktop */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Gives depth / floating effect */
-  animation: fadeIn scaleUp 0.3s ease-out; /* Smooth pop-in animation */
-}
-
-.modal-title {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-family: sans-serif;
-  color: #333333;
-  font-size: 1.5rem;
-}
-
-/* Stack form items vertically */
-.modal-form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
-/* Base input & textarea styling */
-.modal-input {
+/* Individual field row wrappers */
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Label styling */
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151; /* Dark gray */
+  text-transform: capitalize;
+}
+
+/* Input and Textarea shared styles */
+input[type="text"],
+textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-family: sans-serif;
-  box-sizing: border-box;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-/* Focus states for modern interactivity */
-.modal-input:focus {
-  border-color: #4f46e5; /* Clean Indigo color */
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-}
-
-/* Specific adjustment for description box */
-.modal-textarea {
-  min-height: 100px;
-  resize: vertical; /* Allows resizing only vertically */
-}
-
-/* Styled submission button */
-.modal-submit-btn {
-  background-color: #4f46e5;
-  color: white;
-  border: none;
   padding: 0.75rem;
   font-size: 1rem;
+  color: #1f2937;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Textarea specific style */
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Focus states for input fields */
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #3b82f6; /* Blue focus border */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Submit Button styling */
+button[type="submit"] {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
   font-weight: 600;
+  color: #ffffff;
+  background-color: #3b82f6; /* Blue button */
+  border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.modal-submit-btn:hover {
-  background-color: #4338ca;
+/* Button hover state */
+button[type="submit"]:hover {
+  background-color: #2563eb; /* Darker blue */
 }
 
-.modal-submit-btn:active {
-  transform: scale(0.98);
-}
-
-/* Entry Animation */
-@keyframes scaleUp {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.modal-overlay {
-  background: rgba(255, 0, 0, 0.5);
+/* Button active/press state */
+button[type="submit"]:active {
+  transform: scale(0.99);
 }

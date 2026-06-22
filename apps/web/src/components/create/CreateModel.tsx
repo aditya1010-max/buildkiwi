@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "./CreateModel.css";
-import DynamicForm from "../DynamicForm";
+
 import taskSchema from "../../schema/taskSchema";
+import DynamicForm from "./DynamicForm";
 
 export default function CreateModal() {
   const navigate = useNavigate();
