@@ -8,6 +8,7 @@ import Discover from "./pages/Discover/DiscoverPage";
 import Projects from "./pages/Project/ProjectPage";
 import CreateModal from "./components/create/CreateModel";
 import SettingsModal from "./components/settings/SettingsModal";
+import LoginPage from "./pages/Login/LoginPage";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
       <Routes location={state?.background || location}>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/profile/:username" element={<Profile />} />
