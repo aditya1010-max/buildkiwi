@@ -27,14 +27,17 @@ const PORT = env.PORT;
 
 connectDB();
 
-app.use(apiLimiter);
-
+app.use(cors({  //tellings cors to accept the Auth header 
+  origin: 'http://localhost:5173', 
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(helmet());
 app.use(hpp());
 app.use(compression());
-
-app.use(cors());
 app.use(express.json());
+
+app.use(apiLimiter);  //rate limmiters always below every other middleware except routes
 
 app.use("/api/v1/auth", authLimiter, authRoutes);
 app.use("/api/v1/users", userRoutes);
