@@ -1,4 +1,4 @@
-export interface Project {
+export interface Project {  // i need a unique id here 
   creatorId: {
     _id: string;
     username: string;

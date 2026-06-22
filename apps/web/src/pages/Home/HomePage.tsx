@@ -30,8 +30,8 @@ export default function Home() {
           <FeedCardLoader />
         </>
       ) : (
-        projects.map((project) => (
-          <ProjectCard key={project.creatorId._id} project={project} />
+        projects.map((project, index) => (   //this ensures we have unique iD, ideally we should create a new field in schema
+          <ProjectCard key={index} project={project} />
         ))
       )}
     </section>
