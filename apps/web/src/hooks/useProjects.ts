@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchProjects } from "../api/project.api";
+import { fetchProjectById, fetchProjects } from "../api/project.api";
 import { Project } from "../types/project";
 
 export const useProjects = () => {
@@ -40,5 +40,35 @@ export const useProjects = () => {
     loading,
     error,
     pagination,
+  };
+};
+
+export const useProject = (id: string) => {
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLaoding] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadProject() {
+      try {
+        setLaoding(true);
+
+        const response = await fetchProjectById(id);
+
+        setProject(response.data);
+      } catch (err) {
+        setError("failed to load project");
+      } finally {
+        setLaoding(false);
+      }
+    }
+
+    loadProject();
+  }, [id]);
+
+  return {
+    project,
+    loading,
+    error,
   };
 };

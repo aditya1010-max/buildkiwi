@@ -15,6 +15,11 @@ export interface ProjectsResponse {
   };
 }
 
+export interface SingleProjectResponse {
+  success: boolean;
+  data: Project;
+}
+
 export const fetchProjects = async (
   page: number,
   limit: number,
@@ -23,5 +28,12 @@ export const fetchProjects = async (
     params: { page, limit },
   });
 
+  return response.data;
+};
+
+export const fetchProjectById = async (
+  id: string,
+): Promise<SingleProjectResponse> => {
+  const response = await axios.get<SingleProjectResponse>(`${API}/${id}`);
   return response.data;
 };
