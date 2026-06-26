@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import hpp from "hpp";
 import compression from "compression";
+import path from "path";
 
 import { env } from "./config/env";
 import { connectDB } from "./config/db";
@@ -37,7 +38,8 @@ app.use(hpp());
 app.use(compression());
 app.use(express.json());
 
-app.use(apiLimiter);  //rate limmiters always below every other middleware except routes
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use(apiLimiter); //rate limmiters always below every other middleware except routes
 
 app.use("/api/v1/auth", authLimiter, authRoutes);
 app.use("/api/v1/users", userRoutes);
