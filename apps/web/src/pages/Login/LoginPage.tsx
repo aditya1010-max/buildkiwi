@@ -13,9 +13,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -30,27 +28,20 @@ export default function LoginPage() {
   return (
     <main className="login-page">
       <div className="login-card">
-        <h1 className="login-card__title">
-          Welcome Back
-        </h1>
+        <h1 className="login-card__title">Welcome Back</h1>
 
         <p className="login-card__subtitle">
           Log in to continue building on BuildKiwi
         </p>
 
-        <form
-          className="login-form"
-          onSubmit={handleSubmit}
-        >
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-form__field">
             <label>Email</label>
 
             <input
               type="email"
               value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
             />
@@ -62,19 +53,13 @@ export default function LoginPage() {
             <input
               type="password"
               value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
             />
           </div>
 
-          {error && (
-            <p className="login-form__error">
-              {error}
-            </p>
-          )}
+          {error && <p className="login-form__error">{error}</p>}
 
           <button
             type="submit"
