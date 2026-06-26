@@ -10,6 +10,7 @@ import CreateModal from "./components/create/CreateModel";
 import SettingsModal from "./components/settings/SettingsModal";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
+import ProjectPage from "./pages/Project/ProjectPage";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
         </Route>
       </Routes>
 
