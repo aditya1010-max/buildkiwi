@@ -4,9 +4,7 @@ interface ProjectLinksProps {
   project: Project;
 }
 
-export default function ProjectLinks({
-  project,
-}: ProjectLinksProps) {
+export default function ProjectLinks({ project }: ProjectLinksProps) {
   const { github, demo } = project.links;
 
   if (!github && !demo) return null;

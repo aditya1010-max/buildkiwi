@@ -42,7 +42,7 @@ export const createProject = asyncHandler(
       },
 
       coverImage: file?.filename,
-    }
+    };
     const validatedData = CreateProjectSchema.parse(payload);
 
     // const validatedData = CreateProjectSchema.parse({

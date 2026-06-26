@@ -16,7 +16,7 @@ export interface Project {
   links: {
     github: string;
     demo: string;
-  }
+  };
 
   stats: {
     likes: number;
