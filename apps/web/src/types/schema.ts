@@ -1,4 +1,4 @@
-export type FieldType = "text" | "textarea";
+export type FieldType = "text" | "textarea" | "image";
 
 export interface Field {
   name: string;

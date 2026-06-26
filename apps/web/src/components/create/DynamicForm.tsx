@@ -1,20 +1,20 @@
 import { useState, type ChangeEvent } from "react";
 import { Field, FormSchema } from "../../types/schema";
 import "./DynamicForm.css";
+import UploadImage from "./ImageUploader";
 
 interface DynamicFormProps {
   schema: FormSchema;
 }
 
 export default function DynamicForm({ schema }: DynamicFormProps) {
-  const initialState: Record<string, string> = {};
+  const initialState: Record<string, any> = {};
 
   schema.fields.forEach((field) => {
-    initialState[field.name] = "";
+    initialState[field.name] = field.type === "image" ? null : "";
   });
 
-  const [formData, setFormData] =
-    useState<Record<string, string>>(initialState);
+  const [formData, setFormData] = useState<Record<string, any>>(initialState);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -33,14 +33,24 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
     console.log("Submitting:", formData);
 
     try {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
+      const submissionData = new FormData();
+
+      const { coverImage, title, description } = formData;
+
+      submissionData.append("title", title);
+      submissionData.append("description", description);
+
+      if (coverImage) {
+        submissionData.append("coverImage", coverImage);
+      }
+
       const response = await fetch("http://localhost:3000/api/v1/projects", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization : `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: submissionData,
       });
 
       const data = await response.json();
@@ -59,7 +69,7 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
             type="text"
             name={field.name}
             placeholder={field.placeholder}
-            value={formData[field.name]}
+            value={formData[field.name] || ""}
             onChange={handleChange}
           />
         );
@@ -69,10 +79,23 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
           <textarea
             name={field.name}
             placeholder={field.placeholder}
-            value={formData[field.name]}
+            value={formData[field.name] || ""}
             onChange={handleChange}
           />
         );
+
+      case "image": {
+        const imageFieldName = field.name;
+
+        const handleImageSelect = (file: File | null) => {
+          setFormData((prev) => ({
+            ...prev,
+            [imageFieldName]: file,
+          }));
+        };
+
+        return <UploadImage maxSizeMB={5} onImageSelect={handleImageSelect} />;
+      }
 
       default:
         return null;
@@ -83,8 +106,7 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
     <form onSubmit={handleSubmit}>
       {schema.fields.map((field) => (
         <div key={field.name}>
-          <label>{field.label}</label>
-
+          {field.type !== "image" && <label>{field.label}</label>}
           {renderField(field)}
         </div>
       ))}

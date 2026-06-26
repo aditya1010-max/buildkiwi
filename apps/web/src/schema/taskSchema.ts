@@ -14,6 +14,11 @@ const taskSchema: FormSchema = {
       type: "textarea",
       placeholder: "Enter description",
     },
+    {
+      name: "coverImage",
+      label: "Project Cover Image",
+      type: "image",
+    },
   ],
 };
 
