@@ -19,6 +19,19 @@ const taskSchema: FormSchema = {
       label: "Project Cover Image",
       type: "image",
     },
+    {
+      type: "text",
+      name: "github",
+      label: "GitHub Repository",
+      placeholder: "https://github.com/username/repository",
+    },
+
+    {
+      type: "text",
+      name: "demo",
+      label: "Live Demo",
+      placeholder: "https://example.com",
+    },
   ],
 };
 

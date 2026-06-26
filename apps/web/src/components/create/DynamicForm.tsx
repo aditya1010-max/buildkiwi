@@ -36,10 +36,13 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
       const token = localStorage.getItem("token");
       const submissionData = new FormData();
 
-      const { coverImage, title, description } = formData;
+      const { coverImage, title, description, github, demo } = formData;
 
       submissionData.append("title", title);
       submissionData.append("description", description);
+
+      submissionData.append("links.github", github);
+      submissionData.append("links.demo", demo);
 
       if (coverImage) {
         submissionData.append("coverImage", coverImage);
@@ -48,7 +51,7 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
       const response = await fetch("http://localhost:3000/api/v1/projects", {
         method: "POST",
         headers: {
-          Authorization : `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: submissionData,
       });
