@@ -1,7 +1,7 @@
 //this will call login , store token , store user , logout
 
 import { useState } from "react";
-import { login } from "../api/auth.api";
+import { login, register } from "../api/auth.api";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -28,15 +28,48 @@ export const useAuth = () => {
     }
   };
 
+  const registerUser = async (
+    username: string,
+    email: string,
+    password: string,
+  ) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await register(username, email, password);
+
+      return response.user;
+    } catch (err) {
+      setError("Failed to register");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-  }
+  };
+
+  const getCurrentUser = () => {
+    const user = localStorage.getItem("user");
+
+    return user ? JSON.parse(user) : null;
+  };
+
+  const getToken = () => {
+    return localStorage.getItem("token");
+  };
 
   return {
     loginUser,
+    registerUser,
     logout,
+    getCurrentUser,
+    getToken,
     loading,
-    error
-  }
+    error,
+  };
 };

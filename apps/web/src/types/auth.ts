@@ -10,7 +10,7 @@ export interface LoginResponse {
   token: string;
 }
 
-// export interface RegisterResponse {
-//     success: boolean;
-//     user: User;
-// }
+export interface RegisterResponse {
+  success: boolean;
+  user: User;
+}
