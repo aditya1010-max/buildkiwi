@@ -33,10 +33,22 @@ const runSecondaryValidation = (schema: any, data: any) => {
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
     const file = (req as any).file;
-    const validatedData = CreateProjectSchema.parse({
+    const payload = {
       ...req.body,
-      coverImage: file?.originalname,
-    });
+
+      links: {
+        github: req.body["links.github"] || "",
+        demo: req.body["links.demo"] || "",
+      },
+
+      coverImage: file?.filename,
+    }
+    const validatedData = CreateProjectSchema.parse(payload);
+
+    // const validatedData = CreateProjectSchema.parse({
+    //   ...req.body,
+    //   coverImage: file?.originalname,
+    // });
 
     runSecondaryValidation(projectSchema, validatedData);
     const authUserId = (req as AuthenticatedRequest).user.userId;

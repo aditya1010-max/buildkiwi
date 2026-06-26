@@ -28,8 +28,17 @@ const projectSchema = new mongoose.Schema(
     },
 
     links: {
-      github: String,
-      demo: String,
+      github: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+
+      demo: {
+        type: String,
+        trim: true,
+        default: "",
+      },
     },
 
     coverImage: String,
