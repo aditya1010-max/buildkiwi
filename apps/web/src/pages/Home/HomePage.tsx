@@ -1,6 +1,5 @@
 import "./HomePage.css";
-
-import ProjectCard from "../../components/project/ProjectCard";
+import ProjectCard from "../../components/project/card/ProjectCard";
 import FeedHeader from "../../components/feed/FeedHeader";
 import { useProjects } from "../../hooks/useProjects";
 import { FeedCardLoader } from "../../components/FeedCardLoader";
