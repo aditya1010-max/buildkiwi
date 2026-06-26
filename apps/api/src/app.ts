@@ -28,11 +28,14 @@ const PORT = env.PORT;
 
 connectDB();
 
-app.use(cors({  //tellings cors to accept the Auth header 
-  origin: 'http://localhost:5173', 
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+app.use(
+  cors({
+    //tellings cors to accept the Auth header
+    origin: "http://localhost:5173",
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  }),
+);
 app.use(helmet());
 app.use(hpp());
 app.use(compression());
