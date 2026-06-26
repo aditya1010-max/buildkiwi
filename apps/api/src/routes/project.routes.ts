@@ -7,10 +7,12 @@ import {
   deleteProject,
 } from "../controllers/project.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { upload } from "../middleware/upload.middleware";
 
 const router = Router();
 
-router.post("/", authMiddleware, createProject);
+// console.log("PROJECT ROUTES FILE LOADED");
+router.post("/", authMiddleware, upload.single("coverImage"), createProject);
 router.get("/", getProjects);
 router.get("/:id", getProject);
 router.patch("/:id", authMiddleware, updateProject);

@@ -32,12 +32,22 @@ const runSecondaryValidation = (schema: any, data: any) => {
 // --- CREATE PROJECT ---
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const validatedData = CreateProjectSchema.parse(req.body);
-    runSecondaryValidation(projectSchema, validatedData);
+    const file = (req as any).file;
+    const validatedData = CreateProjectSchema.parse({
+      ...req.body,
+      coverImage: file?.originalname,
+    });
 
-    // Cast locally to access the authenticated user payload cleanly
+    runSecondaryValidation(projectSchema, validatedData);
     const authUserId = (req as AuthenticatedRequest).user.userId;
-    const project = await createProjectService(validatedData, authUserId);
+
+    const project = await createProjectService(
+      {
+        ...validatedData,
+        // coverImage: uploadedImageUrl (aws s3 bucketto store url)
+      },
+      authUserId,
+    );
 
     res.status(201).json({
       success: true,
