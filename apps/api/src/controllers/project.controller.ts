@@ -17,6 +17,7 @@ interface AuthenticatedRequest extends Request {
   user: {
     userId: string;
   };
+  file?: Express.Multer.File;
 }
 
 /**
@@ -32,16 +33,16 @@ const runSecondaryValidation = (schema: any, data: any) => {
 // --- CREATE PROJECT ---
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const file = (req as any).file;
+    const authReq = req as AuthenticatedRequest;
     const payload = {
-      ...req.body,
+      ...authReq.body,
 
       links: {
-        github: req.body["links.github"] || "",
-        demo: req.body["links.demo"] || "",
+        github: authReq.body["links.github"] || "",
+        demo: authReq.body["links.demo"] || "",
       },
 
-      coverImage: file?.filename,
+      coverImage: authReq.file?.filename,
     };
     const validatedData = CreateProjectSchema.parse(payload);
 
@@ -50,15 +51,14 @@ export const createProject = asyncHandler(
     //   coverImage: file?.originalname,
     // });
 
+    if (!authReq.user) {
+      throw new AppError("Unauthorized", 401);
+    }
     runSecondaryValidation(projectSchema, validatedData);
-    const authUserId = (req as AuthenticatedRequest).user.userId;
 
     const project = await createProjectService(
-      {
-        ...validatedData,
-        // coverImage: uploadedImageUrl (aws s3 bucketto store url)
-      },
-      authUserId,
+      validatedData,
+      authReq.user.userId,
     );
 
     res.status(201).json({

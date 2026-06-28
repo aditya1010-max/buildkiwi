@@ -8,14 +8,20 @@ import {
   getLikesCountService,
 } from "../services/like.service";
 
+export interface AuthenticatedRequest extends Request {
+  user: {
+    userId: string;
+    email: string;
+  };
+}
+
 export const likeProject = asyncHandler(async (req: Request, res: Response) => {
+  const authReq = req as AuthenticatedRequest;
   const projectId = Array.isArray(req.params.id)
-    ? req.params.id[0]
-    : (req.params.id as string);
+    ? authReq.params.id[0]
+    : (authReq.params.id as string);
 
-  const userId = (req as any).user.userId;
-
-  await likeProjectService(projectId, userId);
+  await likeProjectService(projectId, authReq.user.userId);
 
   res.status(201).json({
     success: true,
@@ -24,13 +30,12 @@ export const likeProject = asyncHandler(async (req: Request, res: Response) => {
 
 export const unlikeProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const projectId = Array.isArray(req.params.id)
-      ? req.params.id[0]
-      : (req.params.id as string);
+    const authReq = req as AuthenticatedRequest;
+    const projectId = Array.isArray(authReq.params.id)
+      ? authReq.params.id[0]
+      : (authReq.params.id as string);
 
-    const userId = (req as any).user.userId;
-
-    await unlikeProjectService(projectId, userId);
+    await unlikeProjectService(projectId, authReq.user.userId);
 
     res.json({
       success: true,

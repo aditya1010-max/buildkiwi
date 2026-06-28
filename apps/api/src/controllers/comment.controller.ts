@@ -6,17 +6,27 @@ import {
   getCommentsByProjectService,
 } from "../services/comment.service";
 
+export interface AuthenticatedRequest extends Request {
+  user: {
+    userId: string;
+    email: string;
+  };
+}
+
 export const createComment = asyncHandler(
   async (req: Request, res: Response) => {
+    const authReq = req as AuthenticatedRequest;
     const projectId = Array.isArray(req.params.id)
       ? req.params.id[0]
       : req.params.id;
 
-    const userId = (req as any).user.userId;
-
     const { content } = CreateCommentSchema.parse(req.body);
 
-    const comment = await createCommentService(projectId, userId, content);
+    const comment = await createCommentService(
+      projectId,
+      authReq.user.userId,
+      content,
+    );
 
     res.status(201).json({
       success: true,
