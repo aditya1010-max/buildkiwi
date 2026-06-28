@@ -1,16 +1,18 @@
-import bcrypt from "bcrypt";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { env } from "../config/env";
+
+import bcrypt from "bcrypt";
+import { RegisterInput } from "@buildkiwi/validation";
 import {
   createUserRepository,
   findUserByEmailRepository,
 } from "../repositories/user.repository";
 
-export const registerUserService = async (
-  username: string,
-  email: string,
-  password: string,
-) => {
+export const registerUserService = async ({
+  username,
+  email,
+  password,
+}: RegisterInput) => {
   const existingUser = await findUserByEmailRepository(email);
 
   if (existingUser) {
@@ -19,10 +21,10 @@ export const registerUserService = async (
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  return await createUserRepository({
+  return createUserRepository({
     username,
     email,
-    passwordHash,
+    password: passwordHash,
   });
 };
 

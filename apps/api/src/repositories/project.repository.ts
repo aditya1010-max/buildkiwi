@@ -1,7 +1,8 @@
 import { Project } from "../models/project.models";
+import { CreateProjectInput, UpdateProjectInput } from "@buildkiwi/validation";
 
 export const projectRepository = {
-  create: async (data: any) => {
+  create: async (data: CreateProjectInput) => {
     return await Project.create(data);
   },
 
@@ -30,7 +31,7 @@ export const projectRepository = {
     return await Project.findById(id).populate("creatorId", "username").lean();
   },
 
-  update: async (id: string, updateData: any) => {
+  update: async (id: string, updateData: UpdateProjectInput) => {
     return await Project.findByIdAndUpdate(
       id,
       { $set: updateData },

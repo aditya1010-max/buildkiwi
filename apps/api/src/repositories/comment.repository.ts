@@ -1,6 +1,9 @@
 import { Comment } from "../models/comment.model";
+import { CreateCommentInput } from "@buildkiwi/validation";
 
-export const createCommentRepository = async (data: any) => {
+export const createCommentRepository = async (
+  data: CreateCommentInput & { userId: string },
+) => {
   return await Comment.create(data);
 };
 
