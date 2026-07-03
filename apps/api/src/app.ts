@@ -21,6 +21,10 @@ import commentRoutes from "./routes/comment.routes";
 import likeRoutes from "./routes/like.routes";
 import testRoutes from "./routes/test.routes";
 
+import dns from "node:dns";
+
+dns.setServers(["1.1.1.1", "1.0.0.1"]);
+
 dotenv.config();
 
 export const app = express(); //wll be used in tests
