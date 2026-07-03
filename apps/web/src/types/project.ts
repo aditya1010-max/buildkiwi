@@ -1,6 +1,6 @@
 export interface Project {
   // i need a unique id here
-  _id: String;
+  _id: string;
 
   creatorId: {
     _id: string;
