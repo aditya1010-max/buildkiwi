@@ -1,12 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
-
   "compilerOptions": {
     "types": ["node", "jest"],
     "ignoreDeprecations": "6.0",
-    "rootDir": "src/",
+    "rootDir": "../../",
     "outDir": "dist"
   },
-
-  "include": ["src"]
+  "include": ["src", "../../packages/validation/src"]
 }
