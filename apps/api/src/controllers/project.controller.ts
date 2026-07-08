@@ -5,6 +5,9 @@ import {
   getProjectByIdService,
   updateProjectService,
   deleteProjectService,
+  saveProjectService,
+  unsaveProjectService,
+  getSavedProjectsService,
 } from "../services/project.services";
 import { projectSchema } from "../schema/projectSchema";
 import { validateSchemaData } from "../utils/validateSchema";
@@ -135,6 +138,45 @@ export const deleteProject = asyncHandler(
     res.json({
       success: true,
       message: "Project deleted successfully",
+    });
+  },
+);
+
+export const saveProject = asyncHandler(async (req: Request, res: Response) => {
+  const projectId = String(req.params.id);
+  const userId = (req as AuthenticatedRequest).user.userId;
+
+  await saveProjectService(userId, projectId);
+
+  res.status(200).json({
+    success: true,
+    message: "Project saved successfully",
+  });
+});
+
+export const unsaveProject = asyncHandler(
+  async (req: Request, res: Response) => {
+    const projectId = String(req.params.id);
+    const userId = (req as AuthenticatedRequest).user.userId;
+
+    await unsaveProjectService(userId, projectId);
+
+    res.status(200).json({
+      success: true,
+      message: "Project removed from saved successfully",
+    });
+  },
+);
+
+export const getSavedProjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = (req as AuthenticatedRequest).user.userId;
+
+    const projects = await getSavedProjectsService(userId);
+
+    res.status(200).json({
+      success: true,
+      data: projects,
     });
   },
 );
