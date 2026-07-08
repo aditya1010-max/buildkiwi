@@ -28,6 +28,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: 500,
     },
+
+    savedProjects: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Project",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
