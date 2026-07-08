@@ -1,0 +1,57 @@
+.profile-tabs {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 2rem 0;
+  padding-bottom: 1rem;
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-tabs button {
+  padding: 0.75rem 1.25rem;
+
+  border: none;
+  background: transparent;
+
+  color: var(--text-secondary);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  border-radius: 8px;
+
+  transition: all 0.2s ease;
+}
+
+.profile-tabs button:hover {
+  color: var(--text-primary);
+  background: var(--surface-color);
+}
+
+.profile-tabs button.active {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .profile-tabs {
+    overflow-x: auto;
+    gap: 0.75rem;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .profile-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-tabs button {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
