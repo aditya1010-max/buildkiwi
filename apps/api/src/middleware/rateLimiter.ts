@@ -9,7 +9,7 @@ export const apiLimiter = rateLimit({
 
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 100, //for production back to 10
   message: {
     success: false,
     message: "Too many login attempts",
