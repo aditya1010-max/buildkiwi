@@ -1,8 +1,14 @@
 import { User } from "../models/user.model";
-import { RegisterInput } from "packages/validation/src/auth.schema";
+// import { RegisterInput } from "packages/validation/src/auth.schema";
 
-export const createUserRepository = async (data: RegisterInput) => {
-  //replace any later
+interface CreateUserData {
+  //maybe create similar interface for login and register input data
+  username: string;
+  email: string;
+  passwordHash: string;
+}
+
+export const createUserRepository = async (data: CreateUserData) => {
   return await User.create(data);
 };
 
