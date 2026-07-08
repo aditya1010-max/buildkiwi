@@ -21,3 +21,42 @@ export const findUserByIdRepository = async (id: string) => {
   // Consider .lean() later
   return await User.findById(id).select("-passwordHash -__v");
 };
+
+export const saveProjectRepository = async ( userId: string, projectId: string ) => {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $addToSet: {
+        savedProjects: projectId,
+      },
+    },
+    {
+      new: true,
+    },
+  );
+};
+
+export const unsaveProjectRepository = async (userId: string, projectId: string ) => {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $pull: {
+        savedProjects: projectId,
+      },
+    },
+    {
+      new: true,
+    },
+  );
+};
+
+export const getSavedProjectsRepository = async (userId: string) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  await user.populate("savedProjects");
+  return user.savedProjects;
+};
