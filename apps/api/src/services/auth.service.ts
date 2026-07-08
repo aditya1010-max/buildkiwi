@@ -8,11 +8,7 @@ import {
   findUserByEmailRepository,
 } from "../repositories/user.repository";
 
-export const registerUserService = async ({
-  username,
-  email,
-  password,
-}: RegisterInput) => {
+export const registerUserService = async ({username, email, password }: RegisterInput) => {
   const existingUser = await findUserByEmailRepository(email);
 
   if (existingUser) {
@@ -21,11 +17,13 @@ export const registerUserService = async ({
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  return createUserRepository({
+  const user = await createUserRepository({
     username,
     email,
-    password: passwordHash,
+    passwordHash,
   });
+
+  return user;
 };
 
 export const loginUserService = async (email: string, password: string) => {
