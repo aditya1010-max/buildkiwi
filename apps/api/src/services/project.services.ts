@@ -1,4 +1,9 @@
 import { projectRepository } from "../repositories/project.repository";
+import {
+  getSavedProjectsRepository,
+  saveProjectRepository,
+  unsaveProjectRepository,
+} from "../repositories/user.repository";
 
 export const createProjectService = async (data: any, creatorId: string) => {
   const projectData = {
@@ -34,11 +39,7 @@ export const getProjectByIdService = async (id: string) => {
   return await projectRepository.findById(id);
 };
 
-export const updateProjectService = async (
-  id: string,
-  updateData: any,
-  userId: string,
-) => {
+export const updateProjectService = async ( id: string, updateData: any, userId: string ) => {
   if (!id) return null;
 
   const project = await projectRepository.findById(id);
@@ -62,4 +63,19 @@ export const deleteProjectService = async (id: string, userId: string) => {
   }
 
   return await projectRepository.delete(id);
+};
+
+export const saveProjectService = async (userId: string, projectId: string) => {
+  await saveProjectRepository(userId, projectId);
+};
+
+export const unsaveProjectService = async (
+  userId: string,
+  projectId: string,
+) => {
+  await unsaveProjectRepository(userId, projectId);
+};
+
+export const getSavedProjectsService = async (userId: string) => {
+  return await getSavedProjectsRepository(userId);
 };
