@@ -18,6 +18,8 @@ export interface Project {
     demo: string;
   };
 
+  isSaved?: boolean;
+
   stats: {
     likes: number;
     comments: number;
