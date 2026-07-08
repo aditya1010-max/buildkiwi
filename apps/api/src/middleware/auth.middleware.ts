@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env";
 
-export const authMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const authMiddleware = ( req: Request, res: Response, next: NextFunction ) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({
@@ -22,7 +18,9 @@ export const authMiddleware = (
     (req as any).user = decoded;
 
     next();
-  } catch {
+  } catch (error) {
+    console.error(error);
+
     return res.status(401).json({
       success: false,
       message: "Invalid token",
