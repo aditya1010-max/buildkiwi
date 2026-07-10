@@ -26,8 +26,9 @@ export const register = async (
   return response.data;
 };
 
-interface MeResponse {  // This interface represents the response from the /me endpoint 
-  success: boolean;    // we can define it globally in a types file if needed
+interface MeResponse {
+  // This interface represents the response from the /me endpoint
+  success: boolean; // we can define it globally in a types file if needed
   user: User;
 }
 

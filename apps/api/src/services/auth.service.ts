@@ -8,7 +8,11 @@ import {
   findUserByEmailRepository,
 } from "../repositories/user.repository";
 
-export const registerUserService = async ({username, email, password }: RegisterInput) => {
+export const registerUserService = async ({
+  username,
+  email,
+  password,
+}: RegisterInput) => {
   const existingUser = await findUserByEmailRepository(email);
 
   if (existingUser) {

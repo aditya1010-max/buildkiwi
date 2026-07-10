@@ -39,7 +39,11 @@ export const getProjectByIdService = async (id: string) => {
   return await projectRepository.findById(id);
 };
 
-export const updateProjectService = async ( id: string, updateData: any, userId: string ) => {
+export const updateProjectService = async (
+  id: string,
+  updateData: any,
+  userId: string,
+) => {
   if (!id) return null;
 
   const project = await projectRepository.findById(id);
