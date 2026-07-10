@@ -6,7 +6,7 @@ import DiscoverLayout from "../../components/discover/DiscoverLayout";
 import SearchBar from "../../components/discover/SearchBar";
 import SearchFilters, {
   type SearchFilter,
-} from "../../components/discover/SearchFilter";
+} from "../../components/discover/SearchFilters";
 import SearchResults from "../../components/discover/SearchResults";
 
 import { useProjects } from "../../hooks/useProjects";
