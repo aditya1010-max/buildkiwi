@@ -1,4 +1,4 @@
-import "./SearchFilter.css";
+import "./SearchFilters.css";
 
 export type SearchFilter = "all" | "projects" | "users" | "tags";
 
