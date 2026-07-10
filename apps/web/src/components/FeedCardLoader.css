@@ -3,6 +3,7 @@
   border-radius: 20px;
   padding: 1px;
   overflow: hidden;
+  opacity: 0.4;
 }
 
 .feed-loader::before {
