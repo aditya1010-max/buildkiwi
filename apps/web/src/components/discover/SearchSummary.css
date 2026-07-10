@@ -1,0 +1,5 @@
+.search-summary {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  border-bottom: 1px solid black;
+}

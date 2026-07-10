@@ -8,6 +8,7 @@ import SearchFilters, {
   type SearchFilter,
 } from "../../components/discover/SearchFilters";
 import SearchResults from "../../components/discover/SearchResults";
+import SearchSummary from "../../components/discover/SearchSummary";
 
 import { useProjects } from "../../hooks/useProjects";
 
@@ -18,11 +19,13 @@ export default function DiscoverPage() {
   const { projects, loading } = useProjects();
 
   const filteredProjects = useMemo(() => {
-    const search = query.toLowerCase().trim();
+    const search = query.trim().toLowerCase();
+
+    if (!search) {
+      return projects;
+    }
 
     return projects.filter((project) => {
-      if (!search) return true;
-
       const title = project.title.toLowerCase();
       const description = project.description.toLowerCase();
       const creator = project.creatorId.username.toLowerCase();
@@ -38,7 +41,6 @@ export default function DiscoverPage() {
         case "tags":
           return tags.includes(search);
 
-        case "all":
         default:
           return (
             title.includes(search) ||
@@ -53,9 +55,16 @@ export default function DiscoverPage() {
   return (
     <main className="discover-page">
       <DiscoverLayout>
-        <SearchBar value={query} onChange={setQuery} />
-
-        <SearchFilters activeFilter={filter} onFilterChange={setFilter} />
+        <SearchBar
+          value={query}
+          onChange={setQuery}
+          filter={filter}
+          onFilterChange={setFilter}
+        />
+        <SearchSummary
+          count={projects.length}
+          filteredCount={filteredProjects.length}
+        />
 
         <SearchResults projects={filteredProjects} loading={loading} />
       </DiscoverLayout>
