@@ -1,42 +1,47 @@
-import { useParams } from "react-router-dom";
-import { useProject } from "../../hooks/useProjects";
+import "./ProjectPage.css";
 
-import { ProjectHero } from "../../components/project/details/index";
+import { useState } from "react";
+
 import {
-  ProjectContent,
-  ProjectMetadata,
-  ProjectDetailsLayout,
-} from "../../components/project/details/index";
+  EmptyProjects,
+  ProjectsGrid,
+  ProjectsHeader,
+  ProjectsTabs,
+  type ProjectsTab,
+} from "../../components/project/manager";
 
-export default function ProjectPage() {
-  const { id } = useParams();
+import type { Project } from "../../types/project";
 
-  if (!id) {
-    return <div>Invalid project.</div>;
-  }
+export default function ProjectsPage() {
+  const [activeTab, setActiveTab] =
+    useState<ProjectsTab>("published");
 
-  const { project, loading, error } = useProject(id);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!project) {
-    return <div>Project not found.</div>;
-  }
+  // Temporary until backend is connected
+  const projects: Project[] = [];
 
   return (
-    <div className="project-page">
-      <ProjectHero project={project} />
+    <main className="projects-page">
+      <ProjectsHeader totalProjects={0} />
 
-      <ProjectDetailsLayout
-        content={<ProjectContent project={project} />}
-        sidebar={<ProjectMetadata project={project} />}
+      <ProjectsTabs
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
       />
-    </div>
+
+      {activeTab === "published" &&
+        (projects.length > 0 ? (
+          <ProjectsGrid projects={projects} />
+        ) : (
+          <EmptyProjects />
+        ))}
+
+      {activeTab === "drafts" && (
+        <EmptyProjects />
+      )}
+
+      {activeTab === "archived" && (
+        <EmptyProjects />
+      )}
+    </main>
   );
 }
