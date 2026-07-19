@@ -1,0 +1,70 @@
+.project-description {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  padding: 2rem;
+
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+
+  background: var(--surface-primary);
+}
+
+.project-description__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-description__header h2 {
+  margin: 0;
+
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.project-description__content {
+  margin: 0;
+
+  line-height: 1.9;
+
+  color: var(--text-secondary);
+
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  max-width: 75ch;
+}
+
+.project-description__empty {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.75rem;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  min-height: 180px;
+
+  border: 2px dashed var(--border-color);
+
+  border-radius: 14px;
+}
+
+.project-description__empty h3 {
+  margin: 0;
+}
+
+.project-description__empty p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  max-width: 360px;
+
+  line-height: 1.7;
+}

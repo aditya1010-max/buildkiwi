@@ -1,41 +1,50 @@
+import "./ProjectLinks.css";
 import { Project } from "../../../types/project";
-
+import ProjectSection from "../shared/ProjectSection";
 interface ProjectLinksProps {
   project: Project;
 }
 
 export default function ProjectLinks({ project }: ProjectLinksProps) {
-  const { github, demo } = project.links;
-
-  if (!github && !demo) return null;
+  const resources = [
+    {
+      title: "GitHub Repository",
+      description: "View the source code.",
+      href: project.links.github,
+    },
+    {
+      title: "Live Demo",
+      description: "Open the deployed application.",
+      href: project.links.demo,
+    },
+  ];
 
   return (
-    <section className="project-links">
-      <h2>Project Links</h2>
-
-      <div className="project-links__actions">
-        {github && (
-          <a
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link-btn"
-          >
-            GitHub
-          </a>
-        )}
-
-        {demo && (
-          <a
-            href={demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link-btn"
-          >
-            Live Demo
-          </a>
+    <ProjectSection title="Resources">
+      <div className="project-links__list">
+        {resources.map((resource) =>
+          resource.href ? (
+            <a
+              key={resource.title}
+              href={resource.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-links__item"
+            >
+              <h3>{resource.title}</h3>
+              <p>{resource.description}</p>
+            </a>
+          ) : (
+            <div
+              key={resource.title}
+              className="project-links__item project-links__item--disabled"
+            >
+              <h3>{resource.title}</h3>
+              <p>Unavailable</p>
+            </div>
+          ),
         )}
       </div>
-    </section>
+    </ProjectSection>
   );
 }

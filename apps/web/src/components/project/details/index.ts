@@ -1,6 +1,12 @@
 export { default as ProjectHero } from "./ProjectHero";
-export { default as ProjectContent } from "./ProjectContent";
-export { default as ProjectMetadata } from "./ProjectMetadata";
+export { default as ProjectOverview } from "./ProjectOverview";
+export { default as ProjectSidebar } from "./ProjectSidebar";
 export { default as ProjectDescription } from "./ProjectDescription";
-// export { default as ProjectLinks } from "./ProjectLinks";
+export { default as ProjectLinks } from "./ProjectLinks";
 export { default as ProjectDetailsLayout } from "./ProjectDetailsLayout";
+export { default as ProjectTags } from "./ProjectTags";
+export { default as ProjectMetadata } from "./ProjectMetadata";
+// export { default as ProjectCard } from "./ProjectCard";
+// export { default as ProjectList } from "./ProjectList";
+// export { default as ProjectListItem } from "./ProjectListItem";
+// export { default as ProjectListSkeleton } from "./ProjectListSkeleton";

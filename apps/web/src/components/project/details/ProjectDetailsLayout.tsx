@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import "./ProjectDetailsLayout.css";
 
 interface ProjectDetailsLayoutProps {
   content: ReactNode;
@@ -11,7 +12,7 @@ export default function ProjectDetailsLayout({
 }: ProjectDetailsLayoutProps) {
   return (
     <section className="project-details-layout">
-      <div className="project-details-layout__content">{content}</div>
+      <main className="project-details-layout__content">{content}</main>
 
       <aside className="project-details-layout__sidebar">{sidebar}</aside>
     </section>
