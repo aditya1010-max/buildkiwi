@@ -38,34 +38,6 @@ export const fetchProjectById = async (
   return response.data;
 };
 
-export async function saveProject(projectId: string) {
-  const token = localStorage.getItem("token");
-
-  const response = await axios.post(
-    `${API}/${projectId}/save`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return response.data;
-}
-
-export async function unsaveProject(projectId: string) {
-  const token = localStorage.getItem("token");
-
-  const response = await axios.delete(`${API}/${projectId}/save`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
-}
-
 export async function getSavedProjects() {
   const token = localStorage.getItem("token");
 

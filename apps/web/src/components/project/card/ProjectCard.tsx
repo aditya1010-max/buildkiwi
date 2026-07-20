@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import "./ProjectCard.css";
 
 import type { Project } from "../../../types/project";
-import { saveProject, unsaveProject } from "../../../api/project.api";
-
+import { addBookmark, removeBookmark } from "../../../api/bookmark.api";
 interface ProjectCardProps {
   project: Project;
 }
@@ -26,10 +25,10 @@ export default function ProjectCard({
 
     try {
       if (saved) {
-        await unsaveProject(project._id);
+        await removeBookmark(project._id);
         setSaved(false);
       } else {
-        await saveProject(project._id);
+        await addBookmark(project._id);
         setSaved(true);
       }
     } catch (error) {
