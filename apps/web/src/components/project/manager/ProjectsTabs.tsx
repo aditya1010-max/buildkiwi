@@ -2,10 +2,7 @@ import "./ProjectsTabs.css";
 
 import type { ReactElement } from "react";
 
-export type ProjectsTab =
-  | "published"
-  | "drafts"
-  | "archived";
+export type ProjectsTab = "published" | "drafts" | "archived";
 
 interface ProjectsTabsProps {
   activeTab: ProjectsTab;
