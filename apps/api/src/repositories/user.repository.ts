@@ -22,7 +22,10 @@ export const findUserByIdRepository = async (id: string) => {
   return await User.findById(id).select("-passwordHash -__v");
 };
 
-export const saveProjectRepository = async ( userId: string, projectId: string ) => {
+export const saveProjectRepository = async (
+  userId: string,
+  projectId: string,
+) => {
   return await User.findByIdAndUpdate(
     userId,
     {
@@ -36,7 +39,10 @@ export const saveProjectRepository = async ( userId: string, projectId: string )
   );
 };
 
-export const unsaveProjectRepository = async (userId: string, projectId: string ) => {
+export const unsaveProjectRepository = async (
+  userId: string,
+  projectId: string,
+) => {
   return await User.findByIdAndUpdate(
     userId,
     {
