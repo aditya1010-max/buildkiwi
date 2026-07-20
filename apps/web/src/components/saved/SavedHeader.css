@@ -1,0 +1,24 @@
+.saved-header {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.saved-header h1 {
+  margin: 0;
+
+  font-size: 2rem;
+}
+
+.saved-header p {
+  margin: 0;
+
+  color: var(--text-secondary);
+}
+
+.saved-header span {
+  font-size: 0.9rem;
+
+  color: var(--text-secondary);
+}

@@ -1,0 +1,39 @@
+.empty-saved {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 1rem;
+
+  padding: 5rem 2rem;
+
+  text-align: center;
+}
+
+.empty-saved__icon {
+  font-size: 3rem;
+}
+
+.empty-saved h2 {
+  margin: 0;
+}
+
+.empty-saved p {
+  color: var(--text-secondary);
+}
+
+.empty-saved__button {
+  padding: 0.8rem 1.2rem;
+
+  border-radius: 8px;
+
+  background: var(--accent);
+
+  color: white;
+
+  text-decoration: none;
+}
