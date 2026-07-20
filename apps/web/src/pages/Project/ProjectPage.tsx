@@ -1,47 +1,64 @@
 import "./ProjectPage.css";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
-  EmptyProjects,
-  ProjectsGrid,
-  ProjectsHeader,
-  ProjectsTabs,
-  type ProjectsTab,
-} from "../../components/project/manager";
+  ProjectHero,
+  ProjectOverview,
+  ProjectSidebar,
+  ProjectDetailsLayout,
+  ProjectMetadata,
+} from "../../components/project/details";
 
 import type { Project } from "../../types/project";
+import { fetchProjectById } from "../../api/project.api";
 
-export default function ProjectsPage() {
-  const [activeTab, setActiveTab] =
-    useState<ProjectsTab>("published");
+export default function ProjectPage() {
+  const { id } = useParams<{ id: string }>();
 
-  // Temporary until backend is connected
-  const projects: Project[] = [];
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchProject = async () => {
+      try {
+        const response = await fetchProjectById(id);
+        setProject(response.data);
+      } catch (err) {
+        console.error("Failed to fetch project", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <main className="project-page">
+        <h2>Loading...</h2>
+      </main>
+    );
+  }
+
+  if (!project) {
+    return (
+      <main className="project-page">
+        <h2>Project not found.</h2>
+      </main>
+    );
+  }
 
   return (
-    <main className="projects-page">
-      <ProjectsHeader totalProjects={0} />
+    <main className="project-page">
+      <ProjectHero project={project} />
 
-      <ProjectsTabs
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <ProjectOverview project={project} />
 
-      {activeTab === "published" &&
-        (projects.length > 0 ? (
-          <ProjectsGrid projects={projects} />
-        ) : (
-          <EmptyProjects />
-        ))}
-
-      {activeTab === "drafts" && (
-        <EmptyProjects />
-      )}
-
-      {activeTab === "archived" && (
-        <EmptyProjects />
-      )}
+      <ProjectMetadata project={project} />
     </main>
   );
 }
