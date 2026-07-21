@@ -1,20 +1,28 @@
+import { ReactElement } from "react";
+
 import "./ProjectsGrid.css";
 
-import ProjectCard from "../card/ProjectCard";
-import { Project } from "../../../types/project";
+import type { Project } from "../../../types/project";
 
-interface ProjectsGridProps {
+import ProjectManagerCard from "./ProjectManagerCard";
+import EmptyProjects from "./EmptyProjects";
+
+interface ProjectGridProps {
   projects: Project[];
 }
 
-const ProjectsGrid = ({ projects }: ProjectsGridProps) => {
+export default function ProjectGrid({
+  projects,
+}: ProjectGridProps): ReactElement {
+  if (projects.length === 0) {
+    return <EmptyProjects />;
+  }
+
   return (
-    <section className="projects-grid">
+    <section className="project-grid">
       {projects.map((project) => (
-        <ProjectCard key={project._id} project={project} />
+        <ProjectManagerCard key={project._id} project={project} />
       ))}
     </section>
   );
-};
-
-export default ProjectsGrid;
+}
