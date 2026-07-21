@@ -1,28 +1,44 @@
-import { Project } from "../../../types/project";
+import { ReactElement } from "react";
+
+import "./ProjectStats.css";
 
 interface ProjectStatsProps {
-  project: Project;
+  totalProjects: number;
+  totalViews: number;
+  totalLikes: number;
+  totalComments: number;
 }
 
-export default function ProjectStats({ project }: ProjectStatsProps) {
-  const { likes, comments, views } = project.stats;
+interface StatCardProps {
+  label: string;
+  value: number;
+}
 
+function StatCard({ label, value }: StatCardProps): ReactElement {
   return (
-    <div className="project-stats">
-      <div className="project-stat">
-        <span>❤️</span>
-        <span>{likes}</span>
-      </div>
+    <article className="project-stats__card">
+      <span className="project-stats__label">{label}</span>
 
-      <div className="project-stat">
-        <span>💬</span>
-        <span>{comments}</span>
-      </div>
+      <h2 className="project-stats__value">{value.toLocaleString()}</h2>
+    </article>
+  );
+}
 
-      <div className="project-stat">
-        <span>👁</span>
-        <span>{views}</span>
-      </div>
-    </div>
+export default function ProjectStats({
+  totalProjects,
+  totalViews,
+  totalLikes,
+  totalComments,
+}: ProjectStatsProps): ReactElement {
+  return (
+    <section className="project-stats">
+      <StatCard label="Projects" value={totalProjects} />
+
+      <StatCard label="Views" value={totalViews} />
+
+      <StatCard label="Likes" value={totalLikes} />
+
+      <StatCard label="Comments" value={totalComments} />
+    </section>
   );
 }
