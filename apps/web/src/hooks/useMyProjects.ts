@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getSavedProjects } from "../api/project.api";
 import { Project } from "../types/project";
 
-export function useSavedProjects() {
+export function useMyProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
