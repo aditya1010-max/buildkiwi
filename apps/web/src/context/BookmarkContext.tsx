@@ -39,7 +39,6 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
       const ids = new Set<string>(
         response.projects.map((project: { _id: string }) => project._id),
       );
-      console.log(ids);
 
       setBookmarkedIds(ids);
       } catch (error) {
