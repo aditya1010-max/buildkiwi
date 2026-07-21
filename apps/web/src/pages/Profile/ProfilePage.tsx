@@ -11,9 +11,11 @@ import EmptyProfile from "../../components/profile/EmptyProfile";
 
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useSavedProjects } from "../../hooks/useSavedProjects";
+import { useBookmarks } from "../../hooks/useBookmarks";
 
 export default function ProfilePage() {
   const { projects: savedProjects } = useSavedProjects();
+  const { bookmarks } = useBookmarks();
   const [activeTab, setActiveTab] = useState<ProfileTab>("projects");
 
   const { user, loading } = useCurrentUser();
@@ -39,7 +41,12 @@ export default function ProfilePage() {
           <EmptyProfile isCurrentUser />
         ))}
 
-      {activeTab === "saved" && <EmptyProfile />}
+      {activeTab === "saved" &&
+        (bookmarks.length > 0 ? (
+          <ProfileGrid projects={bookmarks} />
+        ) : (
+          <EmptyProfile isCurrentUser />
+        ))}
 
       {activeTab === "likes" && <EmptyProfile />}
     </main>
