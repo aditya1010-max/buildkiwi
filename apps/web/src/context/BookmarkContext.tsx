@@ -34,13 +34,13 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const loadBookmarks = async () => {
       try {
-      const response = await getBookmarks();
+        const response = await getBookmarks();
 
-      const ids = new Set<string>(
-        response.projects.map((project: { _id: string }) => project._id),
-      );
+        const ids = new Set<string>(
+          response.projects.map((project: { _id: string }) => project._id),
+        );
 
-      setBookmarkedIds(ids);
+        setBookmarkedIds(ids);
       } catch (error) {
         console.error("Failed to load bookmarks", error);
       } finally {

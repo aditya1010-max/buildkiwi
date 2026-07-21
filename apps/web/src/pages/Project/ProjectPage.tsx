@@ -1,12 +1,12 @@
-import "./ProjectPage.css";
+import "./projectPage.css";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   ProjectHero,
   ProjectOverview,
-  ProjectSidebar,
-  ProjectDetailsLayout,
+  // ProjectSidebar,
+  // ProjectDetailsLayout,
   ProjectMetadata,
 } from "../../components/project/details";
 
