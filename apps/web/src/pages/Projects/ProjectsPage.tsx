@@ -1,39 +1,68 @@
-import "./ProjectPage.css";
+import { ReactElement } from "react";
+import { useMyProjects } from "../../hooks/useMyProjects";
+import ProjectGrid from "../../components/project/manager/ProjectsGrid";
+import "./ProjectsPage.css";
+import ProjectStats from "../../components/project/card/ProjectStats";
+// import { useState } from "react";
+// import ProjectToolbar from "../../components/project/manager/ProjectsToolbar";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+export default function ProjectsPage(): ReactElement {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-import {
-  EmptyProjects,
-  ProjectsGrid,
-  ProjectsHeader,
-  ProjectsTabs,
-  type ProjectsTab,
-} from "../../components/project/manager";
-
-import type { Project } from "../../types/project";
-
-export default function ProjectsPage() {
-  const [activeTab, setActiveTab] = useState<ProjectsTab>("published");
-
-  // Temporary until backend is connected
-  const projects: Project[] = [];
-
+  function openCreateModal() {
+    navigate("/create", {
+      state: {
+        background: location,
+      },
+    });
+  }
+  const { projects, loading } = useMyProjects();
+  if (loading) {
+    return (
+      <main className="projects-page">
+        <p>Loading projects...</p>
+      </main>
+    );
+  }
   return (
     <main className="projects-page">
-      <ProjectsHeader totalProjects={0} />
+      <div className="projects-page__container">
+        <header className="projects-page__header">
+          <div>
+            <h1 className="projects-page__title">My Projects</h1>
+            <p className="projects-page__subtitle">
+              Manage, edit and track all of your published projects.
+            </p>
+          </div>
 
-      <ProjectsTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          <button
+            type="button"
+            className="projects-page__create-button"
+            onClick={openCreateModal}
+          >
+            + Create Project
+          </button>
+        </header>
 
-      {activeTab === "published" &&
-        (projects.length > 0 ? (
-          <ProjectsGrid projects={projects} />
-        ) : (
-          <EmptyProjects />
-        ))}
+        {/* Stats */}
+        <section className="projects-page__stats">
+          {" "}
+          {/*fix this hardcoded stats later*/}
+          <ProjectStats
+            totalProjects={12}
+            totalViews={4250}
+            totalLikes={182}
+            totalComments={37}
+          />
+        </section>
 
-      {activeTab === "drafts" && <EmptyProjects />}
-
-      {activeTab === "archived" && <EmptyProjects />}
+        {/* Project Grid */}
+        <section className="projects-page__content">
+          <ProjectGrid projects={projects} />
+        </section>
+      </div>
     </main>
   );
 }
