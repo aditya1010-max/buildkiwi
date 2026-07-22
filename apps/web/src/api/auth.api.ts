@@ -1,15 +1,16 @@
-import axios from "axios";
 import { User } from "../types/user";
 
 const API = "http://localhost:3000/api/v1/auth";
 
+import api from "../services/api";
+
 export const login = async (email: string, password: string) => {
-  const response = await axios.post(`${API}/login`, {
+  const { data } = await api.post("/auth/login", {
     email,
     password,
   });
 
-  return response.data;
+  return data;
 };
 
 export const register = async (
@@ -17,29 +18,29 @@ export const register = async (
   email: string,
   password: string,
 ) => {
-  const response = await axios.post(`${API}/register`, {
+  const { data } = await api.post("/auth/register", {
     username,
     email,
     password,
   });
 
-  return response.data;
+  return data;
 };
 
 interface MeResponse {
-  // This interface represents the response from the /me endpoint
-  success: boolean; // we can define it globally in a types file if needed
+  success: boolean;
   user: User;
 }
 
 export async function getCurrentUser() {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get<MeResponse>(`${API}/me`, {
+  const { data } = await api.get<MeResponse>(`${API}/me`, {
+    withCredentials: true,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  return response.data.user;
+  return data.user;
 }
