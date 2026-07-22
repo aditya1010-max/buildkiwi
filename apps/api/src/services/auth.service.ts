@@ -1,12 +1,10 @@
-import jwt, { Secret, SignOptions } from "jsonwebtoken";
-import { env } from "../config/env";
-
 import bcrypt from "bcrypt";
 import { RegisterInput } from "@buildkiwi/validation";
 import {
   createUserRepository,
   findUserByEmailRepository,
 } from "../repositories/user.repository";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
 
 export const registerUserService = async ({
   username,
@@ -42,16 +40,25 @@ export const loginUserService = async (email: string, password: string) => {
   if (!isValid) {
     throw new Error("Invalid credentials");
   }
-  const token = jwt.sign(
-    {
-      userId: user._id.toString(),
-      email: user.email,
-    },
-    env.JWT_SECRET as Secret,
-    {
-      expiresIn: "15m",
-    } as SignOptions,
-  );
 
-  return { user, token };
+  const payload = {
+    userId: user._id.toString(),
+    email: user.email,
+  };
+
+  const accessToken = generateAccessToken(payload);
+
+  // console.log("Generating refresh token with payload:", payload);
+  // console.log("JWT_REFRESH_SECRET:", process.env.JWT_REFRESH_SECRET);
+  // console.log("REFRESH_TOKEN_EXPIRES:", process.env.REFRESH_TOKEN_EXPIRES);
+  // console.log("Access Token:", accessToken);
+
+  const refreshToken = generateRefreshToken(payload);
+  // console.log("Refresh Token:", refreshToken);
+
+  return {
+    user,
+    accessToken,
+    refreshToken,
+  };
 };

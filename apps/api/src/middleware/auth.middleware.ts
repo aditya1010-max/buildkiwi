@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { env } from "../config/env";
+import { verifyAccessToken } from "../utils/jwt";
 
 export const authMiddleware = (
   req: Request,
@@ -8,7 +7,8 @@ export const authMiddleware = (
   next: NextFunction,
 ) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) {
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
       message: "Unauthorized",
@@ -16,18 +16,17 @@ export const authMiddleware = (
   }
 
   const token = authHeader.split(" ")[1];
+
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET);
+    const decoded = verifyAccessToken(token);
 
     (req as any).user = decoded;
 
     next();
-  } catch (error) {
-    console.error(error);
-
+  } catch {
     return res.status(401).json({
       success: false,
-      message: "Invalid token",
+      message: "Invalid or expired access token",
     });
   }
 };
