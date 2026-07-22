@@ -11,6 +11,13 @@ const envSchema = z.object({
   MONGO_URI: z.string().min(1, "MONGO_URI is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
   JWT_EXPIRES_IN: z.string().default("15m"),
+  JWT_ACCESS_SECRET: z.string().min(1),
+
+  JWT_REFRESH_SECRET: z.string().min(1),
+
+  ACCESS_TOKEN_EXPIRES: z.string().default("15m"),
+
+  REFRESH_TOKEN_EXPIRES: z.string().default("30d"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
