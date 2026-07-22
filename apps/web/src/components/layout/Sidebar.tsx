@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import SettingsPopup from "../settings/SettingPopup";
-import KiwiIcon from "../../assets/Kiwi3.svg";
+import KiwiIcon4 from "../../assets/icons/kiwiIcon4";
+
 import {
   HomeIcon,
   SearchIcon,
@@ -21,7 +22,9 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar__logo">
         <div className="sidebar__item">
-          <img src={KiwiIcon} alt="BuildKiwi" className="sidebar__logo-image" />
+          {/* <img src={KiwiIcon4} alt="BuildKiwi" className="sidebar__logo-image" /> */}
+          <KiwiIcon4 size={40} className="sidebar__logo-image" />
+          <span className="sidebar__logo-text">BuildKiwi</span>
         </div>
       </div>
 

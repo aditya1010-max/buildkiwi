@@ -11,7 +11,7 @@
 
 ::-webkit-scrollbar-thumb {
   /*custom styling for scrollbar*/
-  background: rgb(68, 34, 34);
+  background: rgba(109, 56, 56, 0.352);
   border-radius: 0px;
 }
 
@@ -43,6 +43,7 @@ body,
 #root {
   width: 100%;
   min-height: 100dvh;
+  background-color: var(--surface);
 }
 
 body {
