@@ -5,6 +5,8 @@ import {
   registerUserService,
   loginUserService,
 } from "../services/auth.service";
+import { env } from "../config/env";
+import { verifyRefreshToken, generateAccessToken } from "../utils/jwt";
 
 export interface AuthenticatedRequest extends Request {
   user: {
@@ -31,9 +33,23 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 export const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const result = await loginUserService(email, password);
+  const { user, accessToken, refreshToken } = await loginUserService(
+    email,
+    password,
+  );
 
-  res.json({ success: true, user: result.user, token: result.token });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  });
+
+  res.status(200).json({
+    success: true,
+    user,
+    accessToken,
+  });
 });
 
 export const me = asyncHandler(async (req: Request, res: Response) => {
@@ -43,5 +59,31 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
   res.json({
     success: true,
     user,
+  });
+});
+
+export const refresh = asyncHandler(async (req: Request, res: Response) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Refresh token missing",
+    });
+  }
+
+  const payload = verifyRefreshToken(refreshToken) as {
+    userId: string;
+    email: string;
+  };
+
+  const accessToken = generateAccessToken({
+    userId: payload.userId,
+    email: payload.email,
+  });
+
+  res.status(200).json({
+    success: true,
+    accessToken,
   });
 });
