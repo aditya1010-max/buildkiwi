@@ -1,4 +1,4 @@
-import { Project } from "../models/project.models";
+import { Project } from "../models/project.model";
 import { CreateProjectInput, UpdateProjectInput } from "@buildkiwi/validation";
 
 export const projectRepository = {
@@ -29,6 +29,10 @@ export const projectRepository = {
 
   findById: async (id: string) => {
     return await Project.findById(id).populate("creatorId", "username").lean();
+  },
+
+  findByIdForUpdate: async (id: string) => {
+    return await Project.findById(id);
   },
 
   update: async (id: string, updateData: UpdateProjectInput) => {
