@@ -24,7 +24,7 @@ export default function Sidebar() {
         <div className="sidebar__item">
           {/* <img src={KiwiIcon4} alt="BuildKiwi" className="sidebar__logo-image" /> */}
           <KiwiIcon4 size={40} className="sidebar__logo-image" />
-          <span className="sidebar__logo-text">BuildKiwi</span>
+          <span className="sidebar__label">BuildKiwi</span>
         </div>
       </div>
 

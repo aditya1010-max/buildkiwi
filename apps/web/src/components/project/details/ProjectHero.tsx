@@ -20,8 +20,6 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         ) : (
           <div className="project-hero__placeholder">
             <div className="project-hero__placeholder-box">
-              <div className="project-hero__placeholder-frame" />
-
               <h3>No Cover Image</h3>
 
               <p>This project doesn't have a cover image yet.</p>

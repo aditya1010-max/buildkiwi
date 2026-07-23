@@ -19,6 +19,8 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
 
+  // console.log("Sending token:", token);
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -65,7 +67,7 @@ api.interceptors.response.use(
 
       return Promise.reject(refreshError);
     }
-  }
+  },
 );
 
 export default api;

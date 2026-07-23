@@ -8,7 +8,7 @@ import {
   removeBookmarkService,
   getBookmarksService,
 } from "../services/bookmark.service";
-import { AuthenticatedRequest } from "./like.controller";
+import { AuthenticatedRequest } from "../types/auth";
 
 export const addBookmark = asyncHandler(async (req: Request, res: Response) => {
   const authReq = req as AuthenticatedRequest;
