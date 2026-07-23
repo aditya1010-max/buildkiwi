@@ -1,4 +1,4 @@
-import { Project } from "../models/project.models";
+import { Project } from "../models/project.model";
 
 export const getFeedRepository = async (page: number, limit: number) => {
   return await Project.find()

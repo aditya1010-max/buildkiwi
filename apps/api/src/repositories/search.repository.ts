@@ -1,4 +1,4 @@
-import { Project } from "../models/project.models";
+import { Project } from "../models/project.model";
 
 export const searchProjectsRepository = async (
   query: string,

@@ -1,7 +1,7 @@
 import request from "supertest";
 import mongoose from "mongoose";
 import { app } from "../app";
-import { Project } from "../models/project.models";
+import { Project } from "../models/project.model";
 
 describe("Project Routes", () => {
   afterAll(async () => {
