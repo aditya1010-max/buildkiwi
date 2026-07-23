@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
+import { Schema, model, InferSchemaType } from "mongoose";
 
-const likeSchema = new mongoose.Schema(
+const likeSchema = new Schema(
   {
     projectId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Project",
       required: true,
     },
 
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -20,6 +20,22 @@ const likeSchema = new mongoose.Schema(
 );
 
 // Prevent duplicate likes
-likeSchema.index({ projectId: 1, userId: 1 }, { unique: true });
+likeSchema.index(
+  {
+    userId: 1,
+    projectId: 1,
+  },
+  {
+    unique: true,
+  },
+);
 
-export const Like = mongoose.model("Like", likeSchema);
+// Fetch a user's likes efficiently
+likeSchema.index({
+  userId: 1,
+  createdAt: -1,
+});
+
+export type Like = InferSchemaType<typeof likeSchema>;
+
+export default model("Like", likeSchema);

@@ -1,27 +1,40 @@
-import { Like } from "../models/like.model";
+import Like from "../models/like.model";
 
-export const createLikeRepository = async (
-  projectId: string,
-  userId: string,
-) => {
-  return await Like.create({
-    projectId,
-    userId,
-  });
-};
+export const likeRepository = {
+  create: async (userId: string, projectId: string) => {
+    return await Like.create({
+      userId,
+      projectId,
+    });
+  },
 
-export const removeLikeRepository = async (
-  projectId: string,
-  userId: string,
-) => {
-  return await Like.findOneAndDelete({
-    projectId,
-    userId,
-  });
-};
+  find: async (userId: string, projectId: string) => {
+    return await Like.findOne({
+      userId,
+      projectId,
+    });
+  },
 
-export const countLikesRepository = async (projectId: string) => {
-  return await Like.countDocuments({
-    projectId,
-  });
+  delete: async (userId: string, projectId: string) => {
+    return await Like.findOneAndDelete({
+      userId,
+      projectId,
+    });
+  },
+
+  findByUserId: async (userId: string) => {
+    return await Like.find({ userId })
+      .populate({
+        path: "projectId",
+        select:
+          "title description tags coverImage links stats creatorId createdAt updatedAt",
+        populate: {
+          path: "creatorId",
+          select: "username",
+        },
+      })
+      .sort({
+        createdAt: -1,
+      });
+  },
 };
