@@ -1,19 +1,15 @@
 import { Router } from "express";
-
-import {
-  likeProject,
-  unlikeProject,
-  getLikesCount,
-} from "../controllers/like.controller";
-
+import { addLike, removeLike, getLikes } from "../controllers/like.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.post("/projects/:id/like", authMiddleware, likeProject);
+router.use(authMiddleware);
 
-router.delete("/projects/:id/like", authMiddleware, unlikeProject);
+router.get("/", getLikes);
 
-router.get("/projects/:id/likes", getLikesCount);
+router.post("/:projectId", addLike);
+
+router.delete("/:projectId", removeLike);
 
 export default router;

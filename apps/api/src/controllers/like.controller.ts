@@ -1,59 +1,49 @@
-import { Request, Response } from "express";
-
+import { Response } from "express";
+import { AuthenticatedRequest } from "../types/auth";
 import { asyncHandler } from "../utils/asyncHandler";
-
 import {
-  likeProjectService,
-  unlikeProjectService,
-  getLikesCountService,
+  addLikeService,
+  removeLikeService,
+  getLikesService,
 } from "../services/like.service";
 
-export interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
+export const addLike = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user!.userId;
+    const projectId = req.params.projectId as string;
 
-export const likeProject = asyncHandler(async (req: Request, res: Response) => {
-  const authReq = req as AuthenticatedRequest;
-  const projectId = Array.isArray(req.params.id)
-    ? authReq.params.id[0]
-    : (authReq.params.id as string);
+    const like = await addLikeService(userId, projectId);
 
-  await likeProjectService(projectId, authReq.user.userId);
-
-  res.status(201).json({
-    success: true,
-  });
-});
-
-export const unlikeProject = asyncHandler(
-  async (req: Request, res: Response) => {
-    const authReq = req as AuthenticatedRequest;
-    const projectId = Array.isArray(authReq.params.id)
-      ? authReq.params.id[0]
-      : (authReq.params.id as string);
-
-    await unlikeProjectService(projectId, authReq.user.userId);
-
-    res.json({
+    res.status(201).json({
       success: true,
+      data: like,
     });
   },
 );
 
-export const getLikesCount = asyncHandler(
-  async (req: Request, res: Response) => {
-    const projectId = Array.isArray(req.params.id)
-      ? req.params.id[0]
-      : (req.params.id as string);
+export const removeLike = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user!.userId;
+    const projectId = req.params.projectId as string;
 
-    const count = await getLikesCountService(projectId);
+    await removeLikeService(userId, projectId);
 
     res.json({
       success: true,
-      count,
+      message: "Like removed successfully.",
+    });
+  },
+);
+
+export const getLikes = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user!.userId;
+
+    const likes = await getLikesService(userId);
+
+    res.json({
+      success: true,
+      data: likes,
     });
   },
 );
