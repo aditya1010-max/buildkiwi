@@ -1,10 +1,11 @@
 import type { ReactElement, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import "./ProjectCard.css";
 
 import type { Project } from "../../../types/project";
 import { useBookmarkContext } from "../../../context/BookmarkContext";
+import { useLikeContext } from "../../../context/LikeContext";
 
 interface ProjectCardProps {
   project: Project;
@@ -15,6 +16,13 @@ export default function ProjectCard({
 }: ProjectCardProps): ReactElement {
   const navigate = useNavigate();
   const { isBookmarked, isPending, toggleBookmark } = useBookmarkContext();
+  const { isLiked, isPending: isLikePending, toggleLike } = useLikeContext();
+
+  const [displayLikes, setDisplayLikes] = useState(project.stats.likes);
+
+  useEffect(() => {
+    setDisplayLikes(project.stats.likes);
+  }, [project.stats.likes]);
 
   const saved = isBookmarked(project._id);
   const loading = isPending(project._id);
@@ -52,7 +60,24 @@ export default function ProjectCard({
       <p className="project-card_description">{project.description}</p>
 
       <div className="project-card_stats">
-        <span>❤️ {project.stats?.likes ?? 0}</span>
+        <button
+          onClick={async (e) => {
+            e.stopPropagation();
+
+            const liked = isLiked(project._id);
+
+            if (liked) {
+              setDisplayLikes((prev) => Math.max(0, prev - 1));
+            } else {
+              setDisplayLikes((prev) => prev + 1);
+            }
+
+            await toggleLike(project._id);
+          }}
+          disabled={isLikePending(project._id)}
+        >
+          {isLiked(project._id) ? "❤️" : "🤍"} {displayLikes}
+        </button>
         <span>💬 {project.stats?.comments ?? 0}</span>
         <span>👁️ {project.stats?.views ?? 0}</span>
 
