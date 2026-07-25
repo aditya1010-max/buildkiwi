@@ -1,0 +1,33 @@
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.menu-header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-header__back:hover {
+  background: var(--color-surface-hover);
+}
+
+.menu-header__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
