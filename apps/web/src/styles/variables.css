@@ -4,6 +4,7 @@
 
   --bg: #f8faf4;
   --surface: #ffffff;
+  --panel-better-name-later: #f8faf4;
 
   --text: #4a473f;
   --text-h: #18210f;
@@ -62,6 +63,7 @@
   :root {
     --bg: #171914;
     --surface: #1e211b;
+    --panel-better-name-later: #171914; 
 
     --text: #a7b19d;
     --text-h: #edf2e8;

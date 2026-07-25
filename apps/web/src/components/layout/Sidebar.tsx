@@ -1,10 +1,7 @@
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
-import { NavLink } from "react-router-dom";
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
-import SettingsPopup from "../settings/SettingPopup";
 import KiwiIcon4 from "../../assets/icons/kiwiIcon4";
-
+import UserMenu from "../../components/userMenu/UserMenu";
 import {
   HomeIcon,
   SearchIcon,
@@ -16,13 +13,11 @@ import {
 
 export default function Sidebar() {
   const location = useLocation();
-  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <aside className="sidebar">
       <div className="sidebar__logo">
         <div className="sidebar__item">
-          {/* <img src={KiwiIcon4} alt="BuildKiwi" className="sidebar__logo-image" /> */}
           <KiwiIcon4 size={40} className="sidebar__logo-image" />
           <span className="sidebar__label">BuildKiwi</span>
         </div>
@@ -46,7 +41,7 @@ export default function Sidebar() {
         <Link
           to="/create"
           state={{ background: location }}
-          className="sidebar__item" // Added here too!
+          className="sidebar__item"
         >
           <span className="sidebar__icon">
             <CreateIcon size={20} className="sidebar-icon" />
@@ -75,17 +70,8 @@ export default function Sidebar() {
           <span className="sidebar__label">Profile</span>
         </NavLink>
       </nav>
-
-      <div className="sidebar__item">
-        <button
-          className="sidebar__more"
-          onClick={() => setShowSettings((prev) => !prev)}
-        >
-          ☰
-        </button>
-        {showSettings && (
-          <SettingsPopup onClose={() => setShowSettings(false)} />
-        )}
+      <div className="sidebar__footer">
+        <UserMenu />
       </div>
     </aside>
   );

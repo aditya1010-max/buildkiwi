@@ -7,7 +7,7 @@ import Profile from "./pages/Profile/ProfilePage";
 import Discover from "./pages/Discover/DiscoverPage";
 import Projects from "./pages/Projects/ProjectsPage";
 import CreateModal from "./components/create/CreateModel";
-import SettingsModal from "./components/settings/SettingsModal";
+// import SettingsModal from "./components/settings/SettingsModal";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProjectPage from "./pages/Project/ProjectPage";
@@ -38,7 +38,7 @@ function App() {
       {state?.background && (
         <Routes>
           <Route path="/create" element={<CreateModal />} />
-          <Route path="/settings" element={<SettingsModal />} />
+          {/* <Route path="/settings" element={<SettingsModal />} /> */}
         </Routes>
       )}
     </>
