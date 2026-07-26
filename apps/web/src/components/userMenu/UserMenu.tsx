@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import "./UserMenu.css";
 
 import MainMenu from "./menus/MainMenu";
@@ -9,8 +8,6 @@ import HelpMenu from "./menus/HelpMenu";
 import LogoutDialog from "./dialogs/LogoutDialog";
 
 type UserMenuView = "main" | "appearance" | "language" | "help" | "logout";
-
-
 
 export default function UserMenu() {
   const [activeView, setActiveView] = useState<UserMenuView>("main");
@@ -26,8 +23,34 @@ export default function UserMenu() {
     setIsOpen(false);
   }
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handlePointerDown(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        closeMenu();
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    }
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="user-menu">
+    <div ref={menuRef} className="user-menu">
       <button
         type="button"
         className="user-menu__button"
