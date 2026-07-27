@@ -10,9 +10,11 @@ import {
   ProfileIcon,
   CreateIcon,
 } from "../../assets/icons";
+import { useLanguage } from "../../hooks/useLanguage";
 
 export default function Sidebar() {
   const location = useLocation();
+  const { t } = useLanguage();
 
   return (
     <aside className="sidebar">
@@ -28,14 +30,14 @@ export default function Sidebar() {
           <span className="sidebar__icon">
             <HomeIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Home</span>
+          <span className="sidebar__label">{t("home")}</span>
         </NavLink>
 
         <NavLink to="/discover" className="sidebar__item">
           <span className="sidebar__icon">
             <SearchIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Discover</span>
+          <span className="sidebar__label">{t("discover")}</span>
         </NavLink>
 
         <Link
@@ -46,28 +48,28 @@ export default function Sidebar() {
           <span className="sidebar__icon">
             <CreateIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Create</span>
+          <span className="sidebar__label">{t("create")}</span>
         </Link>
 
         <NavLink to="/projects" className="sidebar__item">
           <span className="sidebar__icon">
             <ProjectIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Projects</span>
+          <span className="sidebar__label">{t("projects")}</span>
         </NavLink>
 
         <NavLink to="/saved" className="sidebar__item">
           <span className="sidebar__icon">
             <SavedIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Saved</span>
+          <span className="sidebar__label">{t("saved")}</span>
         </NavLink>
 
         <NavLink to="/profile/adi" className="sidebar__item">
           <span className="sidebar__icon">
             <ProfileIcon size={20} className="sidebar-icon" />
           </span>
-          <span className="sidebar__label">Profile</span>
+          <span className="sidebar__label">{t("profile")}</span>
         </NavLink>
       </nav>
       <div className="sidebar__footer">
