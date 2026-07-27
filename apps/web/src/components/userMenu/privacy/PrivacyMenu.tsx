@@ -1,1 +1,1 @@
-// this will contain code to redirect the user to /privacy page 
+// this will contain code to redirect the user to /privacy page

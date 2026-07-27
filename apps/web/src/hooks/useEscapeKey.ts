@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 
-export function useEscapeKey(
-  callback: () => void,
-  enabled = true
-) {
+export function useEscapeKey(callback: () => void, enabled = true) {
   useEffect(() => {
     if (!enabled) return;
 
@@ -15,13 +12,8 @@ export function useEscapeKey(
 
     window.addEventListener("keydown", handleKeyDown);
 
-    return () =>
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [callback, enabled]);
 }
-
 
 //use this later when project grows - currently just a implementation

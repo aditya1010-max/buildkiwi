@@ -1,4 +1,4 @@
-### some important hooks which can be introduced 
+### some important hooks which can be introduced
 
 hooks/
 ├── useAuth.ts
