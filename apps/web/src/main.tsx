@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { BookmarkProvider } from "../src/context/BookmarkContext";
 import { LikeProvider } from "./context/LikeContext";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import { LanguageProvider } from "./providers/LanguageProvider";
 
 import App from "./App";
 import "./styles/reset.css";
@@ -16,7 +17,9 @@ createRoot(document.getElementById("root")!).render(
       <BookmarkProvider>
         <LikeProvider>
           <ThemeProvider>
-            <App />
+            <LanguageProvider>
+              <App />
+            </LanguageProvider>
           </ThemeProvider>
         </LikeProvider>
       </BookmarkProvider>
