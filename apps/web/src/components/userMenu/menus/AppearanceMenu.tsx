@@ -1,7 +1,7 @@
-import { useState } from "react";
 import MenuHeader from "../components/MenuHeader";
 import MenuItem from "../components/MenuItem";
 import CheckIcon from "../components/CheckIcon";
+import { useTheme } from "../../../hooks/useTheme";
 
 import "./AppearanceMenu.css";
 
@@ -10,9 +10,7 @@ interface AppearanceMenuProps {
 }
 
 export default function AppearanceMenu({ onBack }: AppearanceMenuProps) {
-  const [currentTheme] = useState<"system" | "light" | "dark" | "comfort">(
-    "dark",
-  );
+  const { theme, setTheme } = useTheme();
 
   return (
     <>
@@ -21,23 +19,23 @@ export default function AppearanceMenu({ onBack }: AppearanceMenuProps) {
       <div className="appearance-menu">
         <MenuItem
           label="System"
-          rightSlot={currentTheme === "system" ? <CheckIcon /> : undefined}
+          onClick={() => setTheme("system")}
+          rightSlot={theme === "system" ? <CheckIcon /> : undefined}
         />
 
         <MenuItem
           label="Light"
-          rightSlot={currentTheme === "light" ? <CheckIcon /> : undefined}
+          onClick={() => setTheme("light")}
+          rightSlot={theme === "light" ? <CheckIcon /> : undefined}
         />
 
         <MenuItem
           label="Dark"
-          rightSlot={currentTheme === "dark" ? <CheckIcon /> : undefined}
+          onClick={() => setTheme("dark")}
+          rightSlot={theme === "dark" ? <CheckIcon /> : undefined}
         />
 
-        <MenuItem
-          label="Kiwi Comfort"
-          rightSlot={currentTheme === "comfort" ? <CheckIcon /> : undefined}
-        />
+        <MenuItem label="Kiwi Comfort (coming soon...)" disabled />
       </div>
     </>
   );

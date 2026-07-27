@@ -1,7 +1,8 @@
-/*most of the colors will be changed*/
-:root {
-  /* Light Theme */
+/* Most of the colors will be changed */
 
+:root,
+[data-theme="light"] {
+  /* Light Theme */
   --bg: #f8faf4;
   --surface: #ffffff;
   --panel-better-name-later: #f8faf4;
@@ -12,7 +13,7 @@
   --border: #dde3d2;
   --code-bg: #eef3e6;
 
-  /* Kiwi Accents(can be changed later) */
+  /* Kiwi Accents (can be changed later) */
   --accent: #7cb342;
   --accent-hover: #689f38;
 
@@ -43,7 +44,8 @@
 
   --feed-max-width: 720px;
 
-  --mobile: 768px; /*below 5 lines values can be changed*/
+  /* Breakpoints (Note: Native CSS @media queries cannot consume these) */
+  --mobile: 768px;
   --tablet: 1024px;
   --desktop: 1280px;
 
@@ -54,32 +56,31 @@
   --radius-md: 12px;
   --radius-lg: 18px;
 
-  color-scheme: light dark;
+  color-scheme: light; /* Fixed from 'light dark' */
 }
 
 /* Dark Theme */
+[data-theme="dark"] {
+  --bg: #171914;
+  --surface: #1e211b;
+  --panel-better-name-later: #171914;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #171914;
-    --surface: #1e211b;
-    --panel-better-name-later: #171914;
+  --text: #a7b19d;
+  --text-h: #edf2e8;
 
-    --text: #a7b19d;
-    --text-h: #edf2e8;
+  --border: #2f3528;
+  --code-bg: #23271f;
 
-    --border: #2f3528;
-    --code-bg: #23271f;
+  --accent: #9ccc65;
+  --accent-hover: #aed581;
 
-    --accent: #9ccc65;
-    --accent-hover: #aed581;
+  --accent-bg: rgba(156, 204, 101, 0.15);
+  --accent-border: rgba(156, 204, 101, 0.45);
 
-    --accent-bg: rgba(156, 204, 101, 0.15);
-    --accent-border: rgba(156, 204, 101, 0.45);
+  --social-bg: rgba(34, 38, 29, 0.6);
 
-    --social-bg: rgba(34, 38, 29, 0.6);
+  --shadow:
+    rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
 
-    --shadow:
-      rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
-  }
+  color-scheme: dark;
 }

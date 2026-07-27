@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { BookmarkProvider } from "../src/context/BookmarkContext";
 import { LikeProvider } from "./context/LikeContext";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 import App from "./App";
 import "./styles/reset.css";
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <BookmarkProvider>
         <LikeProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </LikeProvider>
       </BookmarkProvider>
     </BrowserRouter>
