@@ -2,6 +2,7 @@ import MenuHeader from "../components/MenuHeader";
 import MenuItem from "../components/MenuItem";
 import CheckIcon from "../components/CheckIcon";
 import { useTheme } from "../../../hooks/useTheme";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 import "./AppearanceMenu.css";
 
@@ -11,31 +12,32 @@ interface AppearanceMenuProps {
 
 export default function AppearanceMenu({ onBack }: AppearanceMenuProps) {
   const { theme, setTheme } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <>
-      <MenuHeader title="Appearance" onBack={onBack} />
+      <MenuHeader title={t("appearance")} onBack={onBack} />
 
       <div className="appearance-menu">
         <MenuItem
-          label="System"
+          label={t("system")}
           onClick={() => setTheme("system")}
           rightSlot={theme === "system" ? <CheckIcon /> : undefined}
         />
 
         <MenuItem
-          label="Light"
+          label={t("light")}
           onClick={() => setTheme("light")}
           rightSlot={theme === "light" ? <CheckIcon /> : undefined}
         />
 
         <MenuItem
-          label="Dark"
+          label={t("dark")}
           onClick={() => setTheme("dark")}
           rightSlot={theme === "dark" ? <CheckIcon /> : undefined}
         />
 
-        <MenuItem label="Kiwi Comfort (coming soon...)" disabled />
+        <MenuItem label={t("kiwiComfort")} disabled />
       </div>
     </>
   );
