@@ -3,10 +3,11 @@ import ProjectCard from "../../components/project/card/ProjectCard";
 import FeedHeader from "../../components/feed/FeedHeader";
 import { useProjects } from "../../hooks/useProjects";
 import { FeedCardLoader } from "../../components/FeedCardLoader";
+import { useLanguage } from "../../hooks/useLanguage";
 
 export default function Home() {
   const { projects, loading, error } = useProjects();
-
+  const { t } = useLanguage();
   if (error) {
     return (
       <section className="feed">
@@ -18,8 +19,8 @@ export default function Home() {
   return (
     <section className="feed">
       <FeedHeader
-        title="BuildKiwi Feed"
-        subtitle="Stay updated with the latest projects"
+        title={t("buildKiwiFeed")}
+        subtitle={t("Stayupdatedwiththelatestprojects")}
       />
 
       {loading ? (
