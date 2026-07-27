@@ -6,8 +6,9 @@ import AppearanceMenu from "./menus/AppearanceMenu";
 import LanguageMenu from "./menus/LanguageMenu";
 import HelpMenu from "./menus/HelpMenu";
 import LogoutDialog from "./dialogs/LogoutDialog";
-
-type UserMenuView = "main" | "appearance" | "language" | "help" | "logout";
+import NotificationsMenu from "./menus/NotificationMenu";
+type UserMenuView =
+  "main" | "appearance" | "language" | "notifications" | "help" | "logout";
 
 export default function UserMenu() {
   const [activeView, setActiveView] = useState<UserMenuView>("main");
@@ -71,8 +72,10 @@ export default function UserMenu() {
               <MainMenu
                 onAppearance={() => setActiveView("appearance")}
                 onLanguage={() => setActiveView("language")}
+                onNotifications={() => setActiveView("notifications")}
                 onHelp={() => setActiveView("help")}
                 onLogout={() => setActiveView("logout")}
+                onAccount={() => {}}
               />
             )}
 
@@ -82,6 +85,9 @@ export default function UserMenu() {
 
             {activeView === "language" && (
               <LanguageMenu onBack={() => setActiveView("main")} />
+            )}
+            {activeView === "notifications" && (
+              <NotificationsMenu onBack={() => setActiveView("main")} />
             )}
             {activeView === "help" && (
               <HelpMenu onBack={() => setActiveView("main")} />
