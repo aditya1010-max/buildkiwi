@@ -1,40 +1,61 @@
-// import MenuDivider from "../components/MenuDivider";
 import MenuItem from "../components/MenuItem";
 import ChevronRight from "../components/ChevronRight";
+import { useLanguage } from "../../../hooks/useLanguage";
+import { features } from "../../../config/features";
 
 interface MainMenuProps {
   onAppearance: () => void;
   onLanguage: () => void;
+  onNotifications: () => void;
   onHelp: () => void;
   onLogout: () => void;
+  onAccount: () => void;
 }
 
 export default function MainMenu({
   onAppearance,
   onLanguage,
+  onNotifications,
   onHelp,
   onLogout,
+  onAccount,
 }: MainMenuProps) {
+  const { t } = useLanguage();
+
   return (
     <>
       <MenuItem
-        label="Appearance"
+        label={t("appearance")}
         rightSlot={<ChevronRight />}
         onClick={onAppearance}
       />
+      <MenuItem
+        label={t("notifications")}
+        rightSlot={<ChevronRight />}
+        onClick={onNotifications}
+      />
 
       <MenuItem
-        label="Language"
+        label={t("language")}
         rightSlot={<ChevronRight />}
         onClick={onLanguage}
       />
-      <MenuItem label="Notifications" />
-      <MenuItem label="Account" />
-      <MenuItem label="Privacy" />
-      <MenuItem label="Help" rightSlot={<ChevronRight />} onClick={onHelp} />
+      {features.accountMenu && (
+        <MenuItem
+          label={t("account")}
+          rightSlot={<ChevronRight />}
+          onClick={onAccount}
+        />
+      )}
+      <MenuItem label={t("privacy")} />
+      <MenuItem
+        label={t("help")}
+        rightSlot={<ChevronRight />}
+        onClick={onHelp}
+      />
 
-      <MenuItem label="Send Feedback" />
-      <MenuItem label="Logout" danger onClick={onLogout} />
+      <MenuItem label={t("sendFeedback")} />
+      <MenuItem label={t("logout")} danger onClick={onLogout} />
     </>
   );
 }
