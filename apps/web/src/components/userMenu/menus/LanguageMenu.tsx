@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLanguage } from "../../../hooks/useLanguage";
 import MenuHeader from "../components/MenuHeader";
 import MenuItem from "../components/MenuItem";
 import CheckIcon from "../components/CheckIcon";
@@ -9,26 +9,30 @@ interface LanguageMenuProps {
   onBack: () => void;
 }
 
-type Language = "english" | "hindi";
-
 export default function LanguageMenu({ onBack }: LanguageMenuProps) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>("english");
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <>
-      <MenuHeader title="Language" onBack={onBack} />
+      <MenuHeader title={t("language") || "Language"} onBack={onBack} />
 
       <div className="language-menu">
         <MenuItem
-          label="English"
-          onClick={() => setCurrentLanguage("english")}
-          rightSlot={currentLanguage === "english" ? <CheckIcon /> : undefined}
+          label={t("english") || "English"}
+          onClick={() => setLanguage("en")}
+          rightSlot={language === "en" ? <CheckIcon /> : undefined}
         />
 
         <MenuItem
-          label="Hindi"
-          onClick={() => setCurrentLanguage("hindi")}
-          rightSlot={currentLanguage === "hindi" ? <CheckIcon /> : undefined}
+          label={t("hindi") || "Hindi"}
+          onClick={() => setLanguage("hi")}
+          rightSlot={language === "hi" ? <CheckIcon /> : undefined}
+        />
+
+        <MenuItem
+          label={t("system") || "System Default"}
+          onClick={() => setLanguage("system")}
+          rightSlot={language === "system" ? <CheckIcon /> : undefined}
         />
       </div>
     </>
