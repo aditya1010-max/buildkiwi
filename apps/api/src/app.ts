@@ -21,7 +21,7 @@ import searchRoutes from "./routes/search.routes";
 import commentRoutes from "./routes/comment.routes";
 import likeRoutes from "./routes/like.routes";
 import testRoutes from "./routes/test.routes";
-
+import feedbackRoutes from "./routes/feedback.routes";
 import dns from "node:dns";
 import bookmarkRoutes from "./routes/bookmark.routes";
 
@@ -59,6 +59,7 @@ app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/likes", likeRoutes);
 app.use("/api/v1/bookmarks", bookmarkRoutes);
 app.use("/api/v1/test", testRoutes);
+app.use("/api/v1/feedback", feedbackRoutes);
 
 app.get("/health", (_req, res) => {
   res.send("Working fine");
