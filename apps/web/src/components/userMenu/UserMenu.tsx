@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./UserMenu.css";
 
-import MainMenu from "./menus/MainMenu";
 import AppearanceMenu from "./menus/AppearanceMenu";
-import LanguageMenu from "./menus/LanguageMenu";
 import HelpMenu from "./menus/HelpMenu";
-import LogoutDialog from "./dialogs/LogoutDialog";
+import LanguageMenu from "./menus/LanguageMenu";
+import MainMenu from "./menus/MainMenu";
 import NotificationsMenu from "./menus/NotificationMenu";
+import LogoutDialog from "./dialogs/LogoutDialog";
+
 type UserMenuView =
   "main" | "appearance" | "language" | "notifications" | "help" | "logout";
 
 export default function UserMenu() {
   const [activeView, setActiveView] = useState<UserMenuView>("main");
   const [isOpen, setIsOpen] = useState(false);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   function openMenu() {
     setActiveView("main");
@@ -23,8 +29,6 @@ export default function UserMenu() {
     setActiveView("main");
     setIsOpen(false);
   }
-
-  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -65,6 +69,7 @@ export default function UserMenu() {
       >
         ☰
       </button>
+
       {isOpen && (
         <div className="user-menu__popup">
           <div className="user-menu__content">
@@ -73,7 +78,15 @@ export default function UserMenu() {
                 onAppearance={() => setActiveView("appearance")}
                 onLanguage={() => setActiveView("language")}
                 onNotifications={() => setActiveView("notifications")}
+                onPrivacy={() => {
+                  closeMenu();
+                  navigate("/settings/privacy");
+                }}
                 onHelp={() => setActiveView("help")}
+                onFeedback={() => {
+                  closeMenu();
+                  navigate("/feedback");
+                }}
                 onLogout={() => setActiveView("logout")}
                 onAccount={() => {}}
               />
@@ -86,17 +99,27 @@ export default function UserMenu() {
             {activeView === "language" && (
               <LanguageMenu onBack={() => setActiveView("main")} />
             )}
+
             {activeView === "notifications" && (
               <NotificationsMenu onBack={() => setActiveView("main")} />
             )}
+
             {activeView === "help" && (
-              <HelpMenu onBack={() => setActiveView("main")} />
+              <HelpMenu
+                onBack={() => setActiveView("main")}
+                onDocumentation={() => {
+                  closeMenu();
+                  navigate("/docs");
+                }}
+              />
             )}
+
             {activeView === "logout" && (
               <LogoutDialog
                 onCancel={() => setActiveView("main")}
                 onConfirm={() => {
-                  // TODO: Logout API
+                  // TODO: Call logout API
+                  closeMenu();
                 }}
               />
             )}

@@ -3,21 +3,22 @@ import MenuItem from "../components/MenuItem";
 
 interface HelpMenuProps {
   onBack: () => void;
+  onDocumentation: () => void;
 }
 
-export default function HelpMenu({ onBack }: HelpMenuProps) {
+export default function HelpMenu({ onBack, onDocumentation }: HelpMenuProps) {
   return (
     <>
       <MenuHeader title="Help" onBack={onBack} />
 
       <div className="help-menu">
-        <MenuItem label="Documentation" onClick={() => {}} />
+        <MenuItem label="Documentation" onClick={onDocumentation} />
 
-        <MenuItem label="Keyboard Shortcuts" onClick={() => {}} />
+        <MenuItem label="Keyboard Shortcuts" disabled />
 
-        <MenuItem label="Report a Bug" onClick={() => {}} />
+        <MenuItem label="Report a Bug" disabled />
 
-        <MenuItem label="About BuildKiwi" onClick={() => {}} />
+        <MenuItem label="About BuildKiwi" disabled />
       </div>
     </>
   );
