@@ -1,0 +1,25 @@
+.feedback-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+.feedback-page__container {
+  width: 100%;
+  max-width: 760px;
+}
+
+.feedback-page__header {
+  margin-bottom: 32px;
+}
+
+.feedback-page__header h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.feedback-page__header p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
