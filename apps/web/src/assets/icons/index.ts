@@ -5,3 +5,8 @@ export * from "./ProjectIcon";
 export * from "./SavedIcon";
 export * from "./SearchIcon";
 export * from "./CreateIcon";
+export * from "./FolderIcon";
+export * from "./HelpCircleIcon";
+export * from "./BookOpenIcon";
+export * from "./RocketIcon";
+export * from "./FolderIcon";
