@@ -7,18 +7,22 @@ interface MainMenuProps {
   onAppearance: () => void;
   onLanguage: () => void;
   onNotifications: () => void;
+  onPrivacy: () => void;
   onHelp: () => void;
   onLogout: () => void;
   onAccount: () => void;
+  onFeedback: () => void;
 }
 
 export default function MainMenu({
   onAppearance,
   onLanguage,
   onNotifications,
+  onPrivacy,
   onHelp,
   onLogout,
   onAccount,
+  onFeedback,
 }: MainMenuProps) {
   const { t } = useLanguage();
 
@@ -29,6 +33,7 @@ export default function MainMenu({
         rightSlot={<ChevronRight />}
         onClick={onAppearance}
       />
+
       <MenuItem
         label={t("notifications")}
         rightSlot={<ChevronRight />}
@@ -40,6 +45,7 @@ export default function MainMenu({
         rightSlot={<ChevronRight />}
         onClick={onLanguage}
       />
+
       {features.accountMenu && (
         <MenuItem
           label={t("account")}
@@ -47,14 +53,21 @@ export default function MainMenu({
           onClick={onAccount}
         />
       )}
-      <MenuItem label={t("privacy")} />
+
+      <MenuItem
+        label={t("privacy")}
+        rightSlot={<ChevronRight />}
+        onClick={onPrivacy}
+      />
+
       <MenuItem
         label={t("help")}
         rightSlot={<ChevronRight />}
         onClick={onHelp}
       />
 
-      <MenuItem label={t("sendFeedback")} />
+      <MenuItem label={t("sendFeedback")} onClick={onFeedback} />
+
       <MenuItem label={t("logout")} danger onClick={onLogout} />
     </>
   );
