@@ -29,4 +29,10 @@ export default {
   emailNotifications: "ईमेल सूचनाएँ",
   projectActivity: "प्रोजेक्ट गतिविधि",
   marketingEmails: "मार्केटिंग ईमेल",
+  documentation: "प्रलेखन",
+
+  keyboardShortcuts: "कीबोर्ड शॉर्टकट",
+  whatsNew: "नया क्या है",
+  reportBug: "बग रिपोर्ट करें",
+  aboutBuildKiwi: "बिल्डकीवी के बारे में",
 };

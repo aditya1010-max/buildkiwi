@@ -29,4 +29,10 @@ export default {
   emailNotifications: "Email Notifications",
   projectActivity: "Project Activity",
   marketingEmails: "Marketing Emails",
+  documentation: "Documentation",
+
+  keyboardShortcuts: "Keyboard Shortcuts",
+  whatsNew: "What's New",
+  reportBug: "Report a Bug",
+  aboutBuildKiwi: "About BuildKiwi",
 };
