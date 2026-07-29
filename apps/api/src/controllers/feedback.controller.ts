@@ -12,7 +12,8 @@ export const createFeedback = asyncHandler(
       page: req.body.page,
       language: req.body.language,
       userAgent: req.body.userAgent,
-      userId: req.user?.userId ?? null,
+      // userId: req.user?.userId ?? null,  //this will be fixed later
+       userId: null,
     });
 
     res.status(201).json({

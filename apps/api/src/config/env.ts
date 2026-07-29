@@ -15,7 +15,7 @@ const envSchema = z.object({
 
   JWT_REFRESH_SECRET: z.string().min(1),
 
-  ACCESS_TOKEN_EXPIRES: z.string().default("15m"),
+  ACCESS_TOKEN_EXPIRES: z.string().default("120m"),
 
   REFRESH_TOKEN_EXPIRES: z.string().default("30d"),
   NODE_ENV: z
