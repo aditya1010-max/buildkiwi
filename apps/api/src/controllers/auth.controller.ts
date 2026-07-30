@@ -87,3 +87,16 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
     accessToken,
   });
 });
+
+export const logout = asyncHandler(async (_req: Request, res: Response) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully.",
+  });
+});
