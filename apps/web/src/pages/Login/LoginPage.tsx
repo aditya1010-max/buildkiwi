@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 
@@ -7,7 +7,10 @@ import "./LoginPage.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const from = (location.state as { from?: Location })?.from?.pathname || "/";
+  console.count("LoginPage mounted");
   const { loginUser, loading, error } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -19,7 +22,7 @@ export default function LoginPage() {
     try {
       await loginUser(email, password);
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch {
       // error already handled in hook
     }
