@@ -9,6 +9,7 @@ import LanguageMenu from "./menus/LanguageMenu";
 import MainMenu from "./menus/MainMenu";
 import NotificationsMenu from "./menus/NotificationMenu";
 import LogoutDialog from "./dialogs/LogoutDialog";
+import { useAuth } from "../../hooks/useAuth";
 
 type UserMenuView =
   "main" | "appearance" | "language" | "notifications" | "help" | "logout";
@@ -19,6 +20,7 @@ export default function UserMenu() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   function openMenu() {
     setActiveView("main");
@@ -117,9 +119,14 @@ export default function UserMenu() {
             {activeView === "logout" && (
               <LogoutDialog
                 onCancel={() => setActiveView("main")}
-                onConfirm={() => {
-                  // TODO: Call logout API
+                onConfirm={async () => {
+                  await logout();
+
                   closeMenu();
+
+                  navigate("/login", {
+                    replace: true,
+                  });
                 }}
               />
             )}

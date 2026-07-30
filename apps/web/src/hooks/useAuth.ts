@@ -1,7 +1,7 @@
 //this will call login , store token , store user , logout
 
 import { useState } from "react";
-import { login, register } from "../api/auth.api";
+import { login, register, logout as logoutApi } from "../api/auth.api";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -50,9 +50,13 @@ export const useAuth = () => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  const logout = async () => {
+    try {
+      await logoutApi();
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    }
   };
 
   const getCurrentUser = () => {
