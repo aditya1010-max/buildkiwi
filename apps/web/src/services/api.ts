@@ -59,10 +59,12 @@ api.interceptors.response.use(
 
       return api(originalRequest);
     } catch (refreshError) {
-      // Refresh token is invalid/expired
+      console.count("REFRESH FAILED");
+
       clearAccessToken();
       localStorage.removeItem("user");
 
+      console.log("Redirecting to /login");
       window.location.href = "/login";
 
       return Promise.reject(refreshError);
