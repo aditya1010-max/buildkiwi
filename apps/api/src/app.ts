@@ -11,7 +11,7 @@ import { env } from "./config/env";
 import { connectDB } from "./config/db";
 
 import { errorHandler } from "./middleware/errorHandler";
-import { apiLimiter, authLimiter } from "./middleware/rateLimiter";
+import { apiLimiter } from "./middleware/rateLimiter";
 
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
@@ -48,9 +48,9 @@ app.use(compression());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
-app.use(apiLimiter); //rate limmiters always below every other middleware except routes
+// app.use(apiLimiter); //rate limmiters always below every other middleware except routes
 
-app.use("/api/v1/auth", authLimiter, authRoutes);
+app.use("/api/v1/auth", apiLimiter, authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/feed", feedRoutes);

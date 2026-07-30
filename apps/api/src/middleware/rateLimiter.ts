@@ -5,14 +5,13 @@ export const apiLimiter = rateLimit({
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
-});
+  handler: (req, res) => {
+    console.log("RATE LIMIT HIT:", req.method, req.originalUrl);
 
-export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100, //for production back to 10
-  message: {
-    success: false,
-    message: "Too many login attempts",
+    res.status(429).json({
+      success: false,
+      message: "Rate limited",
+    });
   },
 });
 
