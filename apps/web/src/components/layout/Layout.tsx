@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
 import RightSidebar from "./RightSidebar";
+import { BookmarkProvider } from "../../context/BookmarkContext";
+import { LikeProvider } from "../../context/LikeContext";
 
 export default function Layout() {
   return (
@@ -12,7 +14,11 @@ export default function Layout() {
         <Sidebar />
 
         <main className="layout__content">
-          <Outlet />
+          <BookmarkProvider>
+            <LikeProvider>
+              <Outlet />
+            </LikeProvider>
+          </BookmarkProvider>
         </main>
 
         <RightSidebar />

@@ -30,7 +30,7 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [loadingBookmarks, setLoadingBookmarks] = useState(true);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
-
+  console.count("BookmarkProvider mounted");
   useEffect(() => {
     const loadBookmarks = async () => {
       try {
