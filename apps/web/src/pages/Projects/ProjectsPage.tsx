@@ -57,11 +57,12 @@ export default function ProjectsPage(): ReactElement {
             totalComments={37}
           />
         </section>
-
-        {/* Project Grid */}
-        <section className="projects-page__content">
-          <ProjectGrid projects={projects} />
-        </section>
+        <div className="project-page_abcdef">
+          {/* Project Grid */}
+          <section className="projects-page__content">
+            <ProjectGrid projects={projects} />
+          </section>
+        </div>
       </div>
     </main>
   );

@@ -22,3 +22,9 @@
 
   color: var(--text-secondary);
 }
+
+h1,
+p,
+span {
+  align-self: center;
+}
