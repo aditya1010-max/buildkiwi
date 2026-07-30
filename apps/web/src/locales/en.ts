@@ -17,7 +17,7 @@ export default {
   sendFeedback: "Send Feedback",
   light: "Light",
   dark: "Dark",
-  kiwiComfort: "Kiwi Comfort (coming soon...)",
+  kiwiComfort: "Comfort(coming soon)",
   followers: "Followers",
   following: "Following",
   projects: "Projects",

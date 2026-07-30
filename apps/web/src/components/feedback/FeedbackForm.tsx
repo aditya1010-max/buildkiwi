@@ -66,7 +66,7 @@ export default function FeedbackForm() {
 
         <p>
           Your feedback has been submitted successfully. Every report and
-          suggestion helps us improve BuildKiwi.
+          suggestion helps me improve BuildKiwi.
         </p>
 
         <button
