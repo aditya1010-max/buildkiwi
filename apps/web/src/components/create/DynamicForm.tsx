@@ -1,20 +1,38 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Field, FormSchema } from "../../types/schema";
 import "./DynamicForm.css";
 import UploadImage from "./ImageUploader";
 
 interface DynamicFormProps {
   schema: FormSchema;
+  onSubmit: (data: FormData) => Promise<void>;
+  initialValues?: Record<string, any>;
 }
 
-export default function DynamicForm({ schema }: DynamicFormProps) {
+export default function DynamicForm({
+  schema,
+  onSubmit,
+  initialValues,
+}: DynamicFormProps) {
   const initialState: Record<string, any> = {};
 
   schema.fields.forEach((field) => {
     initialState[field.name] = field.type === "image" ? null : "";
   });
 
-  const [formData, setFormData] = useState<Record<string, any>>(initialState);
+  const [formData, setFormData] = useState<Record<string, any>>({
+    ...initialState,
+    ...initialValues,
+  });
+
+  useEffect(() => {
+    if (!initialValues) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      ...initialValues,
+    }));
+  }, [initialValues]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -30,38 +48,21 @@ export default function DynamicForm({ schema }: DynamicFormProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log("Submitting:", formData);
+    const submissionData = new FormData();
 
-    try {
-      const token = localStorage.getItem("token");
-      const submissionData = new FormData();
+    const { coverImage, title, description, github, demo } = formData;
 
-      const { coverImage, title, description, github, demo } = formData;
+    submissionData.append("title", title ?? "");
+    submissionData.append("description", description ?? "");
 
-      submissionData.append("title", title);
-      submissionData.append("description", description);
+    submissionData.append("links.github", github ?? "");
+    submissionData.append("links.demo", demo ?? "");
 
-      submissionData.append("links.github", github);
-      submissionData.append("links.demo", demo);
-
-      if (coverImage) {
-        submissionData.append("coverImage", coverImage);
-      }
-
-      const response = await fetch("http://localhost:3000/api/v1/projects", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: submissionData,
-      });
-
-      const data = await response.json();
-
-      console.log("Server response:", data);
-    } catch (error) {
-      console.error("Submission error:", error);
+    if (coverImage instanceof File) {
+      submissionData.append("coverImage", coverImage);
     }
+
+    await onSubmit(submissionData);
   }
 
   function renderField(field: Field) {

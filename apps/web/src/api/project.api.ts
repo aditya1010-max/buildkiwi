@@ -49,3 +49,39 @@ export async function getSavedProjects() {
 
   return response.data.data;
 }
+
+export async function getEditableProject(projectId: string) {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.get(`${API}/${projectId}/edit`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data.data;
+}
+
+export async function updateProject(projectId: string, formData: FormData) {
+  const token = localStorage.getItem("token");
+
+  const { data } = await axios.patch(`${API}/${projectId}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+}
+
+export async function createProject(formData: FormData) {
+  const token = localStorage.getItem("token");
+
+  const { data } = await axios.post(API, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+}
