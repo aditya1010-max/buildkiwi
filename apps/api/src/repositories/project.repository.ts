@@ -49,4 +49,12 @@ export const projectRepository = {
   },
 };
 
-//introduced and refactored the file
+export async function getEditableProjectById(
+  projectId: string,
+  authUserId: string,
+) {
+  return await Project.findOne({
+    _id: projectId,
+    creatorId: authUserId,
+  });
+}

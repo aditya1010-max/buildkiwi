@@ -1,4 +1,7 @@
-import { projectRepository } from "../repositories/project.repository";
+import {
+  getEditableProjectById,
+  projectRepository,
+} from "../repositories/project.repository";
 import {
   getSavedProjectsRepository,
   saveProjectRepository,
@@ -83,3 +86,10 @@ export const unsaveProjectService = async (
 export const getSavedProjectsService = async (userId: string) => {
   return await getSavedProjectsRepository(userId);
 };
+
+export async function getEditableProjectService(
+  projectId: string,
+  authUserId: string,
+) {
+  return await getEditableProjectById(projectId, authUserId);
+}

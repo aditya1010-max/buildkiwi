@@ -8,6 +8,7 @@ import {
   saveProjectService,
   unsaveProjectService,
   getSavedProjectsService,
+  getEditableProjectService,
 } from "../services/project.services";
 import { projectSchema } from "../schema/projectSchema";
 import { validateSchemaData } from "../utils/validateSchema";
@@ -177,6 +178,24 @@ export const getSavedProjects = asyncHandler(
     res.status(200).json({
       success: true,
       data: projects,
+    });
+  },
+);
+
+export const getEditableProject = asyncHandler(
+  async (req: Request, res: Response) => {
+    const id = String(req.params.id);
+    const authUserId = (req as AuthenticatedRequest).user.userId;
+
+    const project = await getEditableProjectService(id, authUserId);
+
+    if (!project) {
+      throw new AppError("Project not found or unauthorized", 404);
+    }
+
+    res.json({
+      success: true,
+      data: project,
     });
   },
 );
