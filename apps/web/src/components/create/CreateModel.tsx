@@ -3,16 +3,33 @@ import "./CreateModel.css";
 
 import taskSchema from "../../schema/taskSchema";
 import DynamicForm from "./DynamicForm";
+import { createProject } from "../../api/project.api";
 
 export default function CreateModal() {
   const navigate = useNavigate();
 
+  async function handleCreateProject(formData: FormData) {
+    try {
+      const data = await createProject(formData);
+
+      console.log("Server response:", data);
+
+      navigate(-1);
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
+  }
+
   return (
     <div className="modal-overlay" onClick={() => navigate(-1)}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        <button onClick={() => navigate(-1)}>✕</button>
+        <button type="button" onClick={() => navigate(-1)}>
+          ✕
+        </button>
+
         <h2>Create Project</h2>
-        <DynamicForm schema={taskSchema} />
+
+        <DynamicForm schema={taskSchema} onSubmit={handleCreateProject} />
       </div>
     </div>
   );
