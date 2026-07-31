@@ -9,6 +9,7 @@ import {
   unsaveProject,
   getSavedProjects,
   getEditableProject,
+  getMyProjects,
 } from "../controllers/project.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { upload } from "../middleware/upload.middleware";
@@ -23,6 +24,7 @@ router.post("/", authMiddleware, upload.single("coverImage"), createProject);
 router.get("/", getProjects);
 
 router.get("/saved", authMiddleware, getSavedProjects);
+router.get("/mine", authMiddleware, getMyProjects);
 router.get("/:id/edit", authMiddleware, getEditableProject);
 
 router.get("/:id", getProject);

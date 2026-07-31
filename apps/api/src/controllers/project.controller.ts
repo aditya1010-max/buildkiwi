@@ -9,6 +9,7 @@ import {
   unsaveProjectService,
   getSavedProjectsService,
   getEditableProjectService,
+  getProjectsByUserService,
 } from "../services/project.services";
 import { projectSchema } from "../schema/projectSchema";
 import { validateSchemaData } from "../utils/validateSchema";
@@ -196,6 +197,19 @@ export const getEditableProject = asyncHandler(
     res.json({
       success: true,
       data: project,
+    });
+  },
+);
+
+export const getMyProjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = (req as AuthenticatedRequest).user.userId;
+
+    const projects = await getProjectsByUserService(userId);
+
+    res.json({
+      success: true,
+      data: projects,
     });
   },
 );

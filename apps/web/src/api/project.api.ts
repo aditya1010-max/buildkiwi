@@ -85,3 +85,15 @@ export async function createProject(formData: FormData) {
 
   return data;
 }
+
+export async function getMyProjects() {
+  const token = localStorage.getItem("token");
+
+  const { data } = await axios.get(`${API}/mine`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data.data;
+}
