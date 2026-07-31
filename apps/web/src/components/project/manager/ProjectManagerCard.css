@@ -3,7 +3,7 @@
   flex-direction: column;
 
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(199, 220, 188); /*dark and light*/
   border-radius: 14px;
 
   overflow: hidden;
@@ -16,7 +16,7 @@
 .project-manager-card:hover {
   transform: translateY(-3px);
 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px rgba(134, 137, 132, 0.329); /* dark and light*/
 }
 
 .project-manager-card__cover {
