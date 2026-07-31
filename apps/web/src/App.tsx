@@ -15,6 +15,7 @@ import PrivacyPage from "./pages/Settings/Privacy/PrivacyPage";
 import DocsPage from "./pages/Docs/DocsPage";
 import FeedbackPage from "./pages/Feedback/FeedbackPage";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";
+import EditProjectPage from "./pages/Edit/EditProjectPage";
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
             <Route path="/settings/privacy" element={<PrivacyPage />} />
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/projects/:id/edit" element={<EditProjectPage />} />
           </Route>
         </Route>
       </Routes>
