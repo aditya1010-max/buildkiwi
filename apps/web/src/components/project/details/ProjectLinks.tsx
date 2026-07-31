@@ -10,12 +10,12 @@ export default function ProjectLinks({ project }: ProjectLinksProps) {
     {
       title: "GitHub Repository",
       description: "View the source code.",
-      href: project.links.github,
+      href: project.links?.github ?? "",
     },
     {
       title: "Live Demo",
       description: "Open the deployed application.",
-      href: project.links.demo,
+      href: project.links?.demo ?? "",
     },
   ];
 

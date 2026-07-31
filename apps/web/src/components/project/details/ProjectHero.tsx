@@ -46,7 +46,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         </div>
 
         <div className="project-hero__actions">
-          {project.links.github ? (
+          {project.links?.github ? ( //? for legacy projects created
             <a
               href={project.links.github}
               target="_blank"
@@ -61,9 +61,9 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
             </button>
           )}
 
-          {project.links.demo ? (
+          {project.links?.demo ? (
             <a
-              href={project.links.demo}
+              href={project.links.demo} //? for legacy projects with no links
               target="_blank"
               rel="noopener noreferrer"
               className="project-hero__button project-hero__button--primary"
