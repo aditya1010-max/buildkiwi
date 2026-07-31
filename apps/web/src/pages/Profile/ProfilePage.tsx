@@ -10,11 +10,11 @@ import ProfileGrid from "../../components/profile/ProfileGrid";
 import EmptyProfile from "../../components/profile/EmptyProfile";
 
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { useMyProjects } from "../../hooks/useMyProjects";
+import { useSavedProjects } from "../../hooks/useSavedProjects";
 import { useBookmarks } from "../../hooks/useBookmarks";
 
 export default function ProfilePage() {
-  const { projects: myProjects } = useMyProjects();
+  const { projects: myProjects } = useSavedProjects();
   const { bookmarks } = useBookmarks();
   const [activeTab, setActiveTab] = useState<ProfileTab>("projects");
 

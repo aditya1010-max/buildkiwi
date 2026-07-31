@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getSavedProjects } from "../api/project.api";
+import { getMyProjects } from "../api/project.api";
 import { Project } from "../types/project";
 
 export function useMyProjects() {
@@ -10,8 +10,8 @@ export function useMyProjects() {
   useEffect(() => {
     async function loadProjects() {
       try {
-        const savedProjects = await getSavedProjects();
-        setProjects(savedProjects);
+        const myProjects = await getMyProjects();
+        setProjects(myProjects);
       } catch (error) {
         console.error(error);
       } finally {
