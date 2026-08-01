@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { subscribe } from "../services/progressBarManager";
 
@@ -15,11 +10,7 @@ const ProgressContext = createContext<ProgressContextValue>({
   activeTasks: 0,
 });
 
-export function ProgressProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [activeTasks, setActiveTasks] = useState(0);
 
   useEffect(() => subscribe(setActiveTasks), []);

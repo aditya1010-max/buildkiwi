@@ -114,9 +114,7 @@ export async function getMyProjects() {
 }
 
 export async function getProjects() {
-  const response = await trackProgress(
-    axios.get("/projects"),
-  );
+  const response = await trackProgress(axios.get("/projects"));
 
   return response.data;
 }

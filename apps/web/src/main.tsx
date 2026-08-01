@@ -16,10 +16,10 @@ createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <ThemeProvider>
       <LanguageProvider>
-<ProgressProvider>
-    <TopLoadingBar />
-    <App />
-</ProgressProvider>
+        <ProgressProvider>
+          <TopLoadingBar />
+          <App />
+        </ProgressProvider>
       </LanguageProvider>
     </ThemeProvider>
   </BrowserRouter>,

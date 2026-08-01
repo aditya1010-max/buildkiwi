@@ -33,9 +33,7 @@ export function startProgress() {
   };
 }
 
-export async function trackProgress<T>(
-  promise: Promise<T>,
-): Promise<T> {
+export async function trackProgress<T>(promise: Promise<T>): Promise<T> {
   const finish = startProgress();
 
   try {
