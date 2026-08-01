@@ -1,0 +1,12 @@
+.top-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background: var(--progress-bar-color);
+
+  z-index: 9999;
+}

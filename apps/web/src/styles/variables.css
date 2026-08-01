@@ -22,6 +22,7 @@
   --accent-border: rgba(124, 179, 66, 0.35);
 
   --social-bg: rgba(240, 242, 232, 0.6);
+  --progress-bar-color: #bdaa4a;
 
   /* Status Colors */
   --success: #16a34a;
@@ -80,6 +81,7 @@
   --accent-border: rgba(156, 204, 101, 0.45);
 
   --social-bg: rgba(34, 38, 29, 0.6);
+  --progress-bar-color: #e1ecaa;
 
   --shadow:
     rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;

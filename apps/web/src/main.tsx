@@ -9,12 +9,17 @@ import App from "./App";
 import "./styles/reset.css";
 import "./styles/variables.css";
 import "./styles/globals.css";
+import { ProgressProvider } from "./providers/ProgressProvider";
+import TopLoadingBar from "./components/project/shared/TopLoadingBar/TopLoadingBar";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <ThemeProvider>
       <LanguageProvider>
-        <App />
+<ProgressProvider>
+    <TopLoadingBar />
+    <App />
+</ProgressProvider>
       </LanguageProvider>
     </ThemeProvider>
   </BrowserRouter>,
