@@ -38,7 +38,7 @@ app.use(
   cors({
     //tellings cors to accept the Auth header
     origin: "http://localhost:5173",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Visitor-Id"],
     credentials: true,
   }),
 );
