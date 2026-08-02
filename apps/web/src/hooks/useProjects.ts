@@ -1,69 +1,124 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchProjectById, fetchProjects } from "../api/project.api";
 import { Project } from "../types/project";
 
-export const useProjects = () => {
+export const useProjects = (initialLimit = 10) => {
   const [projects, setProjects] = useState<Project[]>([]);
 
-  const [loading, setLoading] = useState(false);
+  // Split loading states for initial render vs paginating
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
 
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
-    limit: 10,
+    limit: initialLimit,
     totalPages: 0,
     hasMore: false,
   });
 
-  useEffect(() => {
-    const loadProjects = async () => {
+  const loadProjects = useCallback(
+    async (pageToLoad: number) => {
       try {
-        setLoading(true);
-        const response = await fetchProjects(1, 10);
+        if (pageToLoad === 1) {
+          setInitialLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
+        setError(null);
 
-        setProjects(response.data);
+        const response = await fetchProjects(pageToLoad, pagination.limit);
+
+        setProjects((prev) =>
+          pageToLoad === 1 ? response.data : [...prev, ...response.data],
+        );
         setPagination(response.pagination);
       } catch (err) {
-        setError("failed to load projects.");
+        setError("Failed to load projects.");
       } finally {
-        setLoading(false);
+        if (pageToLoad === 1) {
+          setInitialLoading(false);
+        } else {
+          setLoadingMore(false);
+        }
       }
-    };
+    },
+    [pagination.limit],
+  );
 
-    loadProjects();
-  }, []);
+  // Fetch initial page on mount
+  useEffect(() => {
+    loadProjects(1);
+  }, [loadProjects]);
+
+  const loadMore = useCallback(async () => {
+    // Prevent trigger if either loading state is active or no more items remain
+    if (initialLoading || loadingMore || !pagination.hasMore) return;
+
+    await loadProjects(pagination.page + 1);
+  }, [
+    initialLoading,
+    loadingMore,
+    pagination.hasMore,
+    pagination.page,
+    loadProjects,
+  ]);
+
+  const refresh = useCallback(() => {
+    return loadProjects(1);
+  }, [loadProjects]);
 
   return {
     projects,
-    loading,
+    initialLoading,
+    loadingMore,
     error,
     pagination,
+    loadMore,
+    refresh,
   };
 };
 
 export const useProject = (id: string) => {
   const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLaoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Flag to prevent state updates if the hook unmounts or ID changes
+    let isSubscribed = true;
+
     async function loadProject() {
       try {
-        setLaoding(true);
+        setLoading(true);
+        setError(null);
+        setProject(null); // Reset state when ID changes
 
         const response = await fetchProjectById(id);
 
-        setProject(response.data);
+        if (isSubscribed) {
+          setProject(response.data);
+        }
       } catch (err) {
-        setError("failed to load project");
+        if (isSubscribed) {
+          setError("Failed to load project.");
+        }
       } finally {
-        setLaoding(false);
+        if (isSubscribed) {
+          setLoading(false);
+        }
       }
     }
 
-    loadProject();
+    if (id) {
+      loadProject();
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [id]);
 
   return {

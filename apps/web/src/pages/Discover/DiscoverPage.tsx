@@ -16,7 +16,7 @@ export default function DiscoverPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<SearchFilter>("all");
 
-  const { projects, loading } = useProjects();
+  const { projects, initialLoading } = useProjects();
 
   const filteredProjects = useMemo(() => {
     const search = query.trim().toLowerCase();
@@ -66,7 +66,7 @@ export default function DiscoverPage() {
           filteredCount={filteredProjects.length}
         />
 
-        <SearchResults projects={filteredProjects} loading={loading} />
+        <SearchResults projects={filteredProjects} loading={initialLoading} />
       </DiscoverLayout>
     </main>
   );
