@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Project } from "../types/project";
 import { trackProgress } from "../services/progressBarManager";
+import { getVisitorId } from "../services/visitor";
 
 const API = "http://localhost:3000/api/v1/projects";
 
@@ -117,4 +118,16 @@ export async function getProjects() {
   const response = await trackProgress(axios.get("/projects"));
 
   return response.data;
+}
+
+export async function recordProjectView(projectId: string) {
+  await axios.post(
+    `${API}/${projectId}/view`,
+    {},
+    {
+      headers: {
+        "X-Visitor-Id": getVisitorId(),
+      },
+    },
+  );
 }

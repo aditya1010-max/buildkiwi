@@ -11,7 +11,7 @@ import {
 } from "../../components/project/details";
 
 import type { Project } from "../../types/project";
-import { fetchProjectById } from "../../api/project.api";
+import { fetchProjectById, recordProjectView } from "../../api/project.api";
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
@@ -25,7 +25,14 @@ export default function ProjectPage() {
     const fetchProject = async () => {
       try {
         const response = await fetchProjectById(id);
+
         setProject(response.data);
+
+        // Fire and forget.
+        // The page should still work even if analytics fails.
+        recordProjectView(id).catch((error) => {
+          console.error("Failed to record project view", error);
+        });
       } catch (err) {
         console.error("Failed to fetch project", err);
       } finally {
