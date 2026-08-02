@@ -1,13 +1,17 @@
 import "./HomePage.css";
-import ProjectCard from "../../components/project/card/ProjectCard";
+
 import FeedHeader from "../../components/feed/FeedHeader";
-import { useProjects } from "../../hooks/useProjects";
 import { FeedCardLoader } from "../../components/FeedCardLoader";
+import ProjectCard from "../../components/project/card/ProjectCard";
+import { useProjects } from "../../hooks/useProjects";
 import { useLanguage } from "../../hooks/useLanguage";
 
 export default function Home() {
-  const { projects, loading, error } = useProjects();
+  const { projects, initialLoading, loadingMore, error, pagination, loadMore } =
+    useProjects();
+
   const { t } = useLanguage();
+
   if (error) {
     return (
       <section className="feed">
@@ -23,19 +27,34 @@ export default function Home() {
         subtitle={t("Stayupdatedwiththelatestprojects")}
       />
 
-      {loading ? (
+      {initialLoading ? (
         <>
           <FeedCardLoader />
           <FeedCardLoader />
           <FeedCardLoader />
         </>
       ) : (
-        projects.map(
-          (
-            project,
-            index, //this ensures we have unique iD, ideally we should create a new field in schema
-          ) => <ProjectCard key={index} project={project} />,
-        )
+        <>
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index} // TODO: replace with project._id once it's guaranteed unique
+              project={project}
+            />
+          ))}
+
+          {pagination.hasMore && (
+            <>
+              <button
+                type="button"
+                className="feed_load-more"
+                onClick={loadMore}
+                disabled={loadingMore}
+              >
+                Load More
+              </button>
+            </>
+          )}
+        </>
       )}
     </section>
   );
