@@ -35,9 +35,9 @@ export default function Home() {
         </>
       ) : (
         <>
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <ProjectCard
-              key={index} // TODO: replace with project._id once it's guaranteed unique
+              key={project._id} // TODO: replace with project._id once it's guaranteed unique
               project={project}
             />
           ))}
