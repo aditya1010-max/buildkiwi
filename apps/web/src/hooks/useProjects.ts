@@ -29,8 +29,10 @@ export const useProjects = (initialLimit = 10) => {
         }
         setError(null);
 
-        const response = await fetchProjects(pageToLoad, pagination.limit);
-
+        const response = await fetchProjects({
+          page: pageToLoad,
+          limit: pagination.limit,
+        });
         setProjects((prev) =>
           pageToLoad === 1 ? response.data : [...prev, ...response.data],
         );
