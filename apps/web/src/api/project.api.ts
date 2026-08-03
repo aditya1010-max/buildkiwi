@@ -22,18 +22,40 @@ export interface SingleProjectResponse {
   data: Project;
 }
 
-export const fetchProjects = async (
-  page: number,
-  limit: number,
-): Promise<ProjectsResponse> => {
+interface FetchProjectsOptions {
+  page?: number;
+  limit?: number;
+  query?: string;
+  filter?: "all" | "projects" | "users" | "tags";
+}
+
+export async function fetchProjects({
+  page = 1,
+  limit = 10,
+  query,
+  filter,
+}: FetchProjectsOptions = {}) {
+  const params: Record<string, string | number> = {
+    page,
+    limit,
+  };
+
+  if (query?.trim()) {
+    params.q = query.trim();
+  }
+
+  if (filter && filter !== "all") {
+    params.filter = filter;
+  }
+
   const response = await trackProgress(
     axios.get<ProjectsResponse>(API, {
-      params: { page, limit },
+      params,
     }),
   );
 
   return response.data;
-};
+}
 
 export const fetchProjectById = async (
   id: string,

@@ -1,14 +1,44 @@
 import { Project } from "../models/project.model";
 import { CreateProjectInput, UpdateProjectInput } from "@buildkiwi/validation";
 
+interface FindProjectsOptions {
+  page: number;
+  limit: number;
+  query?: string;
+  filter?: "all" | "projects" | "users" | "tags";
+}
+
 export const projectRepository = {
   create: async (data: CreateProjectInput) => {
     return await Project.create(data);
   },
 
-  findAll: async (page: number, limit: number) => {
+  findAll: async ({ page, limit, query, filter }: FindProjectsOptions) => {
     const skip = (page - 1) * limit;
-    return await Project.find()
+    const mongoQuery: Record<string, unknown> = {};
+
+    if (query?.trim()) {
+      const search = query.trim();
+      const regex = new RegExp(search, "i");
+
+      switch (filter) {
+        case "projects":
+          mongoQuery.$or = [{ title: regex }, { description: regex }];
+          break;
+
+        case "tags":
+          mongoQuery.tags = regex;
+          break;
+
+        default:
+          mongoQuery.$or = [
+            { title: regex },
+            { description: regex },
+            { tags: regex },
+          ];
+      }
+    }
+    return await Project.find(mongoQuery)
       .populate("creatorId", "username")
       .sort({ createdAt: -1 })
       .skip(skip)

@@ -78,7 +78,25 @@ export const getProjects = asyncHandler(async (req: Request, res: Response) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(20, Math.max(1, Number(req.query.limit) || 10));
 
-  const result = await getProjectsService(page, limit);
+  const query =
+    typeof req.query.q === "string" ? req.query.q.trim() : undefined;
+
+  const allowedFilters = ["all", "projects", "users", "tags"] as const; //eventually move this to buildkiwi/validation
+
+  type SearchFilter = (typeof allowedFilters)[number];
+
+  const filter: SearchFilter | undefined =
+    typeof req.query.filter === "string" &&
+    allowedFilters.includes(req.query.filter as SearchFilter)
+      ? (req.query.filter as SearchFilter)
+      : undefined;
+
+  const result = await getProjectsService({
+    page,
+    limit,
+    query,
+    filter,
+  });
 
   res.json({
     success: true,

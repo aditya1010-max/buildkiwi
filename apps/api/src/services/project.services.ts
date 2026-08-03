@@ -8,6 +8,13 @@ import {
   unsaveProjectRepository,
 } from "../repositories/user.repository";
 
+interface GetProjectsOptions {
+  page: number;
+  limit: number;
+  query?: string;
+  filter?: "all" | "projects" | "users" | "tags";
+}
+
 export const createProjectService = async (data: any, creatorId: string) => {
   const projectData = {
     ...data,
@@ -16,8 +23,18 @@ export const createProjectService = async (data: any, creatorId: string) => {
   return await projectRepository.create(projectData);
 };
 
-export const getProjectsService = async (page: number, limit: number) => {
-  const projects = await projectRepository.findAll(page, limit);
+export const getProjectsService = async ({
+  page,
+  limit,
+  query,
+  filter,
+}: GetProjectsOptions) => {
+  const projects = await projectRepository.findAll({
+    page,
+    limit,
+    query,
+    filter,
+  });
 
   const total = await projectRepository.count();
 
