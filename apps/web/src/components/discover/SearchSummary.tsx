@@ -9,7 +9,7 @@ export default function SearchSummary({
 }: SearchSummaryProps) {
   return (
     <p className="search-summary">
-      {filteredCount} of {count} {count === 1 ? "result" : "results"} found
+      {filteredCount} {count === 1 ? "result" : "results"} found
     </p>
   );
 }

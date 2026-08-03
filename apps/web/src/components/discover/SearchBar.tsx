@@ -1,11 +1,18 @@
 import "./SearchBar.css";
 import type { SearchFilter } from "./SearchFilters";
+
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
   filter: SearchFilter;
   onFilterChange: (filter: SearchFilter) => void;
 }
+
+const placeholders: Record<SearchFilter, string> = {
+  all: "Search everything...",
+  projects: "Search projects...",
+  tags: "Search tags...",
+};
 
 export default function SearchBar({
   value,
@@ -18,21 +25,20 @@ export default function SearchBar({
       <div className="search-bar__content">
         <h1>Discover</h1>
 
-        <p>Search projects, developers and technologies.</p>
+        <p>Search projects or tags.</p>
 
         <div className="search-bar__input-wrapper">
-          <span className="search-bar__icon">🔍</span>
-
           <input
             type="text"
-            placeholder="Search projects, users or tags..."
+            placeholder={placeholders[filter]}
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
         </div>
       </div>
+
       <div className="search-bar__filters">
-        {["projects", "users", "tags"].map((item) => (
+        {["all", "projects", "tags"].map((item) => (
           <button
             key={item}
             type="button"

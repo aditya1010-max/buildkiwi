@@ -1,6 +1,6 @@
 import "./SearchFilters.css";
 
-export type SearchFilter = "all" | "projects" | "users" | "tags";
+export type SearchFilter = "all" | "projects" | "tags";
 
 interface SearchFiltersProps {
   activeFilter: SearchFilter;
@@ -13,7 +13,6 @@ const filters: {
 }[] = [
   { label: "All", value: "all" },
   { label: "Projects", value: "projects" },
-  { label: "Users", value: "users" },
   { label: "Tags", value: "tags" },
 ];
 
