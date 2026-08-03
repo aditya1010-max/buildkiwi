@@ -34,7 +34,7 @@
 
 .profile-tabs button.active {
   background: var(--accent-color);
-  color: #fff;
+  color: #139027ae;
 }
 
 @media (max-width: 768px) {

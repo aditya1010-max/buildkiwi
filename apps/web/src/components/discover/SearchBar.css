@@ -50,9 +50,9 @@
   border-color: var(--primary-color);
 }
 
-.search-bar__icon {
+/* .search-bar__icon {
   font-size: 1rem;
-}
+} */
 
 .search-bar__input-wrapper input {
   width: 100%;
@@ -124,5 +124,5 @@
   background: var(--primary-color);
   border-color: var(--primary-color);
 
-  color: white;
+  color: rgb(33, 199, 24);
 }
