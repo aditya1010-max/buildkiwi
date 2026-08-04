@@ -108,7 +108,7 @@ export default function FeedbackForm() {
           type="text"
           maxLength={150}
           value={form.title}
-          placeholder="Briefly describe your feedback"
+          placeholder="Summarize your feedback in a few words"
           onChange={(e) =>
             setForm((prev) => ({
               ...prev,
