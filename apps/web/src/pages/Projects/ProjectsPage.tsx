@@ -19,6 +19,21 @@ export default function ProjectsPage(): ReactElement {
     });
   }
   const { projects, loading } = useMyProjects();
+  const stats = projects.reduce(
+    (acc, project) => {
+      acc.totalProjects++;
+      acc.totalViews += project.stats.views;
+      acc.totalLikes += project.stats.likes;
+      acc.totalComments += project.stats.comments;
+      return acc;
+    },
+    {
+      totalProjects: 0,
+      totalViews: 0,
+      totalLikes: 0,
+      totalComments: 0,
+    },
+  );
   if (loading) {
     return (
       <main className="projects-page">
@@ -49,12 +64,11 @@ export default function ProjectsPage(): ReactElement {
         {/* Stats */}
         <section className="projects-page__stats">
           {" "}
-          {/*fix this hardcoded stats later*/}
           <ProjectStats
-            totalProjects={12}
-            totalViews={4250}
-            totalLikes={182}
-            totalComments={37}
+            totalProjects={stats.totalProjects}
+            totalViews={stats.totalViews}
+            totalLikes={stats.totalLikes}
+            totalComments={stats.totalComments}
           />
         </section>
         <div className="project-page_abcdef">
