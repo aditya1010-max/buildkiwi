@@ -54,6 +54,7 @@
   -webkit-box-orient: vertical;
 
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .saved-project-card__tags {
