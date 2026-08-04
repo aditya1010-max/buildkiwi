@@ -11,10 +11,13 @@ import {
   CreateIcon,
 } from "../../assets/icons";
 import { useLanguage } from "../../hooks/useLanguage";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Sidebar() {
   const location = useLocation();
   const { t } = useLanguage();
+  const { getCurrentUser } = useAuth();
+  const user = getCurrentUser();
 
   return (
     <aside className="sidebar">
@@ -65,7 +68,7 @@ export default function Sidebar() {
           <span className="sidebar__label">{t("saved")}</span>
         </NavLink>
 
-        <NavLink to="/profile/adi" className="sidebar__item">
+        <NavLink to={`/profile/${user.username}`} className="sidebar__item">
           <span className="sidebar__icon">
             <ProfileIcon size={20} className="sidebar-icon" />
           </span>
