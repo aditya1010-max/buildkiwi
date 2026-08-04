@@ -23,3 +23,7 @@
   color: var(--text-secondary);
   line-height: 1.6;
 }
+
+h1 {
+  text-align: center;
+}

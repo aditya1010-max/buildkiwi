@@ -10,13 +10,10 @@ export default function SavedHeader({ count }: SavedHeaderProps): ReactElement {
   return (
     <header className="saved-header">
       <h1>Saved Projects</h1>
-      <br />
       <p>Keep your favourite projects in one place.</p>
-      <br />
       <span>
         {count} {count === 1 ? "project" : "projects"} saved
       </span>
-      <br />
     </header>
   );
 }

@@ -2,17 +2,17 @@
   display: flex;
   flex-direction: column;
 
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .saved-header h1 {
-  margin: 0;
+  margin: 4px 0;
 
   font-size: 2rem;
 }
 
 .saved-header p {
-  margin: 0;
+  margin: 4px 0;
 
   color: var(--text-secondary);
 }

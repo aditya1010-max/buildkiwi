@@ -9,10 +9,11 @@
   width: 17px;
 }
 
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {  /*below css needs to be adjusted and transferred to variables file*/
   /*custom styling for scrollbar*/
-  background: rgba(109, 56, 56, 0.352);
-  border-radius: 0px;
+  background: rgba(113, 207, 106, 0.292);   
+  border: 1px solid rgba(205, 209, 205, 0.219);
+  /* border-radius: 4px; */
 }
 
 html {
