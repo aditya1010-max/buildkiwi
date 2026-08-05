@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
-
+import { useToast } from "../../hooks/useToast";
 import "./LoginPage.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const toast = useToast();
 
   const from = (location.state as { from?: Location })?.from?.pathname || "/";
   console.count("LoginPage mounted");
@@ -21,6 +22,8 @@ export default function LoginPage() {
 
     try {
       await loginUser(email, password);
+
+      toast.success("Welcome back!", "You have successfully signed in.");
 
       navigate(from, { replace: true });
     } catch {
