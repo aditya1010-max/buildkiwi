@@ -11,6 +11,7 @@ import "./styles/variables.css";
 import "./styles/globals.css";
 import { ProgressProvider } from "./providers/ProgressProvider";
 import TopLoadingBar from "./components/project/shared/TopLoadingBar/TopLoadingBar";
+import { ToastProvider } from "./context/ToastContext";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
       <LanguageProvider>
         <ProgressProvider>
           <TopLoadingBar />
-          <App />
+          <ToastProvider>
+            <App />
+          </ToastProvider>
         </ProgressProvider>
       </LanguageProvider>
     </ThemeProvider>
