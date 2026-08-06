@@ -1,0 +1,95 @@
+.welcome-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+
+  background: var(--background-color);
+}
+
+.welcome-page__content {
+  width: 100%;
+  max-width: 520px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+
+  text-align: center;
+}
+
+.welcome-page__logo {
+  font-size: 4rem;
+}
+
+.welcome-page h1 {
+  margin: 0;
+
+  font-size: 2.5rem;
+}
+
+.welcome-page__description {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  line-height: 1.7;
+}
+
+.welcome-page__actions {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  margin-top: 1rem;
+}
+
+.welcome-page__primary,
+.welcome-page__secondary,
+.welcome-page__guest {
+  padding: 0.9rem 1rem;
+
+  border-radius: 12px;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.welcome-page__primary {
+  border: none;
+
+  background: var(--primary-color);
+
+  color: white;
+}
+
+.welcome-page__secondary {
+  border: 1px solid var(--border-color);
+
+  background: transparent;
+
+  color: var(--text-primary);
+}
+
+.welcome-page__guest {
+  border: none;
+
+  background: transparent;
+
+  color: var(--primary-color);
+}
+
+.welcome-page__primary:hover,
+.welcome-page__secondary:hover,
+.welcome-page__guest:hover {
+  transform: translateY(-1px);
+}
