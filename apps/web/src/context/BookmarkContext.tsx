@@ -12,6 +12,9 @@ import {
   removeBookmark as removeBookmarkRequest,
   getBookmarks,
 } from "../api/bookmark.api";
+import { getAccessToken } from "../utils/token";
+
+import { useToast } from "../hooks/useToast";
 
 interface BookmarkContextType {
   loading: boolean;
@@ -30,8 +33,17 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [loadingBookmarks, setLoadingBookmarks] = useState(true);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
+  const toast = useToast();
+
   console.count("BookmarkProvider mounted");
   useEffect(() => {
+    const token = getAccessToken();
+
+    // Guest users don't have bookmarks.
+    if (!token) {
+      setLoadingBookmarks(false);
+      return;
+    }
     const loadBookmarks = async () => {
       try {
         const response = await getBookmarks();
@@ -105,6 +117,12 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
 
   const toggleBookmark = useCallback(
     async (projectId: string) => {
+      if (!getAccessToken()) {
+        toast.info("Sign in required", "Sign in to save projects.");
+
+        return;
+      }
+
       if (bookmarkedIds.has(projectId)) {
         await removeBookmarkOptimistic(projectId);
       } else {
@@ -113,7 +131,6 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
     },
     [bookmarkedIds, addBookmarkOptimistic, removeBookmarkOptimistic],
   );
-
   const isBookmarked = useCallback(
     (projectId: string) => bookmarkedIds.has(projectId),
     [bookmarkedIds],

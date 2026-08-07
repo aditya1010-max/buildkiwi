@@ -12,6 +12,7 @@ import {
   removeLike as removeLikeRequest,
   getLikes,
 } from "../api/like.api";
+import { getAccessToken } from "../utils/token";
 
 interface LikeContextType {
   loading: boolean;
@@ -30,8 +31,14 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [loadingLikes, setLoadingLikes] = useState(true);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    const token = getAccessToken();
+    if (!token) {
+      setLoadingLikes(false);
+      setLoading(false);
+      return;
+    }
     const loadLikes = async () => {
       try {
         const projects = await getLikes();
@@ -43,6 +50,7 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
         console.error("Failed to load likes:", error);
       } finally {
         setLoadingLikes(false);
+        setLoading(false);
       }
     };
 
