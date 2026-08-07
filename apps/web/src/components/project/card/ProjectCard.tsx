@@ -6,6 +6,7 @@ import "./ProjectCard.css";
 import type { Project } from "../../../types/project";
 import { useBookmarkContext } from "../../../context/BookmarkContext";
 import { useLikeContext } from "../../../context/LikeContext";
+import { getAccessToken } from "../../../utils/token";
 
 interface ProjectCardProps {
   project: Project;
@@ -19,6 +20,7 @@ export default function ProjectCard({
   const { isLiked, isPending: isLikePending, toggleLike } = useLikeContext();
 
   const [displayLikes, setDisplayLikes] = useState(project.stats.likes);
+  const isGuest = !getAccessToken();
 
   useEffect(() => {
     setDisplayLikes(project.stats.likes);
@@ -61,6 +63,7 @@ export default function ProjectCard({
 
       <div className="project-card_stats">
         <button
+          className="project-card_action"
           onClick={async (e) => {
             e.stopPropagation();
 
@@ -74,7 +77,8 @@ export default function ProjectCard({
 
             await toggleLike(project._id);
           }}
-          disabled={isLikePending(project._id)}
+          disabled={isGuest || isLikePending(project._id)}
+          title={isGuest ? "Sign in to like projects" : ""}
         >
           {isLiked(project._id) ? "❤️" : "🤍"} {displayLikes}
         </button>
@@ -83,9 +87,11 @@ export default function ProjectCard({
 
         <button
           type="button"
-          className="project-card_bookmark"
+          className="project-card_action project-card_bookmark"
+
           onClick={handleBookmark}
-          disabled={loading}
+          disabled={isGuest}
+          title={isGuest ? "Sign in to save projects" : ""}
           aria-label={saved ? "Remove from saved" : "Save project"}
         >
           {saved ? "🔖" : "📑"}

@@ -140,3 +140,12 @@
     font-size: 1.1rem;
   }
 }
+
+.project-card_action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.project-card_action:disabled:hover {
+  transform: none;
+}
