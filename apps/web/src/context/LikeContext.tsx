@@ -111,20 +111,20 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const toggleLike = useCallback(
-    async (projectId: string) => {
-      console.log("Clicked:", projectId);
-      console.log("Current likedIds:", [...likedIds]);
-      console.log("Has project?", likedIds.has(projectId));
+const toggleLike = useCallback(
+  async (projectId: string) => {
+    if (pendingIds.has(projectId)) {
+      return;
+    }
 
-      if (likedIds.has(projectId)) {
-        await removeLikeOptimistic(projectId);
-      } else {
-        await addLikeOptimistic(projectId);
-      }
-    },
-    [likedIds, addLikeOptimistic, removeLikeOptimistic],
-  );
+    if (likedIds.has(projectId)) {
+      await removeLikeOptimistic(projectId);
+    } else {
+      await addLikeOptimistic(projectId);
+    }
+  },
+  [likedIds, pendingIds, addLikeOptimistic, removeLikeOptimistic],
+);
 
   const isLiked = useCallback(
     (projectId: string) => likedIds.has(projectId),

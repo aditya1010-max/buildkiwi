@@ -16,8 +16,8 @@ export default function ProjectCard({
   project,
 }: ProjectCardProps): ReactElement {
   const navigate = useNavigate();
-  const { isBookmarked, isPending, toggleBookmark } = useBookmarkContext();
-  const { isLiked, isPending: isLikePending, toggleLike } = useLikeContext();
+  const { isBookmarked, toggleBookmark } = useBookmarkContext();
+  const { isLiked, toggleLike } = useLikeContext();
 
   const [displayLikes, setDisplayLikes] = useState(project.stats.likes);
   const isGuest = !getAccessToken();
@@ -27,7 +27,6 @@ export default function ProjectCard({
   }, [project.stats.likes]);
 
   const saved = isBookmarked(project._id);
-  const loading = isPending(project._id);
 
   async function handleBookmark(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -77,7 +76,7 @@ export default function ProjectCard({
 
             await toggleLike(project._id);
           }}
-          disabled={isGuest || isLikePending(project._id)}
+          disabled={isGuest}
           title={isGuest ? "Sign in to like projects" : ""}
         >
           {isLiked(project._id) ? "❤️" : "🤍"} {displayLikes}
