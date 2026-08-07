@@ -26,7 +26,7 @@
   border-radius: 0px;
   border-left: 4px solid transparent;
 
-  background: #e1fbef;
+  background: #ebf6f0ea;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   animation: toast-slide-in 180ms ease;
