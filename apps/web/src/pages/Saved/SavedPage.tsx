@@ -1,3 +1,5 @@
+import { getAccessToken } from "../../utils/token";
+import GuestPrompt from "../../components/shared/GuestPrompt";
 import EmptySaved from "../../components/saved/EmptySaved";
 import SavedHeader from "../../components/saved/SavedHeader";
 import SavedProjectCard from "../../components/saved/SavedProjectCard";
@@ -6,6 +8,22 @@ import type { ReactElement } from "react";
 
 export default function SavedPage(): ReactElement {
   const { bookmarks, loading, error } = useBookmarks();
+
+  const isGuest = !getAccessToken();
+
+  if (isGuest) {
+    return (
+      <main className="saved-page">
+        <SavedHeader count={0} />
+
+        <GuestPrompt
+          icon="pin"
+          title="Save projects"
+          description="Sign in to save your favourite projects and access them anytime."
+        />
+      </main>
+    );
+  }
 
   if (loading) {
     return (
@@ -34,7 +52,7 @@ export default function SavedPage(): ReactElement {
       ) : (
         <section className="saved-grid">
           {bookmarks.map((project) => (
-            <SavedProjectCard key={project._id.toString()} project={project} />
+            <SavedProjectCard key={project._id} project={project} />
           ))}
         </section>
       )}

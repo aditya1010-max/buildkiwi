@@ -6,6 +6,8 @@ import ProjectStats from "../../components/project/card/ProjectStats";
 // import { useState } from "react";
 // import ProjectToolbar from "../../components/project/manager/ProjectsToolbar";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getAccessToken } from "../../utils/token";
+import GuestPrompt from "../../components/shared/GuestPrompt";
 
 export default function ProjectsPage(): ReactElement {
   const navigate = useNavigate();
@@ -19,6 +21,20 @@ export default function ProjectsPage(): ReactElement {
     });
   }
   const { projects, loading } = useMyProjects();
+
+  const isGuest = !getAccessToken();
+
+  if (isGuest) {
+    return (
+      <main className="projects-page">
+        <GuestPrompt
+          icon=""
+          title="Publish your projects"
+          description="Create an account to publish and manage your own projects."
+        />
+      </main>
+    );
+  }
   const stats = projects.reduce(
     (acc, project) => {
       acc.totalProjects++;
