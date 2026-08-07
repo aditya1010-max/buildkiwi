@@ -98,3 +98,12 @@
 .sidebar__footer {
   padding: 1rem;
 }
+
+.sidebar__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sidebar__item--disabled:hover {
+  background: inherit;
+}

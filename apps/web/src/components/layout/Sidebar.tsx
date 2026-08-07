@@ -12,12 +12,22 @@ import {
 } from "../../assets/icons";
 import { useLanguage } from "../../hooks/useLanguage";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
+import GuestSidebarCard from "./GuestSidebarCard";
 
 export default function Sidebar() {
   const location = useLocation();
   const { t } = useLanguage();
   const { getCurrentUser } = useAuth();
+  const toast = useToast();
   const user = getCurrentUser();
+
+  const handleDisabledClick = (e: React.MouseEvent, actionName: string) => {
+    if (!user) {
+      e.preventDefault();
+      toast.warning("Sign in required", `Sign in to ${actionName}.`);
+    }
+  };
 
   return (
     <aside className="sidebar">
@@ -28,7 +38,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <nav className="sidebar__nav">
+      <nav className="sidebar__nav" aria-label="Main Navigation">
         <NavLink to="/" className="sidebar__item">
           <span className="sidebar__icon">
             <HomeIcon size={20} className="sidebar-icon" />
@@ -44,9 +54,14 @@ export default function Sidebar() {
         </NavLink>
 
         <Link
-          to="/create"
-          state={{ background: location }}
-          className="sidebar__item"
+          to={user ? "/create" : "#"}
+          state={user ? { background: location } : undefined}
+          className={
+            user ? "sidebar__item" : "sidebar__item sidebar__item--disabled"
+          }
+          aria-disabled={!user}
+          onClick={(e) => handleDisabledClick(e, "create or publish projects")}
+          title={!user ? "Sign in to publish projects" : undefined}
         >
           <span className="sidebar__icon">
             <CreateIcon size={20} className="sidebar-icon" />
@@ -54,29 +69,48 @@ export default function Sidebar() {
           <span className="sidebar__label">{t("create")}</span>
         </Link>
 
-        <NavLink to="/projects" className="sidebar__item">
+        <NavLink
+          to={user ? "/projects" : "#"}
+          className={
+            user ? "sidebar__item" : "sidebar__item sidebar__item--disabled"
+          }
+          aria-disabled={!user}
+          onClick={(e) => handleDisabledClick(e, "manage your projects")}
+          title={!user ? "Sign in to manage your projects" : undefined}
+        >
           <span className="sidebar__icon">
             <ProjectIcon size={20} className="sidebar-icon" />
           </span>
           <span className="sidebar__label">{t("projects")}</span>
         </NavLink>
 
-        <NavLink to="/saved" className="sidebar__item">
+        <NavLink
+          to={user ? "/saved" : "#"}
+          className={
+            user ? "sidebar__item" : "sidebar__item sidebar__item--disabled"
+          }
+          aria-disabled={!user}
+          onClick={(e) => handleDisabledClick(e, "save projects")}
+          title={!user ? "Sign in to save projects" : undefined}
+        >
           <span className="sidebar__icon">
             <SavedIcon size={20} className="sidebar-icon" />
           </span>
           <span className="sidebar__label">{t("saved")}</span>
         </NavLink>
 
-        <NavLink to={`/profile/${user.username}`} className="sidebar__item">
-          <span className="sidebar__icon">
-            <ProfileIcon size={20} className="sidebar-icon" />
-          </span>
-          <span className="sidebar__label">{t("profile")}</span>
-        </NavLink>
+        {user && (
+          <NavLink to={`/profile/${user.username}`} className="sidebar__item">
+            <span className="sidebar__icon">
+              <ProfileIcon size={20} className="sidebar-icon" />
+            </span>
+            <span className="sidebar__label">{t("profile")}</span>
+          </NavLink>
+        )}
       </nav>
+
       <div className="sidebar__footer">
-        <UserMenu />
+        {user ? <UserMenu /> : <GuestSidebarCard />}
       </div>
     </aside>
   );
