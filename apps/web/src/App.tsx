@@ -16,6 +16,7 @@ import DocsPage from "./pages/Docs/DocsPage";
 import FeedbackPage from "./pages/Feedback/FeedbackPage";
 import ProtectedRoute from "./components/auth/ProtectedRoutes";
 import EditProjectPage from "./pages/Edit/EditProjectPage";
+import WelcomePage from "./pages/Welcome/WelcomePage";
 
 function App() {
   const location = useLocation();
@@ -28,23 +29,28 @@ function App() {
     <>
       <Routes location={state?.background || location}>
         {/* Public Routes */}
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
         {/* App Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/profile/:username" element={<Profile />} />
+        </Route>
+
+        {/* Protected */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/discover" element={<Discover />} />
             <Route path="/saved" element={<Saved />} />
-            <Route path="/profile/:username" element={<Profile />} />
-            <Route path="/search" element={<Search />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/:id" element={<ProjectPage />} />
+            <Route path="/projects/:id/edit" element={<EditProjectPage />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/settings/privacy" element={<PrivacyPage />} />
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
-            <Route path="/projects/:id/edit" element={<EditProjectPage />} />
           </Route>
         </Route>
       </Routes>
