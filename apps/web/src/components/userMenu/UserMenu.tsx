@@ -10,6 +10,7 @@ import MainMenu from "./menus/MainMenu";
 import NotificationsMenu from "./menus/NotificationMenu";
 import LogoutDialog from "./dialogs/LogoutDialog";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 
 type UserMenuView =
   "main" | "appearance" | "language" | "notifications" | "help" | "logout";
@@ -20,7 +21,9 @@ export default function UserMenu() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, getCurrentUser } = useAuth();
+  const toast = useToast();
+  const user = getCurrentUser();
 
   function openMenu() {
     setActiveView("main");
@@ -77,6 +80,7 @@ export default function UserMenu() {
           <div className="user-menu__content">
             {activeView === "main" && (
               <MainMenu
+                user={user}
                 onAppearance={() => setActiveView("appearance")}
                 onLanguage={() => setActiveView("language")}
                 onNotifications={() => setActiveView("notifications")}
@@ -91,6 +95,14 @@ export default function UserMenu() {
                 }}
                 onLogout={() => setActiveView("logout")}
                 onAccount={() => {}}
+                onLogin={() => {
+                  closeMenu();
+                  navigate("/login");
+                }}
+                onRegister={() => {
+                  closeMenu();
+                  navigate("/register");
+                }}
               />
             )}
 
@@ -122,9 +134,14 @@ export default function UserMenu() {
                 onConfirm={async () => {
                   await logout();
 
+                  toast.success(
+                    "Signed out",
+                    "You're now browsing BuildKiwi as a guest.",
+                  );
+
                   closeMenu();
 
-                  navigate("/login", {
+                  navigate("/", {
                     replace: true,
                   });
                 }}
