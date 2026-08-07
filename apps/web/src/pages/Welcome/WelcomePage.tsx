@@ -32,10 +32,7 @@ export default function WelcomePage() {
             Sign In
           </button>
 
-          <button
-            className="welcome-page__guest"
-            onClick={() => navigate("/home")}
-          >
+          <button className="welcome-page__guest" onClick={() => navigate("/")}>
             Continue as Guest
           </button>
         </div>
