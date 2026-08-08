@@ -25,9 +25,7 @@ export default function ProjectManagerCard({
             className="project-manager-card_image"
           />
         ) : (
-          <div className="project-manager-card_placeholder">
-            No Cover Image
-          </div>
+          <div className="project-manager-card_placeholder">No Cover Image</div>
         )}
       </div>
 
