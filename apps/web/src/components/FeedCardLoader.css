@@ -19,7 +19,7 @@
   opacity: 0.7;
 }
 
-.feed-loader__content {
+.feed-loader_content {
   position: relative;
   z-index: 1;
 

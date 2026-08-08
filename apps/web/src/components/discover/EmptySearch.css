@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.empty-search__icon {
+.empty-search_icon {
   font-size: 3rem;
 }
 
@@ -27,7 +27,7 @@
   line-height: 1.6;
 }
 
-.empty-search__suggestions {
+.empty-search_suggestions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -37,7 +37,7 @@
   margin-top: 1rem;
 }
 
-.empty-search__chip {
+.empty-search_chip {
   padding: 0.65rem 1rem;
 
   border: 1px solid var(--border-color);
@@ -55,7 +55,7 @@
     transform 0.2s ease;
 }
 
-.empty-search__chip:hover {
+.empty-search_chip:hover {
   border-color: var(--primary-color);
 
   transform: translateY(-2px);

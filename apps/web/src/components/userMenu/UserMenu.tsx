@@ -63,7 +63,7 @@ export default function UserMenu() {
     <div ref={menuRef} className="user-menu">
       <button
         type="button"
-        className="user-menu__button"
+        className="user-menu_button"
         onClick={() => {
           if (isOpen) {
             closeMenu();
@@ -76,8 +76,8 @@ export default function UserMenu() {
       </button>
 
       {isOpen && (
-        <div className="user-menu__popup">
-          <div className="user-menu__content">
+        <div className="user-menu_popup">
+          <div className="user-menu_content">
             {activeView === "main" && (
               <MainMenu
                 user={user}

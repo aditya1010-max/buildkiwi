@@ -7,32 +7,32 @@ export default function WelcomePage() {
 
   return (
     <main className="welcome-page">
-      <div className="welcome-page__content">
-        <div className="welcome-page__logo">🥝</div>
+      <div className="welcome-page_content">
+        <div className="welcome-page_logo">🥝</div>
 
         <h1>Welcome to BuildKiwi</h1>
 
-        <p className="welcome-page__description">
+        <p className="welcome-page_description">
           Discover inspiring developer projects, share your own work and connect
           with builders from around the world.
         </p>
 
-        <div className="welcome-page__actions">
+        <div className="welcome-page_actions">
           <button
-            className="welcome-page__primary"
+            className="welcome-page_primary"
             onClick={() => navigate("/register")}
           >
             Create Account
           </button>
 
           <button
-            className="welcome-page__secondary"
+            className="welcome-page_secondary"
             onClick={() => navigate("/login")}
           >
             Sign In
           </button>
 
-          <button className="welcome-page__guest" onClick={() => navigate("/")}>
+          <button className="welcome-page_guest" onClick={() => navigate("/")}>
             Continue as Guest
           </button>
         </div>

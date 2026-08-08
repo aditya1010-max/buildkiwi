@@ -13,7 +13,7 @@ export default function Layout() {
       <div className="layout">
         <Sidebar />
 
-        <main className="layout__content">
+        <main className="layout_content">
           <BookmarkProvider>
             <LikeProvider>
               <Outlet />

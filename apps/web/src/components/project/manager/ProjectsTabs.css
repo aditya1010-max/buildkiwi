@@ -8,7 +8,7 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.projects-tabs__button {
+.projects-tabs_button {
   padding: 0.9rem 0;
 
   border: none;
@@ -30,11 +30,11 @@
     border-color 0.2s ease;
 }
 
-.projects-tabs__button:hover {
+.projects-tabs_button:hover {
   color: var(--text-primary);
 }
 
-.projects-tabs__button--active {
+.projects-tabs_button--active {
   color: var(--primary-color);
 
   border-color: var(--primary-color);

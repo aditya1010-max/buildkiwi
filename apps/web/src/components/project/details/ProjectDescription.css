@@ -11,20 +11,20 @@
   background: var(--surface-primary);
 }
 
-.project-description__header {
+.project-description_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.project-description__header h2 {
+.project-description_header h2 {
   margin: 0;
 
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.project-description__content {
+.project-description_content {
   margin: 0;
 
   line-height: 1.9;
@@ -37,7 +37,7 @@
   max-width: 75ch;
 }
 
-.project-description__empty {
+.project-description_empty {
   display: flex;
   flex-direction: column;
 
@@ -55,11 +55,11 @@
   border-radius: 14px;
 }
 
-.project-description__empty h3 {
+.project-description_empty h3 {
   margin: 0;
 }
 
-.project-description__empty p {
+.project-description_empty p {
   margin: 0;
 
   color: var(--text-secondary);

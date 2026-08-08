@@ -41,17 +41,17 @@ export default function PrivacyPage() {
 
   return (
     <main className="privacy-page">
-      <div className="privacy-page__container">
-        <header className="privacy-page__header">
-          <h1 className="privacy-page__title">Privacy Center</h1>
+      <div className="privacy-page_container">
+        <header className="privacy-page_header">
+          <h1 className="privacy-page_title">Privacy Center</h1>
           <br />
-          <p className="privacy-page__subtitle">
+          <p className="privacy-page_subtitle">
             Understand how your data is handled, stored, and protected.
           </p>
         </header>
 
         <section
-          className="privacy-page__sections"
+          className="privacy-page_sections"
           aria-label="Privacy Documentation"
         >
           {POLICY_SECTIONS.map(({ id, title, content }) => {
@@ -64,23 +64,23 @@ export default function PrivacyPage() {
               >
                 <button
                   type="button"
-                  className="privacy-card__trigger"
+                  className="privacy-card_trigger"
                   onClick={() => toggleSection(id)}
                   aria-expanded={isOpen}
                   aria-controls={`content-${id}`}
                 >
-                  <span className="privacy-card__title">{title}</span>
+                  <span className="privacy-card_title">{title}</span>
                   <span
-                    className={`privacy-card__icon ${isOpen ? "privacy-card__icon--open" : ""}`}
+                    className={`privacy-card_icon ${isOpen ? "privacy-card_icon--open" : ""}`}
                   >
                     ▶
                   </span>
                 </button>
 
                 {isOpen && (
-                  <div id={`content-${id}`} className="privacy-card__content">
+                  <div id={`content-${id}`} className="privacy-card_content">
                     {content.map((paragraph, index) => (
-                      <p key={index} className="privacy-card__paragraph">
+                      <p key={index} className="privacy-card_paragraph">
                         {paragraph}
                       </p>
                     ))}

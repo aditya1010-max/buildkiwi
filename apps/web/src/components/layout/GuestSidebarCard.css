@@ -11,11 +11,11 @@
   background: #f0fdf4;
 }
 
-.guest-sidebar-card__icon {
+.guest-sidebar-card_icon {
   font-size: 1rem;
 }
 
-.guest-sidebar-card__title {
+.guest-sidebar-card_title {
   margin: 0;
 
   font-size: 1.1rem;
@@ -23,7 +23,7 @@
   color: #14532d;
 }
 
-.guest-sidebar-card__features {
+.guest-sidebar-card_features {
   margin: 0;
   padding-left: 1.1rem;
 
@@ -34,8 +34,8 @@
   color: #166534;
 }
 
-.guest-sidebar-card__primary,
-.guest-sidebar-card__secondary {
+.guest-sidebar-card_primary,
+.guest-sidebar-card_secondary {
   width: 100%;
 
   padding: 0.75rem;
@@ -47,25 +47,25 @@
   font-weight: 600;
 }
 
-.guest-sidebar-card__primary {
+.guest-sidebar-card_primary {
   border: none;
 
   background: #16a34a;
   color: #ffffff;
 }
 
-.guest-sidebar-card__primary:hover {
+.guest-sidebar-card_primary:hover {
   background: #15803d;
 }
 
-.guest-sidebar-card__secondary {
+.guest-sidebar-card_secondary {
   background: #ffffff;
 
   border: 1px solid #bbf7d0;
   color: #15803d;
 }
 
-.guest-sidebar-card__secondary:hover {
+.guest-sidebar-card_secondary:hover {
   background: #dcfce7;
   color: #14532d;
 }

@@ -12,21 +12,21 @@
   background: var(--surface-primary);
 }
 
-.project-section__header {
+.project-section_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
 }
 
-.project-section__title {
+.project-section_title {
   margin: 0;
 
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.project-section__body {
+.project-section_body {
   display: flex;
   flex-direction: column;
   gap: 1rem;

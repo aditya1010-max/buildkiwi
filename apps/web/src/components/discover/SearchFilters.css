@@ -5,7 +5,7 @@
   gap: 0.75rem;
 }
 
-.search-filters__chip {
+.search-filters_chip {
   padding: 0.7rem 1.2rem;
 
   border: 1px solid var(--border-color);
@@ -25,13 +25,13 @@
     border-color 0.2s ease;
 }
 
-.search-filters__chip:hover {
+.search-filters_chip:hover {
   border-color: var(--primary-color);
 
   color: var(--text-primary);
 }
 
-.search-filters__chip--active {
+.search-filters_chip--active {
   background: var(--primary-color);
 
   color: white;

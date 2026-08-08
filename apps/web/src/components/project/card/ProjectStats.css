@@ -4,21 +4,21 @@
   gap: 1rem;
 }
 
-.project-stats__card {
+.project-stats_card {
   padding: 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   background: var(--color-surface);
 }
 
-.project-stats__label {
+.project-stats_label {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   color: var(--color-text-secondary);
 }
 
-.project-stats__value {
+.project-stats_value {
   margin: 0;
   font-size: 2rem;
   font-weight: 700;

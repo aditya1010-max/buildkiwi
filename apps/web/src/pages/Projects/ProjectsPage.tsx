@@ -59,18 +59,18 @@ export default function ProjectsPage(): ReactElement {
   }
   return (
     <main className="projects-page">
-      <div className="projects-page__container">
-        <header className="projects-page__header">
+      <div className="projects-page_container">
+        <header className="projects-page_header">
           <div>
-            <h1 className="projects-page__title">My Projects</h1>
-            <p className="projects-page__subtitle">
+            <h1 className="projects-page_title">My Projects</h1>
+            <p className="projects-page_subtitle">
               Manage, edit and track all of your published projects.
             </p>
           </div>
 
           <button
             type="button"
-            className="projects-page__create-button"
+            className="projects-page_create-button"
             onClick={openCreateModal}
           >
             + Create Project
@@ -78,7 +78,7 @@ export default function ProjectsPage(): ReactElement {
         </header>
 
         {/* Stats */}
-        <section className="projects-page__stats">
+        <section className="projects-page_stats">
           {" "}
           <ProjectStats
             totalProjects={stats.totalProjects}
@@ -89,7 +89,7 @@ export default function ProjectsPage(): ReactElement {
         </section>
         <div className="project-page_abcdef">
           {/* Project Grid */}
-          <section className="projects-page__content">
+          <section className="projects-page_content">
             <ProjectGrid projects={projects} />
           </section>
         </div>

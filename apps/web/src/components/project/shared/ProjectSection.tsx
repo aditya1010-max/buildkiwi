@@ -14,13 +14,13 @@ export default function ProjectSection({
 }: ProjectSectionProps) {
   return (
     <section className="project-section">
-      <header className="project-section__header">
-        <h2 className="project-section__title">{title}</h2>
+      <header className="project-section_header">
+        <h2 className="project-section_title">{title}</h2>
 
-        {actions && <div className="project-section__actions">{actions}</div>}
+        {actions && <div className="project-section_actions">{actions}</div>}
       </header>
 
-      <div className="project-section__body">{children}</div>
+      <div className="project-section_body">{children}</div>
     </section>
   );
 }

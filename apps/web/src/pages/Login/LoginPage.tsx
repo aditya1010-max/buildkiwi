@@ -34,14 +34,14 @@ export default function LoginPage() {
   return (
     <main className="login-page">
       <div className="login-card">
-        <h1 className="login-card__title">Welcome Back</h1>
+        <h1 className="login-card_title">Welcome Back</h1>
 
-        <p className="login-card__subtitle">
+        <p className="login-card_subtitle">
           Log in to continue building on BuildKiwi
         </p>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form__field">
+          <div className="login-form_field">
             <label>Email</label>
 
             <input
@@ -53,7 +53,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="login-form__field">
+          <div className="login-form_field">
             <label>Password</label>
 
             <input
@@ -65,12 +65,12 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className="login-form__error">{error}</p>}
+          {error && <p className="login-form_error">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="login-form__button"
+            className="login-form_button"
           >
             {loading ? "Logging in..." : "Log In"}
           </button>

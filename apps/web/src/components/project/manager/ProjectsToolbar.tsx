@@ -19,14 +19,14 @@ export default function ProjectToolbar({
     <section className="project-toolbar">
       <input
         type="search"
-        className="project-toolbar__search"
+        className="project-toolbar_search"
         placeholder="Search your projects..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
       />
 
       <select
-        className="project-toolbar__sort"
+        className="project-toolbar_sort"
         value={sort}
         onChange={(e) => onSortChange(e.target.value)}
       >

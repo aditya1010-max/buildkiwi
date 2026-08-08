@@ -16,15 +16,15 @@ export default function DocumentationCard({
 }: DocumentationCardProps) {
   return (
     <button type="button" className="documentation-card" onClick={onClick}>
-      <div className="documentation-card__icon">{icon}</div>
+      <div className="documentation-card_icon">{icon}</div>
 
-      <div className="documentation-card__content">
-        <h2 className="documentation-card__title">{title}</h2>
+      <div className="documentation-card_content">
+        <h2 className="documentation-card_title">{title}</h2>
 
-        <p className="documentation-card__description">{description}</p>
+        <p className="documentation-card_description">{description}</p>
       </div>
 
-      <div className="documentation-card__arrow">
+      <div className="documentation-card_arrow">
         <ChevronRight />
       </div>
     </button>

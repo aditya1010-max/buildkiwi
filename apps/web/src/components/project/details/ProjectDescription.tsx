@@ -14,9 +14,9 @@ export default function ProjectDescription({
   return (
     <ProjectSection title="Description">
       {description ? (
-        <p className="project-description__content">{description}</p>
+        <p className="project-description_content">{description}</p>
       ) : (
-        <div className="project-description__empty">
+        <div className="project-description_empty">
           <h3>No Description</h3>
 
           <p>The project owner hasn't added a description yet.</p>

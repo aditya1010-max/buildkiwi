@@ -23,7 +23,7 @@
   border-color: var(--color-accent);
 }
 
-.documentation-card__icon {
+.documentation-card_icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,24 +39,24 @@
   flex-shrink: 0;
 }
 
-.documentation-card__content {
+.documentation-card_content {
   flex: 1;
   text-align: left;
 }
 
-.documentation-card__title {
+.documentation-card_title {
   margin: 0 0 4px;
   font-size: 1rem;
   font-weight: 600;
 }
 
-.documentation-card__description {
+.documentation-card_description {
   margin: 0;
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
-.documentation-card__arrow {
+.documentation-card_arrow {
   font-size: 1.25rem;
   color: var(--color-text-secondary);
 }

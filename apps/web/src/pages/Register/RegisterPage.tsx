@@ -31,14 +31,14 @@ export default function RegisterPage() {
   return (
     <main className="register-page">
       <div className="register-card">
-        <h1 className="register-card__title">Create Account</h1>
+        <h1 className="register-card_title">Create Account</h1>
 
-        <p className="register-card__subtitle">
+        <p className="register-card_subtitle">
           Join BuildKiwi and start sharing projects
         </p>
 
         <form className="register-form" onSubmit={handleSubmit}>
-          <div className="register-form__field">
+          <div className="register-form_field">
             <label>Username</label>
 
             <input
@@ -50,7 +50,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          <div className="register-form__field">
+          <div className="register-form_field">
             <label>Email</label>
 
             <input
@@ -62,7 +62,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          <div className="register-form__field">
+          <div className="register-form_field">
             <label>Password</label>
 
             <input
@@ -74,16 +74,16 @@ export default function RegisterPage() {
             />
           </div>
 
-          {error && <p className="register-form__error">{error}</p>}
+          {error && <p className="register-form_error">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="register-form__button"
+            className="register-form_button"
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
-          <div className="register-card__footer">
+          <div className="register-card_footer">
             Already have an account? <Link to="/login">Log in</Link>
           </div>
         </form>

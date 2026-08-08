@@ -11,15 +11,15 @@ export default function ProjectTags({ project }: ProjectTagsProps) {
   return (
     <ProjectSection title="Technologies">
       {tags.length > 0 ? (
-        <div className="project-tags__list">
+        <div className="project-tags_list">
           {tags.map((tag) => (
-            <span key={tag} className="project-tags__tag">
+            <span key={tag} className="project-tags_tag">
               {tag}
             </span>
           ))}
         </div>
       ) : (
-        <div className="project-tags__empty">
+        <div className="project-tags_empty">
           <h3>No Technologies Added</h3>
 
           <p>The project owner hasn't added any technologies yet.</p>

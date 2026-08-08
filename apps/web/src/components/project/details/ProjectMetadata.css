@@ -12,19 +12,19 @@
   background: var(--surface-primary);
 }
 
-.project-metadata__header h2 {
+.project-metadata_header h2 {
   margin: 0;
 
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.project-metadata__list {
+.project-metadata_list {
   display: flex;
   flex-direction: column;
 }
 
-.project-metadata__item {
+.project-metadata_item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,17 +36,17 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.project-metadata__item:last-child {
+.project-metadata_item:last-child {
   border-bottom: none;
 }
 
-.project-metadata__label {
+.project-metadata_label {
   color: var(--text-secondary);
 
   font-size: 0.95rem;
 }
 
-.project-metadata__value {
+.project-metadata_value {
   font-weight: 600;
 
   text-align: right;

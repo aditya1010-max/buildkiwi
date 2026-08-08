@@ -5,12 +5,12 @@
   background: var(--color-background);
 }
 
-.docs-page__container {
+.docs-page_container {
   max-width: 900px;
   margin: 0 auto;
 }
 
-.docs-page__title {
+.docs-page_title {
   margin: 0;
 
   font-size: 2rem;
@@ -19,20 +19,20 @@
   color: var(--color-text);
 }
 
-.docs-page__subtitle {
+.docs-page_subtitle {
   margin: 0.5rem 0 2rem;
 
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
-.docs-page__cards {
+.docs-page_cards {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.docs-page__article {
+.docs-page_article {
   margin-top: 2rem;
 
   padding: 1.5rem;
@@ -43,14 +43,14 @@
   background: var(--panel-better-name-later);
 }
 
-.docs-page__article h2 {
+.docs-page_article h2 {
   margin: 0 0 1rem;
 
   font-size: 1.4rem;
   color: var(--color-text);
 }
 
-.docs-page__article p {
+.docs-page_article p {
   margin: 0;
 
   color: var(--color-text-secondary);

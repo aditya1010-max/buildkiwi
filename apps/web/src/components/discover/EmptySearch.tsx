@@ -5,7 +5,7 @@ const suggestions = ["React", "TypeScript", "Node.js", "Portfolio", "AI"];
 export default function EmptySearch() {
   return (
     <section className="empty-search">
-      <div className="empty-search__icon">🔍</div>
+      <div className="empty-search_icon">🔍</div>
 
       <h2>No results found</h2>
 
@@ -14,9 +14,9 @@ export default function EmptySearch() {
         below.
       </p>
 
-      <div className="empty-search__suggestions">
+      <div className="empty-search_suggestions">
         {suggestions.map((item) => (
-          <button key={item} type="button" className="empty-search__chip">
+          <button key={item} type="button" className="empty-search_chip">
             {item}
           </button>
         ))}

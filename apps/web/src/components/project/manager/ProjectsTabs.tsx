@@ -39,8 +39,8 @@ export default function ProjectsTabs({
           type="button"
           className={
             activeTab === tab.value
-              ? "projects-tabs__button projects-tabs__button--active"
-              : "projects-tabs__button"
+              ? "projects-tabs_button projects-tabs_button--active"
+              : "projects-tabs_button"
           }
           onClick={() => onTabChange(tab.value)}
         >

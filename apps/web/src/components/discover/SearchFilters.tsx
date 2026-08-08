@@ -28,8 +28,8 @@ export default function SearchFilters({
           type="button"
           className={
             activeFilter === filter.value
-              ? "search-filters__chip search-filters__chip--active"
-              : "search-filters__chip"
+              ? "search-filters_chip search-filters_chip--active"
+              : "search-filters_chip"
           }
           onClick={() => onFilterChange(filter.value)}
         >

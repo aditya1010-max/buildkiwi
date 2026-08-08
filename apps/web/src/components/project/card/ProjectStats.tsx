@@ -16,10 +16,10 @@ interface StatCardProps {
 
 function StatCard({ label, value }: StatCardProps): ReactElement {
   return (
-    <article className="project-stats__card">
-      <span className="project-stats__label">{label}</span>
+    <article className="project-stats_card">
+      <span className="project-stats_label">{label}</span>
 
-      <h2 className="project-stats__value">{value.toLocaleString()}</h2>
+      <h2 className="project-stats_value">{value.toLocaleString()}</h2>
     </article>
   );
 }

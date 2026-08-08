@@ -34,18 +34,18 @@
   pointer-events: auto;
 }
 
-.toast__content {
+.toast_content {
   flex: 1;
 }
 
-.toast__title {
+.toast_title {
   margin: 0;
 
   font-size: 0.95rem;
   font-weight: 600;
 }
 
-.toast__description {
+.toast_description {
   margin-top: 0.35rem;
 
   color: #666;
@@ -54,7 +54,7 @@
   line-height: 1.45;
 }
 
-.toast__close {
+.toast_close {
   border: none;
   background: transparent;
 
@@ -67,7 +67,7 @@
   padding: 0;
 }
 
-.toast__close:hover {
+.toast_close:hover {
   color: #111;
 }
 

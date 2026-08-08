@@ -22,12 +22,12 @@ export default function SearchBar({
 }: SearchBarProps) {
   return (
     <section className="search-bar">
-      <div className="search-bar__content">
+      <div className="search-bar_content">
         <h1>Discover</h1>
 
         <p>Search projects or tags.</p>
 
-        <div className="search-bar__input-wrapper">
+        <div className="search-bar_input-wrapper">
           <input
             type="text"
             placeholder={placeholders[filter]}
@@ -37,15 +37,15 @@ export default function SearchBar({
         </div>
       </div>
 
-      <div className="search-bar__filters">
+      <div className="search-bar_filters">
         {["all", "projects", "tags"].map((item) => (
           <button
             key={item}
             type="button"
             className={
               filter === item
-                ? "search-bar__chip search-bar__chip--active"
-                : "search-bar__chip"
+                ? "search-bar_chip search-bar_chip--active"
+                : "search-bar_chip"
             }
             onClick={() => onFilterChange(item as SearchFilter)}
           >

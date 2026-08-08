@@ -71,7 +71,7 @@ export default function FeedbackForm() {
 
         <button
           type="button"
-          className="feedback-success__button"
+          className="feedback-success_button"
           onClick={() => {
             setSubmitted(false);
             setError("");
@@ -86,7 +86,7 @@ export default function FeedbackForm() {
 
   return (
     <form className="feedback-form" onSubmit={handleSubmit}>
-      <div className="feedback-form__field">
+      <div className="feedback-form_field">
         <label>Category</label>
 
         <FeedbackCategorySelector
@@ -100,7 +100,7 @@ export default function FeedbackForm() {
         />
       </div>
 
-      <div className="feedback-form__field">
+      <div className="feedback-form_field">
         <label htmlFor="feedback-title">Title</label>
 
         <input
@@ -117,10 +117,10 @@ export default function FeedbackForm() {
           }
         />
 
-        <div className="feedback-form__counter">{form.title.length}/150</div>
+        <div className="feedback-form_counter">{form.title.length}/150</div>
       </div>
 
-      <div className="feedback-form__field">
+      <div className="feedback-form_field">
         <label htmlFor="feedback-description">Description</label>
 
         <textarea
@@ -137,16 +137,16 @@ export default function FeedbackForm() {
           }
         />
 
-        <div className="feedback-form__counter">
+        <div className="feedback-form_counter">
           {form.description.length}/5000
         </div>
       </div>
 
-      {error && <div className="feedback-form__error">{error}</div>}
+      {error && <div className="feedback-form_error">{error}</div>}
 
       <button
         type="submit"
-        className="feedback-form__submit"
+        className="feedback-form_submit"
         disabled={!isValid || loading}
       >
         {loading ? "Sending..." : "Send Feedback"}

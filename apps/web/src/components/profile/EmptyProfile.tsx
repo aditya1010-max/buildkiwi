@@ -11,18 +11,18 @@ export default function EmptyProfile({
 }: EmptyProfileProps) {
   return (
     <section className="empty-profile">
-      <div className="empty-profile__icon">📂</div>
+      <div className="empty-profile_icon">📂</div>
 
-      <h2 className="empty-profile__title">No projects yet</h2>
+      <h2 className="empty-profile_title">No projects yet</h2>
 
-      <p className="empty-profile__description">
+      <p className="empty-profile_description">
         {isCurrentUser
           ? "You haven't published any projects yet. Start building something amazing."
           : "This user hasn't published any projects yet."}
       </p>
 
       {isCurrentUser && (
-        <button className="empty-profile__button" onClick={onCreateProject}>
+        <button className="empty-profile_button" onClick={onCreateProject}>
           Create Project
         </button>
       )}

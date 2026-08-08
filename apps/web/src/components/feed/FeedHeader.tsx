@@ -11,10 +11,10 @@ export default function FeedHeader({ title, subtitle }: FeedHeaderProps) {
   return (
     <header className="feed-header">
       <div>
-        <h1 className="feed-header__title">{title}</h1>
-        {subtitle && <p className="feed-header__subtitle">{subtitle}</p>}
+        <h1 className="feed-header_title">{title}</h1>
+        {subtitle && <p className="feed-header_subtitle">{subtitle}</p>}
       </div>
-      <button className="feed-header__button">
+      <button className="feed-header_button">
         <Link to="/create" state={{ background: location }}>
           + Create
         </Link>

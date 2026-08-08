@@ -5,7 +5,7 @@
 
   padding: 1rem;
 }
-.user-menu__popup {
+.user-menu_popup {
   position: absolute;
 
   bottom: calc(100% + 0.75rem);
@@ -20,7 +20,7 @@
   z-index: 100;
 }
 
-.user-menu__button {
+.user-menu_button {
   width: 44px;
   height: 44px;
 
@@ -33,20 +33,20 @@
   place-items: center;
 }
 
-.user-menu__header {
+.user-menu_header {
   padding: 20px;
 
   border-bottom: 1px solid var(--color-border);
 }
 
-.user-menu__title {
+.user-menu_title {
   margin: 0;
 
   font-size: 1rem;
   font-weight: 700;
 }
 
-.user-menu__subtitle {
+.user-menu_subtitle {
   margin-top: 6px;
 
   font-size: 0.85rem;
@@ -54,7 +54,7 @@
   color: var(--color-text-secondary);
 }
 
-.user-menu__content {
+.user-menu_content {
   padding: 10px;
   min-height: 180px;
 }

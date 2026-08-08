@@ -8,12 +8,12 @@ export default function GuestSidebarCard() {
   return (
     <section className="guest-sidebar-card">
       <div>
-        <div className="guest-sidebar-card__icon">🚀</div>
+        <div className="guest-sidebar-card_icon">🚀</div>
 
-        <h3 className="guest-sidebar-card__title">Join BuildKiwi</h3>
+        <h3 className="guest-sidebar-card_title">Join BuildKiwi</h3>
       </div>
 
-      <ul className="guest-sidebar-card__features">
+      <ul className="guest-sidebar-card_features">
         <li>Create projects</li>
         <li>Save favourites</li>
         <li>Like projects</li>
@@ -21,7 +21,7 @@ export default function GuestSidebarCard() {
 
       <button
         type="button"
-        className="guest-sidebar-card__primary"
+        className="guest-sidebar-card_primary"
         onClick={() => navigate("/login")}
       >
         Sign In
@@ -29,7 +29,7 @@ export default function GuestSidebarCard() {
 
       <button
         type="button"
-        className="guest-sidebar-card__secondary"
+        className="guest-sidebar-card_secondary"
         onClick={() => navigate("/register")}
       >
         Create Account

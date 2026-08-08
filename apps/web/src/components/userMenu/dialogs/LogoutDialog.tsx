@@ -11,14 +11,14 @@ export default function LogoutDialog({
 }: LogoutDialogProps) {
   return (
     <div className="logout-dialog">
-      <h3 className="logout-dialog__title">Logout?</h3>
+      <h3 className="logout-dialog_title">Logout?</h3>
 
-      <p className="logout-dialog__message">Are you sure you want to logout?</p>
+      <p className="logout-dialog_message">Are you sure you want to logout?</p>
 
-      <div className="logout-dialog__actions">
+      <div className="logout-dialog_actions">
         <button
           type="button"
-          className="logout-dialog__button logout-dialog__button--secondary"
+          className="logout-dialog_button logout-dialog_button--secondary"
           onClick={onCancel}
         >
           Cancel
@@ -26,7 +26,7 @@ export default function LogoutDialog({
 
         <button
           type="button"
-          className="logout-dialog__button logout-dialog__button--danger"
+          className="logout-dialog_button logout-dialog_button--danger"
           onClick={onConfirm}
         >
           Logout

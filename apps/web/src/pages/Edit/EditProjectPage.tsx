@@ -62,13 +62,13 @@ export default function EditProjectPage(): ReactElement {
 
   return (
     <main className="edit-project-page">
-      <div className="edit-project-page__container">
-        <header className="edit-project-page__header">
+      <div className="edit-project-page_container">
+        <header className="edit-project-page_header">
           <h1>Edit Project</h1>
           <p>Update your project information.</p>
         </header>
 
-        <section className="edit-project-page__content">
+        <section className="edit-project-page_content">
           <DynamicForm
             schema={taskSchema}
             initialValues={{

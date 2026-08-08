@@ -9,17 +9,17 @@ interface ToastProps {
 export default function Toast({ toast, onClose }: ToastProps) {
   return (
     <div className={`toast toast--${toast.variant}`} role="status">
-      <div className="toast__content">
-        <h4 className="toast__title">{toast.title}</h4>
+      <div className="toast_content">
+        <h4 className="toast_title">{toast.title}</h4>
 
         {toast.description && (
-          <p className="toast__description">{toast.description}</p>
+          <p className="toast_description">{toast.description}</p>
         )}
       </div>
 
       <button
         type="button"
-        className="toast__close"
+        className="toast_close"
         onClick={onClose}
         aria-label="Close notification"
       >

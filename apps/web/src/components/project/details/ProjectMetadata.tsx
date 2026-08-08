@@ -13,9 +13,9 @@ function MetadataItem({
   value: React.ReactNode;
 }) {
   return (
-    <div className="project-metadata__item">
-      <div className="project-metadata__label">{label}</div>
-      <div className="project-metadata__value">{value}</div>
+    <div className="project-metadata_item">
+      <div className="project-metadata_label">{label}</div>
+      <div className="project-metadata_value">{value}</div>
     </div>
   );
 }
@@ -23,7 +23,7 @@ function MetadataItem({
 export default function ProjectMetadata({ project }: ProjectMetadataProps) {
   return (
     <ProjectSection title="Project Information">
-      <div className="project-metadata__list">
+      <div className="project-metadata_list">
         <MetadataItem
           label="Creator"
           value={`@${project.creatorId.username}`}

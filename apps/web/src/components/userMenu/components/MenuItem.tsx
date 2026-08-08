@@ -24,13 +24,13 @@ export default function MenuItem({
       onClick={onClick}
       disabled={disabled}
     >
-      <div className="menu-item__left">
-        {icon && <span className="menu-item__icon">{icon}</span>}
+      <div className="menu-item_left">
+        {icon && <span className="menu-item_icon">{icon}</span>}
 
-        <span className="menu-item__label">{label}</span>
+        <span className="menu-item_label">{label}</span>
       </div>
 
-      {rightSlot && <span className="menu-item__right">{rightSlot}</span>}
+      {rightSlot && <span className="menu-item_right">{rightSlot}</span>}
     </button>
   );
 }

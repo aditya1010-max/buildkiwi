@@ -11,18 +11,18 @@
   padding: 2rem;
 }
 
-.guest-prompt__icon {
+.guest-prompt_icon {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
 
-.guest-prompt__title {
+.guest-prompt_title {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
 }
 
-.guest-prompt__description {
+.guest-prompt_description {
   max-width: 420px;
 
   margin: 1rem 0 2rem;
@@ -31,13 +31,13 @@
   line-height: 1.6;
 }
 
-.guest-prompt__actions {
+.guest-prompt_actions {
   display: flex;
   gap: 1rem;
 }
 
-.guest-prompt__primary,
-.guest-prompt__secondary {
+.guest-prompt_primary,
+.guest-prompt_secondary {
   padding: 0.8rem 1.4rem;
 
   border-radius: 10px;
@@ -48,12 +48,12 @@
   font-weight: 600;
 }
 
-.guest-prompt__primary {
+.guest-prompt_primary {
   background: var(--color-primary);
   color: white;
 }
 
-.guest-prompt__secondary {
+.guest-prompt_secondary {
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text);

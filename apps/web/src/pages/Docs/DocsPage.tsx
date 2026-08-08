@@ -70,14 +70,14 @@ export default function DocsPage() {
 
   return (
     <main className="docs-page">
-      <div className="docs-page__container">
-        <h1 className="docs-page__title">Documentation</h1>
+      <div className="docs-page_container">
+        <h1 className="docs-page_title">Documentation</h1>
 
-        <p className="docs-page__subtitle">
+        <p className="docs-page_subtitle">
           Everything you need to get started with BuildKiwi.
         </p>
 
-        <div className="docs-page__cards">
+        <div className="docs-page_cards">
           <DocumentationCard
             title="Getting Started"
             description="Create your first project."
@@ -114,7 +114,7 @@ export default function DocsPage() {
           />
         </div>
 
-        <div className="docs-page__article">{renderArticle()}</div>
+        <div className="docs-page_article">{renderArticle()}</div>
       </div>
     </main>
   );

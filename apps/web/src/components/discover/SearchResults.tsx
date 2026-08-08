@@ -17,7 +17,7 @@ export default function SearchResults({
   if (loading) {
     return (
       <section className="search-results">
-        <p className="search-results__message">Searching...</p>
+        <p className="search-results_message">Searching...</p>
       </section>
     );
   }
@@ -28,7 +28,7 @@ export default function SearchResults({
 
   return (
     <section className="search-results">
-      <div className="search-results__grid">
+      <div className="search-results_grid">
         {projects.map((project) => (
           <ProjectCard key={project._id} project={project} />
         ))}

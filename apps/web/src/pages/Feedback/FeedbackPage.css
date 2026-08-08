@@ -5,21 +5,21 @@
   padding: 48px 24px;
 }
 
-.feedback-page__container {
+.feedback-page_container {
   width: 100%;
   max-width: 760px;
 }
 
-.feedback-page__header {
+.feedback-page_header {
   margin-bottom: 32px;
 }
 
-.feedback-page__header h1 {
+.feedback-page_header h1 {
   font-size: 2rem;
   margin-bottom: 12px;
 }
 
-.feedback-page__header p {
+.feedback-page_header p {
   color: var(--text-secondary);
   line-height: 1.6;
 }

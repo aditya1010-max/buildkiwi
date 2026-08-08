@@ -21,7 +21,7 @@ export default function ProjectLinks({ project }: ProjectLinksProps) {
 
   return (
     <ProjectSection title="Resources">
-      <div className="project-links__list">
+      <div className="project-links_list">
         {resources.map((resource) =>
           resource.href ? (
             <a
@@ -29,7 +29,7 @@ export default function ProjectLinks({ project }: ProjectLinksProps) {
               href={resource.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="project-links__item"
+              className="project-links_item"
             >
               <h3>{resource.title}</h3>
               <p>{resource.description}</p>
@@ -37,7 +37,7 @@ export default function ProjectLinks({ project }: ProjectLinksProps) {
           ) : (
             <div
               key={resource.title}
-              className="project-links__item project-links__item--disabled"
+              className="project-links_item project-links_item--disabled"
             >
               <h3>{resource.title}</h3>
               <p>Unavailable</p>

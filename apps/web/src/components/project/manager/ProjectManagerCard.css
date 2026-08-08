@@ -19,21 +19,21 @@
   box-shadow: 0 10px 25px rgba(134, 137, 132, 0.329); /* dark and light*/
 }
 
-.project-manager-card__cover {
+.project-manager-card_cover {
   width: 100%;
   aspect-ratio: 16 / 9;
 
   background: var(--color-surface-secondary);
 }
 
-.project-manager-card__image {
+.project-manager-card_image {
   width: 100%;
   height: 100%;
 
   object-fit: cover;
 }
 
-.project-manager-card__placeholder {
+.project-manager-card_placeholder {
   display: flex;
 
   justify-content: center;
@@ -47,7 +47,7 @@
   font-size: 0.9rem;
 }
 
-.project-manager-card__content {
+.project-manager-card_content {
   display: flex;
   flex-direction: column;
 
@@ -56,14 +56,14 @@
   padding: 1.25rem;
 }
 
-.project-manager-card__title {
+.project-manager-card_title {
   margin: 0;
 
   font-size: 1.25rem;
   font-weight: 700;
 }
 
-.project-manager-card__description {
+.project-manager-card_description {
   margin: 0;
 
   color: var(--color-text-secondary);
@@ -77,7 +77,7 @@
   overflow: hidden;
 }
 
-.project-manager-card__meta {
+.project-manager-card_meta {
   display: flex;
 
   justify-content: space-between;
@@ -87,7 +87,7 @@
   color: var(--color-text-secondary);
 }
 
-.project-manager-card__stats {
+.project-manager-card_stats {
   display: flex;
 
   gap: 1rem;
@@ -95,7 +95,7 @@
   font-weight: 600;
 }
 
-.project-manager-card__tags {
+.project-manager-card_tags {
   display: flex;
 
   flex-wrap: wrap;
@@ -103,7 +103,7 @@
   gap: 0.5rem;
 }
 
-.project-manager-card__tag {
+.project-manager-card_tag {
   padding: 0.3rem 0.7rem;
 
   border-radius: 999px;
@@ -113,7 +113,7 @@
   font-size: 0.8rem;
 }
 
-.project-manager-card__actions {
+.project-manager-card_actions {
   display: flex;
 
   gap: 0.75rem;
@@ -123,7 +123,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.project-manager-card__actions button {
+.project-manager-card_actions button {
   flex: 1;
 
   padding: 0.75rem;
@@ -138,11 +138,11 @@
   transition: opacity 0.2s;
 }
 
-.project-manager-card__actions button:hover:not(:disabled) {
+.project-manager-card_actions button:hover:not(:disabled) {
   opacity: 0.9;
 }
 
-.project-manager-card__actions button:disabled {
+.project-manager-card_actions button:disabled {
   cursor: not-allowed;
 
   opacity: 0.5;

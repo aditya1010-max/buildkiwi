@@ -17,16 +17,16 @@ export default function GuestPrompt({
 
   return (
     <section className="guest-prompt">
-      <div className="guest-prompt__icon">{icon || "🔒"}</div>
+      <div className="guest-prompt_icon">{icon || "🔒"}</div>
 
-      <h2 className="guest-prompt__title">{title}</h2>
+      <h2 className="guest-prompt_title">{title}</h2>
 
-      <p className="guest-prompt__description">{description}</p>
+      <p className="guest-prompt_description">{description}</p>
 
-      <div className="guest-prompt__actions">
+      <div className="guest-prompt_actions">
         <button
           type="button"
-          className="guest-prompt__primary"
+          className="guest-prompt_primary"
           onClick={() => navigate("/login")}
         >
           Sign In
@@ -34,7 +34,7 @@ export default function GuestPrompt({
 
         <button
           type="button"
-          className="guest-prompt__secondary"
+          className="guest-prompt_secondary"
           onClick={() => navigate("/register")}
         >
           Create Account

@@ -12,9 +12,9 @@ export default function ProjectDetailsLayout({
 }: ProjectDetailsLayoutProps) {
   return (
     <section className="project-details-layout">
-      <main className="project-details-layout__content">{content}</main>
+      <main className="project-details-layout_content">{content}</main>
 
-      <aside className="project-details-layout__sidebar">{sidebar}</aside>
+      <aside className="project-details-layout_sidebar">{sidebar}</aside>
     </section>
   );
 }

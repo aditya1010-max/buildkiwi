@@ -3,33 +3,33 @@
   padding: 2rem;
 }
 
-.edit-project-page__container {
+.edit-project-page_container {
   max-width: 900px;
   margin: 0 auto;
 }
 
-.edit-project-page__header {
+.edit-project-page_header {
   margin-bottom: 2rem;
 }
 
-.edit-project-page__header h1 {
+.edit-project-page_header h1 {
   margin: 0;
   font-size: 2rem;
 }
 
-.edit-project-page__header p {
+.edit-project-page_header p {
   margin-top: 0.5rem;
   color: var(--color-text-secondary);
 }
 
-.edit-project-page__content {
+.edit-project-page_content {
   padding: 2rem;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   background: var(--color-surface);
 }
 
-.edit-project-page__placeholder {
+.edit-project-page_placeholder {
   margin-top: 1.5rem;
   padding: 2rem;
   border: 2px dashed var(--color-border);

@@ -56,11 +56,11 @@ export default function FeedbackCategorySelector({
             }
             onClick={() => onChange(category.id)}
           >
-            <span className="feedback-category__icon" aria-hidden="true">
+            <span className="feedback-category_icon" aria-hidden="true">
               {category.icon}
             </span>
 
-            <div className="feedback-category__content">
+            <div className="feedback-category_content">
               <h3>{category.title}</h3>
               <p>{category.description}</p>
             </div>

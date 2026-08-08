@@ -17,29 +17,29 @@ export default function ProjectManagerCard({
   return (
     <article className="project-manager-card">
       {/* Cover */}
-      <div className="project-manager-card__cover">
+      <div className="project-manager-card_cover">
         {project.coverImage ? (
           <img
             src={project.coverImage}
             alt={project.title}
-            className="project-manager-card__image"
+            className="project-manager-card_image"
           />
         ) : (
-          <div className="project-manager-card__placeholder">
+          <div className="project-manager-card_placeholder">
             No Cover Image
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="project-manager-card__content">
-        <h2 className="project-manager-card__title">{project.title}</h2>
+      <div className="project-manager-card_content">
+        <h2 className="project-manager-card_title">{project.title}</h2>
 
-        <p className="project-manager-card__description">
+        <p className="project-manager-card_description">
           {project.description}
         </p>
 
-        <div className="project-manager-card__meta">
+        <div className="project-manager-card_meta">
           <span>
             Created {new Date(project.createdAt).toLocaleDateString()}
           </span>
@@ -49,16 +49,16 @@ export default function ProjectManagerCard({
           </span>
         </div>
 
-        <div className="project-manager-card__stats">
+        <div className="project-manager-card_stats">
           <span>👁 {project.stats.views}</span>
           <span>❤️ {project.stats.likes}</span>
           <span>💬 {project.stats.comments}</span>
         </div>
 
         {project.tags.length > 0 && (
-          <div className="project-manager-card__tags">
+          <div className="project-manager-card_tags">
             {project.tags.map((tag) => (
-              <span key={tag} className="project-manager-card__tag">
+              <span key={tag} className="project-manager-card_tag">
                 #{tag}
               </span>
             ))}
@@ -67,7 +67,7 @@ export default function ProjectManagerCard({
       </div>
 
       {/* Actions */}
-      <footer className="project-manager-card__actions">
+      <footer className="project-manager-card_actions">
         <button onClick={() => navigate(`/projects/${project._id}`)}>
           View
         </button>

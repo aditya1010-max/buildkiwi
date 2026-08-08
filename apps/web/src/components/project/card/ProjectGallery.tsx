@@ -14,7 +14,7 @@ export default function ProjectGallery({ project }: ProjectGalleryProps) {
       <img
         src={imageUrl}
         alt={project.title}
-        className="project-gallery__image"
+        className="project-gallery_image"
       />
     </div>
   );

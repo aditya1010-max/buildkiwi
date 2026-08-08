@@ -11,19 +11,19 @@
   background: var(--surface-primary);
 }
 
-.project-links__header h2 {
+.project-links_header h2 {
   margin: 0;
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.project-links__list {
+.project-links_list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1rem;
 }
 
-.project-links__item {
+.project-links_item {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -44,22 +44,22 @@
     background 0.2s ease;
 }
 
-.project-links__item:hover {
+.project-links_item:hover {
   transform: translateY(-2px);
 }
 
-.project-links__item h3 {
+.project-links_item h3 {
   margin: 0;
   font-size: 1rem;
 }
 
-.project-links__item p {
+.project-links_item p {
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
-.project-links__item--disabled {
+.project-links_item--disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }

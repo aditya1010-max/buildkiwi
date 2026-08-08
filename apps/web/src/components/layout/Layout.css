@@ -23,7 +23,7 @@
   min-width: 0;
 }
 
-.layout__content {
+.layout_content {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -43,10 +43,10 @@
 }
 
 @media (max-width: 1280px) {
-  .sidebar__item {
+  .sidebar_item {
     justify-content: right;
   }
-  .sidebar__label {
+  .sidebar_label {
     display: none;
   }
 }
@@ -56,7 +56,7 @@
     display: none;
   }
 
-  .layout__content {
+  .layout_content {
     width: 100%;
   }
 

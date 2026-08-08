@@ -11,21 +11,21 @@ const ProjectsHeader = ({
 }: ProjectsHeaderProps) => {
   return (
     <header className="projects-header">
-      <div className="projects-header__content">
+      <div className="projects-header_content">
         <div>
-          <h1 className="projects-header__title">📁 My Projects</h1>
+          <h1 className="projects-header_title">📁 My Projects</h1>
 
-          <p className="projects-header__subtitle">
+          <p className="projects-header_subtitle">
             Manage all your BuildKiwi projects in one place.
           </p>
         </div>
 
-        <button className="projects-header__button" onClick={onCreateProject}>
+        <button className="projects-header_button" onClick={onCreateProject}>
           + New Project
         </button>
       </div>
 
-      <div className="projects-header__stats">
+      <div className="projects-header_stats">
         <span>{totalProjects} Projects</span>
       </div>
     </header>

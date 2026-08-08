@@ -10,16 +10,16 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
 
   return (
     <section className="project-hero">
-      <div className="project-hero__cover">
+      <div className="project-hero_cover">
         {hasCover ? (
           <img
             src={`http://localhost:3000/uploads/${project.coverImage}`}
             alt={project.title}
-            className="project-hero__image"
+            className="project-hero_image"
           />
         ) : (
-          <div className="project-hero__placeholder">
-            <div className="project-hero__placeholder-box">
+          <div className="project-hero_placeholder">
+            <div className="project-hero_placeholder-box">
               <h3>No Cover Image</h3>
 
               <p>This project doesn't have a cover image yet.</p>
@@ -28,35 +28,35 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         )}
       </div>
 
-      <div className="project-hero__content">
-        <h1 className="project-hero__title">
+      <div className="project-hero_content">
+        <h1 className="project-hero_title">
           {project.title || "Untitled Project"}
         </h1>
 
-        <div className="project-hero__meta">
-          <span className="project-hero__creator">
+        <div className="project-hero_meta">
+          <span className="project-hero_creator">
             @{project.creatorId.username}
           </span>
 
-          <span className="project-hero__separator">•</span>
+          <span className="project-hero_separator">•</span>
 
-          <span className="project-hero__date">
+          <span className="project-hero_date">
             {new Date(project.createdAt).toLocaleDateString()}
           </span>
         </div>
 
-        <div className="project-hero__actions">
+        <div className="project-hero_actions">
           {project.links?.github ? ( //? for legacy projects created
             <a
               href={project.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="project-hero__button"
+              className="project-hero_button"
             >
               GitHub
             </a>
           ) : (
-            <button disabled className="project-hero__button disabled">
+            <button disabled className="project-hero_button disabled">
               GitHub Unavailable
             </button>
           )}
@@ -66,12 +66,12 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
               href={project.links.demo} //? for legacy projects with no links
               target="_blank"
               rel="noopener noreferrer"
-              className="project-hero__button project-hero__button--primary"
+              className="project-hero_button project-hero_button--primary"
             >
               Live Demo
             </a>
           ) : (
-            <button disabled className="project-hero__button disabled">
+            <button disabled className="project-hero_button disabled">
               Demo Unavailable
             </button>
           )}

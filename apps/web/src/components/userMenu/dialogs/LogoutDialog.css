@@ -2,25 +2,25 @@
   padding: 1rem;
 }
 
-.logout-dialog__title {
+.logout-dialog_title {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
 }
 
-.logout-dialog__message {
+.logout-dialog_message {
   margin: 0.75rem 0 1.25rem;
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
-.logout-dialog__actions {
+.logout-dialog_actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
 }
 
-.logout-dialog__button {
+.logout-dialog_button {
   border: none;
   border-radius: 8px;
   padding: 0.55rem 1rem;
@@ -28,20 +28,20 @@
   font: inherit;
 }
 
-.logout-dialog__button--secondary {
+.logout-dialog_button--secondary {
   background: var(--color-surface-secondary);
   color: var(--color-text-primary);
 }
 
-.logout-dialog__button--secondary:hover {
+.logout-dialog_button--secondary:hover {
   background: var(--color-surface-hover);
 }
 
-.logout-dialog__button--danger {
+.logout-dialog_button--danger {
   background: #d32f2f;
   color: white;
 }
 
-.logout-dialog__button--danger:hover {
+.logout-dialog_button--danger:hover {
   background: #b71c1c;
 }
