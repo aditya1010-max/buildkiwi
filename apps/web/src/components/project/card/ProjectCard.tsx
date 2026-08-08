@@ -99,7 +99,7 @@ export default function ProjectCard({
 
       {project.tags && project.tags.length > 0 && (
         <div className="project-card_tags">
-          {project.tags.map((tag) => (
+          {[...new Set(project.tags)].map((tag) => (
             <span key={tag} className="project-card_tag">
               #{tag}
             </span>
