@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./CreateModel.css";
 import { useToast } from "../../hooks/useToast";
-import taskSchema from "../../schema/taskSchema";
+import projectSchema from "../../schema/projectSchema";
 import DynamicForm from "./DynamicForm";
 import { createProject } from "../../api/project.api";
 
@@ -36,7 +36,7 @@ export default function CreateModal() {
 
         <h2>Create Project</h2>
 
-        <DynamicForm schema={taskSchema} onSubmit={handleCreateProject} />
+        <DynamicForm schema={projectSchema} onSubmit={handleCreateProject} />
       </div>
     </div>
   );

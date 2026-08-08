@@ -1,6 +1,6 @@
 import type { FormSchema } from "../types/schema";
 
-const taskSchema: FormSchema = {
+const projectSchema: FormSchema = {
   fields: [
     {
       name: "title",
@@ -15,6 +15,12 @@ const taskSchema: FormSchema = {
       placeholder: "Enter description",
     },
     {
+      name: "tags",
+      label: "Technologies",
+      type: "tags",
+      placeholder: "React, Node.js, MongoDB",
+    },
+    {
       name: "coverImage",
       label: "Project Cover Image",
       type: "image",
@@ -25,7 +31,6 @@ const taskSchema: FormSchema = {
       label: "GitHub Repository",
       placeholder: "https://github.com/username/repository",
     },
-
     {
       type: "text",
       name: "demo",
@@ -35,4 +40,4 @@ const taskSchema: FormSchema = {
   ],
 };
 
-export default taskSchema;
+export default projectSchema;

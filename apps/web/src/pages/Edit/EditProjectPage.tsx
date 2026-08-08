@@ -5,7 +5,7 @@ import { getEditableProject } from "../../api/project.api";
 
 import "./EditProjectPage.css";
 import DynamicForm from "../../components/create/DynamicForm";
-import taskSchema from "../../schema/taskSchema";
+import projectSchema from "../../schema/projectSchema";
 import { updateProject } from "../../api/project.api";
 
 export default function EditProjectPage(): ReactElement {
@@ -70,12 +70,13 @@ export default function EditProjectPage(): ReactElement {
 
         <section className="edit-project-page_content">
           <DynamicForm
-            schema={taskSchema}
+            schema={projectSchema}
             initialValues={{
               title: project.title,
               description: project.description,
               github: project.links?.github ?? "",
               demo: project.links?.demo ?? "",
+              tags: project.tags?.join(", ") ?? "",
             }}
             onSubmit={handleUpdateProject}
           />
