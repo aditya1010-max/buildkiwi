@@ -50,10 +50,21 @@ export default function DynamicForm({
 
     const submissionData = new FormData();
 
-    const { coverImage, title, description, github, demo } = formData;
+    const { coverImage, title, description, github, demo, tags } = formData;
 
     submissionData.append("title", title ?? "");
     submissionData.append("description", description ?? "");
+    submissionData.append(
+      "tags",
+      JSON.stringify(
+        tags
+          ? tags
+              .split(",")
+              .map((tag: string) => tag.trim())
+              .filter(Boolean)
+          : [],
+      ),
+    );
 
     submissionData.append("links.github", github ?? "");
     submissionData.append("links.demo", demo ?? "");
@@ -81,6 +92,17 @@ export default function DynamicForm({
       case "textarea":
         return (
           <textarea
+            name={field.name}
+            placeholder={field.placeholder}
+            value={formData[field.name] || ""}
+            onChange={handleChange}
+          />
+        );
+
+      case "tags":
+        return (
+          <input
+            type="text"
             name={field.name}
             placeholder={field.placeholder}
             value={formData[field.name] || ""}
