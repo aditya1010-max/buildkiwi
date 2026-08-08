@@ -53,9 +53,9 @@ export default function ProjectManagerCard({
           <span>💬 {project.stats.comments}</span>
         </div>
 
-        {project.tags.length > 0 && (
+        {project.tags && project.tags.length > 0 && (
           <div className="project-manager-card_tags">
-            {project.tags.map((tag) => (
+            {[...new Set(project.tags)].map((tag) => (
               <span key={tag} className="project-manager-card_tag">
                 #{tag}
               </span>
