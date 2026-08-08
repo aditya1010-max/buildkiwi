@@ -42,6 +42,16 @@ export const createProject = asyncHandler(
     const payload = {
       ...authReq.body,
 
+      tags: (() => {
+        if (!authReq.body.tags) return [];
+        if (Array.isArray(authReq.body.tags)) return authReq.body.tags;
+        try {
+          return JSON.parse(authReq.body.tags);
+        } catch {
+          return [];
+        }
+      })(),
+
       links: {
         github: authReq.body["links.github"] || "",
         demo: authReq.body["links.demo"] || "",

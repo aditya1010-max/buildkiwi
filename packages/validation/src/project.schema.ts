@@ -4,6 +4,7 @@ export const CreateProjectSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description too short"),
   coverImage: z.string().optional(),
+  tags: z.array(z.string().trim().min(1)).default([]),
   links: z
     .object({
       github: z.string().url().optional().or(z.literal("")),
