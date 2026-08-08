@@ -24,8 +24,8 @@
 
   border-radius: 50%;
 
-  color: red;
-  background: green;
+  color: rgb(85, 117, 78);
+  background: rgba(170, 96, 50, 0.558);
   border-radius: 50%;
   border: 1px solid var(--border-color);
 
