@@ -69,8 +69,11 @@ export const projectRepository = {
     return await Project.findByIdAndUpdate(
       id,
       { $set: updateData },
-      { new: true, runValidators: true }, // { new: true } returns the updated doc instead of the old one
-    ).populate("creatorId", "username");
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
   },
 
   delete: async (id: string) => {
