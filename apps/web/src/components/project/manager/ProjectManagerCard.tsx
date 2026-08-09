@@ -1,18 +1,45 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./ProjectManagerCard.css";
 
 import type { Project } from "../../../types/project";
+import { deleteProject } from "../../../api/project.api";
+import DeleteProjectDialog from "../../../components/userMenu/dialogs/DeleteProjectDialog";
 
 interface ProjectManagerCardProps {
   project: Project;
+  onDeleteSuccess?: (projectId: string) => void;
 }
 
 export default function ProjectManagerCard({
   project,
+  onDeleteSuccess,
 }: ProjectManagerCardProps): ReactElement {
   const navigate = useNavigate();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDelete() {
+    try {
+      setIsDeleting(true);
+      await deleteProject(project._id);
+      setShowDeleteDialog(false);
+
+      if (onDeleteSuccess) {
+        onDeleteSuccess(project._id);
+      } else {
+        navigate("/projects");
+      }
+    } catch (error) {
+      console.error("Failed to delete project:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
+  const formatDate = (date?: string) =>
+    date ? new Date(date).toLocaleDateString() : "N/A";
 
   return (
     <article className="project-manager-card">
@@ -38,19 +65,29 @@ export default function ProjectManagerCard({
         </p>
 
         <div className="project-manager-card_meta">
-          <span>
-            Created {new Date(project.createdAt).toLocaleDateString()}
-          </span>
-
-          <span>
-            Updated {new Date(project.updatedAt).toLocaleDateString()}
-          </span>
+          <span>Created {formatDate(project.createdAt)}</span>
+          <span>Updated {formatDate(project.updatedAt)}</span>
         </div>
 
         <div className="project-manager-card_stats">
-          <span>👁 {project.stats.views}</span>
-          <span>❤️ {project.stats.likes}</span>
-          <span>💬 {project.stats.comments}</span>
+          <span>
+            <span role="img" aria-label="views">
+              👁
+            </span>{" "}
+            {project.stats.views}
+          </span>
+          <span>
+            <span role="img" aria-label="likes">
+              ❤️
+            </span>{" "}
+            {project.stats.likes}
+          </span>
+          <span>
+            <span role="img" aria-label="comments">
+              💬
+            </span>{" "}
+            {project.stats.comments}
+          </span>
         </div>
 
         {project.tags && project.tags.length > 0 && (
@@ -74,8 +111,18 @@ export default function ProjectManagerCard({
           Edit
         </button>
 
+        <button onClick={() => setShowDeleteDialog(true)} disabled={isDeleting}>
+          {isDeleting ? "Deleting..." : "Delete"}
+        </button>
         <button disabled>Analytics</button>
       </footer>
+      {showDeleteDialog && (
+        <DeleteProjectDialog
+          onCancel={() => setShowDeleteDialog(false)}
+          onConfirm={handleDelete}
+          isDeleting={isDeleting}
+        />
+      )}
     </article>
   );
 }
