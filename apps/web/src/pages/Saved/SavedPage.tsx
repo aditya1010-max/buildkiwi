@@ -43,15 +43,19 @@ export default function SavedPage(): ReactElement {
     );
   }
 
+  const validBookmarks = bookmarks.filter(
+    (project): project is NonNullable<typeof project> => project !== null,
+  );
+
   return (
     <main className="saved-page">
-      <SavedHeader count={bookmarks.length} />
+      <SavedHeader count={validBookmarks.length} />
 
-      {bookmarks.length === 0 ? (
+      {validBookmarks.length === 0 ? (
         <EmptySaved />
       ) : (
         <section className="saved-grid">
-          {bookmarks.map((project) => (
+          {validBookmarks.map((project) => (
             <SavedProjectCard key={project._id} project={project} />
           ))}
         </section>

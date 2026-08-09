@@ -8,9 +8,13 @@ interface ProfileGridProps {
 }
 
 export default function ProfileGrid({ projects }: ProfileGridProps) {
+  const validProjects = projects.filter(
+    (project): project is NonNullable<typeof project> => project !== null,
+  );
+
   return (
     <section className="profile-grid">
-      {projects.map((project) => (
+      {validProjects.map((project) => (
         <ProjectCard key={project._id} project={project} />
       ))}
     </section>
