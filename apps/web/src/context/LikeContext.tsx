@@ -44,7 +44,13 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
         const projects = await getLikes();
 
         setLikedIds(
-          new Set(projects.map((project: { _id: string }) => project._id)),
+          new Set(
+            projects
+              .filter((project): project is { _id: string } =>
+                Boolean(project && project._id),
+              )
+              .map((project) => project._id),
+          ),
         );
       } catch (error) {
         console.error("Failed to load likes:", error);

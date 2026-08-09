@@ -49,9 +49,10 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
         const response = await getBookmarks();
 
         const ids = new Set<string>(
-          response.projects.map((project: { _id: string }) => project._id),
+          response.projects
+            .filter((project: { _id: string } | null) => project !== null)
+            .map((project: { _id: string }) => project._id),
         );
-
         setBookmarkedIds(ids);
       } catch (error) {
         console.error("Failed to load bookmarks", error);
