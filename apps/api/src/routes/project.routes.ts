@@ -33,7 +33,12 @@ router.get("/:id", getProject);
 router.post("/:id/save", authMiddleware, saveProject);
 router.delete("/:id/save", authMiddleware, unsaveProject);
 
-router.patch("/:id", authMiddleware, updateProject);
+router.patch(
+  "/:id",
+  authMiddleware,
+  upload.single("coverImage"),
+  updateProject,
+);
 router.delete("/:id", authMiddleware, deleteProject);
 
 export default router;

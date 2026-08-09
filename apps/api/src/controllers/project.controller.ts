@@ -132,11 +132,41 @@ export const getProject = asyncHandler(async (req: Request, res: Response) => {
 export const updateProject = asyncHandler(
   async (req: Request, res: Response) => {
     const id = String(req.params.id);
-    const validatedData = CreateProjectSchema.partial().parse(req.body);
+    const authReq = req as AuthenticatedRequest;
+
+    const payload = {
+      ...authReq.body,
+
+      tags: (() => {
+        if (!authReq.body.tags) return [];
+
+        if (Array.isArray(authReq.body.tags)) {
+          return authReq.body.tags;
+        }
+
+        try {
+          return JSON.parse(authReq.body.tags);
+        } catch {
+          return [];
+        }
+      })(),
+
+      links: {
+        github: authReq.body["links.github"] || "",
+        demo: authReq.body["links.demo"] || "",
+      },
+
+      ...(authReq.file?.filename && {
+        coverImage: authReq.file.filename,
+      }),
+    };
+
+    const validatedData = CreateProjectSchema.partial().parse(payload);
 
     runSecondaryValidation(projectSchema, validatedData);
 
-    const authUserId = (req as AuthenticatedRequest).user.userId;
+    const authUserId = authReq.user.userId;
+
     const updatedProject = await updateProjectService(
       id,
       validatedData,
