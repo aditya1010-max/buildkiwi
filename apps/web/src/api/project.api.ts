@@ -153,3 +153,17 @@ export async function recordProjectView(projectId: string) {
     },
   );
 }
+
+export async function deleteProject(projectId: string) {
+  const token = localStorage.getItem("token");
+
+  const { data } = await trackProgress(
+    axios.delete(`${API}/${projectId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  );
+
+  return data;
+}
