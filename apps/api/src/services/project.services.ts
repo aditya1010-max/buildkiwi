@@ -1,3 +1,4 @@
+import { UpdateProjectInput } from "packages/validation/src/project.schema";
 import {
   getEditableProjectById,
   projectRepository,
@@ -7,6 +8,7 @@ import {
   saveProjectRepository,
   unsaveProjectRepository,
 } from "../repositories/user.repository";
+import { AppError } from "../utils/AppError";
 
 interface GetProjectsOptions {
   page: number;
@@ -61,29 +63,38 @@ export const getProjectByIdService = async (id: string) => {
 
 export const updateProjectService = async (
   id: string,
-  updateData: any,
+  data: UpdateProjectInput,
   userId: string,
 ) => {
-  if (!id) return null;
+  const project = await projectRepository.findByIdForUpdate(id);
 
-  const project = await projectRepository.findById(id);
-  if (!project) return null;
-
-  if (project.creatorId?.toString() !== userId) {
-    throw new Error("Unauthorized: You do not own this project");
+  if (!project) {
+    return false;
   }
 
-  return await projectRepository.update(id, updateData);
+  if (
+    !project.creatorId ||
+    project.creatorId.toString() !== userId.toString()
+  ) {
+    throw new AppError("Unauthorized: You do not own this project", 403);
+  }
+
+  return await projectRepository.update(id, data);
 };
 
 export const deleteProjectService = async (id: string, userId: string) => {
   if (!id) return false;
 
-  const project = await projectRepository.findById(id);
-  if (!project) return false;
+  const project = await projectRepository.findByIdForUpdate(id);
+  if (!project) {
+    throw new AppError("Project not found", 404);
+  }
 
-  if (!project.creatorId || !project.creatorId.equals(userId)) {
-    throw new Error("Unauthorized: You do not own this project");
+  if (
+    !project.creatorId ||
+    project.creatorId.toString() !== userId.toString()
+  ) {
+    throw new AppError("You do not own this project", 403);
   }
 
   return await projectRepository.delete(id);
