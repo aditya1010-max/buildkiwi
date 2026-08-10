@@ -63,6 +63,13 @@ export const getSavedProjectsRepository = async (userId: string) => {
     throw new Error("User not found");
   }
 
-  await user.populate("savedProjects");
+  await user.populate({
+    path: "savedProjects",
+    populate: {
+      path: "creatorId",
+      select: "username",
+    },
+  });
+
   return user.savedProjects;
 };
