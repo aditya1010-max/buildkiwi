@@ -2,6 +2,7 @@ import {
   createUserRepository,
   findUserByEmailRepository,
   findUserByIdRepository,
+  updateUserBioRepository,
 } from "../repositories/user.repository";
 
 export const createUserService = async (data: any) => {
@@ -14,4 +15,8 @@ export const findUserByEmailService = async (email: string) => {
 
 export const findUserByIdService = async (id: string) => {
   return await findUserByIdRepository(id);
+};
+
+export const updateUserBioService = async (userId: string, bio: string) => {
+  return await updateUserBioRepository(userId, bio);
 };

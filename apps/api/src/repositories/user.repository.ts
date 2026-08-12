@@ -73,3 +73,14 @@ export const getSavedProjectsRepository = async (userId: string) => {
 
   return user.savedProjects;
 };
+
+export const updateUserBioRepository = async (userId: string, bio: string) => {
+  return User.findByIdAndUpdate(
+    userId,
+    { bio },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+};
