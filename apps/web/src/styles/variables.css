@@ -4,6 +4,7 @@
 [data-theme="light"] {
   /* Light Theme */
   --bg: #f8faf4;
+  --searchbar-background-color: #ffffff;
   --surface: #ffffff;
   --panel-better-name-later: #f8faf4;
   --form-bg-color: rgb(248, 255, 248);
@@ -67,6 +68,7 @@
   --surface: #1e211b;
   --panel-better-name-later: #171914;
   --form-bg-color: rgb(35, 41, 35);
+  --searchbar-background-color: #1e211b;
 
   --text: #a7b19d;
   --text-h: #edf2e8;
