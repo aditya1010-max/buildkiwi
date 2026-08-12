@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema(
 
     bio: {
       type: String,
-      maxlength: 500,
+      maxlength: 120,
+      default: "",
     },
 
     savedProjects: {
