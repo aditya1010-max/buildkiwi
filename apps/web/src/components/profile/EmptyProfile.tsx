@@ -1,4 +1,5 @@
 import "./EmptyProfile.css";
+import { AddFolderIcon } from "../../assets/icons/ProjectCardIcons";
 
 interface EmptyProfileProps {
   isCurrentUser?: boolean;
@@ -11,7 +12,9 @@ export default function EmptyProfile({
 }: EmptyProfileProps) {
   return (
     <section className="empty-profile">
-      <div className="empty-profile_icon">📂</div>
+      <div className="empty-profile_icon">
+        <AddFolderIcon size={64} />
+      </div>
 
       <h2 className="empty-profile_title">No projects yet</h2>
 
