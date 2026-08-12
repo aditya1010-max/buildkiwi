@@ -2,7 +2,7 @@ import type { ReactElement, MouseEvent, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./ProjectCard.css";
-
+import { useToast } from "../../../hooks/useToast";
 import type { Project } from "../../../types/project";
 import { useBookmarkContext } from "../../../context/BookmarkContext";
 import { useLikeContext } from "../../../context/LikeContext";
@@ -21,6 +21,7 @@ interface ProjectCardProps {
 export default function ProjectCard({
   project,
 }: ProjectCardProps): ReactElement {
+  const toast = useToast();
   const navigate = useNavigate();
   const { isBookmarked, toggleBookmark } = useBookmarkContext();
   const { isLiked, toggleLike } = useLikeContext();
@@ -39,8 +40,26 @@ export default function ProjectCard({
     e.preventDefault();
     e.stopPropagation();
 
-    if (isGuest) return;
-    await toggleBookmark(project._id);
+    if (isGuest) {
+      toast.error("Please sign in to save projects");
+      return;
+    }
+
+    // Store initial status before toggling
+    const wasSaved = saved;
+
+    try {
+      await toggleBookmark(project._id);
+
+      // Trigger toast based on new state
+      if (wasSaved) {
+        toast.info("Project removed from bookmarks");
+      } else {
+        toast.success("Project saved to bookmarks");
+      }
+    } catch (error) {
+      toast.error("Failed to update bookmark status");
+    }
   }
 
   async function handleLike(e: MouseEvent<HTMLButtonElement>) {
@@ -113,6 +132,7 @@ export default function ProjectCard({
           }`}
           onClick={handleBookmark}
           disabled={isGuest}
+
           title={isGuest ? "Sign in to save projects" : ""}
           aria-label={saved ? "Remove from saved" : "Save project"}
         >

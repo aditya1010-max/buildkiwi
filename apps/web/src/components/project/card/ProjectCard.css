@@ -8,17 +8,10 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 2px;
-  box-shadow: var(--shadow);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-4px);
   border-color: var(--accent);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .project-card_header {
@@ -118,10 +111,6 @@
   cursor: not-allowed;
 }
 
-.project-card_action:disabled:hover {
-  transform: none;
-}
-
 .project-card_like-icon,
 .project-card_unlike-icon,
 .project-card_bookmark svg {
@@ -131,11 +120,6 @@
   -webkit-tap-highlight-color: transparent;
   display: inline-block;
   vertical-align: middle;
-  transition:
-    transform 150ms ease,
-    color 150ms ease,
-    fill 150ms ease,
-    stroke 150ms ease;
 }
 
 .project-card_unlike-icon,
@@ -161,18 +145,6 @@
   fill: #000000;
 }
 
-.project-card_like-icon:hover,
-.project-card_unlike-icon:hover,
-.project-card_bookmark:hover:not(:disabled) svg {
-  transform: scale(1.05);
-}
-
-.project-card_like-icon:active,
-.project-card_unlike-icon:active,
-.project-card_bookmark:active:not(:disabled) svg {
-  animation: subtle-pop 200ms ease-out;
-}
-
 .project-card_bookmark {
   display: inline-flex;
   align-items: center;
@@ -195,18 +167,6 @@
 .project-card_bookmark.disabled svg path {
   color: #a1a1aa;
   stroke: #a1a1aa;
-}
-
-@keyframes subtle-pop {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.88);
-  }
-  100% {
-    transform: scale(1.05);
-  }
 }
 
 @media (max-width: 768px) {
