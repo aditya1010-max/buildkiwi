@@ -1,14 +1,12 @@
 .discover-page {
   width: 100%;
   max-width: 1400px;
-
   margin: 0 auto;
-
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem; /* Remove top padding so sticky aligns to top edge */
 }
 
 @media (max-width: 768px) {
   .discover-page {
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
   }
 }
