@@ -71,14 +71,15 @@ export const createProject = asyncHandler(
     }
     runSecondaryValidation(projectSchema, validatedData);
 
-    const project = await createProjectService(
+    const result = await createProjectService(
       validatedData,
       authReq.user.userId,
     );
 
     res.status(201).json({
       success: true,
-      data: project,
+      data: result.project,
+      achievement: result.achievement,
     });
   },
 );

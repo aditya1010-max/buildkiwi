@@ -9,6 +9,7 @@ import {
   unsaveProjectRepository,
 } from "../repositories/user.repository";
 import { AppError } from "../utils/AppError";
+import { checkFirstProject } from "./achievement.service";
 
 interface GetProjectsOptions {
   page: number;
@@ -22,7 +23,15 @@ export const createProjectService = async (data: any, creatorId: string) => {
     ...data,
     creatorId,
   };
-  return await projectRepository.create(projectData);
+
+  const project = await projectRepository.create(projectData);
+
+  const achievement = await checkFirstProject(creatorId);
+
+  return {
+    project,
+    achievement,
+  };
 };
 
 export const getProjectsService = async ({
