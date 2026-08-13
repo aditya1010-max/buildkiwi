@@ -1,11 +1,13 @@
+import type { Achievement } from "./achievement";
+
 export interface Project {
-  // i need a unique id here
   _id: string;
 
   creatorId: {
     _id: string;
     username: string;
   };
+
   title: string;
   description: string;
 
@@ -28,4 +30,10 @@ export interface Project {
 
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateProjectResponse {
+  success: boolean;
+  data: Project;
+  achievement: Achievement | null;
 }

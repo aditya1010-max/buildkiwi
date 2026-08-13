@@ -2,6 +2,7 @@ import axios from "axios";
 import { Project } from "../types/project";
 import { trackProgress } from "../services/progressBarManager";
 import { getVisitorId } from "../services/visitor";
+import type { CreateProjectResponse } from "../types/project";
 
 const API = "http://localhost:3000/api/v1/projects";
 
@@ -108,11 +109,13 @@ export async function updateProject(projectId: string, formData: FormData) {
   return data;
 }
 
-export async function createProject(formData: FormData) {
+export async function createProject(
+  formData: FormData,
+): Promise<CreateProjectResponse> {
   const token = localStorage.getItem("token");
 
   const { data } = await trackProgress(
-    axios.post(API, formData, {
+    axios.post<CreateProjectResponse>(API, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
