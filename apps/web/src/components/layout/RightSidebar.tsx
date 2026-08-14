@@ -1,5 +1,7 @@
 import "./RightSidebar.css";
 
+import KiwiAchievements from "../discover/KiwiAchievements";
+
 export default function RightSidebar() {
   return (
     <aside className="right-sidebar">
@@ -13,15 +15,7 @@ export default function RightSidebar() {
         </ul>
       </section>
 
-      <section className="widget">
-        <h3>Builders</h3>
-
-        <ul>
-          <li>adi</li>
-          <li>messi</li>
-          <li>ronaldo</li>
-        </ul>
-      </section>
+      <KiwiAchievements />
     </aside>
   );
 }

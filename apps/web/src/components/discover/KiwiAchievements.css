@@ -1,0 +1,45 @@
+.kiwi-achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kiwi-achievement {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kiwi-achievement-image {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.kiwi-achievement-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.kiwi-achievement-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.kiwi-achievement-user {
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+.kiwi-achievement-badge {
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.kiwi-achievement:hover .kiwi-achievement-badge {
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.08);
+}
