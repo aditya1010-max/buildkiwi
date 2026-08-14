@@ -10,12 +10,12 @@ import ProfileGrid from "../../components/profile/ProfileGrid";
 import EmptyProfile from "../../components/profile/EmptyProfile";
 
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { useSavedProjects } from "../../hooks/useSavedProjects";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { useLikedProjects } from "../../hooks/useLikedProjects";
+import { useMyProjects } from "../../hooks/useMyProjects";
 
 export default function ProfilePage() {
-  const { projects: myProjects } = useSavedProjects();
+  const { projects: myProjects } = useMyProjects();
   const { bookmarks } = useBookmarks();
   const { likedProjects } = useLikedProjects();
 
