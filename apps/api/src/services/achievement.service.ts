@@ -1,8 +1,5 @@
 import { ACHIEVEMENTS, type AchievementKey } from "../constants/achievements";
-import {
-  createUserAchievement,
-  findUserAchievement,
-} from "../repositories/achievement.repository";
+import { findUserAchievement } from "../repositories/achievement.repository";
 
 export const checkFirstProject = async (userId: string) => {
   const achievementKey: AchievementKey = "FIRST_PROJECT";
@@ -13,7 +10,7 @@ export const checkFirstProject = async (userId: string) => {
     return null;
   }
 
-  await createUserAchievement(userId, achievementKey);
+  const achievement = ACHIEVEMENTS[achievementKey];
 
-  return ACHIEVEMENTS[achievementKey];
+  return achievement;
 };

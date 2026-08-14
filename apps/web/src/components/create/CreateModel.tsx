@@ -1,18 +1,46 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./CreateModel.css";
+
 import { useToast } from "../../hooks/useToast";
+import { useAuth } from "../../hooks/useAuth";
+
 import projectSchema from "../../schema/projectSchema";
 import DynamicForm from "./DynamicForm";
+
 import { createProject } from "../../api/project.api";
+
+import type { Achievement } from "../../types/achievement";
+import AchievementCelebration from "../achievements/AchievementCelebration";
 
 export default function CreateModal() {
   const navigate = useNavigate();
   const toast = useToast();
+  const { getCurrentUser } = useAuth();
+
+  const [achievement, setAchievement] = useState<Achievement | null>(null);
+  const [showForm, setShowForm] = useState(true);
+
+  useEffect(() => {
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    console.log(achievement);
+  }, [achievement]);
+
   async function handleCreateProject(formData: FormData) {
     try {
       const data = await createProject(formData);
 
-      console.log("Server response:", data);
+      setShowForm(false);
+
+      if (data?.achievement) {
+        setAchievement(data.achievement);
+
+        return;
+      }
 
       toast.success(
         "Project created!",
@@ -21,23 +49,61 @@ export default function CreateModal() {
 
       navigate(-1);
     } catch (error) {
-      console.error("Submission error:", error);
-
       toast.error("Failed to create project", "Please try again.");
     }
   }
 
+  function handleAchievementClose() {
+    setAchievement(null);
+
+    navigate(-1);
+  }
+
+  const user = getCurrentUser();
+
   return (
-    <div className="modal-overlay" onClick={() => navigate(-1)}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        <button type="button" onClick={() => navigate(-1)}>
-          ✕
-        </button>
+    <>
+      {showForm && (
+        <div
+          className="modal-overlay"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <div
+            className="modal-container"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              ✕
+            </button>
 
-        <h2>Create Project</h2>
+            <h2>Create Project</h2>
 
-        <DynamicForm schema={projectSchema} onSubmit={handleCreateProject} />
-      </div>
-    </div>
+            <DynamicForm
+              schema={projectSchema}
+              onSubmit={handleCreateProject}
+            />
+          </div>
+        </div>
+      )}
+
+      {achievement && (
+        <>
+          <AchievementCelebration
+            achievement={achievement}
+            username={user?.username ?? ""}
+            onClose={handleAchievementClose}
+          />
+        </>
+      )}
+    </>
   );
 }
