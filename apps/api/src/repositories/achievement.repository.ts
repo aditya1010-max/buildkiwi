@@ -20,3 +20,14 @@ export const createUserAchievement = async (
     achievementKey,
   });
 };
+
+export const getRecentAchievements = async (limit: number = 10) => {
+  return UserAchievement.find()
+    .sort({ earnedAt: -1 })
+    .limit(limit)
+    .populate<{ userId: { _id: string; username: string } }>(
+      "userId",
+      "username",
+    )
+    .lean();
+};
