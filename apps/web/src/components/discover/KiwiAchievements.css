@@ -1,45 +1,121 @@
+.kiwi-achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* border: 1px solid red; */
+}
+
+.kiwi-achievements h3 {
+  margin: 0;
+}
+
 .kiwi-achievements-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* border: 1px solid green; */
 }
 
+/* Actual achievement */
+
 .kiwi-achievement {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
+  /* border: 1px solid blue; */
+  padding-left: 8px;
 }
 
 .kiwi-achievement-image {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
+
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .kiwi-achievement-info {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  flex: 1;
+  gap: 2px;
+  /* border: 1px solid pink; */
+  align-items: center;
 }
 
-.kiwi-achievement-name {
+.kiwi-achievement-info strong {
   font-size: 14px;
   font-weight: 600;
 }
 
-.kiwi-achievement-user {
-  font-size: 12px;
+.kiwi-achievement-info span {
+  font-size: 13px;
   opacity: 0.65;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.kiwi-achievement-badge {
-  transition:
-    transform 180ms ease,
-    filter 180ms ease;
+/* Loader */
+
+.kiwi-achievement-loader {
+  width: 100%;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.kiwi-achievement:hover .kiwi-achievement-badge {
-  transform: translateY(-2px) scale(1.04);
-  filter: brightness(1.08);
+.kiwi-achievement-skeleton-image {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  background: #e5e7eb;
+
+  animation: kiwi-achievement-pulse 1.4s ease-in-out infinite;
+}
+
+.kiwi-achievement-skeleton-content {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.kiwi-achievement-skeleton-line {
+  height: 10px;
+
+  border-radius: 5px;
+  background: #e5e7eb;
+
+  animation: kiwi-achievement-pulse 1.4s ease-in-out infinite;
+}
+
+.kiwi-achievement-skeleton-line.title {
+  width: 65%;
+}
+
+.kiwi-achievement-skeleton-line.username {
+  width: 45%;
+}
+
+@keyframes kiwi-achievement-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
