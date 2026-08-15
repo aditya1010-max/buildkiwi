@@ -24,6 +24,7 @@ import testRoutes from "./routes/test.routes";
 import feedbackRoutes from "./routes/feedback.routes";
 import dns from "node:dns";
 import bookmarkRoutes from "./routes/bookmark.routes";
+import achievementRoutes from "./routes/achievemnet.routes";
 
 dns.setServers(["1.1.1.1", "1.0.0.1"]);
 
@@ -53,6 +54,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/v1/auth", apiLimiter, authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/achievements", achievementRoutes);
 app.use("/api/v1/feed", feedRoutes);
 app.use("/api/v1/search", searchRoutes);
 app.use("/api/v1/comments", commentRoutes);
