@@ -4,3 +4,9 @@ export interface Achievement {
   description: string;
   image: string;
 }
+
+export interface AchievementActivity {
+  username: string;
+  achievement: Achievement;
+  earnedAt: string;
+}
