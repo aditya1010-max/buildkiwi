@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import Search from "./components/Home";
 import Layout from "./components/layout/Layout";
 import HomePage from "./pages/Home/HomePage";
 import Saved from "./pages/Saved/SavedPage";
@@ -47,7 +46,6 @@ function App() {
             <Route path="/saved" element={<Saved />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id/edit" element={<EditProjectPage />} />
-            <Route path="/search" element={<Search />} />
             <Route path="/settings/privacy" element={<PrivacyPage />} />
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
