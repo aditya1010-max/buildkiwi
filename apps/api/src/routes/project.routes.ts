@@ -21,7 +21,6 @@ const router = Router();
 // the order of the routes matters, so make sure to put the more specific routes before the more general ones
 //static rroutes should be defined before dynamic routes to avoid conflicts
 
-// console.log("PROJECT ROUTES FILE LOADED");
 router.post("/", authMiddleware, upload.single("coverImage"), createProject);
 router.get("/", getProjects);
 

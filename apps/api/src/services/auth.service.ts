@@ -47,14 +47,7 @@ export const loginUserService = async (email: string, password: string) => {
   };
 
   const accessToken = generateAccessToken(payload);
-
-  // console.log("Generating refresh token with payload:", payload);
-  // console.log("JWT_REFRESH_SECRET:", process.env.JWT_REFRESH_SECRET);
-  // console.log("REFRESH_TOKEN_EXPIRES:", process.env.REFRESH_TOKEN_EXPIRES);
-  // console.log("Access Token:", accessToken);
-
   const refreshToken = generateRefreshToken(payload);
-  // console.log("Refresh Token:", refreshToken);
 
   return {
     user,

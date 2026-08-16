@@ -18,13 +18,9 @@ const api = axios.create({
 // Attach access token to every request
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
-
-  // console.log("Sending token:", token);
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 });
 
@@ -67,8 +63,6 @@ api.interceptors.response.use(
 
       clearAccessToken();
       localStorage.removeItem("user");
-
-      console.log("Redirecting to /login");
       window.location.href = "/login";
 
       return Promise.reject(refreshError);

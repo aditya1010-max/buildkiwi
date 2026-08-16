@@ -15,9 +15,6 @@ export const useAuth = () => {
 
       const response = await login(email, password);
 
-      // console.log("Login response:", response);
-      // console.log("Access token:", response.accessToken);
-
       localStorage.setItem("token", response.accessToken);
       localStorage.setItem("user", JSON.stringify(response.user));
 

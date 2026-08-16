@@ -19,8 +19,6 @@ export default function EditProjectPage(): ReactElement {
 
     try {
       await updateProject(id, formData);
-
-      console.log("Project updated!");
     } catch (error) {
       console.error(error);
     }
@@ -32,7 +30,6 @@ export default function EditProjectPage(): ReactElement {
 
       try {
         const data = await getEditableProject(id);
-        console.log("Editable project:", data);
         setProject(data);
       } catch (error) {
         console.error("Failed to load project:", error);

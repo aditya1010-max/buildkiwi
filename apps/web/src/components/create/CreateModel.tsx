@@ -22,14 +22,6 @@ export default function CreateModal() {
   const [achievement, setAchievement] = useState<Achievement | null>(null);
   const [showForm, setShowForm] = useState(true);
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
-  useEffect(() => {
-    console.log(achievement);
-  }, [achievement]);
-
   async function handleCreateProject(formData: FormData) {
     try {
       const data = await createProject(formData);
