@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./RightSidebar.css";
 
-import KiwiAchievements from "../discover/KiwiAchievements";
+import KiwiAchievements from "../discover/achievements/KiwiAchievements";
 
 export default function RightSidebar() {
   const navigate = useNavigate();

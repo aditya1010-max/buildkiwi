@@ -1,5 +1,5 @@
 import "./AchievementCelebration.css";
-import type { Achievement } from "../../types/achievement";
+import type { Achievement } from "../../../types/achievement";
 
 interface AchievementCelebrationProps {
   achievement: Achievement;

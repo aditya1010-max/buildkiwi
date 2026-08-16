@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { fetchProjects } from "../api/project.api";
 import type { Project } from "../types/project";
-import type { SearchFilter } from "../components/discover/SearchFilters";
+import type { SearchFilter } from "../components/discover/search/SearchFilters";
 
 export function useDiscover() {
   const [query, setQuery] = useState("");

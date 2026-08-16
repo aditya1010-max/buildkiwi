@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { getAchievementActivity } from "../../services/achievement.api";
-import type { AchievementActivity } from "../../types/achievement";
+import { getAchievementActivity } from "../../../services/achievement.api";
+
+import type { AchievementActivity } from "../../../types/achievement";
 
 import "./KiwiAchievements.css";
 

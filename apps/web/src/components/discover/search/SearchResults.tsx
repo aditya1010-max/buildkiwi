@@ -1,9 +1,9 @@
 import "./SearchResults.css";
 
-import type { Project } from "../../types/project";
+import type { Project } from "../../../types/project";
 
-import ProjectCard from "../project/card/ProjectCard";
-import EmptySearch from "./EmptySearch";
+import ProjectCard from "../../project/card/ProjectCard";
+import EmptySearch from "../states/EmptySearch";
 
 interface SearchResultsProps {
   projects: Project[];

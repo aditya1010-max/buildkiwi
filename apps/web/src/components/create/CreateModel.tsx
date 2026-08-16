@@ -12,7 +12,7 @@ import DynamicForm from "./DynamicForm";
 import { createProject } from "../../api/project.api";
 
 import type { Achievement } from "../../types/achievement";
-import AchievementCelebration from "../achievements/AchievementCelebration";
+import AchievementCelebration from "../discover/achievements/AchievementCelebration";
 
 export default function CreateModal() {
   const navigate = useNavigate();

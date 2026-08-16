@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import DiscoverLayout from "../../components/discover/DiscoverLayout";
-import SearchBar from "../../components/discover/SearchBar";
-import SearchResults from "../../components/discover/SearchResults";
-import SearchSummary from "../../components/discover/SearchSummary";
+import SearchBar from "../../components/discover/search/SearchBar";
+import SearchResults from "../../components/discover/search/SearchResults";
+import SearchSummary from "../../components/discover/search/SearchSummary";
 import { useDiscover } from "../../hooks/useDiscover";
 
 import "./DiscoverPage.css";
