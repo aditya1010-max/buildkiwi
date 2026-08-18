@@ -6,8 +6,7 @@ import {
 } from "../services/user.service";
 import { AppError } from "../utils/AppError";
 import { getProjectsByUserService } from "../services/project.services";
-import { UpdateUserSchema } from "packages/validation/src/user.schema";
-// import { UpdateUserSchema } from "@buildkiwi/validation";
+import { UpdateUserSchema } from "@buildkiwi/validation";
 
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response) => {

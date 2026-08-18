@@ -1,4 +1,4 @@
-import { UpdateProjectInput } from "packages/validation/src/project.schema";
+import { UpdateProjectInput } from "@buildkiwi/validation";
 import {
   getEditableProjectById,
   projectRepository,
