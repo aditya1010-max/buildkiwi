@@ -7,11 +7,12 @@ import "./EditProjectPage.css";
 import DynamicForm from "../../components/create/DynamicForm";
 import projectSchema from "../../schema/projectSchema";
 import { updateProject } from "../../api/project.api";
+import type { Project } from "../../types/project";
 
 export default function EditProjectPage(): ReactElement {
   const { id } = useParams();
 
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function handleUpdateProject(formData: FormData) {
@@ -67,6 +68,7 @@ export default function EditProjectPage(): ReactElement {
 
         <section className="edit-project-page_content">
           <DynamicForm
+            key={project._id}
             schema={projectSchema}
             initialValues={{
               title: project.title,

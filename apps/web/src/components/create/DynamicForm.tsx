@@ -6,7 +6,16 @@ import UploadImage from "./ImageUploader";
 interface DynamicFormProps {
   schema: FormSchema;
   onSubmit: (data: FormData) => Promise<void>;
-  initialValues?: Record<string, any>;
+  initialValues?: Record<string, unknown>;
+}
+
+interface ProjectFormData {
+  coverImage?: File | null;
+  title?: string;
+  description?: string;
+  github?: string;
+  demo?: string;
+  tags?: string;
 }
 
 export default function DynamicForm({
@@ -14,13 +23,13 @@ export default function DynamicForm({
   onSubmit,
   initialValues,
 }: DynamicFormProps) {
-  const initialState: Record<string, any> = {};
+  const initialState: Record<string, unknown> = {};
 
   schema.fields.forEach((field) => {
     initialState[field.name] = field.type === "image" ? null : "";
   });
 
-  const [formData, setFormData] = useState<Record<string, any>>({
+  const [formData, setFormData] = useState<Record<string, unknown>>({
     ...initialState,
     ...initialValues,
   });
@@ -50,14 +59,15 @@ export default function DynamicForm({
 
     const submissionData = new FormData();
 
-    const { coverImage, title, description, github, demo, tags } = formData;
+    const { coverImage, title, description, github, demo, tags } =
+      formData as ProjectFormData;
 
     submissionData.append("title", title ?? "");
     submissionData.append("description", description ?? "");
     submissionData.append(
       "tags",
       JSON.stringify(
-        tags
+        typeof tags === "string"
           ? tags
               .split(",")
               .map((tag: string) => tag.trim())
@@ -77,6 +87,8 @@ export default function DynamicForm({
   }
 
   function renderField(field: Field) {
+    const fieldValue = (formData[field.name] as string | number) ?? "";
+
     switch (field.type) {
       case "text":
         return (
@@ -84,7 +96,7 @@ export default function DynamicForm({
             type="text"
             name={field.name}
             placeholder={field.placeholder}
-            value={formData[field.name] || ""}
+            value={fieldValue}
             onChange={handleChange}
           />
         );
@@ -94,7 +106,7 @@ export default function DynamicForm({
           <textarea
             name={field.name}
             placeholder={field.placeholder}
-            value={formData[field.name] || ""}
+            value={fieldValue}
             onChange={handleChange}
           />
         );
@@ -105,7 +117,7 @@ export default function DynamicForm({
             type="text"
             name={field.name}
             placeholder={field.placeholder}
-            value={formData[field.name] || ""}
+            value={fieldValue}
             onChange={handleChange}
           />
         );
