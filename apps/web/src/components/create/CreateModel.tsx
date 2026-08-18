@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./CreateModel.css";
@@ -40,7 +40,7 @@ export default function CreateModal() {
       );
 
       navigate(-1);
-    } catch (error) {
+    } catch {
       toast.error("Failed to create project", "Please try again.");
     }
   }

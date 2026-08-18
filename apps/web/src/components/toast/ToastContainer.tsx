@@ -1,4 +1,4 @@
-import { useToastContext } from "../../context/ToastContext";
+import { useToastContext } from "../../context/useToastContext";
 import Toast from "./Toast";
 
 export default function ToastContainer() {
