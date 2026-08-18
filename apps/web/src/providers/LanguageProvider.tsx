@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import {
   getStoredLanguage,
@@ -15,13 +9,7 @@ import {
 
 import { translations, type TranslationKey } from "../locales";
 
-export interface LanguageContextValue {
-  language: Language;
-  setLanguage: (language: Language) => void;
-  t: (key: TranslationKey) => string;
-}
-
-export const LanguageContext = createContext<LanguageContextValue | null>(null);
+import { LanguageContext } from "./LanguageContext";
 
 interface LanguageProviderProps {
   children: ReactNode;
