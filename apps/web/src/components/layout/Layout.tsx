@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
 import RightSidebar from "./RightSidebar";
-import { BookmarkProvider } from "../../context/BookmarkContext";
-import { LikeProvider } from "../../context/LikeContext";
+import { BookmarkProvider } from "../../context/BookmarkProvider";
+import { LikeProvider } from "../../context/LikeProvider";
 
 export default function Layout() {
   return (

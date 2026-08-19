@@ -20,10 +20,7 @@ export default function RightSidebar() {
         <ul>
           {trendingTags.map((tag) => (
             <li key={tag}>
-              <button
-                type="button"
-                onClick={() => handleTrendingClick(tag)}
-              >
+              <button type="button" onClick={() => handleTrendingClick(tag)}>
                 #{tag}
               </button>
             </li>
