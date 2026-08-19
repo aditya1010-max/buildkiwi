@@ -1,44 +1,29 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   addLike as addLikeRequest,
   removeLike as removeLikeRequest,
   getLikes,
 } from "../api/like.api";
+
 import { getAccessToken } from "../utils/token";
 
-interface LikeContextType {
-  loading: boolean;
-  likedIds: Set<string>;
-  loadingLikes: boolean;
-  isPending: (projectId: string) => boolean;
-  isLiked: (projectId: string) => boolean;
-  addLike: (projectId: string) => Promise<void>;
-  removeLike: (projectId: string) => Promise<void>;
-  toggleLike: (projectId: string) => Promise<void>;
-}
-
-const LikeContext = createContext<LikeContextType | null>(null);
+import { LikeContext } from "./LikeContext";
 
 export function LikeProvider({ children }: { children: React.ReactNode }) {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-  const [loadingLikes, setLoadingLikes] = useState(true);
+
+  const [loadingLikes, setLoadingLikes] = useState(() =>
+    Boolean(getAccessToken()),
+  );
+
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
-  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const token = getAccessToken();
-    if (!token) {
-      setLoadingLikes(false);
-      setLoading(false);
+    if (!getAccessToken()) {
       return;
     }
+
     const loadLikes = async () => {
       try {
         const projects = await getLikes();
@@ -56,14 +41,13 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
         console.error("Failed to load likes:", error);
       } finally {
         setLoadingLikes(false);
-        setLoading(false);
       }
     };
 
     loadLikes();
   }, []);
 
-  const setPending = (projectId: string, isPending: boolean) => {
+  const setPending = useCallback((projectId: string, isPending: boolean) => {
     setPendingIds((prev) => {
       const next = new Set(prev);
 
@@ -75,47 +59,53 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
 
       return next;
     });
-  };
+  }, []);
 
-  const addLikeOptimistic = useCallback(async (projectId: string) => {
-    setPending(projectId, true);
+  const addLikeOptimistic = useCallback(
+    async (projectId: string) => {
+      setPending(projectId, true);
 
-    setLikedIds((prev) => new Set(prev).add(projectId));
+      setLikedIds((prev) => new Set(prev).add(projectId));
 
-    try {
-      await addLikeRequest(projectId);
-    } catch (error) {
-      console.error("Failed to add like:", error);
+      try {
+        await addLikeRequest(projectId);
+      } catch (error) {
+        console.error("Failed to add like:", error);
+
+        setLikedIds((prev) => {
+          const next = new Set(prev);
+          next.delete(projectId);
+          return next;
+        });
+      } finally {
+        setPending(projectId, false);
+      }
+    },
+    [setPending],
+  );
+
+  const removeLikeOptimistic = useCallback(
+    async (projectId: string) => {
+      setPending(projectId, true);
 
       setLikedIds((prev) => {
         const next = new Set(prev);
         next.delete(projectId);
         return next;
       });
-    } finally {
-      setPending(projectId, false);
-    }
-  }, []);
 
-  const removeLikeOptimistic = useCallback(async (projectId: string) => {
-    setPending(projectId, true);
+      try {
+        await removeLikeRequest(projectId);
+      } catch (error) {
+        console.error("Failed to remove like:", error);
 
-    setLikedIds((prev) => {
-      const next = new Set(prev);
-      next.delete(projectId);
-      return next;
-    });
-
-    try {
-      await removeLikeRequest(projectId);
-    } catch (error) {
-      console.error("Failed to remove like:", error);
-
-      setLikedIds((prev) => new Set(prev).add(projectId));
-    } finally {
-      setPending(projectId, false);
-    }
-  }, []);
+        setLikedIds((prev) => new Set(prev).add(projectId));
+      } finally {
+        setPending(projectId, false);
+      }
+    },
+    [setPending],
+  );
 
   const toggleLike = useCallback(
     async (projectId: string) => {
@@ -165,14 +155,4 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   );
 
   return <LikeContext.Provider value={value}>{children}</LikeContext.Provider>;
-}
-
-export function useLikeContext() {
-  const context = useContext(LikeContext);
-
-  if (!context) {
-    throw new Error("useLikeContext must be used inside LikeProvider");
-  }
-
-  return context;
 }
