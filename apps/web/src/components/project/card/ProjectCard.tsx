@@ -1,11 +1,11 @@
 import type { ReactElement, MouseEvent, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./ProjectCard.css";
 import { useToast } from "../../../hooks/useToast";
 import type { Project } from "../../../types/project";
-import { useBookmarkContext } from "../../../context/BookmarkContext";
-import { useLikeContext } from "../../../context/LikeContext";
+import { useBookmarkContext } from "../../../context/useBookmarkContext";
+import { useLikeContext } from "../../../context/useLikeContext";
 import { getAccessToken } from "../../../utils/token";
 import {
   CommentIcon,
@@ -28,10 +28,6 @@ export default function ProjectCard({
 
   const [displayLikes, setDisplayLikes] = useState(project.stats?.likes ?? 0);
   const isGuest = !getAccessToken();
-
-  useEffect(() => {
-    setDisplayLikes(project.stats?.likes ?? 0);
-  }, [project.stats?.likes]);
 
   const saved = isBookmarked(project._id);
   const liked = isLiked(project._id);
@@ -57,7 +53,7 @@ export default function ProjectCard({
       } else {
         toast.success("Project saved to bookmarks");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to update bookmark status");
     }
   }
