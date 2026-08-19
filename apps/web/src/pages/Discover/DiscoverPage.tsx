@@ -20,7 +20,7 @@ export default function DiscoverPage() {
     if (searchQuery && searchQuery !== query) {
       setQuery(searchQuery);
     }
-  }, [searchQuery, setQuery]);
+  }, [searchQuery, query, setQuery]);
 
   return (
     <main className="discover-page">
