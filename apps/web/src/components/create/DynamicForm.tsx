@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { Field, FormSchema } from "../../types/schema";
 import "./DynamicForm.css";
 import UploadImage from "./ImageUploader";
@@ -33,15 +33,6 @@ export default function DynamicForm({
     ...initialState,
     ...initialValues,
   });
-
-  useEffect(() => {
-    if (!initialValues) return;
-
-    setFormData((prev) => ({
-      ...prev,
-      ...initialValues,
-    }));
-  }, [initialValues]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
