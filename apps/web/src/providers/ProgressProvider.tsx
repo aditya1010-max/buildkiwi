@@ -1,16 +1,13 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
+import { ProgressContext } from "./ProgressContext";
 import { subscribe } from "../services/progressBarManager";
 
-interface ProgressContextValue {
-  activeTasks: number;
+interface ProgressProviderProps {
+  children: ReactNode;
 }
 
-const ProgressContext = createContext<ProgressContextValue>({
-  activeTasks: 0,
-});
-
-export function ProgressProvider({ children }: { children: React.ReactNode }) {
+export function ProgressProvider({ children }: ProgressProviderProps) {
   const [activeTasks, setActiveTasks] = useState(0);
 
   useEffect(() => subscribe(setActiveTasks), []);
@@ -20,8 +17,4 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ProgressContext.Provider>
   );
-}
-
-export function useProgressContext() {
-  return useContext(ProgressContext);
 }
