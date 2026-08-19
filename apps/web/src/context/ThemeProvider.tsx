@@ -1,18 +1,35 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
-import { ThemeContext, type Theme } from "./ThemeContext";
+import {
+  applyTheme,
+  getStoredTheme,
+  saveTheme,
+  type Theme,
+} from "../utils/theme";
+
+import { ThemeContext } from "./ThemeContext";
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>("system");
+  const [theme, setThemeState] = useState<Theme>(getStoredTheme);
 
   const setTheme = useCallback((nextTheme: Theme) => {
     setThemeState(nextTheme);
-    localStorage.setItem("theme", nextTheme);
   }, []);
+
+  useEffect(() => {
+    saveTheme(theme);
+    applyTheme(theme);
+  }, [theme]);
 
   const value = useMemo(
     () => ({
