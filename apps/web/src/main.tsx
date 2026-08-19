@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
-import { ThemeProvider } from "./providers/ThemeProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
 import { LanguageProvider } from "./providers/LanguageProvider";
 
 import App from "./App";
@@ -11,7 +11,7 @@ import "./styles/variables.css";
 import "./styles/globals.css";
 import { ProgressProvider } from "./providers/ProgressProvider";
 import TopLoadingBar from "./components/project/shared/TopLoadingBar/TopLoadingBar";
-import { ToastProvider } from "./context/ToastContext";
+import { ToastProvider } from "./context/ToastProvider";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
