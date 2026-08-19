@@ -25,8 +25,33 @@ export function useBookmarks() {
   }, []);
 
   useEffect(() => {
-    fetchBookmarks();
-  }, [fetchBookmarks]);
+    let cancelled = false;
+
+    async function loadInitialBookmarks() {
+      try {
+        const data = await getBookmarks();
+
+        if (!cancelled) {
+          setBookmarks(data.projects);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error(err);
+          setError("Failed to load bookmarks.");
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadInitialBookmarks();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return {
     bookmarks,
