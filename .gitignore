@@ -35,3 +35,6 @@ vite.config.ts.timestamp-*
 
 # TypeScript
 *.tsbuildinfo
+
+# Test coverage
+coverage/
