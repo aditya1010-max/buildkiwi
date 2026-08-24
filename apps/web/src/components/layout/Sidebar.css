@@ -8,7 +8,7 @@
   flex-direction: column;
   border-right: 1px solid var(--border);
   background: var(--surface); /*change this to var --bg*/
-  /* align-items: center; */
+  align-items: center;
 }
 
 .sidebar_logo-image {
@@ -66,6 +66,9 @@
   .sidebar {
     display: none;
   }
+  .sidebar-icon {
+    display: none;
+  }
 }
 
 .sidebar-icon {
@@ -77,7 +80,6 @@
   margin-bottom: 6px;
 }
 
-/*instead of doing this , change the width of entire sidebar component , maybe create a new classname*/
 /* .sidebar {  
   width: clamp(
     18px,
