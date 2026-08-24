@@ -9,15 +9,22 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "test:coverage": "turbo run test:coverage"
+    "test:coverage": "turbo run test:coverage",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cookie-parser": "^1.4.10",
+    "eslint": "^10.9.0",
+    "prettier": "^3.9.6",
     "tsconfig-paths": "^4.2.0",
-    "turbo": "^2.9.14"
+    "turbo": "^2.9.14",
+    "typescript-eslint": "^8.67.0"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
