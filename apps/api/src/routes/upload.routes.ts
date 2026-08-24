@@ -12,7 +12,6 @@ router.post(
   },
   authMiddleware,
   (req, res, next) => {
-
     upload.single("coverImage")(req, res, (err) => {
       if (err) {
         return res.status(500).json({
