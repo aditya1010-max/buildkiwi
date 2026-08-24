@@ -6,7 +6,7 @@ import KiwiAchievements from "../discover/achievements/KiwiAchievements";
 export default function RightSidebar() {
   const navigate = useNavigate();
 
-  const trendingTags = ["react", "typescript", "opensource"];
+  const trendingTags = ["react", "typescript", "opensource", "ai"];
 
   function handleTrendingClick(tag: string) {
     navigate(`/discover?q=${encodeURIComponent(tag)}`);
@@ -14,18 +14,26 @@ export default function RightSidebar() {
 
   return (
     <aside className="right-sidebar">
-      <section className="widget">
-        <h3>Trending</h3>
+      <section className="widget trending-widget">
+        <h3 className="trending-title">
+          <span className="trending-icon" aria-hidden="true">
+            ↗
+          </span>
+          Trending
+        </h3>
 
-        <ul>
+        <div className="trending-tags">
           {trendingTags.map((tag) => (
-            <li key={tag}>
-              <button type="button" onClick={() => handleTrendingClick(tag)}>
-                #{tag}
-              </button>
-            </li>
+            <button
+              key={tag}
+              type="button"
+              className="trending-tag"
+              onClick={() => handleTrendingClick(tag)}
+            >
+              #{tag}
+            </button>
           ))}
-        </ul>
+        </div>
       </section>
 
       <KiwiAchievements />
