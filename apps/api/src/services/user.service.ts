@@ -1,3 +1,5 @@
+import type { CreateUserData } from "../types/user";
+
 import {
   createUserRepository,
   findUserByEmailRepository,
@@ -5,18 +7,18 @@ import {
   updateUserBioRepository,
 } from "../repositories/user.repository";
 
-export const createUserService = async (data: any) => {
-  return await createUserRepository(data);
+export const createUserService = async (data: CreateUserData) => {
+  return createUserRepository(data);
 };
 
 export const findUserByEmailService = async (email: string) => {
-  return await findUserByEmailRepository(email);
+  return findUserByEmailRepository(email);
 };
 
 export const findUserByIdService = async (id: string) => {
-  return await findUserByIdRepository(id);
+  return findUserByIdRepository(id);
 };
 
 export const updateUserBioService = async (userId: string, bio: string) => {
-  return await updateUserBioRepository(userId, bio);
+  return updateUserBioRepository(userId, bio);
 };

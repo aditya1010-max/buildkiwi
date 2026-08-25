@@ -18,7 +18,12 @@ interface GetProjectsOptions {
   filter?: "all" | "projects" | "users" | "tags";
 }
 
-export const createProjectService = async (data: any, creatorId: string) => {
+import type { CreateProjectInput } from "@buildkiwi/validation";
+
+export const createProjectService = async (
+  data: CreateProjectInput,
+  creatorId: string,
+) => {
   const projectData = {
     ...data,
     creatorId,
