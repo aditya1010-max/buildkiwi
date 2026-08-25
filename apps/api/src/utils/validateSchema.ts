@@ -1,14 +1,17 @@
-type Field = {
+export type Field = {
   name: string;
   type: string;
   required?: boolean;
 };
 
-type Schema = {
+export type Schema = {
   fields: Field[];
 };
 
-export function validateSchemaData(schema: Schema, data: Record<string, any>) {
+export function validateSchemaData(
+  schema: Schema,
+  data: Record<string, unknown>,
+) {
   const errors: string[] = [];
 
   for (const field of schema.fields) {

@@ -15,3 +15,9 @@ export interface User {
 
   updatedAt: Date;
 }
+
+export interface CreateUserData {
+  username: string;
+  email: string;
+  passwordHash: string;
+}
