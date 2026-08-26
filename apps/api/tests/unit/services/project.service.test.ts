@@ -84,6 +84,11 @@ describe("project service", () => {
         {
           title: "BuildKiwi",
           description: "Developer platform",
+          tags: [],
+          links: {
+            github: "",
+            demo: "",
+          },
         },
         "user-123",
       );

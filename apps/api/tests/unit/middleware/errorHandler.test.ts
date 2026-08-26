@@ -1,4 +1,5 @@
 import { describe, expect, it, jest } from "@jest/globals";
+import type { NextFunction, Request, Response } from "express";
 
 import { errorHandler } from "../../../src/middleware/errorHandler";
 import { AppError } from "../../../src/utils/AppError";
@@ -12,9 +13,12 @@ describe("errorHandler", () => {
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    errorHandler(error, {} as any, res, jest.fn());
+    const req = {} as Request;
+    const next = jest.fn() as NextFunction;
+
+    errorHandler(error, req, res, next);
 
     expect(status).toHaveBeenCalledWith(404);
 
@@ -32,9 +36,12 @@ describe("errorHandler", () => {
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    errorHandler(error, {} as any, res, jest.fn());
+    const req = {} as Request;
+    const next = jest.fn() as NextFunction;
+
+    errorHandler(error, req, res, next);
 
     expect(status).toHaveBeenCalledWith(500);
 
@@ -52,9 +59,12 @@ describe("errorHandler", () => {
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    errorHandler(error, {} as any, res, jest.fn());
+    const req = {} as Request;
+    const next = jest.fn() as NextFunction;
+
+    errorHandler(error, req, res, next);
 
     expect(status).toHaveBeenCalledWith(500);
 
@@ -64,19 +74,3 @@ describe("errorHandler", () => {
     });
   });
 });
-
-/*
-Test coverage:
-
-1. Handles an AppError
-   → Verifies custom application errors use their own status code and
-     message.
-
-2. Handles a regular Error
-   → Verifies unexpected errors return HTTP 500 while preserving the
-     error message.
-
-3. Uses the fallback error message
-   → Verifies "Internal Server Error" is returned when the error does
-     not contain a message.
-*/

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import express from "express";
 import cookieParser from "cookie-parser";
 import request from "supertest";
+import type { NextFunction, Request, Response } from "express";
 
 import authRouter from "../../../src/routes/auth.routes";
 
@@ -32,8 +33,19 @@ jest.mock("../../../src/utils/jwt", () => ({
   generateAccessToken: jest.fn(),
 }));
 
+type AuthenticatedRequest = Request & {
+  user?: {
+    userId: string;
+    email: string;
+  };
+};
+
 jest.mock("../../../src/middleware/auth.middleware", () => ({
-  authMiddleware: (req: any, _res: any, next: any) => {
+  authMiddleware: (
+    req: AuthenticatedRequest,
+    _res: Response,
+    next: NextFunction,
+  ) => {
     req.user = {
       userId: "user-123",
       email: "aditya@example.com",

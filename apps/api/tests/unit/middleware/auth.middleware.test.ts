@@ -1,7 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import type { NextFunction, Request, Response } from "express";
 
-import { verifyAccessToken } from "../../../src/utils/jwt";
+type AuthenticatedRequest = Request & {
+  user?: {
+    userId: string;
+    email: string;
+  };
+};
 import { authMiddleware } from "../../../src/middleware/auth.middleware";
+import { verifyAccessToken } from "../../../src/utils/jwt";
 
 jest.mock("../../../src/utils/jwt", () => ({
   verifyAccessToken: jest.fn(),
@@ -17,16 +24,16 @@ describe("authMiddleware", () => {
   it("rejects requests without an authorization header", () => {
     const req = {
       headers: {},
-    } as any;
+    } as unknown as Request;
 
     const json = jest.fn();
     const status = jest.fn().mockReturnValue({ json });
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    const next = jest.fn();
+    const next = jest.fn() as NextFunction;
 
     authMiddleware(req, res, next);
 
@@ -45,16 +52,16 @@ describe("authMiddleware", () => {
       headers: {
         authorization: "Basic token",
       },
-    } as any;
+    } as unknown as Request;
 
     const json = jest.fn();
     const status = jest.fn().mockReturnValue({ json });
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    const next = jest.fn();
+    const next = jest.fn() as NextFunction;
 
     authMiddleware(req, res, next);
 
@@ -78,19 +85,19 @@ describe("authMiddleware", () => {
       headers: {
         authorization: "Bearer valid-token",
       },
-    } as any;
+    } as unknown as AuthenticatedRequest;
 
-    const res = {} as any;
-    const next = jest.fn();
+    const res = {} as Response;
+    const next = jest.fn() as NextFunction;
 
     mockVerifyAccessToken.mockReturnValue(decodedUser);
 
     authMiddleware(req, res, next);
 
     expect(mockVerifyAccessToken).toHaveBeenCalledWith("valid-token");
-
     expect(req.user).toEqual(decodedUser);
-
+    expect(req.user).toEqual(decodedUser);
+    expect(next).toHaveBeenCalled();
     expect(next).toHaveBeenCalled();
   });
 
@@ -99,16 +106,16 @@ describe("authMiddleware", () => {
       headers: {
         authorization: "Bearer invalid-token",
       },
-    } as any;
+    } as unknown as Request;
 
     const json = jest.fn();
     const status = jest.fn().mockReturnValue({ json });
 
     const res = {
       status,
-    } as any;
+    } as unknown as Response;
 
-    const next = jest.fn();
+    const next = jest.fn() as NextFunction;
 
     mockVerifyAccessToken.mockImplementation(() => {
       throw new Error("Invalid token");

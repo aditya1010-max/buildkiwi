@@ -78,6 +78,10 @@ describe("project service", () => {
         title: "BuildKiwi",
         description: "Developer platform",
         tags: ["React"],
+        links: {
+          github: "",
+          demo: "",
+        },
       };
 
       const project = {

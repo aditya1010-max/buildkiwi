@@ -7,16 +7,17 @@ import {
   it,
 } from "@jest/globals";
 import mongoose from "mongoose";
-
+import type { UserDocument } from "../../../src/models/user.model";
+import type { ProjectDocument } from "../../../src/models/project.model";
 import Bookmark from "../../../src/models/bookmark.model";
 import { Project } from "../../../src/models/project.model";
 import { User } from "../../../src/models/user.model";
 import { bookmarkRepository } from "../../../src/repositories/bookmark.repository";
 
 describe("bookmark repository", () => {
-  let user: any;
-  let creator: any;
-  let project: any;
+  let user: UserDocument;
+  let creator: UserDocument;
+  let project: ProjectDocument;
 
   beforeAll(async () => {
     const mongoUri =
@@ -159,7 +160,7 @@ describe("bookmark repository", () => {
 
       expect(bookmarks).toHaveLength(1);
 
-      const bookmarkedProject = bookmarks[0].projectId as any;
+      const bookmarkedProject = bookmarks[0].projectId;
 
       expect(bookmarkedProject).toBeDefined();
 

@@ -1,13 +1,14 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import type { NextFunction, Request, Response } from "express";
 
-import { asyncHandler } from "../../../src/utils/asyncHandler";
+import {
+  asyncHandler,
+  type AsyncHandler,
+} from "../../../src/utils/asyncHandler";
 
 describe("asyncHandler", () => {
   it("calls the wrapped handler", async () => {
-    const handler = jest.fn(
-      async (_req: Request, _res: Response, _next: NextFunction) => {},
-    );
+    const handler = jest.fn<AsyncHandler>(async () => {});
 
     const req = {} as Request;
     const res = {} as Response;
@@ -25,11 +26,9 @@ describe("asyncHandler", () => {
   it("passes rejected errors to next", async () => {
     const error = new Error("Something went wrong");
 
-    const handler = jest.fn(
-      async (_req: Request, _res: Response, _next: NextFunction) => {
-        throw error;
-      },
-    );
+    const handler = jest.fn<AsyncHandler>(async () => {
+      throw error;
+    });
 
     const req = {} as Request;
     const res = {} as Response;

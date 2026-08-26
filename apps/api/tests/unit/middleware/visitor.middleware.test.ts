@@ -1,25 +1,29 @@
 import { describe, expect, it, jest } from "@jest/globals";
+import type { NextFunction, Request, Response } from "express";
 
 import { visitorMiddleware } from "../../../src/middleware/visitor.middleware";
+
+type VisitorRequest = Request & {
+  visitorId?: string;
+};
 
 describe("visitorMiddleware", () => {
   it("rejects requests without a visitor ID", () => {
     const req = {
       header: jest.fn().mockReturnValue(undefined),
-    } as any;
+    } as unknown as VisitorRequest;
 
     const json = jest.fn();
 
     const res = {
       status: jest.fn().mockReturnValue({ json }),
-    } as any;
+    } as unknown as Response;
 
-    const next = jest.fn();
+    const next = jest.fn() as NextFunction;
 
     visitorMiddleware(req, res, next);
 
     expect(req.header).toHaveBeenCalledWith("X-Visitor-Id");
-
     expect(res.status).toHaveBeenCalledWith(400);
 
     expect(json).toHaveBeenCalledWith({
@@ -33,10 +37,10 @@ describe("visitorMiddleware", () => {
   it("stores the visitor ID and continues the request", () => {
     const req = {
       header: jest.fn().mockReturnValue("visitor-123"),
-    } as any;
+    } as unknown as VisitorRequest;
 
-    const res = {} as any;
-    const next = jest.fn();
+    const res = {} as Response;
+    const next = jest.fn() as NextFunction;
 
     visitorMiddleware(req, res, next);
 
@@ -45,15 +49,3 @@ describe("visitorMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 });
-
-/*
-Test coverage:
-
-1. Rejects requests without a visitor ID
-   → Verifies requests without the X-Visitor-Id header receive a 400
-     response and are not passed to the next middleware.
-
-2. Stores the visitor ID and continues the request
-   → Verifies the visitor ID is attached to req.visitorId and that the
-     request continues through the middleware chain.
-*/

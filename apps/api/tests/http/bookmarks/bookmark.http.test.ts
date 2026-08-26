@@ -1,9 +1,21 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import type { NextFunction, Request, Response } from "express";
 import express from "express";
 import request from "supertest";
 
+type AuthenticatedRequest = Request & {
+  user?: {
+    userId: string;
+    email: string;
+  };
+};
+
 jest.mock("../../../src/middleware/auth.middleware", () => ({
-  authMiddleware: (req: any, _res: any, next: any) => {
+  authMiddleware: (
+    req: AuthenticatedRequest,
+    _res: Response,
+    next: NextFunction,
+  ) => {
     req.user = {
       userId: "user-123",
       email: "aditya@example.com",
