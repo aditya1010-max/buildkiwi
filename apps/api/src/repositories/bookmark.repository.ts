@@ -1,30 +1,39 @@
-import Bookmark from "../models/bookmark.model";
+import BookmarkModel from "../models/bookmark.model";
+import type { ProjectDocument } from "../models/project.model";
+
+type PopulatedCreator = {
+  username: string;
+};
+
+type PopulatedProject = ProjectDocument & {
+  creatorId: PopulatedCreator;
+};
 
 export const bookmarkRepository = {
   create: async (userId: string, projectId: string) => {
-    return await Bookmark.create({
+    return BookmarkModel.create({
       userId,
       projectId,
     });
   },
 
   find: async (userId: string, projectId: string) => {
-    return await Bookmark.findOne({
+    return BookmarkModel.findOne({
       userId,
       projectId,
     });
   },
 
   delete: async (userId: string, projectId: string) => {
-    return await Bookmark.findOneAndDelete({
+    return BookmarkModel.findOneAndDelete({
       userId,
       projectId,
     });
   },
 
   findByUserId: async (userId: string) => {
-    return await Bookmark.find({ userId })
-      .populate({
+    return BookmarkModel.find({ userId })
+      .populate<{ projectId: PopulatedProject }>({
         path: "projectId",
         select:
           "title description tags coverImage links stats creatorId createdAt updatedAt",

@@ -49,3 +49,7 @@ userSchema.index({ email: 1 });
 userSchema.index({ username: 1 });
 
 export const User = mongoose.model("User", userSchema);
+
+export type UserDocument = mongoose.HydratedDocument<
+  mongoose.InferSchemaType<typeof userSchema>
+>;

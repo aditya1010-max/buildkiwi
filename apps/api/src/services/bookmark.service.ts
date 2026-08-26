@@ -32,5 +32,5 @@ export async function removeBookmarkService(userId: string, projectId: string) {
 export async function getBookmarksService(userId: string) {
   const bookmarks = await bookmarkRepository.findByUserId(userId);
 
-  return bookmarks.map((bookmark: any) => bookmark.projectId);
+  return bookmarks.map((bookmark) => bookmark.projectId);
 }

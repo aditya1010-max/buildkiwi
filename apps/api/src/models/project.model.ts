@@ -75,3 +75,7 @@ projectSchema.index({ createdAt: -1 });
 projectSchema.index({ tags: 1 });
 
 export const Project = mongoose.model("Project", projectSchema);
+
+export type ProjectDocument = mongoose.HydratedDocument<
+  mongoose.InferSchemaType<typeof projectSchema>
+>;
