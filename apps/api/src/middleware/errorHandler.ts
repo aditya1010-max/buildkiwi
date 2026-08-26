@@ -5,8 +5,13 @@ export const errorHandler = (
   err: Error | AppError,
   _req: Request,
   res: Response,
-  _next: NextFunction,
+  next: NextFunction,
 ) => {
+  if (res.headersSent) {
+    next(err);
+    return;
+  }
+
   const statusCode = err instanceof AppError ? err.statusCode : 500;
 
   res.status(statusCode).json({
