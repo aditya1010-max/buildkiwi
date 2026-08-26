@@ -1,13 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 
-declare global {
-  namespace Express {
-    interface Request {
-      visitorId?: string;
-    }
-  }
-}
-
 export function visitorMiddleware(
   req: Request,
   res: Response,
@@ -23,6 +15,5 @@ export function visitorMiddleware(
   }
 
   req.visitorId = visitorId;
-
   next();
 }

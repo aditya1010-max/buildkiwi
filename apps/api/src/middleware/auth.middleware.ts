@@ -20,7 +20,7 @@ export const authMiddleware = (
   try {
     const decoded = verifyAccessToken(token);
 
-    (req as any).user = decoded;
+    req.user = decoded;
 
     next();
   } catch {

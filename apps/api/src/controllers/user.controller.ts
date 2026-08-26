@@ -42,7 +42,11 @@ export const updateUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 
-    const authenticatedUserId = (req as any).user.userId;
+    if (!req.user) {
+      throw new AppError("Unauthorized", 401);
+    }
+
+    const authenticatedUserId = req.user.userId;
 
     if (authenticatedUserId !== id) {
       throw new AppError("You can only update your own profile", 403);
