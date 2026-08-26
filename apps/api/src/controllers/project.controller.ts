@@ -16,6 +16,7 @@ import { validateSchemaData } from "../utils/validateSchema";
 import { CreateProjectSchema } from "@buildkiwi/validation";
 import { asyncHandler } from "../utils/asyncHandler";
 import { AppError } from "../utils/AppError";
+import { type Schema } from "../utils/validateSchema";
 
 // Define a strict, local type for requests that pass through your auth middleware
 interface AuthenticatedRequest extends Request {
@@ -28,9 +29,13 @@ interface AuthenticatedRequest extends Request {
 /**
  * Validates dynamic schema data structure
  */
-const runSecondaryValidation = (schema: any, data: any) => {
+const runSecondaryValidation = (
+  schema: Schema,
+  data: Record<string, unknown>,
+) => {
   const errors = validateSchemaData(schema, data);
-  if (errors && errors.length > 0) {
+
+  if (errors.length > 0) {
     throw new AppError("Validation failed against structural schema", 400);
   }
 };
