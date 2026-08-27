@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>BuildKiwi Pattern Lab</title>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <main class="lab">
+      <header class="header">
+        <h1>Pattern Lab</h1>
+        <p>BuildKiwi Pattern Engine</p>
+      </header>
+
+      <section class="workspace">
+        <div class="preview-panel">
+          <div id="preview" class="preview"></div>
+        </div>
+
+        <aside class="controls">
+          <label>
+            Pattern
+
+            <select id="pattern">
+              <option value="geometric">Geometric</option>
+              <option value="waves">Waves</option>
+              <option value="dots">Dots</option>
+            </select>
+          </label>
+
+          <label>
+            Seed
+
+            <input
+              id="seed"
+              type="text"
+              value="buildkiwi-demo"
+            />
+          </label>
+
+          <div class="actions">
+            <button id="generate">
+              Generate
+            </button>
+
+            <button id="generate-another">
+              Generate another
+            </button>
+          </div>
+
+          <div class="metadata">
+            <div>
+              <span>Dimensions</span>
+              <strong id="dimensions">—</strong>
+            </div>
+
+            <div>
+              <span>SVG size</span>
+              <strong id="svg-size">—</strong>
+            </div>
+
+            <div>
+              <span>Seed</span>
+              <strong id="current-seed">—</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
