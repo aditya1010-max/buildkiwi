@@ -1,4 +1,9 @@
-﻿export type PatternId = "geometric" | "waves" | "dots";
+﻿export type PatternId =
+  | "blobs"
+  | "waves"
+  | "constellation"
+  | "halftone"
+  | "geometric";
 
 export type PatternRandom = {
   next(): number;
@@ -150,5 +155,10 @@ export type GeneratedImage = {
 
 export type PatternGenerator = {
   id: PatternId;
+  generate(context: PatternContext): PatternOutput;
+};
+
+export type PatternVariant = {
+  id: string;
   generate(context: PatternContext): PatternOutput;
 };

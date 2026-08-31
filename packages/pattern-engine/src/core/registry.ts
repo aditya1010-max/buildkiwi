@@ -2,15 +2,19 @@
   PatternGenerator,
   PatternId,
 } from "./types";
+
 import { geometricPattern } from "../patterns/geometric";
+import { wavesPattern } from "../patterns/waves";
+import { blobsPattern } from "../patterns/blobs";
+import { constellationPattern } from "../patterns/constellation";
+import { halftonePattern } from "../patterns/halftone";
 
 const patterns: Record<PatternId, PatternGenerator> = {
   geometric: geometricPattern,
-
-  // V1 placeholders.
-  // These will be implemented later.
-  waves: geometricPattern,
-  dots: geometricPattern,
+  waves: wavesPattern,
+  blobs: blobsPattern,
+  constellation: constellationPattern,
+  halftone: halftonePattern,
 };
 
 export function getPattern(
