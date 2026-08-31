@@ -1,10 +1,14 @@
-import type { PatternConfig } from "../core/types";
+import type {
+  PatternConfig,
+  PatternId,
+} from "../core/types";
 
 export const profilePreset = (
   seed: string,
+  pattern: PatternId,
 ): PatternConfig => ({
   seed,
-  pattern: "geometric",
+  pattern,
   width: 512,
   height: 512,
   borderRadius: 999,
