@@ -37,7 +37,7 @@ connectDB();
 app.use(
   cors({
     //tellings cors to accept the Auth header
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     allowedHeaders: ["Content-Type", "Authorization", "X-Visitor-Id"],
     credentials: true,
   }),
