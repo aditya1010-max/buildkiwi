@@ -4,8 +4,7 @@
   Rectangle,
 } from "../../core/types";
 
-const SHAPE_COUNT = 12;
-const SHAPE_OPACITY = 0.12;
+const GRID_SIZE = 4;
 
 export const geometricPattern: PatternGenerator = {
   id: "geometric",
@@ -13,40 +12,58 @@ export const geometricPattern: PatternGenerator = {
   generate(context) {
     const elements: Array<Circle | Rectangle> = [];
 
-    for (let index = 0; index < SHAPE_COUNT; index += 1) {
-      const size = context.random.int(20, 100);
+    const cellWidth =
+      context.width / GRID_SIZE;
 
-      const x = context.random.int(
-        0,
-        Math.max(0, context.width - size),
-      );
+    const cellHeight =
+      context.height / GRID_SIZE;
 
-      const y = context.random.int(
-        0,
-        Math.max(0, context.height - size),
-      );
+    for (let row = 0; row < GRID_SIZE; row += 1) {
+      for (
+        let column = 0;
+        column < GRID_SIZE;
+        column += 1
+      ) {
+        const size =
+          Math.min(cellWidth, cellHeight) *
+          (0.55 + context.random.next() * 0.25);
 
-      const color = context.random.pick(context.palette);
+        const centerX =
+          column * cellWidth +
+          cellWidth / 2;
 
-      if (index % 2 === 0) {
-        elements.push({
-          type: "circle",
-          cx: x + size / 2,
-          cy: y + size / 2,
-          radius: size / 2,
-          fill: color,
-          opacity: SHAPE_OPACITY,
-        });
-      } else {
-        elements.push({
-          type: "rectangle",
-          x,
-          y,
-          width: size,
-          height: size,
-          fill: color,
-          opacity: SHAPE_OPACITY,
-        });
+        const centerY =
+          row * cellHeight +
+          cellHeight / 2;
+
+        const color =
+          context.random.pick(context.palette);
+
+        const offset =
+          (row + column) % 2 === 0
+            ? 0
+            : Math.min(cellWidth, cellHeight) * 0.18;
+
+        if ((row + column) % 2 === 0) {
+          elements.push({
+            type: "circle",
+            cx: centerX + offset,
+            cy: centerY,
+            radius: size / 2,
+            fill: color,
+            opacity: 0.9,
+          });
+        } else {
+          elements.push({
+            type: "rectangle",
+            x: centerX - size / 2 - offset,
+            y: centerY - size / 2,
+            width: size,
+            height: size,
+            fill: color,
+            opacity: 0.9,
+          });
+        }
       }
     }
 
