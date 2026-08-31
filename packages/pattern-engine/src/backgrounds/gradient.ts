@@ -40,12 +40,8 @@ export function generateGradient(
         color: palette.primary,
       },
       {
-        offset: 0.5,
-        color: palette.secondary,
-      },
-      {
         offset: 1,
-        color: palette.accent,
+        color: palette.secondary,
       },
     ],
   };
