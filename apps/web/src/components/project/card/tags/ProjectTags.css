@@ -1,0 +1,22 @@
+.project-card_tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-card_tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.3rem 0.65rem;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--accent-bg);
+  color: var(--accent);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.2;
+}

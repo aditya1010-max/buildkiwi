@@ -2,184 +2,23 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  cursor: pointer;
+
   width: 100%;
   padding: 1.5rem;
+
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 2px;
+
+  cursor: pointer;
 }
 
 .project-card:hover {
   border-color: var(--accent);
 }
 
-.project-card_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.project-card_meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.project-card_creator {
-  color: var(--text-heading);
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.project-card_time {
-  color: var(--text);
-  opacity: 0.7;
-  font-size: 0.85rem;
-}
-
-.project-card_title {
-  margin: 0;
-  color: var(--text-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.project-card_description {
-  margin: 0;
-  color: var(--text);
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow-wrap: anywhere;
-  overflow: hidden;
-}
-
-.project-card_tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.project-card_tag {
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.project-card_stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  color: var(--text);
-  font-size: 0.9rem;
-}
-
-.project-card_stats span,
-.project-card_stats button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.project-card a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.project-card_action {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-
-.project-card_action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.project-card_like-icon,
-.project-card_unlike-icon,
-.project-card_bookmark svg {
-  background: transparent;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.project-card_unlike-icon,
-.project-card_unlike-icon path,
-.project-card_bookmark svg,
-.project-card_bookmark svg path {
-  color: #000000;
-  stroke: #2f2f2f;
-  fill: none;
-}
-
-.project-card_like-icon,
-.project-card_like-icon path {
-  color: #ac2828;
-  stroke: #ac2828;
-  fill: #ac2828;
-}
-
-.project-card_bookmark[aria-label="Remove from saved"] svg,
-.project-card_bookmark[aria-label="Remove from saved"] svg path {
-  color: #000000;
-  stroke: #000000;
-  fill: #000000;
-}
-
-.project-card_bookmark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-}
-
-.project-card_bookmark:focus-visible {
-  border-radius: 4px;
-  outline: 2px solid #000000;
-  outline-offset: 2px;
-}
-
-.project-card_bookmark.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.project-card_bookmark.disabled svg,
-.project-card_bookmark.disabled svg path {
-  color: #a1a1aa;
-  stroke: #a1a1aa;
-}
-
 @media (max-width: 768px) {
   .project-card {
     padding: 1.25rem;
-  }
-
-  .project-card_stats {
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .project-card_title {
-    font-size: 1.1rem;
   }
 }
