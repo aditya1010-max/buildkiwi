@@ -13,8 +13,8 @@ export const profilePreset = (
   height: 512,
   borderRadius: 999,
   palette: [],
-  ring: {
-    color: "#b00303",
-    width: 100,
-  },
+  // ring: {
+  //   color: "#b00303",
+  //   width: 100,
+  // },
 });

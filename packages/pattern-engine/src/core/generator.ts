@@ -12,9 +12,10 @@ import { generateGradient } from "../backgrounds/gradient";
 export function generatePattern(
   config: PatternConfig,
 ): GeneratedImage {
-  const random = createSeededRandom(config.seed);
+  const gradientSeed = config.seed.slice(-9);
+  const random = createSeededRandom(gradientSeed);
 
-  const palette = generatePalette(config.seed);
+  const palette = generatePalette(gradientSeed);
 
   const gradient = generateGradient(
     palette,
