@@ -1,0 +1,98 @@
+.project-card_engagement {
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.project-card_actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
+.project-card_action,
+.project-card_metric {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.project-card_action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.project-card_action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.project-card_metric {
+  user-select: none;
+}
+
+.project-card_action svg,
+.project-card_metric svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Like */
+
+.project-card_like-icon,
+.project-card_like-icon path {
+  color: #ac2828;
+  stroke: #ac2828;
+  fill: #ac2828;
+}
+
+.project-card_unlike-icon,
+.project-card_unlike-icon path {
+  color: #2f2f2f;
+  stroke: #2f2f2f;
+  fill: none;
+}
+
+/* Bookmark */
+
+.project-card_bookmark svg,
+.project-card_bookmark svg path {
+  color: #2f2f2f;
+  stroke: #2f2f2f;
+  fill: none;
+}
+
+.project-card_bookmark[aria-label="Remove from saved"] svg,
+.project-card_bookmark[aria-label="Remove from saved"] svg path {
+  color: #000000;
+  stroke: #000000;
+  fill: #000000;
+}
+
+.project-card_bookmark:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .project-card_action,
+  .project-card_metric {
+    font-size: 0.85rem;
+  }
+
+  .project-card_action svg,
+  .project-card_metric svg {
+    width: 20px;
+    height: 20px;
+  }
+}
