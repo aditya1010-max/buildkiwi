@@ -4,20 +4,15 @@ const preview = document.querySelector("#preview");
 const patternSelect = document.querySelector("#pattern");
 const seedInput = document.querySelector("#seed");
 
-const generateButton =
-  document.querySelector("#generate");
+const generateButton = document.querySelector("#generate");
 
-const generateAnotherButton =
-  document.querySelector("#generate-another");
+const generateAnotherButton = document.querySelector("#generate-another");
 
-const dimensions =
-  document.querySelector("#dimensions");
+const dimensions = document.querySelector("#dimensions");
 
-const svgSize =
-  document.querySelector("#svg-size");
+const svgSize = document.querySelector("#svg-size");
 
-const currentSeed =
-  document.querySelector("#current-seed");
+const currentSeed = document.querySelector("#current-seed");
 
 const WIDTH = 512;
 const HEIGHT = 512;
@@ -37,11 +32,9 @@ function generate(seed = seedInput.value) {
 
   preview.innerHTML = result.svg;
 
-  dimensions.textContent =
-    `${result.width} × ${result.height}`;
+  dimensions.textContent = `${result.width} × ${result.height}`;
 
-  svgSize.textContent =
-    `${result.svg.length} characters`;
+  svgSize.textContent = `${result.svg.length} characters`;
 
   currentSeed.textContent = seed;
 
@@ -55,31 +48,19 @@ function generateAnother() {
 }
 
 function createSeed() {
-  const randomPart =
-    Math.random()
-      .toString(36)
-      .slice(2, 10);
+  const randomPart = Math.random().toString(36).slice(2, 10);
 
   return `lab-${Date.now()}-${randomPart}`;
 }
 
-generateButton.addEventListener(
-  "click",
-  () => {
-    generate();
-  },
-);
+generateButton.addEventListener("click", () => {
+  generate();
+});
 
-generateAnotherButton.addEventListener(
-  "click",
-  generateAnother,
-);
+generateAnotherButton.addEventListener("click", generateAnother);
 
-patternSelect.addEventListener(
-  "change",
-  () => {
-    generate();
-  },
-);
+patternSelect.addEventListener("change", () => {
+  generate();
+});
 
 generate();

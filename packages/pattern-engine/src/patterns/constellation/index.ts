@@ -1,8 +1,4 @@
-import type {
-  Circle,
-  Line,
-  PatternGenerator,
-} from "../../core/types";
+import type { Circle, Line, PatternGenerator } from "../../core/types";
 
 const POINT_COUNT = 14;
 const MAX_CONNECTION_DISTANCE = 150;
@@ -26,20 +22,14 @@ export const constellationPattern: PatternGenerator = {
     }
 
     for (let first = 0; first < points.length; first += 1) {
-      for (
-        let second = first + 1;
-        second < points.length;
-        second += 1
-      ) {
+      for (let second = first + 1; second < points.length; second += 1) {
         const a = points[first];
         const b = points[second];
 
         const dx = a.cx - b.cx;
         const dy = a.cy - b.cy;
 
-        const distance = Math.sqrt(
-          dx * dx + dy * dy,
-        );
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (
           distance <= MAX_CONNECTION_DISTANCE &&
@@ -51,9 +41,7 @@ export const constellationPattern: PatternGenerator = {
             y1: a.cy,
             x2: b.cx,
             y2: b.cy,
-            stroke: context.random.pick(
-              context.palette,
-            ),
+            stroke: context.random.pick(context.palette),
             strokeWidth: 4,
             opacity: 0.7,
           });

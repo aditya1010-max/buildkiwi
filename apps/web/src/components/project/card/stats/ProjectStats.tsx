@@ -14,19 +14,12 @@ interface StatCardProps {
   value: number;
 }
 
-function StatCard({
-  label,
-  value,
-}: StatCardProps): ReactElement {
+function StatCard({ label, value }: StatCardProps): ReactElement {
   return (
     <article className="project-stats_card">
-      <span className="project-stats_label">
-        {label}
-      </span>
+      <span className="project-stats_label">{label}</span>
 
-      <h2 className="project-stats_value">
-        {value.toLocaleString()}
-      </h2>
+      <h2 className="project-stats_value">{value.toLocaleString()}</h2>
     </article>
   );
 }
@@ -39,25 +32,13 @@ export default function ProjectStats({
 }: ProjectStatsProps): ReactElement {
   return (
     <section className="project-stats">
-      <StatCard
-        label="Projects"
-        value={totalProjects}
-      />
+      <StatCard label="Projects" value={totalProjects} />
 
-      <StatCard
-        label="Views"
-        value={totalViews}
-      />
+      <StatCard label="Views" value={totalViews} />
 
-      <StatCard
-        label="Likes"
-        value={totalLikes}
-      />
+      <StatCard label="Likes" value={totalLikes} />
 
-      <StatCard
-        label="Comments"
-        value={totalComments}
-      />
+      <StatCard label="Comments" value={totalComments} />
     </section>
   );
 }

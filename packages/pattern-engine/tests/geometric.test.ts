@@ -10,47 +10,36 @@ const createContext = (seed: string) => ({
   random: createSeededRandom(seed),
 });
 
-describe.skip("geometricPattern", () => {  //skip intentionally
+describe.skip("geometricPattern", () => {
+  //skip intentionally
   it("has the correct pattern id", () => {
     expect(geometricPattern.id).toBe("geometric");
   });
 
   it("generates the expected number of elements", () => {
-    const output = geometricPattern.generate(
-      createContext("test-seed"),
-    );
+    const output = geometricPattern.generate(createContext("test-seed"));
 
     expect(output.elements).toHaveLength(12);
   });
 
   it("produces deterministic output", () => {
-    const first = geometricPattern.generate(
-      createContext("test-seed"),
-    );
+    const first = geometricPattern.generate(createContext("test-seed"));
 
-    const second = geometricPattern.generate(
-      createContext("test-seed"),
-    );
+    const second = geometricPattern.generate(createContext("test-seed"));
 
     expect(first).toEqual(second);
   });
 
   it("produces different output for different seeds", () => {
-    const first = geometricPattern.generate(
-      createContext("seed-a"),
-    );
+    const first = geometricPattern.generate(createContext("seed-a"));
 
-    const second = geometricPattern.generate(
-      createContext("seed-b"),
-    );
+    const second = geometricPattern.generate(createContext("seed-b"));
 
     expect(first).not.toEqual(second);
   });
 
   it("keeps generated geometry inside the canvas", () => {
-    const output = geometricPattern.generate(
-      createContext("bounds-test"),
-    );
+    const output = geometricPattern.generate(createContext("bounds-test"));
 
     for (const element of output.elements) {
       if (element.type === "circle") {

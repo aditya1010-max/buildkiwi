@@ -1,7 +1,4 @@
-import type {
-  Path,
-  PatternGenerator,
-} from "../../core/types";
+import type { Path, PatternGenerator } from "../../core/types";
 
 const WAVE_COUNT = 5;
 const POINT_COUNT = 12;
@@ -12,10 +9,7 @@ export const wavesPattern: PatternGenerator = {
   generate(context) {
     const elements: Path[] = [];
 
-    const amplitude = context.random.int(
-      20,
-      Math.floor(context.height * 0.08),
-    );
+    const amplitude = context.random.int(20, Math.floor(context.height * 0.08));
 
     const strokeWidth = context.random.int(12, 28);
     const spacing = context.height / (WAVE_COUNT + 1);
@@ -26,7 +20,7 @@ export const wavesPattern: PatternGenerator = {
 
       for (let index = 0; index <= POINT_COUNT; index += 1) {
         const x = (context.width / POINT_COUNT) * index;
-        
+
         // Alternates direction to create zigzag peaks
         const direction = index % 2 === 0 ? -1 : 1;
         const y = baseY + direction * amplitude;
@@ -36,8 +30,7 @@ export const wavesPattern: PatternGenerator = {
 
       const path = points
         .map(
-          (point, index) =>
-            `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`,
+          (point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`,
         )
         .join(" ");
 

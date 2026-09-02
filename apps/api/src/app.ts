@@ -34,10 +34,11 @@ const PORT = env.PORT;
 
 connectDB();
 
+const allowedOrigins = ["http://localhost:5174", "http://localhost:4173"];
+
 app.use(
   cors({
-    //tellings cors to accept the Auth header
-    origin: "http://localhost:5174",
+    origin: allowedOrigins,
     allowedHeaders: ["Content-Type", "Authorization", "X-Visitor-Id"],
     credentials: true,
   }),

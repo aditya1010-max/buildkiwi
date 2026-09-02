@@ -67,13 +67,10 @@ export default function ProjectsPage(): ReactElement {
       <div className="projects-page_container">
         <header className="projects-page_header">
           <div>
-            <h1 className="projects-page_title">
-              My Projects
-            </h1>
+            <h1 className="projects-page_title">My Projects</h1>
 
             <p className="projects-page_subtitle">
-              Manage, edit and track all of your published
-              projects.
+              Manage, edit and track all of your published projects.
             </p>
           </div>
 

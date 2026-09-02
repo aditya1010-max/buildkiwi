@@ -25,9 +25,7 @@ export function serializeSvg(
   output: PatternOutput,
   options: SvgDocumentOptions,
 ): GeneratedImage {
-  const elements = output.elements
-    .map(serializeElement)
-    .join("");
+  const elements = output.elements.map(serializeElement).join("");
 
   const definitions = (output.definitions ?? [])
     .map(serializeDefinition)
@@ -71,9 +69,7 @@ export function serializeSvg(
   };
 }
 
-function serializeDefinition(
-  definition: PatternDefinition,
-): string {
+function serializeDefinition(definition: PatternDefinition): string {
   switch (definition.type) {
     case "linear-gradient":
       return linearGradient(definition);

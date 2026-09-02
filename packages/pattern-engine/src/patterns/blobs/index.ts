@@ -1,7 +1,4 @@
-import type {
-  Circle,
-  PatternGenerator,
-} from "../../core/types";
+import type { Circle, PatternGenerator } from "../../core/types";
 
 const BLOB_COUNT = 5;
 
@@ -11,11 +8,7 @@ export const blobsPattern: PatternGenerator = {
   generate(context) {
     const elements: Circle[] = [];
 
-    for (
-      let index = 0;
-      index < BLOB_COUNT;
-      index += 1
-    ) {
+    for (let index = 0; index < BLOB_COUNT; index += 1) {
       const radius = context.random.int(50, 150);
 
       const cx = context.random.int(

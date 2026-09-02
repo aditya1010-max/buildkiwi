@@ -1,5 +1,8 @@
 import type { ReactElement } from "react";
+
 import type { Project } from "../../../../types/project";
+
+import GeneratedAvatar from "../../shared/GeneratedAvatar/GeneratedAvatar";
 
 import "./ProjectHeader.css";
 
@@ -13,9 +16,9 @@ export default function ProjectHeader({
   return (
     <header className="project-card_header">
       <div className="project-card_creator">
-        <div
+        <GeneratedAvatar
+          seed={project.creatorId._id}
           className="project-card_avatar"
-          aria-hidden="true"
         />
 
         <div className="project-card_meta">
@@ -25,9 +28,7 @@ export default function ProjectHeader({
 
           <span className="project-card_time">
             {project.createdAt
-              ? new Date(
-                  project.createdAt,
-                ).toLocaleDateString()
+              ? new Date(project.createdAt).toLocaleDateString()
               : ""}
           </span>
         </div>

@@ -1,9 +1,5 @@
 ﻿export type PatternId =
-  | "blobs"
-  | "waves"
-  | "constellation"
-  | "halftone"
-  | "geometric";
+  "blobs" | "waves" | "constellation" | "halftone" | "geometric";
 
 export type PatternRandom = {
   next(): number;
@@ -75,12 +71,7 @@ export type Path = {
   strokeWidth?: number;
 };
 
-export type PatternElement =
-  | Circle
-  | Rectangle
-  | Polygon
-  | Line
-  | Path;
+export type PatternElement = Circle | Rectangle | Polygon | Line | Path;
 
 /*
  * SVG gradient definitions
@@ -114,9 +105,7 @@ export type RadialGradient = {
   stops: GradientStop[];
 };
 
-export type PatternDefinition =
-  | LinearGradient
-  | RadialGradient;
+export type PatternDefinition = LinearGradient | RadialGradient;
 
 export type PatternOutput = {
   definitions?: PatternDefinition[];

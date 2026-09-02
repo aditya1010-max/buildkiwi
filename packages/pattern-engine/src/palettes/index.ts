@@ -16,29 +16,22 @@ const majorColors = [
   "#a9a965b5",
 ] as const;
 
-export function generatePalette(
-  seed: string,
-): ColorPalette {
+export function generatePalette(seed: string): ColorPalette {
   const random = createSeededRandom(seed);
 
   const major = random.pick(majorColors);
 
   const baseHue = random.int(0, 359);
 
-  const primary =
-    `hsla(${baseHue}, 65%, 55%, 0.65)`;
+  const primary = `hsla(${baseHue}, 65%, 55%, 0.65)`;
 
-  const secondaryHue =
-    (baseHue + 35) % 360;
+  const secondaryHue = (baseHue + 35) % 360;
 
-  const secondary =
-    `hsla(${secondaryHue}, 60%, 45%, 0.65)`;
+  const secondary = `hsla(${secondaryHue}, 60%, 45%, 0.65)`;
 
-  const accentHue =
-    (baseHue + 180) % 360;
+  const accentHue = (baseHue + 180) % 360;
 
-  const accent =
-    `hsla(${accentHue}, 70%, 65%, 0.75)`;
+  const accent = `hsla(${accentHue}, 70%, 65%, 0.75)`;
 
   return {
     major,

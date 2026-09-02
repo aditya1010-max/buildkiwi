@@ -120,10 +120,7 @@ function percentage(value: number): string {
   return `${value * 100}%`;
 }
 
-function attribute(
-  name: string,
-  value: string | number | undefined,
-): string {
+function attribute(name: string, value: string | number | undefined): string {
   if (value === undefined) {
     return "";
   }

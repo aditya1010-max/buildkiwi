@@ -1,7 +1,4 @@
-﻿import type {
-  PatternGenerator,
-  PatternId,
-} from "./types";
+﻿import type { PatternGenerator, PatternId } from "./types";
 
 import { geometricPattern } from "../patterns/geometric";
 import { wavesPattern } from "../patterns/waves";
@@ -17,9 +14,7 @@ const patterns: Record<PatternId, PatternGenerator> = {
   halftone: halftonePattern,
 };
 
-export function getPattern(
-  id: PatternId,
-): PatternGenerator {
+export function getPattern(id: PatternId): PatternGenerator {
   return patterns[id];
 }
 

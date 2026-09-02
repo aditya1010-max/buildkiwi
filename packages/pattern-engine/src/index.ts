@@ -1,20 +1,10 @@
-﻿export {
-  generatePattern,
-} from "./core/generator";
+﻿export { generatePattern } from "./core/generator";
 
-export {
-  getPattern,
-  getPatterns,
-  getDefaultPattern,
-} from "./core/registry";
+export { getPattern, getPatterns, getDefaultPattern } from "./core/registry";
 
-export {
-  profilePreset,
-} from "./presets/profile";
+export { profilePreset } from "./presets/profile";
 
-export {
-  coverPreset,
-} from "./presets/cover";
+export { coverPreset } from "./presets/cover";
 
 export type {
   Circle,
@@ -38,6 +28,4 @@ export type {
   SeededRandom,
 } from "./core/types";
 
-export type {
-  ColorPalette,
-} from "./palettes";
+export type { ColorPalette } from "./palettes";

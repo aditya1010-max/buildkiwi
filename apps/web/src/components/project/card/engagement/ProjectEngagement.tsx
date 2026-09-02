@@ -1,8 +1,4 @@
-import type {
-  ReactElement,
-  MouseEvent,
-  SyntheticEvent,
-} from "react";
+import type { ReactElement, MouseEvent, SyntheticEvent } from "react";
 
 import ProjectActions from "./ProjectActions";
 
@@ -20,12 +16,8 @@ interface ProjectEngagementProps {
   liked: boolean;
   saved: boolean;
   isGuest: boolean;
-  onLike: (
-    event: MouseEvent<HTMLButtonElement>,
-  ) => void;
-  onBookmark: (
-    event: SyntheticEvent,
-  ) => void;
+  onLike: (event: MouseEvent<HTMLButtonElement>) => void;
+  onBookmark: (event: SyntheticEvent) => void;
 }
 
 export default function ProjectEngagement({

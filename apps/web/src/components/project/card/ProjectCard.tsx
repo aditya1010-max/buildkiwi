@@ -1,8 +1,4 @@
-import type {
-  ReactElement,
-  MouseEvent,
-  SyntheticEvent,
-} from "react";
+import type { ReactElement, MouseEvent, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -29,15 +25,11 @@ export default function ProjectCard({
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { isBookmarked, toggleBookmark } =
-    useBookmarkContext();
+  const { isBookmarked, toggleBookmark } = useBookmarkContext();
 
-  const { isLiked, toggleLike } =
-    useLikeContext();
+  const { isLiked, toggleLike } = useLikeContext();
 
-  const [displayLikes, setDisplayLikes] = useState(
-    project.stats?.likes ?? 0,
-  );
+  const [displayLikes, setDisplayLikes] = useState(project.stats?.likes ?? 0);
 
   const isGuest = !getAccessToken();
 
@@ -68,9 +60,7 @@ export default function ProjectCard({
     }
   }
 
-  async function handleLike(
-    e: MouseEvent<HTMLButtonElement>,
-  ) {
+  async function handleLike(e: MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
 
     if (isGuest) return;
@@ -89,10 +79,7 @@ export default function ProjectCard({
   }
 
   return (
-    <article
-      className="project-card"
-      onClick={handleCardClick}
-    >
+    <article className="project-card" onClick={handleCardClick}>
       <ProjectHeader project={project} />
 
       <ProjectContent project={project} />

@@ -12,13 +12,9 @@ export default function ProjectContent({
 }: ProjectContentProps): ReactElement {
   return (
     <section className="project-card_content">
-      <h2 className="project-card_title">
-        {project.title}
-      </h2>
+      <h2 className="project-card_title">{project.title}</h2>
 
-      <p className="project-card_description">
-        {project.description}
-      </p>
+      <p className="project-card_description">{project.description}</p>
     </section>
   );
 }

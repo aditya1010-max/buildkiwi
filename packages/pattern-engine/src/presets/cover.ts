@@ -1,8 +1,6 @@
 import type { PatternConfig } from "../core/types";
 
-export const coverPreset = (
-  seed: string,
-): PatternConfig => ({
+export const coverPreset = (seed: string): PatternConfig => ({
   seed,
   pattern: "geometric",
   width: 1200,

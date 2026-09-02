@@ -1,17 +1,11 @@
-﻿import type {
-  Circle,
-  GeneratedImage,
-  PatternConfig,
-} from "./types";
+﻿import type { Circle, GeneratedImage, PatternConfig } from "./types";
 import { createSeededRandom } from "./random";
 import { getPattern } from "./registry";
 import { serializeSvg } from "../svg/serialize";
 import { generatePalette } from "../palettes";
 import { generateGradient } from "../backgrounds/gradient";
 
-export function generatePattern(
-  config: PatternConfig,
-): GeneratedImage {
+export function generatePattern(config: PatternConfig): GeneratedImage {
   const gradientSeed = config.seed.slice(-9);
   const random = createSeededRandom(gradientSeed);
 
@@ -46,8 +40,7 @@ export function generatePattern(
           cx: config.width / 2,
           cy: config.height / 2,
           radius:
-            Math.min(config.width, config.height) / 2 -
-            config.ring.width / 2,
+            Math.min(config.width, config.height) / 2 - config.ring.width / 2,
           fill: "none",
           stroke: config.ring.color,
           strokeWidth: config.ring.width,
@@ -57,15 +50,8 @@ export function generatePattern(
 
   return serializeSvg(
     {
-      definitions: [
-        gradient.definition,
-        ...(output.definitions ?? []),
-      ],
-      elements: [
-        gradient.element,
-        ...output.elements,
-        ...ring,
-      ],
+      definitions: [gradient.definition, ...(output.definitions ?? [])],
+      elements: [gradient.element, ...output.elements, ...ring],
     },
     {
       width: config.width,

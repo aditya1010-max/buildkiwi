@@ -1,8 +1,4 @@
-import type {
-  ReactElement,
-  MouseEvent,
-  SyntheticEvent,
-} from "react";
+import type { ReactElement, MouseEvent, SyntheticEvent } from "react";
 
 import {
   HeartIcon,
@@ -15,12 +11,8 @@ interface ProjectActionsProps {
   saved?: boolean;
   isGuest: boolean;
   likes?: number;
-  onLike?: (
-    event: MouseEvent<HTMLButtonElement>,
-  ) => void;
-  onBookmark?: (
-    event: SyntheticEvent,
-  ) => void;
+  onLike?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onBookmark?: (event: SyntheticEvent) => void;
 }
 
 export default function ProjectActions({
@@ -39,23 +31,13 @@ export default function ProjectActions({
         className="project-card_action"
         onClick={onLike}
         disabled={isGuest}
-        title={
-          isGuest
-            ? "Sign in to like projects"
-            : ""
-        }
-        aria-label={
-          liked
-            ? "Unlike project"
-            : "Like project"
-        }
+        title={isGuest ? "Sign in to like projects" : ""}
+        aria-label={liked ? "Unlike project" : "Like project"}
       >
         <HeartIcon
           size={24}
           className={
-            liked
-              ? "project-card_like-icon"
-              : "project-card_unlike-icon"
+            liked ? "project-card_like-icon" : "project-card_unlike-icon"
           }
         />
 
@@ -70,16 +52,8 @@ export default function ProjectActions({
       className="project-card_action project-card_bookmark"
       onClick={onBookmark}
       disabled={isGuest}
-      title={
-        isGuest
-          ? "Sign in to save projects"
-          : ""
-      }
-      aria-label={
-        saved
-          ? "Remove from saved"
-          : "Save project"
-      }
+      title={isGuest ? "Sign in to save projects" : ""}
+      aria-label={saved ? "Remove from saved" : "Save project"}
     >
       <BookmarkIcon size={24} />
     </button>

@@ -1,7 +1,4 @@
-import type {
-  PatternConfig,
-  PatternId,
-} from "../core/types";
+import type { PatternConfig, PatternId } from "../core/types";
 
 export const profilePreset = (
   seed: string,
