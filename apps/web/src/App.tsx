@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, type Location } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
 import HomePage from "./pages/Home/HomePage";
