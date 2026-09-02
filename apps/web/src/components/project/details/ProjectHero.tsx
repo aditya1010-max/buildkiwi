@@ -1,5 +1,8 @@
 import "./ProjectHero.css";
-import { Project } from "../../../types/project";
+
+import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
+
+import type { Project } from "../../../types/project";
 
 interface ProjectHeroProps {
   project: Project;
@@ -18,13 +21,10 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
             className="project-hero_image"
           />
         ) : (
-          <div className="project-hero_placeholder">
-            <div className="project-hero_placeholder-box">
-              <h3>No Cover Image</h3>
-
-              <p>This project doesn't have a cover image yet.</p>
-            </div>
-          </div>
+          <GeneratedCover
+            seed={project._id}
+            className="project-hero_generated-cover"
+          />
         )}
       </div>
 
@@ -46,7 +46,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         </div>
 
         <div className="project-hero_actions">
-          {project.links?.github ? ( //? for legacy projects created
+          {project.links?.github ? (
             <a
               href={project.links.github}
               target="_blank"
@@ -63,7 +63,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
 
           {project.links?.demo ? (
             <a
-              href={project.links.demo} //? for legacy projects with no links
+              href={project.links.demo}
               target="_blank"
               rel="noopener noreferrer"
               className="project-hero_button project-hero_button--primary"
