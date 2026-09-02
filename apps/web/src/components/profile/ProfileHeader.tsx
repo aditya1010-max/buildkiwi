@@ -1,22 +1,26 @@
 import "./ProfileHeader.css";
 
-import { User } from "../../types/user";
 import { useState } from "react";
+import type { ReactElement } from "react";
+
 import EditProfileDialog from "./EditProfileDialog";
+import GeneratedAvatar from "../../components/project/shared/GeneratedAvatar/GeneratedAvatar";
+
+import type { User } from "../../types/user";
 
 interface ProfileHeaderProps {
   user: User;
 }
 
-export default function ProfileHeader({ user }: ProfileHeaderProps) {
+export default function ProfileHeader({
+  user,
+}: ProfileHeaderProps): ReactElement {
   const [isEditing, setIsEditing] = useState(false);
-
-  const initials = user.username.slice(0, 2).toUpperCase();
 
   return (
     <>
       <section className="profile-header">
-        <div className="profile-avatar">{initials}</div>
+        <GeneratedAvatar seed={user._id} className="profile-avatar" />
 
         <div className="profile-info">
           <h1>{user.username}</h1>
@@ -28,7 +32,9 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           <small>Joined {new Date(user.createdAt).toLocaleDateString()}</small>
         </div>
 
-        <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+        <button type="button" onClick={() => setIsEditing(true)}>
+          Edit Profile
+        </button>
       </section>
 
       {isEditing && (
