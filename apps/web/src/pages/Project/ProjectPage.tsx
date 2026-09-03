@@ -2,11 +2,10 @@ import "./projectPage.css";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   ProjectHero,
   ProjectOverview,
-  // ProjectSidebar,
-  // ProjectDetailsLayout,
   ProjectMetadata,
 } from "../../components/project/details";
 
@@ -28,8 +27,6 @@ export default function ProjectPage() {
 
         setProject(response.data);
 
-        // Fire and forget.
-        // The page should still work even if analytics fails.
         recordProjectView(id).catch((error) => {
           console.error("Failed to record project view", error);
         });
@@ -62,9 +59,7 @@ export default function ProjectPage() {
   return (
     <main className="project-page">
       <ProjectHero project={project} />
-
       <ProjectOverview project={project} />
-
       <ProjectMetadata project={project} />
     </main>
   );

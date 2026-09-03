@@ -1,18 +1,25 @@
 .project-page {
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
   width: 100%;
-  max-width: var(--feed-max-width);
-  margin: 0 auto;
+  min-width: 0;
+
   padding: 2rem;
   box-sizing: border-box;
-  /* overflow-x: hidden; */
 }
 
 .project-page::before {
   content: "";
+
   position: absolute;
   inset: 0;
+
   border: 2px solid red;
+
   pointer-events: none;
   z-index: 9999;
 }
