@@ -1,6 +1,8 @@
 import "./ProjectTags.css";
-import { Project } from "../../../types/project";
+
+import type { Project } from "../../../types/project";
 import ProjectSection from "../shared/ProjectSection";
+
 interface ProjectTagsProps {
   project: Project;
 }
@@ -19,8 +21,8 @@ export default function ProjectTags({ project }: ProjectTagsProps) {
           ))}
         </div>
       ) : (
-        <div>
-          <p>No Technologies Added</p>
+        <div className="project-tags_empty">
+          <h3>No Technologies Added</h3>
           <p>The project owner hasn't added any technologies yet.</p>
         </div>
       )}

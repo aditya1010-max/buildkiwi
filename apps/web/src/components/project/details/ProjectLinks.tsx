@@ -1,6 +1,8 @@
 import "./ProjectLinks.css";
-import { Project } from "../../../types/project";
+
+import type { Project } from "../../../types/project";
 import ProjectSection from "../shared/ProjectSection";
+
 interface ProjectLinksProps {
   project: Project;
 }

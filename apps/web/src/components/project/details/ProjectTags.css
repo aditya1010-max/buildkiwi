@@ -1,86 +1,67 @@
 .project-tags {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  padding: 2rem;
-
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-
-  background: var(--surface-primary);
-}
-
-.project-tags_header h2 {
-  margin: 0;
-
-  font-size: 1.35rem;
-  font-weight: 700;
-}
-
-.project-tags_list {
-  display: flex;
   flex-wrap: wrap;
-
   gap: 0.75rem;
+
+  width: 100%;
+  min-width: 0;
 }
 
-.project-tags_tag {
+.project-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  max-width: 100%;
   padding: 0.65rem 1rem;
 
+  border: 1px solid var(--border);
   border-radius: 999px;
 
-  border: 1px solid var(--border-color);
-
-  background: var(--surface-secondary);
+  background: var(--surface);
+  color: var(--text);
 
   font-size: 0.95rem;
   font-weight: 500;
+
+  overflow-wrap: anywhere;
 
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
     transform 0.2s ease;
-
-  cursor: pointer;
 }
 
-.project-tags_tag:hover {
+.project-tag:hover {
   transform: translateY(-2px);
 }
 
 .project-tags_empty {
-  min-height: 140px;
-
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   gap: 0.75rem;
 
+  min-height: 140px;
+  padding: 1.5rem;
+
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+
   text-align: center;
-
-  border: 2px dashed var(--border-color);
-
-  border-radius: 14px;
 }
 
 .project-tags_empty h3 {
   margin: 0;
+  color: var(--text-h);
 }
 
 .project-tags_empty p {
+  max-width: 340px;
   margin: 0;
 
-  color: var(--text-secondary);
-
+  color: var(--text);
   line-height: 1.7;
-
-  max-width: 340px;
 }
