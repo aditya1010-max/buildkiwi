@@ -28,11 +28,13 @@ export default function ProjectsPage(): ReactElement {
   if (isGuest) {
     return (
       <main className="projects-page">
-        <GuestPrompt
-          icon=""
-          title="Publish your projects"
-          description="Create an account to publish and manage your own projects."
-        />
+        <div className="projects-page_container">
+          <GuestPrompt
+            icon=""
+            title="Publish your projects"
+            description="Create an account to publish and manage your own projects."
+          />
+        </div>
       </main>
     );
   }
@@ -40,7 +42,11 @@ export default function ProjectsPage(): ReactElement {
   if (loading) {
     return (
       <main className="projects-page">
-        <p>Loading projects...</p>
+        <div className="projects-page_container">
+          <div className="projects-page_loading">
+            <p>Loading projects...</p>
+          </div>
+        </div>
       </main>
     );
   }
@@ -66,7 +72,7 @@ export default function ProjectsPage(): ReactElement {
     <main className="projects-page">
       <div className="projects-page_container">
         <header className="projects-page_header">
-          <div>
+          <div className="projects-page_heading">
             <h1 className="projects-page_title">My Projects</h1>
 
             <p className="projects-page_subtitle">
@@ -83,15 +89,16 @@ export default function ProjectsPage(): ReactElement {
           </button>
         </header>
 
-        <section className="projects-page_stats">
+        <section
+          className="projects-page_stats"
+          aria-label="Project statistics"
+        >
           <ProjectStats {...stats} />
         </section>
 
-        <div className="project-page_abcdef">
-          <section className="projects-page_content">
-            <ProjectGrid projects={projects} />
-          </section>
-        </div>
+        <section className="projects-page_content">
+          <ProjectGrid projects={projects} />
+        </section>
       </div>
     </main>
   );

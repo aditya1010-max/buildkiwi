@@ -1,5 +1,6 @@
-import { useState, type ChangeEvent } from "react";
-import { Field, FormSchema } from "../../types/schema";
+import { useState, type ChangeEvent, type FormEvent } from "react";
+
+import type { Field, FormSchema } from "../../types/schema";
 import "./DynamicForm.css";
 import UploadImage from "./ImageUploader";
 
@@ -45,7 +46,7 @@ export default function DynamicForm({
     }));
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const submissionData = new FormData();
@@ -55,19 +56,21 @@ export default function DynamicForm({
 
     submissionData.append("title", title ?? "");
     submissionData.append("description", description ?? "");
+
     submissionData.append(
       "tags",
       JSON.stringify(
         typeof tags === "string"
           ? tags
               .split(",")
-              .map((tag: string) => tag.trim())
+              .map((tag) => tag.trim())
               .filter(Boolean)
           : [],
       ),
     );
 
     submissionData.append("links.github", github ?? "");
+
     submissionData.append("links.demo", demo ?? "");
 
     if (coverImage instanceof File) {
@@ -84,6 +87,7 @@ export default function DynamicForm({
       case "text":
         return (
           <input
+            className="dynamic-form_input"
             type="text"
             name={field.name}
             placeholder={field.placeholder}
@@ -95,6 +99,7 @@ export default function DynamicForm({
       case "textarea":
         return (
           <textarea
+            className="dynamic-form_textarea"
             name={field.name}
             placeholder={field.placeholder}
             value={fieldValue}
@@ -105,6 +110,7 @@ export default function DynamicForm({
       case "tags":
         return (
           <input
+            className="dynamic-form_input"
             type="text"
             name={field.name}
             placeholder={field.placeholder}
@@ -132,15 +138,29 @@ export default function DynamicForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {schema.fields.map((field) => (
-        <div key={field.name}>
-          {field.type !== "image" && <label>{field.label}</label>}
-          {renderField(field)}
-        </div>
-      ))}
+    <form className="dynamic-form" onSubmit={handleSubmit}>
+      <div className="dynamic-form_fields">
+        {schema.fields.map((field) => (
+          <div
+            key={field.name}
+            className={`dynamic-form_field dynamic-form_field--${field.type}`}
+          >
+            {field.type !== "image" && (
+              <label className="dynamic-form_label" htmlFor={field.name}>
+                {field.label}
+              </label>
+            )}
 
-      <button type="submit">Submit</button>
+            {renderField(field)}
+          </div>
+        ))}
+      </div>
+
+      <div className="dynamic-form_actions">
+        <button className="dynamic-form_submit" type="submit">
+          Submit
+        </button>
+      </div>
     </form>
   );
 }

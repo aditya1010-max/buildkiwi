@@ -1,83 +1,185 @@
-/* Container form styling */
-form {
-  max-width: 480px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: var(--form-background-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+.dynamic-form {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.dynamic-form_fields {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Individual field row wrappers */
-form > div {
+.dynamic-form_field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Label styling */
-label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #374151; /* Dark gray */
-  text-transform: capitalize;
-}
-
-/* Input and Textarea shared styles */
-input[type="text"],
-textarea {
+  gap: 0.6rem;
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  color: #1f2937;
-  background-color: #e7f8dbdc;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  min-width: 0;
+}
+
+.dynamic-form_label {
+  color: var(--text-h);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Inputs */
+
+.dynamic-form_input,
+.dynamic-form_textarea {
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
-  transition: all 0.2s ease-in-out;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-/* Textarea specific style */
-textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* Focus states for input fields */
-input[type="text"]:focus,
-textarea:focus {
-  outline: none;
-  background-color: #ffffff;
-  border-color: #3b82f6; /* Blue focus border */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-/* Submit Button styling */
-button[type="submit"] {
-  width: 100%;
-  margin-top: 0.5rem;
+.dynamic-form_input {
+  min-height: 48px;
   padding: 0.75rem 1rem;
-  font-size: 1rem;
+}
+
+.dynamic-form_textarea {
+  min-height: 180px;
+  padding: 1rem;
+
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.dynamic-form_input::placeholder,
+.dynamic-form_textarea::placeholder {
+  color: var(--text);
+  opacity: 0.55;
+}
+
+.dynamic-form_input:hover,
+.dynamic-form_textarea:hover {
+  border-color: var(--text);
+}
+
+.dynamic-form_input:focus,
+.dynamic-form_textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.dynamic-form_input:disabled,
+.dynamic-form_textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Textarea */
+
+.dynamic-form_field--textarea {
+  gap: 0.6rem;
+}
+
+/* Tags */
+
+.dynamic-form_field--tags {
+  gap: 0.6rem;
+}
+
+/* Image */
+
+.dynamic-form_field--image {
+  gap: 0;
+}
+
+/* Actions */
+
+.dynamic-form_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.dynamic-form_submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 120px;
+  min-height: 46px;
+  padding: 0.75rem 1.4rem;
+
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+
+  background: var(--accent);
+  color: white;
+
+  font: inherit;
   font-weight: 600;
-  color: #ffffff;
-  background-color: #3b82f6; /* Blue button */
-  border: none;
-  border-radius: 6px;
+
   cursor: pointer;
-  transition: background-color 0.2s ease;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-/* Button hover state */
-button[type="submit"]:hover {
-  background-color: #2563eb; /* Darker blue */
+.dynamic-form_submit:hover {
+  transform: translateY(-1px);
 }
 
-/* Button active/press state */
-button[type="submit"]:active {
-  transform: scale(0.99);
+.dynamic-form_submit:active {
+  transform: translateY(0);
+}
+
+.dynamic-form_submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.dynamic-form_submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .dynamic-form {
+    max-width: none;
+  }
+
+  .dynamic-form_fields {
+    gap: 1.25rem;
+  }
+
+  .dynamic-form_textarea {
+    min-height: 160px;
+  }
+
+  .dynamic-form_actions {
+    margin-top: 1.5rem;
+  }
+
+  .dynamic-form_submit {
+    width: 100%;
+  }
 }

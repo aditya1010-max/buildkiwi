@@ -1,10 +1,14 @@
+import type { ReactElement } from "react";
+
+import { useBookmarks } from "../../hooks/useBookmarks";
 import { getAccessToken } from "../../utils/token";
+
 import GuestPrompt from "../../components/shared/GuestPrompt";
 import EmptySaved from "../../components/saved/EmptySaved";
 import SavedHeader from "../../components/saved/SavedHeader";
 import SavedProjectCard from "../../components/saved/SavedProjectCard";
-import { useBookmarks } from "../../hooks/useBookmarks";
-import type { ReactElement } from "react";
+
+import "./SavedPage.css";
 
 export default function SavedPage(): ReactElement {
   const { bookmarks, loading, error } = useBookmarks();
@@ -14,13 +18,15 @@ export default function SavedPage(): ReactElement {
   if (isGuest) {
     return (
       <main className="saved-page">
-        <SavedHeader count={0} />
+        <div className="saved-page_container">
+          <SavedHeader count={0} />
 
-        <GuestPrompt
-          icon="pin"
-          title="Save projects"
-          description="Sign in to save your favourite projects and access them anytime."
-        />
+          <GuestPrompt
+            icon="pin"
+            title="Save projects"
+            description="Sign in to save your favourite projects and access them anytime."
+          />
+        </div>
       </main>
     );
   }
@@ -28,8 +34,13 @@ export default function SavedPage(): ReactElement {
   if (loading) {
     return (
       <main className="saved-page">
-        <SavedHeader count={0} />
-        <p>Loading bookmarks...</p>
+        <div className="saved-page_container">
+          <SavedHeader count={0} />
+
+          <div className="saved-page_state">
+            <p>Loading bookmarks...</p>
+          </div>
+        </div>
       </main>
     );
   }
@@ -37,8 +48,16 @@ export default function SavedPage(): ReactElement {
   if (error) {
     return (
       <main className="saved-page">
-        <SavedHeader count={0} />
-        <p>{error}</p>
+        <div className="saved-page_container">
+          <SavedHeader count={0} />
+
+          <div
+            className="saved-page_state saved-page_state--error"
+            role="alert"
+          >
+            <p>{error}</p>
+          </div>
+        </div>
       </main>
     );
   }
@@ -49,17 +68,19 @@ export default function SavedPage(): ReactElement {
 
   return (
     <main className="saved-page">
-      <SavedHeader count={validBookmarks.length} />
+      <div className="saved-page_container">
+        <SavedHeader count={validBookmarks.length} />
 
-      {validBookmarks.length === 0 ? (
-        <EmptySaved />
-      ) : (
-        <section className="saved-grid">
-          {validBookmarks.map((project) => (
-            <SavedProjectCard key={project._id} project={project} />
-          ))}
-        </section>
-      )}
+        {validBookmarks.length === 0 ? (
+          <EmptySaved />
+        ) : (
+          <section className="saved-grid" aria-label="Saved projects">
+            {validBookmarks.map((project) => (
+              <SavedProjectCard key={project._id} project={project} />
+            ))}
+          </section>
+        )}
+      </div>
     </main>
   );
 }
