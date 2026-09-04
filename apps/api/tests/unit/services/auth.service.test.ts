@@ -68,6 +68,8 @@ describe("auth service", () => {
         username: "aditya",
         email: "aditya@example.com",
         passwordHash: "hashed-password",
+        avatarSeed: expect.any(String),
+        avatarPattern: "blobs",
       });
 
       expect(result).toBe(user);

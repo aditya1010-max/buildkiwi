@@ -47,7 +47,6 @@ const mockCreateUser = jest.mocked(createUserRepository);
 const mockFindUserByEmail = jest.mocked(findUserByEmailRepository);
 
 const mockGenerateAccessToken = jest.mocked(generateAccessToken);
-
 const mockGenerateRefreshToken = jest.mocked(generateRefreshToken);
 
 describe("auth service", () => {
@@ -85,6 +84,8 @@ describe("auth service", () => {
         username: input.username,
         email: input.email,
         passwordHash: "hashed-password",
+        avatarSeed: expect.any(String),
+        avatarPattern: "blobs",
       });
 
       expect(result).toBe(user);
