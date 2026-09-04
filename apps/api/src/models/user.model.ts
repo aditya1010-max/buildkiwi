@@ -1,4 +1,13 @@
+import type { PatternId } from "@buildkiwi/pattern-engine";
 import mongoose from "mongoose";
+
+const avatarPatterns: PatternId[] = [
+  "blobs",
+  "waves",
+  "constellation",
+  "halftone",
+  "geometric",
+];
 
 const userSchema = new mongoose.Schema(
   {
@@ -20,8 +29,17 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    avatarUrl: {
+    avatarSeed: {
       type: String,
+      required: true,
+      trim: true,
+    },
+
+    avatarPattern: {
+      type: String,
+      enum: avatarPatterns,
+      required: true,
+      default: "blobs",
     },
 
     bio: {
