@@ -1,8 +1,28 @@
-import { User } from "../types/user";
+import type { User } from "../types/user";
+
+import api from "../services/api";
 
 const API = "http://localhost:3000/api/v1/auth";
 
-import api from "../services/api";
+interface ApiUser extends Omit<User, "id"> {
+  _id: string;
+}
+
+function normalizeUser(user: User | ApiUser): User {
+  if ("id" in user) {
+    return user;
+  }
+
+  return {
+    ...user,
+    id: user._id,
+  };
+}
+
+interface MeResponse {
+  success: boolean;
+  user: ApiUser;
+}
 
 export const login = async (email: string, password: string) => {
   const { data } = await api.post("/auth/login", {
@@ -10,7 +30,10 @@ export const login = async (email: string, password: string) => {
     password,
   });
 
-  return data;
+  return {
+    ...data,
+    user: normalizeUser(data.user),
+  };
 };
 
 export const register = async (
@@ -24,15 +47,13 @@ export const register = async (
     password,
   });
 
-  return data;
+  return {
+    ...data,
+    user: normalizeUser(data.user),
+  };
 };
 
-interface MeResponse {
-  success: boolean;
-  user: User;
-}
-
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<User> {
   const token = localStorage.getItem("token");
 
   const { data } = await api.get<MeResponse>(`${API}/me`, {
@@ -42,7 +63,7 @@ export async function getCurrentUser() {
     },
   });
 
-  return data.user;
+  return normalizeUser(data.user);
 }
 
 export async function logout() {

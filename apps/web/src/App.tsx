@@ -32,7 +32,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* App Layout */}
+        {/* Public App Routes */}
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/discover" element={<Discover />} />
@@ -40,7 +40,7 @@ function App() {
           <Route path="/profile/:username" element={<Profile />} />
         </Route>
 
-        {/* Protected */}
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="/saved" element={<Saved />} />
