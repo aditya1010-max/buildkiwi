@@ -1,5 +1,6 @@
-import { Project } from "../models/project.model";
 import { CreateProjectInput, UpdateProjectInput } from "@buildkiwi/validation";
+
+import { Project } from "../models/project.model";
 
 interface FindProjectsOptions {
   page: number;
@@ -10,7 +11,7 @@ interface FindProjectsOptions {
 
 export const projectRepository = {
   create: async (data: CreateProjectInput) => {
-    return await Project.create(data);
+    return Project.create(data);
   },
 
   findAll: async ({ page, limit, query, filter }: FindProjectsOptions) => {
@@ -38,8 +39,9 @@ export const projectRepository = {
           ];
       }
     }
-    return await Project.find(mongoQuery)
-      .populate("creatorId", "username")
+
+    return Project.find(mongoQuery)
+      .populate("creatorId", "username avatarSeed avatarPattern")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -47,26 +49,28 @@ export const projectRepository = {
   },
 
   count: async () => {
-    return await Project.countDocuments();
+    return Project.countDocuments();
   },
 
   findByUserId: async (userId: string) => {
-    return await Project.find({ creatorId: userId })
-      .populate("creatorId", "username")
+    return Project.find({ creatorId: userId })
+      .populate("creatorId", "username avatarSeed avatarPattern")
       .sort({ createdAt: -1 })
       .lean();
   },
 
   findById: async (id: string) => {
-    return await Project.findById(id).populate("creatorId", "username").lean();
+    return Project.findById(id)
+      .populate("creatorId", "username avatarSeed avatarPattern")
+      .lean();
   },
 
   findByIdForUpdate: async (id: string) => {
-    return await Project.findById(id);
+    return Project.findById(id);
   },
 
   update: async (id: string, updateData: UpdateProjectInput) => {
-    return await Project.findByIdAndUpdate(
+    return Project.findByIdAndUpdate(
       id,
       { $set: updateData },
       {
@@ -86,7 +90,7 @@ export async function getEditableProjectById(
   projectId: string,
   authUserId: string,
 ) {
-  return await Project.findOne({
+  return Project.findOne({
     _id: projectId,
     creatorId: authUserId,
   });
