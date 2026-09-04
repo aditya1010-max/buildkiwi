@@ -4,27 +4,27 @@ import {
   createUserRepository,
   findUserByEmailRepository,
   findUserByIdRepository,
-  updateUserBioRepository,
+  updateUserProfileRepository,
 } from "../../../src/repositories/user.repository";
 
 import {
   createUserService,
   findUserByEmailService,
   findUserByIdService,
-  updateUserBioService,
+  updateUserProfileService,
 } from "../../../src/services/user.service";
 
 jest.mock("../../../src/repositories/user.repository", () => ({
   createUserRepository: jest.fn(),
   findUserByEmailRepository: jest.fn(),
   findUserByIdRepository: jest.fn(),
-  updateUserBioRepository: jest.fn(),
+  updateUserProfileRepository: jest.fn(),
 }));
 
 const mockCreateUser = jest.mocked(createUserRepository);
 const mockFindUserByEmail = jest.mocked(findUserByEmailRepository);
 const mockFindUserById = jest.mocked(findUserByIdRepository);
-const mockUpdateUserBio = jest.mocked(updateUserBioRepository);
+const mockUpdateUserProfile = jest.mocked(updateUserProfileRepository);
 
 describe("user service", () => {
   beforeEach(() => {
@@ -42,6 +42,8 @@ describe("user service", () => {
       username: "aditya",
       email: "aditya@example.com",
       passwordHash: "hashed-password",
+      avatarSeed: "avatar-test-seed",
+      avatarPattern: "blobs" as const,
     };
 
     mockCreateUser.mockResolvedValue(user as never);
@@ -80,23 +82,25 @@ describe("user service", () => {
     expect(result).toBe(user);
   });
 
-  it("updates a user's bio", async () => {
+  it("updates a user's profile", async () => {
     const updatedUser = {
       _id: "user-123",
       bio: "Full-stack developer",
+      avatarSeed: "avatar-new-seed",
+      avatarPattern: "geometric",
     };
 
-    mockUpdateUserBio.mockResolvedValue(updatedUser as never);
+    const data = {
+      bio: "Full-stack developer",
+      avatarSeed: "avatar-new-seed",
+      avatarPattern: "geometric" as const,
+    };
 
-    const result = await updateUserBioService(
-      "user-123",
-      "Full-stack developer",
-    );
+    mockUpdateUserProfile.mockResolvedValue(updatedUser as never);
 
-    expect(mockUpdateUserBio).toHaveBeenCalledWith(
-      "user-123",
-      "Full-stack developer",
-    );
+    const result = await updateUserProfileService("user-123", data);
+
+    expect(mockUpdateUserProfile).toHaveBeenCalledWith("user-123", data);
 
     expect(result).toBe(updatedUser);
   });
@@ -117,7 +121,7 @@ Test coverage:
    → Verifies the user ID is passed correctly to the repository and the
      repository result is returned.
 
-4. Updates a user's bio
-   → Verifies the user ID and bio are passed correctly to the repository
-     and the updated user is returned.
+4. Updates a user's profile
+   → Verifies the user ID and profile data are passed correctly to the
+     profile-update repository and the updated user is returned.
 */

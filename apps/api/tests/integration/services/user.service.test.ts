@@ -4,27 +4,27 @@ import {
   createUserRepository,
   findUserByEmailRepository,
   findUserByIdRepository,
-  updateUserBioRepository,
+  updateUserProfileRepository,
 } from "../../../src/repositories/user.repository";
 
 import {
   createUserService,
   findUserByEmailService,
   findUserByIdService,
-  updateUserBioService,
+  updateUserProfileService,
 } from "../../../src/services/user.service";
 
 jest.mock("../../../src/repositories/user.repository", () => ({
   createUserRepository: jest.fn(),
   findUserByEmailRepository: jest.fn(),
   findUserByIdRepository: jest.fn(),
-  updateUserBioRepository: jest.fn(),
+  updateUserProfileRepository: jest.fn(),
 }));
 
 const mockCreateUser = jest.mocked(createUserRepository);
 const mockFindUserByEmail = jest.mocked(findUserByEmailRepository);
 const mockFindUserById = jest.mocked(findUserByIdRepository);
-const mockUpdateUserBio = jest.mocked(updateUserBioRepository);
+const mockUpdateUserProfile = jest.mocked(updateUserProfileRepository);
 
 describe("user service", () => {
   beforeEach(() => {
@@ -37,6 +37,8 @@ describe("user service", () => {
         username: "aditya",
         email: "aditya@example.com",
         passwordHash: "hashed-password",
+        avatarSeed: "avatar-test-seed",
+        avatarPattern: "blobs" as const,
       };
 
       const user = {
@@ -87,23 +89,28 @@ describe("user service", () => {
     });
   });
 
-  describe("updateUserBioService", () => {
-    it("updates a user's bio", async () => {
-      const updatedUser = {
-        _id: "user-123",
+  describe("updateUserProfileService", () => {
+    it("updates a user's profile", async () => {
+      const updateData = {
         bio: "Full-stack developer",
+        avatarSeed: "avatar-new-seed",
+        avatarPattern: "waves" as const,
       };
 
-      mockUpdateUserBio.mockResolvedValue(updatedUser as never);
+      const updatedUser = {
+        _id: "user-123",
+        bio: updateData.bio,
+        avatarSeed: updateData.avatarSeed,
+        avatarPattern: updateData.avatarPattern,
+      };
 
-      const result = await updateUserBioService(
-        "user-123",
-        "Full-stack developer",
-      );
+      mockUpdateUserProfile.mockResolvedValue(updatedUser as never);
 
-      expect(mockUpdateUserBio).toHaveBeenCalledWith(
+      const result = await updateUserProfileService("user-123", updateData);
+
+      expect(mockUpdateUserProfile).toHaveBeenCalledWith(
         "user-123",
-        "Full-stack developer",
+        updateData,
       );
 
       expect(result).toBe(updatedUser);
@@ -126,7 +133,8 @@ Test coverage:
    → Verifies the user ID is passed to the repository and its result
      is returned.
 
-4. Updates a user's bio
-   → Verifies the user ID and bio are passed to the repository and
-     the updated user is returned.
+4. Updates a user's profile
+   → Verifies the user ID and profile update data, including bio,
+     avatarSeed, and avatarPattern, are passed to the repository
+     and the updated user is returned.
 */
