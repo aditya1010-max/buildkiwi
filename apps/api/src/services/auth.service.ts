@@ -1,10 +1,13 @@
 import bcrypt from "bcrypt";
 import { RegisterInput } from "@buildkiwi/validation";
+
 import {
   createUserRepository,
   findUserByEmailRepository,
 } from "../repositories/user.repository";
+
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
+import { createSeed } from "../utils/createSeed";
 
 export const registerUserService = async ({
   username,
@@ -19,10 +22,14 @@ export const registerUserService = async ({
 
   const passwordHash = await bcrypt.hash(password, 10);
 
+  const avatarSeed = createSeed();
+
   const user = await createUserRepository({
     username,
     email,
     passwordHash,
+    avatarSeed,
+    avatarPattern: "blobs",
   });
 
   return user;
