@@ -1,27 +1,24 @@
 import { User } from "../models/user.model";
-// import { RegisterInput } from "packages/validation/src/auth.schema";
 
-import type { CreateUserData } from "../types/user";
+import type { CreateUserData, UpdateUserProfileData } from "../types/user";
 
 export const createUserRepository = async (data: CreateUserData) => {
   return User.create(data);
 };
 
 export const findUserByEmailRepository = async (email: string) => {
-  // Consider .lean() later
-  return await User.findOne({ email });
+  return User.findOne({ email });
 };
 
 export const findUserByIdRepository = async (id: string) => {
-  // Consider .lean() later
-  return await User.findById(id).select("-passwordHash -__v");
+  return User.findById(id).select("-passwordHash -__v");
 };
 
 export const saveProjectRepository = async (
   userId: string,
   projectId: string,
 ) => {
-  return await User.findByIdAndUpdate(
+  return User.findByIdAndUpdate(
     userId,
     {
       $addToSet: {
@@ -38,7 +35,7 @@ export const unsaveProjectRepository = async (
   userId: string,
   projectId: string,
 ) => {
-  return await User.findByIdAndUpdate(
+  return User.findByIdAndUpdate(
     userId,
     {
       $pull: {
@@ -62,20 +59,23 @@ export const getSavedProjectsRepository = async (userId: string) => {
     path: "savedProjects",
     populate: {
       path: "creatorId",
-      select: "username",
+      select: "username avatarSeed avatarPattern",
     },
   });
 
   return user.savedProjects;
 };
 
-export const updateUserBioRepository = async (userId: string, bio: string) => {
+export const updateUserProfileRepository = async (
+  userId: string,
+  data: UpdateUserProfileData,
+) => {
   return User.findByIdAndUpdate(
     userId,
-    { bio },
+    { $set: data },
     {
       new: true,
       runValidators: true,
     },
-  );
+  ).select("-passwordHash -__v");
 };
