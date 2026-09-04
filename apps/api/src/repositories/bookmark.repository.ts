@@ -1,8 +1,12 @@
+import type { PatternId } from "@buildkiwi/pattern-engine";
+
 import BookmarkModel from "../models/bookmark.model";
 import type { ProjectDocument } from "../models/project.model";
 
 type PopulatedCreator = {
   username: string;
+  avatarSeed: string;
+  avatarPattern: PatternId;
 };
 
 type PopulatedProject = ProjectDocument & {
@@ -39,7 +43,7 @@ export const bookmarkRepository = {
           "title description tags coverImage links stats creatorId createdAt updatedAt",
         populate: {
           path: "creatorId",
-          select: "username",
+          select: "username avatarSeed avatarPattern",
         },
       })
       .sort({
