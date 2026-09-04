@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import express from "express";
 import request from "supertest";
-import mongoose from "mongoose";
 
 import likeRouter from "../../../src/routes/like.routes";
 
@@ -186,12 +185,64 @@ describe("like HTTP", () => {
 
   describe("GET /likes", () => {
     it("returns the user's liked projects", async () => {
-      const projectId1 = new mongoose.Types.ObjectId();
-      const projectId2 = new mongoose.Types.ObjectId();
+      const likes = [
+        {
+          _id: "like-1",
+          projectId: {
+            _id: "project-1",
+            title: "Project One",
+            description: "First project",
+            tags: ["react"],
+            coverImage: "cover-1",
+            links: {
+              github: "github-1",
+              demo: "demo-1",
+            },
+            stats: {
+              likes: 10,
+              comments: 2,
+              views: 100,
+            },
+            creatorId: {
+              _id: "user-1",
+              username: "creator-one",
+              avatarSeed: "avatar-seed-1",
+              avatarPattern: "blobs",
+            },
+            createdAt: "2026-09-01T00:00:00.000Z",
+            updatedAt: "2026-09-01T00:00:00.000Z",
+          },
+        },
+        {
+          _id: "like-2",
+          projectId: {
+            _id: "project-2",
+            title: "Project Two",
+            description: "Second project",
+            tags: ["typescript"],
+            coverImage: "cover-2",
+            links: {
+              github: "github-2",
+              demo: "demo-2",
+            },
+            stats: {
+              likes: 20,
+              comments: 4,
+              views: 200,
+            },
+            creatorId: {
+              _id: "user-2",
+              username: "creator-two",
+              avatarSeed: "avatar-seed-2",
+              avatarPattern: "waves",
+            },
+            createdAt: "2026-09-02T00:00:00.000Z",
+            updatedAt: "2026-09-02T00:00:00.000Z",
+          },
+        },
+      ];
 
-      const likes = [projectId1, projectId2];
-
-      mockGetLikes.mockResolvedValue(likes);
+      mockGetLikes.mockResolvedValue(likes as never);
 
       const response = await request(app)
         .get("/likes")
@@ -201,7 +252,7 @@ describe("like HTTP", () => {
 
       expect(response.body).toEqual({
         success: true,
-        data: likes.map((id) => id.toString()),
+        data: likes,
       });
 
       expect(mockGetLikes).toHaveBeenCalledWith("user-123");
@@ -257,9 +308,9 @@ Test coverage:
 8. Rejects unauthenticated like removal
    → Verifies auth middleware prevents the service from being called.
 
-9. Gets the user's likes
-   → Verifies the authenticated user's ID is passed to the service
-     and the liked project IDs are returned as JSON strings.
+9. Gets the user's liked projects
+   → Verifies populated project data, including creator avatarSeed
+     and avatarPattern, is returned by the HTTP endpoint.
 
 10. Rejects unauthenticated like retrieval
     → Verifies auth middleware prevents access to the endpoint.
