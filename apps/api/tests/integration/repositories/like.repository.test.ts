@@ -85,55 +85,55 @@ describe("like repository", () => {
   });
 
   describe("findByUserId", () => {
-    describe("findByUserId", () => {
-      it("finds a user's likes with populated project and creator data", async () => {
-        const likes = [
-          {
-            userId: "user-123",
-            projectId: {
-              title: "BuildKiwi",
-              creatorId: {
-                username: "aditya",
-              },
+    it("finds a user's likes with populated project and creator data", async () => {
+      const likes = [
+        {
+          userId: "user-123",
+          projectId: {
+            title: "BuildKiwi",
+            creatorId: {
+              username: "aditya",
+              avatarSeed: "avatar-seed-123",
+              avatarPattern: "blobs",
             },
           },
-        ];
+        },
+      ];
 
-        const sort =
-          jest.fn<(options: { createdAt: -1 }) => Promise<typeof likes>>();
+      const sort =
+        jest.fn<(options: { createdAt: -1 }) => Promise<typeof likes>>();
 
-        sort.mockResolvedValue(likes);
+      sort.mockResolvedValue(likes);
 
-        const populate = jest.fn().mockReturnValue({
-          sort,
-        });
-
-        mockFind.mockReturnValue({
-          populate,
-        } as unknown as ReturnType<typeof Like.find>);
-
-        const result = await likeRepository.findByUserId("user-123");
-
-        expect(mockFind).toHaveBeenCalledWith({
-          userId: "user-123",
-        });
-
-        expect(populate).toHaveBeenCalledWith({
-          path: "projectId",
-          select:
-            "title description tags coverImage links stats creatorId createdAt updatedAt",
-          populate: {
-            path: "creatorId",
-            select: "username",
-          },
-        });
-
-        expect(sort).toHaveBeenCalledWith({
-          createdAt: -1,
-        });
-
-        expect(result).toBe(likes);
+      const populate = jest.fn().mockReturnValue({
+        sort,
       });
+
+      mockFind.mockReturnValue({
+        populate,
+      } as unknown as ReturnType<typeof Like.find>);
+
+      const result = await likeRepository.findByUserId("user-123");
+
+      expect(mockFind).toHaveBeenCalledWith({
+        userId: "user-123",
+      });
+
+      expect(populate).toHaveBeenCalledWith({
+        path: "projectId",
+        select:
+          "title description tags coverImage links stats creatorId createdAt updatedAt",
+        populate: {
+          path: "creatorId",
+          select: "username avatarSeed avatarPattern",
+        },
+      });
+
+      expect(sort).toHaveBeenCalledWith({
+        createdAt: -1,
+      });
+
+      expect(result).toBe(likes);
     });
   });
 });
@@ -154,6 +154,7 @@ Test coverage:
 
 4. Finds a user's likes
    → Verifies likes are filtered by user, project information is
-     populated, creator information is populated, and results are
-     sorted by newest like first.
+     populated, creator information is populated with username,
+     avatarSeed, and avatarPattern, and results are sorted by
+     newest like first.
 */

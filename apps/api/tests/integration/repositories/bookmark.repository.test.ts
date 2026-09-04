@@ -41,12 +41,16 @@ describe("bookmark repository", () => {
       username: "creator",
       email: "creator@example.com",
       passwordHash: "hashed-password",
+      avatarSeed: "avatar-creator-seed",
+      avatarPattern: "blobs",
     });
 
     user = await User.create({
       username: "bookmark-user",
       email: "bookmark@example.com",
       passwordHash: "hashed-password",
+      avatarSeed: "avatar-bookmark-user",
+      avatarPattern: "blobs",
     });
 
     project = await Project.create({
@@ -188,6 +192,8 @@ describe("bookmark repository", () => {
         username: "another-user",
         email: "another@example.com",
         passwordHash: "hashed-password",
+        avatarSeed: "avatar-another-user",
+        avatarPattern: "blobs",
       });
 
       await Bookmark.create({
