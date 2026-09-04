@@ -6,7 +6,7 @@ import userRouter from "../../../src/routes/user.routes";
 
 import {
   findUserByIdService,
-  updateUserBioService,
+  updateUserProfileService,
 } from "../../../src/services/user.service";
 
 import { getProjectsByUserService } from "../../../src/services/project.services";
@@ -17,7 +17,7 @@ import { errorHandler } from "../../../src/middleware/errorHandler";
 
 jest.mock("../../../src/services/user.service", () => ({
   findUserByIdService: jest.fn(),
-  updateUserBioService: jest.fn(),
+  updateUserProfileService: jest.fn(),
 }));
 
 jest.mock("../../../src/services/project.services", () => ({
@@ -29,7 +29,7 @@ jest.mock("../../../src/utils/jwt", () => ({
 }));
 
 const mockFindUserById = jest.mocked(findUserByIdService);
-const mockUpdateUserBio = jest.mocked(updateUserBioService);
+const mockUpdateUserProfile = jest.mocked(updateUserProfileService);
 const mockGetProjectsByUser = jest.mocked(getProjectsByUserService);
 
 const mockVerifyAccessToken = jest.mocked(verifyAccessToken);
@@ -137,7 +137,7 @@ describe("user HTTP", () => {
         bio: "Full-stack developer",
       };
 
-      mockUpdateUserBio.mockResolvedValue(updatedUser as never);
+      mockUpdateUserProfile.mockResolvedValue(updatedUser as never);
 
       const response = await request(app)
         .patch("/users/user-123")
@@ -153,10 +153,9 @@ describe("user HTTP", () => {
         user: updatedUser,
       });
 
-      expect(mockUpdateUserBio).toHaveBeenCalledWith(
-        "user-123",
-        "Full-stack developer",
-      );
+      expect(mockUpdateUserProfile).toHaveBeenCalledWith("user-123", {
+        bio: "Full-stack developer",
+      });
     });
 
     it("rejects an unauthenticated request", async () => {
@@ -175,7 +174,7 @@ describe("user HTTP", () => {
         message: "Unauthorized",
       });
 
-      expect(mockUpdateUserBio).not.toHaveBeenCalled();
+      expect(mockUpdateUserProfile).not.toHaveBeenCalled();
     });
 
     it("prevents a user from updating another user's profile", async () => {
@@ -193,11 +192,11 @@ describe("user HTTP", () => {
         message: "You can only update your own profile",
       });
 
-      expect(mockUpdateUserBio).not.toHaveBeenCalled();
+      expect(mockUpdateUserProfile).not.toHaveBeenCalled();
     });
 
     it("returns 404 when the user does not exist", async () => {
-      mockUpdateUserBio.mockResolvedValue(null);
+      mockUpdateUserProfile.mockResolvedValue(null);
 
       const response = await request(app)
         .patch("/users/user-123")
@@ -213,10 +212,9 @@ describe("user HTTP", () => {
         message: "User not found",
       });
 
-      expect(mockUpdateUserBio).toHaveBeenCalledWith(
-        "user-123",
-        "Full-stack developer",
-      );
+      expect(mockUpdateUserProfile).toHaveBeenCalledWith("user-123", {
+        bio: "Full-stack developer",
+      });
     });
   });
 });
