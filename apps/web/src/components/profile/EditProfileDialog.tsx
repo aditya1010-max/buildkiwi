@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./EditProfileDialog.css";
 
-import { User } from "../../types/user";
+import type { User } from "../../types/user";
 import { updateUser } from "../../services/user.service";
 
 interface EditProfileDialogProps {
@@ -20,7 +20,7 @@ export default function EditProfileDialog({
     try {
       setSaving(true);
 
-      await updateUser(user._id, {
+      await updateUser(user.id, {
         bio,
       });
 
@@ -67,12 +67,12 @@ export default function EditProfileDialog({
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              maxLength={160}
+              maxLength={120}
               placeholder="Tell people a little about yourself..."
               rows={4}
             />
 
-            <span className="edit-profile_counter">{bio.length}/160</span>
+            <span className="edit-profile_counter">{bio.length}/120</span>
           </div>
         </div>
 

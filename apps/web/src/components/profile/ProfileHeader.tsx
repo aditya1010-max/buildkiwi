@@ -20,7 +20,11 @@ export default function ProfileHeader({
   return (
     <>
       <section className="profile-header">
-        <GeneratedAvatar seed={user._id} className="profile-avatar" />
+        <GeneratedAvatar
+          seed={user.avatarSeed}
+          pattern={user.avatarPattern}
+          className="profile-avatar"
+        />
 
         <div className="profile-info">
           <h1>{user.username}</h1>
