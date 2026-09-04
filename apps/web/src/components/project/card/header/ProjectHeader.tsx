@@ -17,13 +17,14 @@ export default function ProjectHeader({
     <header className="project-card_header">
       <div className="project-card_creator">
         <GeneratedAvatar
-          seed={project.creatorId._id}
+          seed={project.creatorId.avatarSeed}
+          pattern={project.creatorId.avatarPattern}
           className="project-card_avatar"
         />
 
         <div className="project-card_meta">
           <span className="project-card_username">
-            {project.creatorId?.username ?? "Unknown"}
+            {project.creatorId.username}
           </span>
 
           <span className="project-card_time">
