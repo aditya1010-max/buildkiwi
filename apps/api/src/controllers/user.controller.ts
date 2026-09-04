@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+import { UpdateUserSchema } from "@buildkiwi/validation";
+
+import { AppError } from "../utils/AppError";
 import { asyncHandler } from "../utils/asyncHandler";
+import { getProjectsByUserService } from "../services/project.services";
 import {
   findUserByIdService,
-  updateUserBioService,
+  updateUserProfileService,
 } from "../services/user.service";
-import { AppError } from "../utils/AppError";
-import { getProjectsByUserService } from "../services/project.services";
-import { UpdateUserSchema } from "@buildkiwi/validation";
 
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
@@ -52,9 +53,9 @@ export const updateUserProfile = asyncHandler(
       throw new AppError("You can only update your own profile", 403);
     }
 
-    const { bio } = UpdateUserSchema.parse(req.body);
+    const updateData = UpdateUserSchema.parse(req.body);
 
-    const user = await updateUserBioService(id, bio);
+    const user = await updateUserProfileService(id, updateData);
 
     if (!user) {
       throw new AppError("User not found", 404);
