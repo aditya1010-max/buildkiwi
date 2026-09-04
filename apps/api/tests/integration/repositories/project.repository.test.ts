@@ -89,7 +89,10 @@ describe("project repository", () => {
 
       expect(mockFind).toHaveBeenCalledWith({});
 
-      expect(populate).toHaveBeenCalledWith("creatorId", "username");
+      expect(populate).toHaveBeenCalledWith(
+        "creatorId",
+        "username avatarSeed avatarPattern",
+      );
 
       expect(sort).toHaveBeenCalledWith({
         createdAt: -1,
@@ -227,7 +230,10 @@ describe("project repository", () => {
         creatorId: "user-123",
       });
 
-      expect(populate).toHaveBeenCalledWith("creatorId", "username");
+      expect(populate).toHaveBeenCalledWith(
+        "creatorId",
+        "username avatarSeed avatarPattern",
+      );
 
       expect(sort).toHaveBeenCalledWith({
         createdAt: -1,
@@ -259,7 +265,10 @@ describe("project repository", () => {
 
       expect(mockFindById).toHaveBeenCalledWith("project-123");
 
-      expect(populate).toHaveBeenCalledWith("creatorId", "username");
+      expect(populate).toHaveBeenCalledWith(
+        "creatorId",
+        "username avatarSeed avatarPattern",
+      );
 
       expect(lean).toHaveBeenCalled();
 

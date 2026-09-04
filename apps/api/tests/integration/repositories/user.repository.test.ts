@@ -9,7 +9,7 @@ import {
   saveProjectRepository,
   unsaveProjectRepository,
   getSavedProjectsRepository,
-  updateUserBioRepository,
+  updateUserProfileRepository,
 } from "../../../src/repositories/user.repository";
 
 jest.mock("../../../src/models/user.model", () => ({
@@ -37,6 +37,8 @@ describe("user repository", () => {
         username: "aditya",
         email: "aditya@example.com",
         passwordHash: "hashed-password",
+        avatarSeed: "avatar-test-seed",
+        avatarPattern: "blobs" as const,
       };
 
       const user = {
@@ -191,7 +193,7 @@ describe("user repository", () => {
         path: "savedProjects",
         populate: {
           path: "creatorId",
-          select: "username",
+          select: "username avatarSeed avatarPattern",
         },
       });
 
@@ -209,30 +211,41 @@ describe("user repository", () => {
     });
   });
 
-  describe("updateUserBioRepository", () => {
-    it("updates the user's bio with validation enabled", async () => {
-      const updatedUser = {
-        _id: "user-123",
+  describe("updateUserProfileRepository", () => {
+    it("updates the user's profile with validation enabled", async () => {
+      const data = {
         bio: "Full-stack developer",
+        avatarSeed: "avatar-new-seed",
+        avatarPattern: "geometric" as const,
       };
 
-      mockFindByIdAndUpdate.mockResolvedValue(updatedUser as never);
+      const updatedUser = {
+        _id: "user-123",
+        ...data,
+      };
 
-      const result = await updateUserBioRepository(
-        "user-123",
-        "Full-stack developer",
-      );
+      const select = jest.fn<(fields: string) => Promise<typeof updatedUser>>();
+
+      select.mockResolvedValue(updatedUser);
+
+      mockFindByIdAndUpdate.mockReturnValue({
+        select,
+      } as unknown as ReturnType<typeof User.findByIdAndUpdate>);
+
+      const result = await updateUserProfileRepository("user-123", data);
 
       expect(mockFindByIdAndUpdate).toHaveBeenCalledWith(
         "user-123",
         {
-          bio: "Full-stack developer",
+          $set: data,
         },
         {
           new: true,
           runValidators: true,
         },
       );
+
+      expect(select).toHaveBeenCalledWith("-passwordHash -__v");
 
       expect(result).toBe(updatedUser);
     });
@@ -243,8 +256,8 @@ describe("user repository", () => {
 Test coverage:
 
 1. Creates a user
-   → Verifies the provided username, email, and password hash are passed
-     to User.create().
+   → Verifies the provided username, email, password hash, avatar seed,
+     and avatar pattern are passed to User.create().
 
 2. Finds a user by email
    → Verifies User.findOne() uses the provided email.
@@ -267,6 +280,7 @@ Test coverage:
 7. Handles a missing user
    → Verifies the repository throws "User not found" when no user exists.
 
-8. Updates user bio
-   → Verifies the bio is updated and Mongoose validators are enabled.
+8. Updates user profile
+   → Verifies bio, avatar seed, and avatar pattern are updated through
+     $set with Mongoose validators enabled.
 */
