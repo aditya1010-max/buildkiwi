@@ -1,8 +1,11 @@
+import type { PatternId } from "@buildkiwi/pattern-engine";
+
 export interface User {
-  _id: string;
+  id: string;
   username: string;
   email: string;
-  avatarUrl?: string;
+  avatarSeed: string;
+  avatarPattern: PatternId;
   bio?: string;
   createdAt: string;
   updatedAt: string;

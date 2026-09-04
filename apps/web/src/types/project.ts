@@ -1,3 +1,4 @@
+import type { PatternId } from "@buildkiwi/pattern-engine";
 import type { Achievement } from "./achievement";
 
 export interface Project {
@@ -6,6 +7,8 @@ export interface Project {
   creatorId: {
     _id: string;
     username: string;
+    avatarSeed: string;
+    avatarPattern: PatternId;
   };
 
   title: string;
