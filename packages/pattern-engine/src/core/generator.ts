@@ -6,10 +6,9 @@ import { generatePalette } from "../palettes";
 import { generateGradient } from "../backgrounds/gradient";
 
 export function generatePattern(config: PatternConfig): GeneratedImage {
-  const gradientSeed = config.seed.slice(-9);
-  const random = createSeededRandom(gradientSeed);
+  const random = createSeededRandom(config.seed);
 
-  const palette = generatePalette(gradientSeed);
+  const palette = generatePalette(config.seed);
 
   const gradient = generateGradient(
     palette,
