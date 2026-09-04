@@ -48,9 +48,12 @@ function generateAnother() {
 }
 
 function createSeed() {
-  const randomPart = Math.random().toString(36).slice(2, 10);
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
 
-  return `lab-${Date.now()}-${randomPart}`;
+  return `lab-${Array.from(bytes, (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("")}`;
 }
 
 generateButton.addEventListener("click", () => {
