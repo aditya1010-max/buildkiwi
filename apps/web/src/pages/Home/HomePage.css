@@ -1,6 +1,23 @@
+/* HomePage.css */
+
 .feed {
   width: 100%;
   max-width: var(--feed-max-width);
+
+  height: 100vh;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.feed-content {
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;
 
   padding: 24px;
 
@@ -8,8 +25,6 @@
   flex-direction: column;
   gap: 16px;
 }
-
-/* this wpould be duplication of code , probably make a new css file styles/utilities.css and use class name can be page-container */
 
 .feed_load-more {
   display: block;

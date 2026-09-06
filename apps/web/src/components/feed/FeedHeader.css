@@ -1,14 +1,14 @@
 .feed-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-shrink: 0;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 16px 24px;
+
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
 }
 
 .feed-header h1 {
@@ -16,11 +16,12 @@
   color: var(--text-h);
 }
 
-.feed-header_create {
+.feed-header_button {
   padding: 8px 16px;
   border-radius: var(--radius-md);
   background: var(--accent);
   color: white;
+  text-decoration: none;
   cursor: pointer;
 }
 

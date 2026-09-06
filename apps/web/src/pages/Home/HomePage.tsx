@@ -27,35 +27,37 @@ export default function Home() {
         subtitle={t("Stayupdatedwiththelatestprojects")}
       />
 
-      {initialLoading ? (
-        <>
-          <FeedCardLoader />
-          <FeedCardLoader />
-          <FeedCardLoader />
-        </>
-      ) : (
-        <>
-          {projects.map((project) => (
-            <ProjectCard
-              key={project._id} // TODO: replace with project._id once it's guaranteed unique
-              project={project}
-            />
-          ))}
+      <div className="feed-content">
+        {initialLoading ? (
+          <>
+            <FeedCardLoader />
+            <FeedCardLoader />
+            <FeedCardLoader />
+          </>
+        ) : (
+          <>
+            {projects.map((project) => (
+              <ProjectCard
+                key={project._id} // TODO: replace with project._id once it's guaranteed unique
+                project={project}
+              />
+            ))}
 
-          {pagination.hasMore && (
-            <>
-              <button
-                type="button"
-                className="feed_load-more"
-                onClick={loadMore}
-                disabled={loadingMore}
-              >
-                Load More
-              </button>
-            </>
-          )}
-        </>
-      )}
+            {pagination.hasMore && (
+              <>
+                <button
+                  type="button"
+                  className="feed_load-more"
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                >
+                  Load More
+                </button>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 }
