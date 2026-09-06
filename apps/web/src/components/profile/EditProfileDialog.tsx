@@ -3,6 +3,10 @@ import "./EditProfileDialog.css";
 
 import type { User } from "../../types/user";
 import { updateUser } from "../../services/user.service";
+import GeneratedAvatar from "../project/shared/GeneratedAvatar/GeneratedAvatar";
+
+import { generateAvatarCandidates } from "../../utils/avatar.generator";
+import type { AvatarCandidate } from "../../types/avatar";
 
 interface EditProfileDialogProps {
   user: User;
@@ -14,7 +18,34 @@ export default function EditProfileDialog({
   onClose,
 }: EditProfileDialogProps) {
   const [bio, setBio] = useState(user.bio ?? "");
+
+  const [avatarSeed, setAvatarSeed] = useState(user.avatarSeed);
+  const [avatarPattern, setAvatarPattern] = useState(user.avatarPattern);
+
   const [saving, setSaving] = useState(false);
+
+  const [avatarCandidates, setAvatarCandidates] = useState<AvatarCandidate[]>(
+    [],
+  );
+
+  const handleRandomize = () => {
+    const candidates = generateAvatarCandidates();
+
+    console.log("[Avatar Randomize] Generated candidates:", candidates);
+
+    candidates.forEach((candidate, index) => {
+      console.log(
+        `[Avatar ${index + 1}] pattern=${candidate.pattern}, seed=${candidate.seed}`,
+      );
+    });
+
+    setAvatarCandidates(candidates);
+  };
+
+  const handleSelectCandidate = (candidate: AvatarCandidate) => {
+    setAvatarSeed(candidate.seed);
+    setAvatarPattern(candidate.pattern);
+  };
 
   const handleSave = async () => {
     try {
@@ -22,6 +53,8 @@ export default function EditProfileDialog({
 
       await updateUser(user.id, {
         bio,
+        avatarSeed,
+        avatarPattern,
       });
 
       onClose();
@@ -49,22 +82,73 @@ export default function EditProfileDialog({
         </div>
 
         <div className="edit-profile-content">
+          <div className="edit-profile_avatar-section">
+            <div className="edit-profile_avatar">
+              <GeneratedAvatar
+                seed={avatarSeed}
+                pattern={avatarPattern}
+                className="edit-profile_avatar-image"
+              />
+
+              <button
+                type="button"
+                className="edit-profile_randomize"
+                onClick={handleRandomize}
+                disabled={saving}
+              >
+                Randomize
+              </button>
+
+              {avatarCandidates.length > 0 && (
+                <div className="edit-profile_avatar-candidates">
+                  {avatarCandidates.map((candidate) => {
+                    const isSelected =
+                      avatarSeed === candidate.seed &&
+                      avatarPattern === candidate.pattern;
+
+                    return (
+                      <button
+                        key={`${candidate.pattern}-${candidate.seed}`}
+                        type="button"
+                        className={`edit-profile_avatar-candidate ${
+                          isSelected
+                            ? "edit-profile_avatar-candidate--selected"
+                            : ""
+                        }`}
+                        onClick={() => handleSelectCandidate(candidate)}
+                        aria-label={`Select ${candidate.pattern} avatar`}
+                        aria-pressed={isSelected}
+                      >
+                        <GeneratedAvatar
+                          seed={candidate.seed}
+                          pattern={candidate.pattern}
+                          className="edit-profile_avatar-candidate-image"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="edit-profile_field">
             <label>Username</label>
 
-            <input type="text" value={user.username} readOnly />
+            <div className="edit-profile_readonly">{user.username}</div>
           </div>
 
           <div className="edit-profile_field">
             <label>Email</label>
 
-            <input type="email" value={user.email} readOnly />
+            <div className="edit-profile_readonly">{user.email}</div>
           </div>
 
           <div className="edit-profile_field">
-            <label>Bio</label>
+            <label htmlFor="edit-profile-bio">Bio</label>
 
             <textarea
+              id="edit-profile-bio"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               maxLength={120}
