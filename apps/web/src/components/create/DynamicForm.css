@@ -37,7 +37,6 @@
 
   background: var(--surface);
   color: var(--text);
-
   font: inherit;
 
   transition:
@@ -83,22 +82,89 @@
   cursor: not-allowed;
 }
 
-/* Textarea */
+/* Field types */
 
-.dynamic-form_field--textarea {
-  gap: 0.6rem;
-}
-
-/* Tags */
-
+.dynamic-form_field--textarea,
 .dynamic-form_field--tags {
   gap: 0.6rem;
 }
 
-/* Image */
+/* Generated Cover */
 
-.dynamic-form_field--image {
-  gap: 0;
+.dynamic-form_cover {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.dynamic-form_cover-preview {
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.dynamic-form_generated-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cover Randomize */
+
+.dynamic-form_cover-randomize {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  padding: 0.45rem 0.85rem;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-size: 0.8rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.dynamic-form_cover-randomize:hover {
+  border-color: var(--text);
+  background: var(--surface-hover);
+}
+
+.dynamic-form_cover-randomize:active {
+  transform: translateY(1px);
+}
+
+.dynamic-form_cover-randomize:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.dynamic-form_cover-randomize:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Helper text */
+
+.dynamic-form_cover-help {
+  color: var(--text);
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
 
 /* Actions */

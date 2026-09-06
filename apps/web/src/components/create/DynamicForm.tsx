@@ -2,7 +2,8 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 
 import type { Field, FormSchema } from "../../types/schema";
 import "./DynamicForm.css";
-import UploadImage from "./ImageUploader";
+
+import GeneratedCover from "../project/shared/GeneratedCover/GeneratedCover";
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -11,7 +12,7 @@ interface DynamicFormProps {
 }
 
 interface ProjectFormData {
-  coverImage?: File | null;
+  coverSeed?: string;
   title?: string;
   description?: string;
   github?: string;
@@ -19,20 +20,37 @@ interface ProjectFormData {
   tags?: string;
 }
 
+const SEED_ALPHABET =
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+function createCoverSeed(length = 16): string {
+  const values = new Uint32Array(length);
+
+  crypto.getRandomValues(values);
+
+  return Array.from(
+    values,
+    (value) => SEED_ALPHABET[value % SEED_ALPHABET.length],
+  ).join("");
+}
+
 export default function DynamicForm({
   schema,
   onSubmit,
   initialValues,
 }: DynamicFormProps) {
-  const initialState: Record<string, unknown> = {};
+  const [formData, setFormData] = useState<Record<string, unknown>>(() => {
+    const initialState: Record<string, unknown> = {};
 
-  schema.fields.forEach((field) => {
-    initialState[field.name] = field.type === "image" ? null : "";
-  });
+    schema.fields.forEach((field) => {
+      initialState[field.name] = "";
+    });
 
-  const [formData, setFormData] = useState<Record<string, unknown>>({
-    ...initialState,
-    ...initialValues,
+    return {
+      ...initialState,
+      ...initialValues,
+      coverSeed: initialValues?.coverSeed ?? createCoverSeed(),
+    };
   });
 
   function handleChange(
@@ -46,12 +64,19 @@ export default function DynamicForm({
     }));
   }
 
+  function handleRandomizeCover() {
+    setFormData((prev) => ({
+      ...prev,
+      coverSeed: createCoverSeed(),
+    }));
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const submissionData = new FormData();
 
-    const { coverImage, title, description, github, demo, tags } =
+    const { coverSeed, title, description, github, demo, tags } =
       formData as ProjectFormData;
 
     submissionData.append("title", title ?? "");
@@ -70,12 +95,9 @@ export default function DynamicForm({
     );
 
     submissionData.append("links.github", github ?? "");
-
     submissionData.append("links.demo", demo ?? "");
 
-    if (coverImage instanceof File) {
-      submissionData.append("coverImage", coverImage);
-    }
+    submissionData.append("coverSeed", coverSeed ?? "");
 
     await onSubmit(submissionData);
   }
@@ -119,18 +141,29 @@ export default function DynamicForm({
           />
         );
 
-      case "image": {
-        const imageFieldName = field.name;
+      case "cover":
+        return (
+          <div className="dynamic-form_cover">
+            <div className="dynamic-form_cover-preview">
+              <GeneratedCover
+                seed={formData.coverSeed as string}
+                className="dynamic-form_generated-cover"
+              />
+            </div>
 
-        const handleImageSelect = (file: File | null) => {
-          setFormData((prev) => ({
-            ...prev,
-            [imageFieldName]: file,
-          }));
-        };
+            <button
+              type="button"
+              className="dynamic-form_cover-randomize"
+              onClick={handleRandomizeCover}
+            >
+              Randomize
+            </button>
 
-        return <UploadImage maxSizeMB={5} onImageSelect={handleImageSelect} />;
-      }
+            <span className="dynamic-form_cover-help">
+              Generate a new cover using BuildKiwi's pattern engine.
+            </span>
+          </div>
+        );
 
       default:
         return null;
@@ -145,7 +178,7 @@ export default function DynamicForm({
             key={field.name}
             className={`dynamic-form_field dynamic-form_field--${field.type}`}
           >
-            {field.type !== "image" && (
+            {field.type !== "cover" && (
               <label className="dynamic-form_label" htmlFor={field.name}>
                 {field.label}
               </label>
