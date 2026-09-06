@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import "./RightSidebar.css";
 
 import KiwiAchievements from "../discover/achievements/KiwiAchievements";
@@ -9,7 +9,12 @@ export default function RightSidebar() {
   const trendingTags = ["react", "typescript", "opensource", "ai"];
 
   function handleTrendingClick(tag: string) {
-    navigate(`/discover?q=${encodeURIComponent(tag)}`);
+    navigate({
+      pathname: "/discover",
+      search: createSearchParams({
+        q: tag,
+      }).toString(),
+    });
   }
 
   return (

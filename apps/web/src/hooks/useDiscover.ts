@@ -4,8 +4,8 @@ import { fetchProjects } from "../api/project.api";
 import type { Project } from "../types/project";
 import type { SearchFilter } from "../components/discover/search/SearchFilters";
 
-export function useDiscover() {
-  const [query, setQuery] = useState("");
+export function useDiscover(initialQuery = "") {
+  const [query, setQuery] = useState(initialQuery);
   const [filter, setFilter] = useState<SearchFilter>("all");
 
   const [projects, setProjects] = useState<Project[]>([]);
@@ -38,10 +38,8 @@ export function useDiscover() {
     projects,
     loading,
     error,
-
     query,
     setQuery,
-
     filter,
     setFilter,
   };
