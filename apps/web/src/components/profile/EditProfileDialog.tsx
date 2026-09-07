@@ -31,12 +31,12 @@ export default function EditProfileDialog({
   const handleRandomize = () => {
     const candidates = generateAvatarCandidates();
 
-    console.log("[Avatar Randomize] Generated candidates:", candidates);
+    console.log("[Avatar Randomize] Candidates:", candidates);
 
     candidates.forEach((candidate, index) => {
-      console.log(
-        `[Avatar ${index + 1}] pattern=${candidate.pattern}, seed=${candidate.seed}`,
-      );
+      console.log(`\n[Avatar ${index + 1}]`);
+      console.log("Pattern:", candidate.pattern);
+      console.log("Seed:", candidate.seed);
     });
 
     setAvatarCandidates(candidates);
