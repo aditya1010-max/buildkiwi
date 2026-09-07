@@ -16,10 +16,10 @@ export default function ProjectHero({
   return (
     <section className="project-hero">
       <div className="project-hero_cover">
-      <GeneratedCover
-        seed={project.coverSeed ?? project._id}
-        className="project-hero_generated-cover"
-      />
+        <GeneratedCover
+          seed={project.coverSeed ?? project._id}
+          className="project-hero_generated-cover"
+        />
       </div>
 
       <div className="project-hero_content">
