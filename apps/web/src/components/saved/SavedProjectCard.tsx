@@ -1,8 +1,10 @@
-import "./SavedProjectCard.css";
-
-import { Link } from "react-router-dom";
 import type { ReactElement } from "react";
+import { Link } from "react-router-dom";
+
 import type { Project } from "../../types/project";
+import GeneratedCover from "../project/shared/GeneratedCover/GeneratedCover";
+
+import "./SavedProjectCard.css";
 
 interface SavedProjectCardProps {
   project: Project;
@@ -14,25 +16,24 @@ export default function SavedProjectCard({
   return (
     <Link to={`/projects/${project._id}`} className="saved-project-card_link">
       <article className="saved-project-card">
-        <div className="saved-project-card_top">
-          <h3>{project.title}</h3>
-
-          <span>{new Date(project.createdAt).toLocaleDateString()}</span>
+        <div className="saved-project-card_cover">
+          <GeneratedCover
+            seed={project.coverSeed ?? project._id}
+            className="saved-project-card_generated-cover"
+          />
         </div>
 
-        <p className="saved-project-card_creator">
-          @{project.creatorId.username}
-        </p>
+        <div className="saved-project-card_content">
+          <h3 className="saved-project-card_title">{project.title}</h3>
 
-        <p className="saved-project-card_description">{project.description}</p>
+          <p className="saved-project-card_description">
+            {project.description || "No description provided."}
+          </p>
 
-        {project.tags.length > 0 && (
-          <div className="saved-project-card_tags">
-            {project.tags.slice(0, 4).map((tag) => (
-              <span key={tag}>#{tag}</span>
-            ))}
-          </div>
-        )}
+          <span className="saved-project-card_creator">
+            @{project.creatorId.username}
+          </span>
+        </div>
       </article>
     </Link>
   );
