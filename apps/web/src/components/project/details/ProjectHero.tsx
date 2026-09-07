@@ -1,3 +1,5 @@
+import type { ReactElement } from "react";
+
 import "./ProjectHero.css";
 
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
@@ -8,24 +10,16 @@ interface ProjectHeroProps {
   project: Project;
 }
 
-export default function ProjectHero({ project }: ProjectHeroProps) {
-  const hasCover = Boolean(project.coverImage);
-
+export default function ProjectHero({
+  project,
+}: ProjectHeroProps): ReactElement {
   return (
     <section className="project-hero">
       <div className="project-hero_cover">
-        {hasCover ? (
-          <img
-            src={`http://localhost:3000/uploads/${project.coverImage}`}
-            alt={project.title}
-            className="project-hero_image"
-          />
-        ) : (
-          <GeneratedCover
-            seed={project._id}
-            className="project-hero_generated-cover"
-          />
-        )}
+      <GeneratedCover
+        seed={project.coverSeed ?? project._id}
+        className="project-hero_generated-cover"
+      />
       </div>
 
       <div className="project-hero_content">
@@ -56,7 +50,11 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
               GitHub
             </a>
           ) : (
-            <button disabled className="project-hero_button disabled">
+            <button
+              type="button"
+              disabled
+              className="project-hero_button disabled"
+            >
               GitHub Unavailable
             </button>
           )}
@@ -71,7 +69,11 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
               Live Demo
             </a>
           ) : (
-            <button disabled className="project-hero_button disabled">
+            <button
+              type="button"
+              disabled
+              className="project-hero_button disabled"
+            >
               Demo Unavailable
             </button>
           )}

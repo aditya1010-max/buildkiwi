@@ -1,4 +1,5 @@
 import type { PatternId } from "@buildkiwi/pattern-engine";
+
 import type { Achievement } from "./achievement";
 
 export interface Project {
@@ -13,10 +14,9 @@ export interface Project {
 
   title: string;
   description: string;
-
   tags: string[];
 
-  coverImage: string;
+  coverSeed: string;
 
   links: {
     github: string;
