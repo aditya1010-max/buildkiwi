@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { type ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./ProjectManagerCard.css";
@@ -6,6 +6,7 @@ import "./ProjectManagerCard.css";
 import type { Project } from "../../../types/project";
 import { deleteProject } from "../../../api/project.api";
 import DeleteProjectDialog from "../../../components/userMenu/dialogs/DeleteProjectDialog";
+import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
 
 interface ProjectManagerCardProps {
   project: Project;
@@ -17,12 +18,14 @@ export default function ProjectManagerCard({
   onDeleteSuccess,
 }: ProjectManagerCardProps): ReactElement {
   const navigate = useNavigate();
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function handleDelete() {
     try {
       setIsDeleting(true);
+
       await deleteProject(project._id);
       setShowDeleteDialog(false);
 
@@ -38,84 +41,53 @@ export default function ProjectManagerCard({
     }
   }
 
-  const formatDate = (date?: string) =>
-    date ? new Date(date).toLocaleDateString() : "N/A";
-
   return (
     <article className="project-manager-card">
-      {/* Cover */}
-      <div className="project-manager-card_cover">
-        {project.coverImage ? (
-          <img
-            src={project.coverImage}
-            alt={project.title}
-            className="project-manager-card_image"
-          />
-        ) : (
-          <div className="project-manager-card_placeholder">No Cover Image</div>
-        )}
-      </div>
+      <button
+        type="button"
+        className="project-manager-card_cover"
+        onClick={() => navigate(`/projects/${project._id}`)}
+        aria-label={`View ${project.title}`}
+      >
+        <GeneratedCover
+          seed={project.coverSeed ?? project._id}
+          className="project-manager-card_generated-cover"
+        />
+      </button>
 
-      {/* Content */}
       <div className="project-manager-card_content">
         <h2 className="project-manager-card_title">{project.title}</h2>
 
         <p className="project-manager-card_description">
-          {project.description}
+          {project.description || "No description provided."}
         </p>
-
-        <div className="project-manager-card_meta">
-          <span>Created {formatDate(project.createdAt)}</span>
-          <span>Updated {formatDate(project.updatedAt)}</span>
-        </div>
-
-        <div className="project-manager-card_stats">
-          <span>
-            <span role="img" aria-label="views">
-              👁
-            </span>{" "}
-            {project.stats.views}
-          </span>
-          <span>
-            <span role="img" aria-label="likes">
-              ❤️
-            </span>{" "}
-            {project.stats.likes}
-          </span>
-          <span>
-            <span role="img" aria-label="comments">
-              💬
-            </span>{" "}
-            {project.stats.comments}
-          </span>
-        </div>
-
-        {project.tags && project.tags.length > 0 && (
-          <div className="project-manager-card_tags">
-            {[...new Set(project.tags)].map((tag) => (
-              <span key={tag} className="project-manager-card_tag">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* Actions */}
       <footer className="project-manager-card_actions">
-        <button onClick={() => navigate(`/projects/${project._id}`)}>
+        <button
+          type="button"
+          onClick={() => navigate(`/projects/${project._id}`)}
+        >
           View
         </button>
 
-        <button onClick={() => navigate(`/projects/${project._id}/edit`)}>
+        <button
+          type="button"
+          onClick={() => navigate(`/projects/${project._id}/edit`)}
+        >
           Edit
         </button>
 
-        <button onClick={() => setShowDeleteDialog(true)} disabled={isDeleting}>
+        <button
+          type="button"
+          className="project-manager-card_delete"
+          onClick={() => setShowDeleteDialog(true)}
+          disabled={isDeleting}
+        >
           {isDeleting ? "Deleting..." : "Delete"}
         </button>
-        <button disabled>Analytics</button>
       </footer>
+
       {showDeleteDialog && (
         <DeleteProjectDialog
           onCancel={() => setShowDeleteDialog(false)}
