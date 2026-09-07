@@ -10,14 +10,21 @@ export type GradientBackground = {
   element: PatternElement;
 };
 
-const GRADIENT_ID = "background-gradient";
+function createGradientId(seed: string): string {
+  const sanitizedSeed = seed.replace(/[^a-zA-Z0-9_-]/g, "-");
+
+  return `background-gradient-${sanitizedSeed}`;
+}
 
 export function generateGradient(
+  seed: string,
   palette: ColorPalette,
   random: SeededRandom,
   width: number,
   height: number,
 ): GradientBackground {
+  const gradientId = createGradientId(seed);
+
   const angle = random.int(0, 359);
 
   const radians = (angle * Math.PI) / 180;
@@ -29,7 +36,7 @@ export function generateGradient(
 
   const definition: LinearGradient = {
     type: "linear-gradient",
-    id: GRADIENT_ID,
+    id: gradientId,
     x1,
     y1,
     x2,
@@ -52,7 +59,7 @@ export function generateGradient(
     y: 0,
     width,
     height,
-    fill: `url(#${GRADIENT_ID})`,
+    fill: `url(#${gradientId})`,
   };
 
   return {

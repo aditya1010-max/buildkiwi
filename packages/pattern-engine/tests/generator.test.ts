@@ -19,7 +19,7 @@ describe("generatePattern", () => {
     expect(result.svg).toContain("<svg");
     expect(result.svg).toContain("<defs>");
     expect(result.svg).toContain("<linearGradient");
-    expect(result.svg).toContain('id="background-gradient"');
+    expect(result.svg).toContain('id="background-gradient-buildkiwi-test"');
     expect(result.svg).toContain("<circle");
     expect(result.svg).toContain("<rect");
   });
@@ -55,4 +55,41 @@ describe("generatePattern", () => {
     expect(result.svg).toContain('width="1200"');
     expect(result.svg).toContain('height="630"');
   });
+
+  it("uses different gradient IDs for different seeds", () => {
+    const first = generatePattern({
+      ...config,
+      seed: "seed-a",
+    });
+
+    const second = generatePattern({
+      ...config,
+      seed: "seed-b",
+    });
+
+    expect(first.svg).toContain('id="background-gradient-seed-a"');
+    expect(second.svg).toContain('id="background-gradient-seed-b"');
+
+    expect(first.svg).not.toContain('id="background-gradient-seed-b"');
+
+    expect(second.svg).not.toContain('id="background-gradient-seed-a"');
+  });
 });
+
+/*
+Test coverage:
+
+1. Generates an SVG image
+   → Verifies the generated output contains a valid SVG, expected dimensions,
+     definitions, a unique seed-based gradient, and pattern elements.
+
+2. Produces deterministic output
+   → Verifies the same configuration always produces exactly the same SVG.
+
+3. Produces different output for different seeds
+   → Verifies changing the seed results in a different generated SVG.
+
+4. Supports different rendering dimensions
+   → Verifies the generator correctly produces SVGs with custom width, height,
+     and border radius values.
+*/

@@ -11,6 +11,7 @@ export function generatePattern(config: PatternConfig): GeneratedImage {
   const palette = generatePalette(config.seed);
 
   const gradient = generateGradient(
+    config.seed,
     palette,
     random,
     config.width,
