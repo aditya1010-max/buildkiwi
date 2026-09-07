@@ -17,7 +17,7 @@ export default function ProjectsPage(): ReactElement {
 
   const isGuest = !getAccessToken();
 
-  function openCreateModal() {
+  function openCreateModal(): void {
     navigate("/create", {
       state: {
         background: location,
@@ -53,10 +53,9 @@ export default function ProjectsPage(): ReactElement {
 
   const stats = projects.reduce(
     (acc, project) => {
-      acc.totalProjects++;
+      acc.totalProjects += 1;
       acc.totalViews += project.stats.views;
       acc.totalLikes += project.stats.likes;
-      acc.totalComments += project.stats.comments;
 
       return acc;
     },
@@ -64,7 +63,6 @@ export default function ProjectsPage(): ReactElement {
       totalProjects: 0,
       totalViews: 0,
       totalLikes: 0,
-      totalComments: 0,
     },
   );
 
@@ -97,7 +95,7 @@ export default function ProjectsPage(): ReactElement {
         </section>
 
         <section className="projects-page_content">
-          <ProjectGrid projects={projects} />
+          <ProjectGrid projects={projects} onCreateProject={openCreateModal} />
         </section>
       </div>
     </main>

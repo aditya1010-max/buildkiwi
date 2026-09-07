@@ -6,7 +6,6 @@ interface ProjectStatsProps {
   totalProjects: number;
   totalViews: number;
   totalLikes: number;
-  totalComments: number;
 }
 
 interface StatCardProps {
@@ -19,7 +18,7 @@ function StatCard({ label, value }: StatCardProps): ReactElement {
     <article className="project-stats_card">
       <span className="project-stats_label">{label}</span>
 
-      <h2 className="project-stats_value">{value.toLocaleString()}</h2>
+      <strong className="project-stats_value">{value.toLocaleString()}</strong>
     </article>
   );
 }
@@ -28,17 +27,14 @@ export default function ProjectStats({
   totalProjects,
   totalViews,
   totalLikes,
-  totalComments,
 }: ProjectStatsProps): ReactElement {
   return (
-    <section className="project-stats">
+    <section className="project-stats" aria-label="Project statistics">
       <StatCard label="Projects" value={totalProjects} />
 
       <StatCard label="Views" value={totalViews} />
 
       <StatCard label="Likes" value={totalLikes} />
-
-      <StatCard label="Comments" value={totalComments} />
     </section>
   );
 }
