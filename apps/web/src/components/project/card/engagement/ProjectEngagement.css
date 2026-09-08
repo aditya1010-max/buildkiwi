@@ -1,7 +1,5 @@
 .project-card_engagement {
   width: 100%;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
 }
 
 .project-card_actions {
@@ -17,10 +15,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-
   color: var(--text);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1;
 }
 
@@ -32,8 +29,8 @@
 }
 
 .project-card_action:disabled {
-  opacity: 0.5;
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .project-card_metric {
@@ -57,8 +54,8 @@
 
 .project-card_unlike-icon,
 .project-card_unlike-icon path {
-  color: #2f2f2f;
-  stroke: #2f2f2f;
+  color: var(--text);
+  stroke: var(--text);
   fill: none;
 }
 
@@ -66,16 +63,16 @@
 
 .project-card_bookmark svg,
 .project-card_bookmark svg path {
-  color: #2f2f2f;
-  stroke: #2f2f2f;
+  color: var(--text);
+  stroke: var(--text);
   fill: none;
 }
 
 .project-card_bookmark[aria-label="Remove from saved"] svg,
 .project-card_bookmark[aria-label="Remove from saved"] svg path {
-  color: #000000;
-  stroke: #000000;
-  fill: #000000;
+  color: var(--text);
+  stroke: var(--text);
+  fill: var(--text);
 }
 
 .project-card_bookmark:focus-visible {
@@ -87,7 +84,7 @@
 @media (max-width: 520px) {
   .project-card_action,
   .project-card_metric {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .project-card_action svg,
