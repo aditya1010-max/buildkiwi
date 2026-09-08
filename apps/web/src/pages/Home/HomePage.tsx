@@ -1,7 +1,7 @@
 import "./HomePage.css";
 
 import FeedHeader from "../../components/feed/FeedHeader";
-import { FeedCardLoader } from "../../components/feed/FeedCardLoader";
+import FeedCardSkeleton from "../../components/feed/FeedCardLoader";
 import ProjectCard from "../../components/project/card/ProjectCard";
 import { useProjects } from "../../hooks/useProjects";
 import { useLanguage } from "../../hooks/useLanguage";
@@ -30,9 +30,8 @@ export default function Home() {
       <div className="feed-content">
         {initialLoading ? (
           <>
-            <FeedCardLoader />
-            <FeedCardLoader />
-            <FeedCardLoader />
+            <FeedCardSkeleton />
+            <FeedCardSkeleton />
           </>
         ) : (
           <>
