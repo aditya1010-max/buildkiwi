@@ -1,0 +1,70 @@
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------
+   Sizes
+-------------------------------- */
+
+.ui-badge--sm {
+  min-height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.ui-badge--md {
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+/* --------------------------------
+   Variants
+-------------------------------- */
+
+.ui-badge--default {
+  background: var(--badge-default-bg);
+  border-color: var(--badge-default-border);
+  color: var(--badge-default-text);
+}
+
+.ui-badge--primary {
+  background: var(--badge-primary-bg);
+  border-color: var(--badge-primary-border);
+  color: var(--badge-primary-text);
+}
+
+.ui-badge--accent {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.ui-badge--success {
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success);
+}
+
+.ui-badge--warning {
+  background: var(--warning-bg);
+  border-color: var(--warning-border);
+  color: var(--warning);
+}
+
+.ui-badge--danger {
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
