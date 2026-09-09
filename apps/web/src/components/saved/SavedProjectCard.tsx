@@ -2,7 +2,8 @@ import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
 import type { Project } from "../../types/project";
-import GeneratedCover from "../project/shared/GeneratedCover/GeneratedCover";
+import GeneratedCover from "../projects/shared/GeneratedCover/GeneratedCover";
+import Card from "../ui/Card";
 
 import "./SavedProjectCard.css";
 
@@ -15,7 +16,7 @@ export default function SavedProjectCard({
 }: SavedProjectCardProps): ReactElement {
   return (
     <Link to={`/projects/${project._id}`} className="saved-project-card_link">
-      <article className="saved-project-card">
+      <Card className="saved-project-card">
         <div className="saved-project-card_cover">
           <GeneratedCover
             seed={project.coverSeed ?? project._id}
@@ -34,7 +35,7 @@ export default function SavedProjectCard({
             @{project.creatorId.username}
           </span>
         </div>
-      </article>
+      </Card>
     </Link>
   );
 }
