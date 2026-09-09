@@ -6,6 +6,7 @@ import "./ProjectManagerCard.css";
 import type { Project } from "../../../types/project";
 import { deleteProject } from "../../../api/project.api";
 import DeleteProjectDialog from "../../user-menu/dialogs/DeleteProjectDialog";
+import Card from "../../ui/Card";
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
 
 interface ProjectManagerCardProps {
@@ -42,7 +43,7 @@ export default function ProjectManagerCard({
   }
 
   return (
-    <article className="project-manager-card">
+    <Card className="project-manager-card">
       <button
         type="button"
         className="project-manager-card_cover"
@@ -95,6 +96,6 @@ export default function ProjectManagerCard({
           isDeleting={isDeleting}
         />
       )}
-    </article>
+    </Card>
   );
 }

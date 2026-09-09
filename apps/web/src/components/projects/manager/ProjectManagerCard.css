@@ -7,7 +7,7 @@
 
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: 0.75rem;
 
   transition:
     transform 0.2s ease,
@@ -58,7 +58,7 @@
   gap: 0.5rem;
 
   min-width: 0;
-  padding: 1.15rem 1.25rem 1.25rem;
+  /* padding: 1.15rem 1.25rem 1.25rem; */
 }
 
 .project-manager-card_title {
@@ -101,19 +101,19 @@
   gap: 0.5rem;
 
   margin-top: auto;
-  padding: 0.8rem 0.75rem;
+  padding: 0.1rem 0.5rem;
 
-  border-top: 1px solid var(--border);
+  /* border-top: 1px solid var(--border); */
 }
 
 .project-manager-card_actions button {
   flex: 0 0 auto;
 
   min-height: 36px;
-  padding: 0.45rem 0.65rem;
+  padding: 0.045rem 0.65rem;
 
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: 0.75rem;
 
   background: var(--surface);
   color: var(--text);
