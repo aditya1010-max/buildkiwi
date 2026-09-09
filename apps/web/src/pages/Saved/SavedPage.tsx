@@ -3,7 +3,8 @@ import type { ReactElement } from "react";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { getAccessToken } from "../../utils/token";
 
-import GuestPrompt from "../../components/shared/GuestPrompt";
+import Loader from "../../components/ui/Loader";
+import GuestPrompt from "../../components/auth/GuestPrompt";
 import EmptySaved from "../../components/saved/EmptySaved";
 import SavedHeader from "../../components/saved/SavedHeader";
 import SavedProjectCard from "../../components/saved/SavedProjectCard";
@@ -38,7 +39,7 @@ export default function SavedPage(): ReactElement {
           <SavedHeader count={0} />
 
           <div className="saved-page_state">
-            <p>Loading bookmarks...</p>
+            <Loader label="Loading bookmarks..." />
           </div>
         </div>
       </main>

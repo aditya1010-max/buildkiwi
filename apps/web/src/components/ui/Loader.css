@@ -1,0 +1,44 @@
+.ui-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  color: currentColor;
+}
+
+.ui-loader__spinner {
+  display: block;
+
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+
+  animation: ui-loader-spin 0.7s linear infinite;
+}
+
+.ui-loader--sm .ui-loader__spinner {
+  width: 14px;
+  height: 14px;
+}
+
+.ui-loader--md .ui-loader__spinner {
+  width: 20px;
+  height: 20px;
+}
+
+.ui-loader--lg .ui-loader__spinner {
+  width: 28px;
+  height: 28px;
+}
+
+.ui-loader__label {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@keyframes ui-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

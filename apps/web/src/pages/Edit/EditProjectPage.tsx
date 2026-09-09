@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import { getEditableProject } from "../../api/project.api";
 
 import "./EditProjectPage.css";
-import DynamicForm from "../../components/create/DynamicForm";
+import DynamicForm from "../../components/projects/create/DynamicForm";
 import projectSchema from "../../schema/projectSchema";
 import { updateProject } from "../../api/project.api";
 import type { Project } from "../../types/project";
+import Loader from "../../components/ui/Loader";
 
 export default function EditProjectPage(): ReactElement {
   const { id } = useParams();
@@ -45,7 +46,7 @@ export default function EditProjectPage(): ReactElement {
   if (loading) {
     return (
       <main className="edit-project-page">
-        <p>Loading project...</p>
+        <Loader label="Loading project..." />
       </main>
     );
   }
