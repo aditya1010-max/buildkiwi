@@ -1,0 +1,162 @@
+.ui-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease,
+    transform 0.1s ease;
+}
+
+.ui-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ui-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* --------------------------------
+   Sizes
+-------------------------------- */
+
+.ui-button--sm {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.ui-button--md {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.ui-button--lg {
+  min-height: 48px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+/* --------------------------------
+   Variants
+-------------------------------- */
+
+.ui-button--primary {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.ui-button--primary:hover:not(:disabled) {
+  background: #222;
+  border-color: #222;
+}
+
+.ui-button--secondary {
+  background: #fff;
+  border-color: #d1d5db;
+  color: #111;
+}
+
+.ui-button--secondary:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #bfc3c9;
+}
+
+.ui-button--danger {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.ui-button--danger:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.ui-button--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: #111;
+}
+
+.ui-button--ghost:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+/* --------------------------------
+   States
+-------------------------------- */
+
+.ui-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ui-button--loading {
+  cursor: wait;
+}
+
+.ui-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-button__loader {
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+
+  animation: ui-button-spin 0.7s linear infinite;
+}
+
+.ui-button--sm .ui-button__loader {
+  width: 12px;
+  height: 12px;
+}
+
+.ui-button--lg .ui-button__loader {
+  width: 16px;
+  height: 16px;
+}
+
+/* --------------------------------
+   Full width
+-------------------------------- */
+
+.ui-button--full-width {
+  width: 100%;
+}
+
+/* --------------------------------
+   Animation
+-------------------------------- */
+
+@keyframes ui-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -5,7 +5,7 @@ import "./ProjectManagerCard.css";
 
 import type { Project } from "../../../types/project";
 import { deleteProject } from "../../../api/project.api";
-import DeleteProjectDialog from "../../../components/userMenu/dialogs/DeleteProjectDialog";
+import DeleteProjectDialog from "../../user-menu/dialogs/DeleteProjectDialog";
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
 
 interface ProjectManagerCardProps {

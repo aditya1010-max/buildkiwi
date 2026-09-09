@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import "./ProjectHero.css";
 
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
+import Button from "../../ui/Button";
 
 import type { Project } from "../../../types/project";
 
@@ -50,13 +51,14 @@ export default function ProjectHero({
               GitHub
             </a>
           ) : (
-            <button
+            <Button
               type="button"
-              disabled
+              variant="secondary"
               className="project-hero_button disabled"
+              disabled
             >
               GitHub Unavailable
-            </button>
+            </Button>
           )}
 
           {project.links?.demo ? (
@@ -69,13 +71,14 @@ export default function ProjectHero({
               Live Demo
             </a>
           ) : (
-            <button
+            <Button
               type="button"
-              disabled
+              variant="secondary"
               className="project-hero_button disabled"
+              disabled
             >
               Demo Unavailable
-            </button>
+            </Button>
           )}
         </div>
       </div>

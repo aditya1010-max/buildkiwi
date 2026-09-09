@@ -3,7 +3,8 @@ import "./EditProfileDialog.css";
 
 import type { User } from "../../types/user";
 import { updateUser } from "../../services/user.service";
-import GeneratedAvatar from "../project/shared/GeneratedAvatar/GeneratedAvatar";
+import GeneratedAvatar from "../projects/shared/GeneratedAvatar/GeneratedAvatar";
+import Button from "../ui/Button";
 
 import { generateAvatarCandidates } from "../../utils/avatar.generator";
 import type { AvatarCandidate } from "../../types/avatar";
@@ -71,14 +72,16 @@ export default function EditProfileDialog({
         <div className="edit-profile-header">
           <h2>Edit Profile</h2>
 
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             className="edit-profile_close"
             onClick={onClose}
             aria-label="Close"
           >
             ×
-          </button>
+          </Button>
         </div>
 
         <div className="edit-profile-content">
@@ -90,14 +93,16 @@ export default function EditProfileDialog({
                 className="edit-profile_avatar-image"
               />
 
-              <button
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
                 className="edit-profile_randomize"
                 onClick={handleRandomize}
                 disabled={saving}
               >
                 Randomize
-              </button>
+              </Button>
 
               {avatarCandidates.length > 0 && (
                 <div className="edit-profile_avatar-candidates">
@@ -161,22 +166,24 @@ export default function EditProfileDialog({
         </div>
 
         <div className="edit-profile_actions">
-          <button
+          <Button
             type="button"
+            variant="secondary"
             className="edit-profile_cancel"
             onClick={onClose}
           >
             Cancel
-          </button>
+          </Button>
 
-          <button
+          <Button
             type="button"
+            variant="primary"
             className="edit-profile_save"
             onClick={handleSave}
-            disabled={saving}
+            loading={saving}
           >
-            {saving ? "Saving..." : "Save"}
-          </button>
+            Save
+          </Button>
         </div>
       </div>
     </div>
