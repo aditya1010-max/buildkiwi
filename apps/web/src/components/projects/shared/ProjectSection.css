@@ -1,32 +1,23 @@
 .project-section {
   display: flex;
   flex-direction: column;
-
   gap: 1.5rem;
-
   padding: 2rem;
-
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-
-  background: var(--surface-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
 }
 
-.project-section_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+.project-section .ui-section__header {
+  margin-bottom: 0;
 }
 
-.project-section_title {
-  margin: 0;
-
+.project-section .ui-section__title {
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.project-section_body {
+.project-section .ui-section__content {
   display: flex;
   flex-direction: column;
   gap: 1rem;

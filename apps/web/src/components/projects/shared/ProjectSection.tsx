@@ -1,5 +1,6 @@
-import "./ProjectSection.css";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
+import Section from "../../ui/Section";
 
 interface ProjectSectionProps {
   title: string;
@@ -13,14 +14,8 @@ export default function ProjectSection({
   actions,
 }: ProjectSectionProps) {
   return (
-    <section className="project-section">
-      <header className="project-section_header">
-        <h2 className="project-section_title">{title}</h2>
-
-        {actions && <div className="project-section_actions">{actions}</div>}
-      </header>
-
-      <div className="project-section_body">{children}</div>
-    </section>
+    <Section title={title} actions={actions}>
+      {children}
+    </Section>
   );
 }
