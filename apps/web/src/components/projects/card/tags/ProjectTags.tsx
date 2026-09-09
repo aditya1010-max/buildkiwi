@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import type { Project } from "../../../../types/project";
 
+import Badge from "../../../ui/Badge";
 import "./ProjectTags.css";
 
 interface ProjectTagsProps {
@@ -19,9 +20,9 @@ export default function ProjectTags({
   return (
     <div className="project-card_tags">
       {uniqueTags.map((tag) => (
-        <span key={tag} className="project-card_tag">
+        <Badge key={tag} className="project-card_tag">
           #{tag}
-        </span>
+        </Badge>
       ))}
     </div>
   );

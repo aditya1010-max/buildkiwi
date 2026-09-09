@@ -1,6 +1,7 @@
 import "./ProjectTags.css";
 
 import type { Project } from "../../../types/project";
+import Badge from "../../ui/Badge";
 import ProjectSection from "../shared/ProjectSection";
 
 interface ProjectTagsProps {
@@ -15,9 +16,7 @@ export default function ProjectTags({ project }: ProjectTagsProps) {
       {tags.length > 0 ? (
         <div className="project-tags">
           {tags.map((tag) => (
-            <span key={tag} className="project-tag">
-              {tag}
-            </span>
+            <Badge key={tag}>{tag}</Badge>
           ))}
         </div>
       ) : (
