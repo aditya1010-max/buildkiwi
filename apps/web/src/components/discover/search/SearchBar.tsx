@@ -1,6 +1,9 @@
 import type { FormEvent, ReactNode } from "react";
 import "./SearchBar.css";
+
+import Input from "../../ui/Input";
 import type { SearchFilter } from "./SearchFilters";
+import Button from "../../ui/Button";
 
 interface SearchBarProps {
   value: string;
@@ -35,20 +38,23 @@ export default function SearchBar({
       <section className="search-bar">
         <form className="search-bar_content" onSubmit={handleSubmit}>
           <div className="search-bar_input-wrapper">
-            <input
+            <Input
               type="text"
               placeholder={placeholders[filter]}
               value={value}
               onChange={(event) => onChange(event.target.value)}
+              className="search-bar_input"
+              aria-label={placeholders[filter]}
             />
 
-            <button
+            <Button
               type="submit"
+              variant="primary"
               className="search-bar_button"
               disabled={!value.trim()}
             >
               Search
-            </button>
+            </Button>
           </div>
         </form>
 

@@ -1,5 +1,6 @@
 import "./DocumentationCard.css";
-import ChevronRight from "../userMenu/components/ChevronRight";
+import ChevronRight from "../user-menu/components/ChevronRight";
+import Button from "../ui/Button";
 
 interface DocumentationCardProps {
   title: string;
@@ -15,7 +16,13 @@ export default function DocumentationCard({
   onClick,
 }: DocumentationCardProps) {
   return (
-    <button type="button" className="documentation-card" onClick={onClick}>
+    <Button
+      type="button"
+      variant="ghost"
+      fullWidth
+      className="documentation-card"
+      onClick={onClick}
+    >
       <div className="documentation-card_icon">{icon}</div>
 
       <div className="documentation-card_content">
@@ -27,6 +34,6 @@ export default function DocumentationCard({
       <div className="documentation-card_arrow">
         <ChevronRight />
       </div>
-    </button>
+    </Button>
   );
 }
