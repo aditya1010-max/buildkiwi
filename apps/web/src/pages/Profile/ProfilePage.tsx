@@ -7,12 +7,17 @@ import ProfileTabs, {
   type ProfileTab,
 } from "../../components/profile/ProfileTabs";
 import ProfileGrid from "../../components/profile/ProfileGrid";
-import EmptyProfile from "../../components/profile/EmptyProfile";
+
+// import { AddFolderIcon } from "../../components/assets/icons/ProjectCardIcons";
+import Button from "../../components/ui/Button";
+import EmptyState from "../../components/ui/EmptyState";
 
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { useLikedProjects } from "../../hooks/useLikedProjects";
 import { useMyProjects } from "../../hooks/useMyProjects";
+import ErrorState from "../../components/ui/ErrorState";
+import Loader from "../../components/ui/Loader";
 
 export default function ProfilePage() {
   const { projects: myProjects } = useMyProjects();
@@ -24,11 +29,16 @@ export default function ProfilePage() {
   const { user, loading } = useCurrentUser();
 
   if (loading) {
-    return <p>Loading profile...</p>;
+    return <Loader />;
   }
 
   if (!user) {
-    return <p>Unable to load profile.</p>;
+    return (
+      <ErrorState
+        title="Unable to load profile"
+        message="Something went wrong while loading your profile."
+      />
+    );
   }
 
   return (
@@ -41,21 +51,36 @@ export default function ProfilePage() {
         (myProjects.length > 0 ? (
           <ProfileGrid projects={myProjects} />
         ) : (
-          <EmptyProfile isCurrentUser />
+          <EmptyState
+            icon={"📂"}
+            title="No projects yet"
+            message="You haven't published any projects yet. Start building something amazing."
+            action={<Button>Create Project</Button>}
+          />
         ))}
 
       {activeTab === "saved" &&
         (bookmarks.length > 0 ? (
           <ProfileGrid projects={bookmarks} />
         ) : (
-          <EmptyProfile isCurrentUser />
+          <EmptyState
+            icon="🔖"
+            title="No saved projects yet"
+            message="Projects you save will appear here."
+            action={<Button>Explore Projects</Button>}
+          />
         ))}
 
       {activeTab === "likes" &&
         (likedProjects.length > 0 ? (
           <ProfileGrid projects={likedProjects} />
         ) : (
-          <EmptyProfile isCurrentUser />
+          <EmptyState
+            icon="♥"
+            title="No liked projects yet"
+            message="Projects you like will appear here."
+            action={<Button>Explore Projects</Button>}
+          />
         ))}
     </main>
   );

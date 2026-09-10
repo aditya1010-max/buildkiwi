@@ -7,7 +7,7 @@ import {
   ProjectHero,
   ProjectOverview,
   ProjectMetadata,
-} from "../../components/project/details";
+} from "../../components/projects/details";
 
 import type { Project } from "../../types/project";
 import { fetchProjectById, recordProjectView } from "../../api/project.api";
