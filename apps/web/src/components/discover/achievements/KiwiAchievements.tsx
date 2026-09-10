@@ -5,6 +5,7 @@ import { getAchievementActivity } from "../../../services/achievement.api";
 import type { AchievementActivity } from "../../../types/achievement";
 
 import "./KiwiAchievements.css";
+import Tooltip from "../../ui/Tooltip";
 
 function AchievementLoader() {
   return (
@@ -93,15 +94,16 @@ export default function KiwiAchievements() {
                 key={`${activity.username}-${activity.achievement.key}-${activity.earnedAt}`}
                 className="kiwi-achievement"
               >
-                <img
-                  src={activity.achievement.image}
-                  alt={activity.achievement.name}
-                  className="kiwi-achievement-image"
-                />
+                <Tooltip content={activity.achievement.name} placement="top">
+                  <img
+                    src={activity.achievement.image}
+                    alt={activity.achievement.name}
+                    className="kiwi-achievement-image"
+                  />
+                </Tooltip>
 
                 <div className="kiwi-achievement-info">
                   <strong>{activity.achievement.name}</strong>
-
                   <span>{activity.username}</span>
                 </div>
               </div>
