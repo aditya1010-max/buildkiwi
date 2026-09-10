@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { ReactElement } from "react";
 
 import EditProfileDialog from "./EditProfileDialog";
-import GeneratedAvatar from "../../components/project/shared/GeneratedAvatar/GeneratedAvatar";
+import GeneratedAvatar from "../projects/shared/GeneratedAvatar/GeneratedAvatar";
 
 import type { User } from "../../types/user";
 

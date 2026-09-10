@@ -2,7 +2,7 @@ import "./SearchResults.css";
 
 import type { Project } from "../../../types/project";
 
-import ProjectCard from "../../project/card/ProjectCard";
+import ProjectCard from "../../projects/card/ProjectCard";
 import EmptySearch from "../states/EmptySearch";
 
 interface SearchResultsProps {

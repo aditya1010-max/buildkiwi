@@ -6,7 +6,7 @@ import Saved from "./pages/Saved/SavedPage";
 import Profile from "./pages/Profile/ProfilePage";
 import Discover from "./pages/Discover/DiscoverPage";
 import Projects from "./pages/Projects/ProjectsPage";
-import CreateModal from "./components/create/CreateModel";
+import CreateModal from "./components/projects/create/CreateModel";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProjectPage from "./pages/Project/ProjectPage";

@@ -1,6 +1,6 @@
 import "./ProfileGrid.css";
 
-import { ProjectCard } from "../project/card";
+import { ProjectCard } from "../projects/card";
 import { Project } from "../../types/project";
 
 interface ProfileGridProps {

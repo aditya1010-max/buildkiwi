@@ -11,7 +11,7 @@ import "./styles/variables.css";
 import "./styles/globals.css";
 
 import { ProgressProvider } from "./providers/ProgressProvider";
-import TopLoadingBar from "./components/project/shared/TopLoadingBar/TopLoadingBar";
+import TopLoadingBar from "./components/projects/shared/TopLoadingBar/TopLoadingBar";
 import { ToastProvider } from "./context/ToastProvider";
 
 import NavigationSnapshotProvider from "./navigation/NavigationSnapshotProvider";

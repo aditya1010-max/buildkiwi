@@ -3,16 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import "./CreateModel.css";
 
-import { useToast } from "../../hooks/useToast";
-import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../../hooks/useToast";
 
-import projectSchema from "../../schema/projectSchema";
+import { useAuth } from "../../../hooks/useAuth";
+import projectSchema from "../../../schema/projectSchema";
 import DynamicForm from "./DynamicForm";
-
-import { createProject } from "../../api/project.api";
-
-import type { Achievement } from "../../types/achievement";
-import AchievementCelebration from "../discover/achievements/AchievementCelebration";
+import { createProject } from "../../../api/project.api";
+import type { Achievement } from "../../../types/achievement";
+import AchievementCelebration from "../../discover/achievements/AchievementCelebration";
 
 export default function CreateModal() {
   const navigate = useNavigate();
