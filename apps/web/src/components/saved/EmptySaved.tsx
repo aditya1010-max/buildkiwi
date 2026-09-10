@@ -1,20 +1,20 @@
-import "./EmptySaved.css";
-
 import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
+import Button from "../ui/Button";
+import EmptyState from "../ui/EmptyState";
+
 export default function EmptySaved(): ReactElement {
   return (
-    <section className="empty-saved">
-      <div className="empty-saved_icon">🔖</div>
-
-      <h2>No saved projects yet</h2>
-
-      <p>Projects you save will appear here.</p>
-
-      <Link className="empty-saved_button" to="/discover">
-        Explore Projects
-      </Link>
-    </section>
+    <EmptyState
+      icon="🔖"
+      title="No saved projects yet"
+      message="Projects you save will appear here."
+      action={
+        <Link to="/discover">
+          <Button>Explore Projects</Button>
+        </Link>
+      }
+    />
   );
 }
