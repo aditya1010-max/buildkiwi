@@ -2,9 +2,9 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
 import KiwiIcon4 from "../../assets/icons/kiwiIcon4";
-import UserMenu from "../../components/userMenu/UserMenu";
+import UserMenu from "../user-menu/UserMenu";
 import GuestSidebarCard from "./GuestSidebarCard";
-import { navigationItems } from "./navigation";
+import { navigationItems } from "../../navigation/navigationItems";
 
 import { useLanguage } from "../../hooks/useLanguage";
 import { useAuth } from "../../hooks/useAuth";

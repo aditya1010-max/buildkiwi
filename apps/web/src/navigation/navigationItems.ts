@@ -7,7 +7,7 @@ import {
   SavedIcon,
   ProfileIcon,
   CreateIcon,
-} from "../../assets/icons";
+} from "../assets/icons";
 
 type NavigationItem = {
   id: "home" | "discover" | "create" | "projects" | "saved" | "profile";
