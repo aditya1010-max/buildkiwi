@@ -1,9 +1,11 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 
-import type { Field, FormSchema } from "../../types/schema";
+import type { Field, FormSchema } from "../../../types/schema";
+import { tagSuggestions } from "../../../constants/tagSuggestions";
+import TagInput from "../../ui/TagInput";
 import "./DynamicForm.css";
 
-import GeneratedCover from "../project/shared/GeneratedCover/GeneratedCover";
+import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -17,7 +19,7 @@ interface ProjectFormData {
   description?: string;
   github?: string;
   demo?: string;
-  tags?: string;
+  tags?: string[];
 }
 
 const SEED_ALPHABET =
@@ -34,6 +36,21 @@ function createCoverSeed(length = 16): string {
   ).join("");
 }
 
+function normalizeTags(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((tag): tag is string => typeof tag === "string");
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 export default function DynamicForm({
   schema,
   onSubmit,
@@ -43,12 +60,13 @@ export default function DynamicForm({
     const initialState: Record<string, unknown> = {};
 
     schema.fields.forEach((field) => {
-      initialState[field.name] = "";
+      initialState[field.name] = field.type === "tags" ? [] : "";
     });
 
     return {
       ...initialState,
       ...initialValues,
+      tags: normalizeTags(initialValues?.tags),
       coverSeed: initialValues?.coverSeed ?? createCoverSeed(),
     };
   });
@@ -61,6 +79,13 @@ export default function DynamicForm({
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  }
+
+  function handleTagsChange(tags: string[]) {
+    setFormData((prev) => ({
+      ...prev,
+      tags,
     }));
   }
 
@@ -82,17 +107,7 @@ export default function DynamicForm({
     submissionData.append("title", title ?? "");
     submissionData.append("description", description ?? "");
 
-    submissionData.append(
-      "tags",
-      JSON.stringify(
-        typeof tags === "string"
-          ? tags
-              .split(",")
-              .map((tag) => tag.trim())
-              .filter(Boolean)
-          : [],
-      ),
-    );
+    submissionData.append("tags", JSON.stringify(tags ?? []));
 
     submissionData.append("links.github", github ?? "");
     submissionData.append("links.demo", demo ?? "");
@@ -131,13 +146,12 @@ export default function DynamicForm({
 
       case "tags":
         return (
-          <input
-            className="dynamic-form_input"
-            type="text"
-            name={field.name}
-            placeholder={field.placeholder}
-            value={fieldValue}
-            onChange={handleChange}
+          <TagInput
+            value={normalizeTags(formData[field.name])}
+            onChange={handleTagsChange}
+            suggestions={tagSuggestions}
+            placeholder={field.placeholder ?? "Add technologies..."}
+            maxTags={10}
           />
         );
 
