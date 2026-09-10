@@ -45,15 +45,15 @@
   --danger-border: #fecaca;
 
   /* --------------------------------
-     Badge
-  -------------------------------- */
+      Badge
+   -------------------------------- */
 
-  --badge-default-bg: #f3f4f6;
-  --badge-default-border: #e5e7eb;
-  --badge-default-text: #374151;
+  --badge-default-bg: var(--code-bg);
+  --badge-default-border: var(--border);
+  --badge-default-text: var(--text-h);
 
-  --badge-primary-bg: #111111;
-  --badge-primary-border: #111111;
+  --badge-primary-bg: var(--accent);
+  --badge-primary-border: var(--accent);
   --badge-primary-text: #ffffff;
 
   /* --------------------------------

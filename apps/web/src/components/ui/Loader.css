@@ -1,10 +1,9 @@
 .ui-loader {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-
-  color: currentColor;
+  min-height: 200px;
+  width: 100%;
 }
 
 .ui-loader__spinner {
