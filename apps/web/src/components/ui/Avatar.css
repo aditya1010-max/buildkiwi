@@ -1,0 +1,58 @@
+.ui-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #f3f4f6;
+  color: #6b7280;
+
+  object-fit: cover;
+
+  font-weight: 600;
+  line-height: 1;
+
+  overflow: hidden;
+}
+
+/* --------------------------------
+   Sizes
+-------------------------------- */
+
+.ui-avatar--xs {
+  width: 24px;
+  height: 24px;
+
+  font-size: 10px;
+}
+
+.ui-avatar--sm {
+  width: 32px;
+  height: 32px;
+
+  font-size: 12px;
+}
+
+.ui-avatar--md {
+  width: 40px;
+  height: 40px;
+
+  font-size: 14px;
+}
+
+.ui-avatar--lg {
+  width: 48px;
+  height: 48px;
+
+  font-size: 16px;
+}
+
+.ui-avatar--xl {
+  width: 64px;
+  height: 64px;
+
+  font-size: 20px;
+}
