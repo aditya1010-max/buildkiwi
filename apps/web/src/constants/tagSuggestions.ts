@@ -1,0 +1,18 @@
+export const tagSuggestions = [
+  "React",
+  "TypeScript",
+  "JavaScript",
+  "Node.js",
+  "Express",
+  "MongoDB",
+  "PostgreSQL",
+  "Prisma",
+  "Docker",
+  "Redis",
+  "GraphQL",
+  "Next.js",
+  "Vite",
+  "Tailwind CSS",
+  "Framer Motion",
+  "Firebase",
+];
