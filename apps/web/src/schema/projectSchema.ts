@@ -6,19 +6,20 @@ const projectSchema: FormSchema = {
       name: "title",
       label: "Title",
       type: "text",
-      placeholder: "Enter title",
+      placeholder: "Give your project a name",
     },
     {
       name: "description",
       label: "Description",
       type: "textarea",
-      placeholder: "Enter description",
+      placeholder:
+        "Describe what you built, what it does, and what makes it interesting...",
     },
     {
       name: "tags",
       label: "Technologies",
       type: "tags",
-      placeholder: "React, Node.js, MongoDB",
+      placeholder: "Add languages, frameworks, AI tools...",
     },
     {
       name: "coverSeed",
@@ -35,7 +36,7 @@ const projectSchema: FormSchema = {
       name: "demo",
       label: "Live Demo",
       type: "text",
-      placeholder: "https://example.com",
+      placeholder: "https://your-project.com",
     },
   ],
 };
