@@ -29,6 +29,12 @@
   font-size: 12px;
 }
 
+.ui-badge--lg {
+  min-height: 34px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
 /* --------------------------------
    Variants
 -------------------------------- */

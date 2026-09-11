@@ -2,9 +2,10 @@ import type { HTMLAttributes, ReactNode } from "react";
 
 import "./Badge.css";
 
-type BadgeVariant = "default" | "primary" | "success" | "warning" | "danger";
+type BadgeVariant =
+  "default" | "primary" | "accent" | "success" | "warning" | "danger";
 
-type BadgeSize = "sm" | "md";
+type BadgeSize = "sm" | "md" | "lg";
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   children: ReactNode;

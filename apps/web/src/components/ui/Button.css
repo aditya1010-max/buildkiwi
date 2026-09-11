@@ -1,18 +1,26 @@
 .ui-button {
   position: relative;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+
+  width: fit-content;
+  max-width: 100%;
+
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
+
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 500;
   line-height: 1;
+
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
@@ -93,8 +101,7 @@
 }
 
 .ui-button--danger:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--danger) 85%, black);
-  border-color: color-mix(in srgb, var(--danger) 85%, black);
+  opacity: 0.85;
 }
 
 /* --------------------------------
@@ -135,9 +142,11 @@
 .ui-button__loader {
   width: 14px;
   height: 14px;
+
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
+
   animation: ui-button-spin 0.7s linear infinite;
 }
 
