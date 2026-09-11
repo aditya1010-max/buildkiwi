@@ -25,7 +25,6 @@ export default function ProfilePage() {
   const { likedProjects } = useLikedProjects();
 
   const [activeTab, setActiveTab] = useState<ProfileTab>("projects");
-
   const { user, loading } = useCurrentUser();
 
   if (loading) {

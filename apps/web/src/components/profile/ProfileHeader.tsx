@@ -5,6 +5,7 @@ import type { ReactElement } from "react";
 
 import EditProfileDialog from "./EditProfileDialog";
 import GeneratedAvatar from "../projects/shared/GeneratedAvatar/GeneratedAvatar";
+import Button from "../ui/Button";
 
 import type { User } from "../../types/user";
 
@@ -29,16 +30,14 @@ export default function ProfileHeader({
         <div className="profile-info">
           <h1>{user.username}</h1>
 
-          <span>{user.email}</span>
-
           <p>{user.bio || "No bio added yet."}</p>
 
           <small>Joined {new Date(user.createdAt).toLocaleDateString()}</small>
         </div>
 
-        <button type="button" onClick={() => setIsEditing(true)}>
+        <Button variant="secondary" onClick={() => setIsEditing(true)}>
           Edit Profile
-        </button>
+        </Button>
       </section>
 
       {isEditing && (
