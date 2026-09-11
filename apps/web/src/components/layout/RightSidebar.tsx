@@ -1,12 +1,23 @@
 import { createSearchParams, useNavigate } from "react-router-dom";
+
 import "./RightSidebar.css";
 
 import KiwiAchievements from "../discover/achievements/KiwiAchievements";
+import Badge from "../ui/Badge";
+
+const trendingTags = [
+  "nodejs",
+  "gemini",
+  "css",
+  "javascript",
+  "ai",
+  "react",
+  "typescript",
+  "opensource",
+];
 
 export default function RightSidebar() {
   const navigate = useNavigate();
-
-  const trendingTags = ["react", "typescript", "opensource", "ai"];
 
   function handleTrendingClick(tag: string) {
     navigate({
@@ -34,8 +45,11 @@ export default function RightSidebar() {
               type="button"
               className="trending-tag"
               onClick={() => handleTrendingClick(tag)}
+              aria-label={`Search for ${tag}`}
             >
-              #{tag}
+              <Badge variant="accent" size="lg">
+                #{tag}
+              </Badge>
             </button>
           ))}
         </div>

@@ -79,27 +79,61 @@
   --heading: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 
-  /* --------------------------------
-     Layout
-  -------------------------------- */
+/* --------------------------------
+   Layout
+-------------------------------- */
 
-  --navbar-height: 64px;
-  --sidebar-width: 260px;
-  --right-sidebar-width: 320px;
-  --feed-max-width: 720px;
+--navbar-height: 64px;
 
-  /* --------------------------------
-     Breakpoints
-     Note: CSS @media queries cannot
-     consume these variables.
-  -------------------------------- */
+/*
+   Three-region layout
 
-  --mobile: 768px;
-  --tablet: 1024px;
-  --desktop: 1280px;
+   Desktop:
+   [ Sidebar ] [ Feed ] [ Right Sidebar ]
 
-  --sidebar-width-expanded: 260px;
-  --sidebar-width-collapsed: 70px;
+   Tablet:
+   [ Collapsed Sidebar ] [ Feed ]
+
+   Mobile:
+   [ Feed ]
+*/
+
+--app-max-width: 1265px;
+--sidebar-width-expanded: 260px;
+--sidebar-width-collapsed: 70px;
+
+--right-sidebar-width: 320px;
+
+/*
+   Feed has no fixed width.
+   It consumes all remaining space
+   between the side regions.
+*/
+
+--layout-gap: 0px;
+
+/* --------------------------------
+   Breakpoints
+-------------------------------- */
+
+/*
+   Desktop
+   Full three-column layout.
+*/
+--layout-desktop: 1101px;
+
+/*
+   Tablet
+   Collapsed left sidebar.
+   Right sidebar is removed.
+*/
+--layout-tablet: 769px;
+
+/*
+   Mobile
+   Sidebar becomes bottom navigation.
+*/
+--layout-mobile: 768px;
 
   /* --------------------------------
      Radius
