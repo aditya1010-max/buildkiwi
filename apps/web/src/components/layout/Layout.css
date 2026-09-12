@@ -25,19 +25,37 @@
 }
 
 /* =================================
-   Compact Desktop / Tablet
+   Tablet / Small Desktop
+   Left sidebar collapses first
+   769px → 1200px
    ================================= */
 
-@media (max-width: 1100px) and (min-width: 769px) {
+@media (max-width: 1200px) and (min-width: 1000px) {
   .layout {
     grid-template-columns:
       var(--sidebar-width-collapsed)
-      minmax(0, 1fr);
+      minmax(0, var(--feed-max-width))
+      var(--right-sidebar-width);
+  }
+}
+
+/* =================================
+   Small Tablet
+   Right sidebar collapses
+   769px → 999px
+   ================================= */
+
+@media (max-width: 999px) and (min-width: 769px) {
+  .layout {
+    grid-template-columns:
+      var(--sidebar-width-collapsed)
+      minmax(0, var(--feed-max-width));
   }
 }
 
 /* =================================
    Mobile
+   <= 768px
    ================================= */
 
 @media (max-width: 768px) {
