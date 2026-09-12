@@ -98,17 +98,30 @@
    [ Feed ]
 */
 
-  --app-max-width: 1265px;
-  --sidebar-width-expanded: 260px;
+  /* --------------------------------
+   Layout
+-------------------------------- */
+
+  --navbar-height: 64px;
+
+  --sidebar-width-expanded: 240px;
   --sidebar-width-collapsed: 70px;
 
-  --right-sidebar-width: 320px;
+  --right-sidebar-width: 300px;
 
   /*
-   Feed has no fixed width.
-   It consumes all remaining space
-   between the side regions.
+   Feed
+   --------------------------------
+   Preferred width for project/feed
+   content. The feed can shrink on
+   smaller screens but should not
+   stretch indefinitely.
 */
+  --feed-max-width: 680px;
+
+  --layout-gap: 0px;
+
+  --app-max-width: 1290px;
 
   --layout-gap: 0px;
 
