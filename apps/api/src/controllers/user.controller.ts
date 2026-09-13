@@ -5,15 +5,17 @@ import { AppError } from "../utils/AppError";
 import { asyncHandler } from "../utils/asyncHandler";
 import { getProjectsByUserService } from "../services/project.services";
 import {
-  findUserByIdService,
+  findPublicUserByUsernameService,
   updateUserProfileService,
 } from "../services/user.service";
 
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
-    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const username = Array.isArray(req.params.username)
+      ? req.params.username[0]
+      : req.params.username;
 
-    const user = await findUserByIdService(id);
+    const user = await findPublicUserByUsernameService(username);
 
     if (!user) {
       throw new AppError("User not found", 404);
@@ -28,9 +30,17 @@ export const getUserProfile = asyncHandler(
 
 export const getUserProjects = asyncHandler(
   async (req: Request, res: Response) => {
-    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const username = Array.isArray(req.params.username)
+      ? req.params.username[0]
+      : req.params.username;
 
-    const projects = await getProjectsByUserService(id);
+    const user = await findPublicUserByUsernameService(username);
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    const projects = await getProjectsByUserService(user._id.toString());
 
     res.json({
       success: true,
