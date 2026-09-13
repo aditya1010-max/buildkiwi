@@ -1,93 +1,140 @@
 .register-page {
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height));
+
+  padding: 2rem 1.5rem;
+
+  background: var(--bg);
 }
 
 .register-card {
   width: 100%;
   max-width: 420px;
 
-  padding: 32px;
+  padding: 2.5rem;
 
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
 
   background: var(--surface);
 }
 
-.register-card_title {
-  margin: 0 0 8px;
+.register-card_header {
+  margin-bottom: 2rem;
 
+  text-align: center;
+}
+
+.register-card_title {
+  margin: 0;
+
+  color: var(--text-h);
+
+  font-family: var(--heading);
   font-size: 1.75rem;
   font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
 .register-card_subtitle {
-  margin: 0 0 24px;
+  max-width: 340px;
 
-  color: var(--text-secondary);
+  margin: 0.625rem auto 0;
+
+  color: var(--text);
+
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.25rem;
 }
 
 .register-form_field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .register-form_field label {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
+  color: var(--text-h);
 
-.register-form_field input {
-  width: 100%;
-
-  padding: 12px 14px;
-
-  border: 1px solid var(--border);
-  border-radius: 10px;
-
-  background: var(--bg);
-  color: var(--text);
-
-  font-size: 0.95rem;
-}
-
-.register-form_field input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.register-form_button {
-  margin-top: 8px;
-
-  padding: 12px 16px;
-
-  border: none;
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 600;
-}
-
-.register-form_button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+  line-height: 1.25;
 }
 
 .register-form_error {
-  color: #ef4444;
+  margin: -0.25rem 0 0;
+
+  padding: 0.75rem 0.875rem;
+
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--danger-bg);
+  color: var(--danger);
+
   font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.register-form_button {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.register-card_footer {
+  margin-top: 0.25rem;
+
+  color: var(--text);
+
+  font-size: 0.875rem;
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+.register-card_footer a {
+  color: var(--accent);
+
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.register-card_footer a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.register-card_footer a:focus-visible {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 640px) {
+  .register-page {
+    align-items: flex-start;
+
+    padding: 2rem 1rem;
+  }
+
+  .register-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .register-card_title {
+    font-size: 1.5rem;
+  }
 }

@@ -3,6 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 import { useToast } from "../../hooks/useToast";
+
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
+
 import "./LoginPage.css";
 
 export default function LoginPage() {
@@ -11,7 +15,7 @@ export default function LoginPage() {
   const toast = useToast();
 
   const from = (location.state as { from?: Location })?.from?.pathname || "/";
-  console.count("LoginPage mounted");
+
   const { loginUser, loading, error } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -27,55 +31,66 @@ export default function LoginPage() {
 
       navigate(from, { replace: true });
     } catch {
-      // error already handled in hook
+      // Error is already handled by the auth hook.
     }
   };
 
   return (
     <main className="login-page">
-      <div className="login-card">
-        <h1 className="login-card_title">Welcome Back</h1>
+      <section className="login-card">
+        <div className="login-card_header">
+          <h1 className="login-card_title">Welcome back</h1>
 
-        <p className="login-card_subtitle">
-          Log in to continue building on BuildKiwi
-        </p>
+          <p className="login-card_subtitle">
+            Log in to continue building on BuildKiwi.
+          </p>
+        </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-form_field">
-            <label>Email</label>
+            <label htmlFor="login-email">Email</label>
 
-            <input
+            <Input
+              id="login-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
+              autoComplete="email"
               required
             />
           </div>
 
           <div className="login-form_field">
-            <label>Password</label>
+            <label htmlFor="login-password">Password</label>
 
-            <input
+            <Input
+              id="login-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              autoComplete="current-password"
               required
             />
           </div>
 
-          {error && <p className="login-form_error">{error}</p>}
+          {error && (
+            <p className="login-form_error" role="alert">
+              {error}
+            </p>
+          )}
 
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={loading}
             className="login-form_button"
           >
-            {loading ? "Logging in..." : "Log In"}
-          </button>
+            {loading ? "Logging in..." : "Log in"}
+          </Button>
         </form>
-      </div>
+      </section>
     </main>
   );
 }

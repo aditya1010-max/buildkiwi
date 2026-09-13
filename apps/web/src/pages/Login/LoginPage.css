@@ -1,47 +1,107 @@
 .login-page {
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height));
+
+  padding: 2rem 1.5rem;
+
+  background: var(--bg);
 }
 
 .login-card {
   width: 100%;
   max-width: 420px;
-  padding: 32px;
+
+  padding: 2.5rem;
+
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
+
   background: var(--surface);
 }
 
+.login-card_header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
 .login-card_title {
-  margin-bottom: 8px;
+  margin: 0;
+
+  color: var(--text-h);
+
+  font-family: var(--heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
 .login-card_subtitle {
-  margin-bottom: 24px;
+  max-width: 340px;
+  margin: 0.625rem auto 0;
+
+  color: var(--text);
+
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.25rem;
 }
 
 .login-form_field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
-.login-form_field input {
-  padding: 12px;
-}
+.login-form_field label {
+  color: var(--text-h);
 
-.login-form_button {
-  margin-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .login-form_error {
-  color: red;
+  margin: -0.25rem 0 0;
+
+  padding: 0.75rem 0.875rem;
+
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--danger-bg);
+  color: var(--danger);
+
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.login-form_button {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    align-items: flex-start;
+
+    padding: 2rem 1rem;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-card_title {
+    font-size: 1.5rem;
+  }
 }
