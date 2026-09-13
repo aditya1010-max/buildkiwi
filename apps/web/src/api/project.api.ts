@@ -139,6 +139,16 @@ export async function getMyProjects() {
   return data.data;
 }
 
+export async function getUserProjects(userId: string): Promise<Project[]> {
+  const { data } = await trackProgress(
+    axios.get<{ success: boolean; data: Project[] }>(
+      `http://localhost:3000/api/v1/users/${userId}/projects`,
+    ),
+  );
+
+  return data.data;
+}
+
 export async function getProjects() {
   const response = await trackProgress(axios.get("/projects"));
 
