@@ -14,6 +14,12 @@ export const findUserByIdRepository = async (id: string) => {
   return User.findById(id).select("-passwordHash -__v");
 };
 
+export const findPublicUserByUsernameRepository = async (username: string) => {
+  return User.findOne({ username }).select(
+    "_id username avatarSeed avatarPattern bio createdAt",
+  );
+};
+
 export const saveProjectRepository = async (
   userId: string,
   projectId: string,

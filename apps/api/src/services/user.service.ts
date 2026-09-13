@@ -2,6 +2,7 @@ import {
   createUserRepository,
   findUserByEmailRepository,
   findUserByIdRepository,
+  findPublicUserByUsernameRepository,
   updateUserProfileRepository,
 } from "../repositories/user.repository";
 
@@ -17,6 +18,10 @@ export const findUserByEmailService = async (email: string) => {
 
 export const findUserByIdService = async (id: string) => {
   return findUserByIdRepository(id);
+};
+
+export const findPublicUserByUsernameService = async (username: string) => {
+  return findPublicUserByUsernameRepository(username);
 };
 
 export const updateUserProfileService = async (
