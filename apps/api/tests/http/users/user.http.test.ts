@@ -5,7 +5,7 @@ import request from "supertest";
 import userRouter from "../../../src/routes/user.routes";
 
 import {
-  findUserByIdService,
+  findPublicUserByUsernameService,
   updateUserProfileService,
 } from "../../../src/services/user.service";
 
@@ -16,7 +16,7 @@ import { verifyAccessToken } from "../../../src/utils/jwt";
 import { errorHandler } from "../../../src/middleware/errorHandler";
 
 jest.mock("../../../src/services/user.service", () => ({
-  findUserByIdService: jest.fn(),
+  findPublicUserByUsernameService: jest.fn(),
   updateUserProfileService: jest.fn(),
 }));
 
@@ -28,8 +28,12 @@ jest.mock("../../../src/utils/jwt", () => ({
   verifyAccessToken: jest.fn(),
 }));
 
-const mockFindUserById = jest.mocked(findUserByIdService);
+const mockFindPublicUserByUsername = jest.mocked(
+  findPublicUserByUsernameService,
+);
+
 const mockUpdateUserProfile = jest.mocked(updateUserProfileService);
+
 const mockGetProjectsByUser = jest.mocked(getProjectsByUserService);
 
 const mockVerifyAccessToken = jest.mocked(verifyAccessToken);
@@ -38,9 +42,8 @@ const app = express();
 
 app.use(express.json());
 app.use("/users", userRouter);
-
-// Important: production error handler must be part of HTTP tests
 app.use(errorHandler);
+
 describe("user HTTP", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -51,18 +54,20 @@ describe("user HTTP", () => {
     });
   });
 
-  describe("GET /users/:id", () => {
+  describe("GET /users/:username", () => {
     it("returns a user profile", async () => {
       const user = {
         _id: "user-123",
         username: "aditya",
-        email: "aditya@example.com",
+        avatarSeed: "seed",
+        avatarPattern: "pattern",
         bio: "Full-stack developer",
+        createdAt: "2026-01-01T00:00:00.000Z",
       };
 
-      mockFindUserById.mockResolvedValue(user as never);
+      mockFindPublicUserByUsername.mockResolvedValue(user as never);
 
-      const response = await request(app).get("/users/user-123");
+      const response = await request(app).get("/users/aditya");
 
       expect(response.status).toBe(200);
 
@@ -71,13 +76,13 @@ describe("user HTTP", () => {
         user,
       });
 
-      expect(mockFindUserById).toHaveBeenCalledWith("user-123");
+      expect(mockFindPublicUserByUsername).toHaveBeenCalledWith("aditya");
     });
 
     it("returns 404 when the user does not exist", async () => {
-      mockFindUserById.mockResolvedValue(null);
+      mockFindPublicUserByUsername.mockResolvedValue(null);
 
-      const response = await request(app).get("/users/user-123");
+      const response = await request(app).get("/users/aditya");
 
       expect(response.status).toBe(404);
 
@@ -85,11 +90,46 @@ describe("user HTTP", () => {
         success: false,
         message: "User not found",
       });
+
+      expect(mockFindPublicUserByUsername).toHaveBeenCalledWith("aditya");
+    });
+
+    /*
+    Test added:
+    Verifies the public profile response contains createdAt,
+    which is required by the frontend to render the user's join date.
+    */
+    it("returns createdAt for the public profile", async () => {
+      const user = {
+        _id: "user-123",
+        username: "aditya",
+        avatarSeed: "seed",
+        avatarPattern: "pattern",
+        bio: "Full-stack developer",
+        createdAt: "2026-01-01T00:00:00.000Z",
+      };
+
+      mockFindPublicUserByUsername.mockResolvedValue(user as never);
+
+      const response = await request(app).get("/users/aditya");
+
+      expect(response.status).toBe(200);
+
+      expect(response.body.user.createdAt).toBe("2026-01-01T00:00:00.000Z");
     });
   });
 
-  describe("GET /users/:id/projects", () => {
+  describe("GET /users/:username/projects", () => {
     it("returns projects belonging to a user", async () => {
+      const user = {
+        _id: "user-123",
+        username: "aditya",
+        avatarSeed: "seed",
+        avatarPattern: "pattern",
+        bio: "Full-stack developer",
+        createdAt: "2026-01-01T00:00:00.000Z",
+      };
+
       const projects = [
         {
           _id: "project-1",
@@ -101,9 +141,10 @@ describe("user HTTP", () => {
         },
       ];
 
+      mockFindPublicUserByUsername.mockResolvedValue(user as never);
       mockGetProjectsByUser.mockResolvedValue(projects as never);
 
-      const response = await request(app).get("/users/user-123/projects");
+      const response = await request(app).get("/users/aditya/projects");
 
       expect(response.status).toBe(200);
 
@@ -112,13 +153,43 @@ describe("user HTTP", () => {
         data: projects,
       });
 
+      expect(mockFindPublicUserByUsername).toHaveBeenCalledWith("aditya");
+
       expect(mockGetProjectsByUser).toHaveBeenCalledWith("user-123");
     });
 
+    it("returns 404 when the user does not exist", async () => {
+      mockFindPublicUserByUsername.mockResolvedValue(null);
+
+      const response = await request(app).get("/users/aditya/projects");
+
+      expect(response.status).toBe(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "User not found",
+      });
+
+      expect(mockFindPublicUserByUsername).toHaveBeenCalledWith("aditya");
+
+      expect(mockGetProjectsByUser).not.toHaveBeenCalled();
+    });
+
     it("returns an empty project list when the user has no projects", async () => {
+      const user = {
+        _id: "user-123",
+        username: "aditya",
+        avatarSeed: "seed",
+        avatarPattern: "pattern",
+        bio: "Full-stack developer",
+        createdAt: "2026-01-01T00:00:00.000Z",
+      };
+
+      mockFindPublicUserByUsername.mockResolvedValue(user as never);
+
       mockGetProjectsByUser.mockResolvedValue([]);
 
-      const response = await request(app).get("/users/user-123/projects");
+      const response = await request(app).get("/users/aditya/projects");
 
       expect(response.status).toBe(200);
 
@@ -126,6 +197,10 @@ describe("user HTTP", () => {
         success: true,
         data: [],
       });
+
+      expect(mockFindPublicUserByUsername).toHaveBeenCalledWith("aditya");
+
+      expect(mockGetProjectsByUser).toHaveBeenCalledWith("user-123");
     });
   });
 
@@ -179,7 +254,7 @@ describe("user HTTP", () => {
 
     it("prevents a user from updating another user's profile", async () => {
       const response = await request(app)
-        .patch("/users/other-user")
+        .patch("/users/other-user-id")
         .set("Authorization", "Bearer valid-access-token")
         .send({
           bio: "Trying to change someone else's profile",
@@ -223,30 +298,39 @@ describe("user HTTP", () => {
 Test coverage:
 
 1. Gets a user profile
-   → Verifies the public profile endpoint passes the user ID to
-     the service and returns the user.
+   → Verifies the public profile endpoint resolves the username
+   and returns the public user.
 
 2. Handles a missing user profile
-   → Verifies a missing user produces a 404 response.
+   → Verifies a missing username produces a 404 response.
 
-3. Gets a user's projects
-   → Verifies the user's project list is returned.
+3. Returns createdAt for a public profile
+   → Verifies the profile contains the creation date required
+   by the frontend to display the user's join date.
 
-4. Handles a user with no projects
+4. Gets a user's projects
+   → Verifies the username is resolved to a user ID before
+   fetching that user's projects.
+
+5. Handles a missing user when fetching projects
+   → Verifies projects are not fetched when the username
+   does not belong to an existing user.
+
+6. Handles a user with no projects
    → Verifies an empty project list is returned successfully.
 
-5. Updates the authenticated user's profile
-   → Verifies the authenticated user's ID and validated bio reach
-     the update service.
+7. Updates the authenticated user's profile
+   → Verifies the authenticated user's ID and validated data
+   reach the update service.
 
-6. Rejects unauthenticated profile updates
+8. Rejects unauthenticated profile updates
    → Verifies authMiddleware prevents the controller from running.
 
-7. Prevents updating another user's profile
-   → Verifies the controller's ownership check returns 403 and
-     does not call the update service.
+9. Prevents updating another user's profile
+   → Verifies the controller's ownership check returns 403
+   and does not call the update service.
 
-8. Handles a missing user during update
-   → Verifies the controller returns 404 when the update service
-     returns null.
+10. Handles a missing user during update
+    → Verifies the controller returns 404 when the update
+    service returns null.
 */
