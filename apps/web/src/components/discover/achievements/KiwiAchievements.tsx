@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { getAchievementActivity } from "../../../services/achievement.api";
-
 import type { AchievementActivity } from "../../../types/achievement";
 
-import "./KiwiAchievements.css";
 import Tooltip from "../../ui/Tooltip";
+
+import "./KiwiAchievements.css";
 
 function AchievementLoader() {
   return (
@@ -13,8 +13,29 @@ function AchievementLoader() {
       <div className="kiwi-achievement-skeleton-image" />
 
       <div className="kiwi-achievement-skeleton-content">
-        <div className="kiwi-achievement-skeleton-line title" />
-        <div className="kiwi-achievement-skeleton-line username" />
+        <div className="kiwi-achievement-skeleton-line kiwi-achievement-skeleton-line--title" />
+        <div className="kiwi-achievement-skeleton-line kiwi-achievement-skeleton-line--username" />
+      </div>
+    </div>
+  );
+}
+
+function AchievementItem({ activity }: { activity: AchievementActivity }) {
+  return (
+    <div className="kiwi-achievement">
+      <Tooltip content={activity.achievement.name} placement="top">
+        <div className="kiwi-achievement-image-wrapper">
+          <img
+            src={activity.achievement.image}
+            alt=""
+            className="kiwi-achievement-image"
+          />
+        </div>
+      </Tooltip>
+
+      <div className="kiwi-achievement-info">
+        <strong>{activity.achievement.name}</strong>
+        <span>{activity.username}</span>
       </div>
     </div>
   );
@@ -31,19 +52,27 @@ export default function KiwiAchievements() {
     async function loadAchievements() {
       try {
         const data = await getAchievementActivity(10);
-        if (isMounted) setActivities(data);
+
+        if (isMounted) {
+          setActivities(data);
+          setStartIndex(0);
+        }
       } catch (error) {
-        if (isMounted)
+        if (isMounted) {
           console.error(
             "[KiwiAchievements] Failed to load achievements:",
             error,
           );
+        }
       } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadAchievements();
+
     const refreshInterval = setInterval(loadAchievements, 30_000);
 
     return () => {
@@ -61,11 +90,7 @@ export default function KiwiAchievements() {
       setStartIndex((currentIndex) => {
         const nextIndex = currentIndex + 1;
 
-        if (nextIndex > activities.length - 3) {
-          return 0;
-        }
-
-        return nextIndex;
+        return nextIndex > activities.length - 3 ? 0 : nextIndex;
       });
     }, 3500);
 
@@ -78,38 +103,30 @@ export default function KiwiAchievements() {
 
   return (
     <section className="widget kiwi-achievements">
-      <h3>Kiwi Achievements</h3>
+      <div className="kiwi-achievements_header">
+        <h3 className="kiwi-achievements_title">Kiwi Achievements</h3>
+      </div>
 
       {loading ? (
-        <div className="kiwi-achievements-list">
+        <div className="kiwi-achievements_list">
           <AchievementLoader />
           <AchievementLoader />
           <AchievementLoader />
         </div>
+      ) : activities.length > 0 ? (
+        <div className="kiwi-achievements_list">
+          {visibleActivities.map((activity) => (
+            <AchievementItem
+              key={`${activity.username}-${activity.achievement.key}-${activity.earnedAt}`}
+              activity={activity}
+            />
+          ))}
+        </div>
       ) : (
-        activities.length > 0 && (
-          <div className="kiwi-achievements-list">
-            {visibleActivities.map((activity) => (
-              <div
-                key={`${activity.username}-${activity.achievement.key}-${activity.earnedAt}`}
-                className="kiwi-achievement"
-              >
-                <Tooltip content={activity.achievement.name} placement="top">
-                  <img
-                    src={activity.achievement.image}
-                    alt={activity.achievement.name}
-                    className="kiwi-achievement-image"
-                  />
-                </Tooltip>
-
-                <div className="kiwi-achievement-info">
-                  <strong>{activity.achievement.name}</strong>
-                  <span>{activity.username}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )
+        <div className="kiwi-achievements_empty">
+          <span className="kiwi-achievements_empty-icon">🏆</span>
+          <p>No achievements yet</p>
+        </div>
       )}
     </section>
   );
