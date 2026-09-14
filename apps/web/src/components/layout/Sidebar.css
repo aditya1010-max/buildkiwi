@@ -1,8 +1,3 @@
-/* =================================
-   Base — Expanded Desktop
-   > 1200px
-   ================================= */
-
 .sidebar {
   position: sticky;
   top: 0;
@@ -17,13 +12,20 @@
 
   border-right: 1px solid var(--border);
   background: var(--bg);
+
   box-sizing: border-box;
 }
 
 .sidebar_logo {
-  margin-bottom: 40px;
-  padding: 2px;
-  font-size: 24px;
+  position: relative;
+  z-index: 100;
+
+  width: 100%;
+
+  padding: 1.25rem 0 1.75rem;
+
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 .sidebar_logo-image {
@@ -34,11 +36,14 @@
 .sidebar_nav {
   display: flex;
   flex: 1;
+
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 
   width: 100%;
   max-width: 220px;
+
+  box-sizing: border-box;
 }
 
 .sidebar_item {
@@ -53,6 +58,7 @@
   border-radius: var(--radius-md);
 
   color: var(--text);
+  text-decoration: none;
 
   transition:
     background-color 0.15s ease,
@@ -77,13 +83,16 @@
 .sidebar_footer {
   width: 100%;
   max-width: 220px;
+
   padding: 1rem;
+
   box-sizing: border-box;
 }
 
 .sidebar_more {
   margin-top: auto;
   margin-bottom: 24px;
+
   align-self: center;
 
   font-size: 24px;
@@ -99,21 +108,17 @@
   color: var(--text);
 }
 
-/* =================================
-   Tablet / Compact Desktop
-   769px → 1200px
-
-   Expanded sidebar becomes
-   a 70px icon rail.
-   ================================= */
-
 @media (max-width: 1200px) and (min-width: 769px) {
   .sidebar {
     width: 100%;
   }
 
   .sidebar_logo {
-    margin-bottom: 32px;
+    width: 46px;
+
+    padding: 1rem 0 1.5rem;
+
+    margin-bottom: 0;
   }
 
   .sidebar_logo-image {
@@ -126,6 +131,8 @@
 
     width: 100%;
     max-width: none;
+
+    gap: 10px;
   }
 
   .sidebar_item {
@@ -137,8 +144,18 @@
     padding: 0;
   }
 
+  .sidebar_logo .sidebar_item {
+    width: 46px;
+    height: 46px;
+
+    padding: 0;
+
+    justify-content: center;
+  }
+
   .sidebar_icon {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
   }
@@ -149,6 +166,7 @@
 
   .sidebar_footer {
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -158,11 +176,6 @@
     padding: 12px 0;
   }
 }
-
-/* =================================
-   Mobile — Bottom Navigation
-   <= 768px
-   ================================= */
 
 @media (max-width: 768px) {
   .sidebar {
@@ -186,6 +199,8 @@
     border-right: 0;
 
     background: var(--bg);
+
+    box-sizing: border-box;
   }
 
   .sidebar_logo {
@@ -205,12 +220,15 @@
     max-width: none;
 
     gap: 4px;
+
     padding: 6px 8px;
+
     box-sizing: border-box;
   }
 
   .sidebar_item {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
@@ -218,6 +236,8 @@
     height: 46px;
 
     padding: 0;
+
+    flex-shrink: 0;
   }
 
   .sidebar_label {
@@ -226,19 +246,12 @@
 
   .sidebar_icon {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
   }
 
   .sidebar_footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: auto;
-    max-width: none;
-    height: 100%;
-
-    padding: 6px 8px;
+    display: none;
   }
 }

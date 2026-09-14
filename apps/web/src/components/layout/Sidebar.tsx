@@ -28,11 +28,11 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar_logo">
-        <div className="sidebar_item">
+        <Link to="/" className="sidebar_item">
           <KiwiIcon4 size={40} className="sidebar_logo-image" />
 
           <span className="sidebar_label">BuildKiwi</span>
-        </div>
+        </Link>
       </div>
 
       <nav className="sidebar_nav" aria-label="Main Navigation">
