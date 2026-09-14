@@ -1,4 +1,5 @@
-import type { ReactElement } from "react";
+import type { ReactElement, MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 import type { Project } from "../../../../types/project";
 
@@ -13,9 +14,21 @@ interface ProjectHeaderProps {
 export default function ProjectHeader({
   project,
 }: ProjectHeaderProps): ReactElement {
+  const navigate = useNavigate();
+
+  function handleCreatorClick(e: MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    navigate(`/profile/${project.creatorId.username}`);
+  }
+
   return (
     <header className="project-card_header">
-      <div className="project-card_creator">
+      <div
+        className="project-card_creator"
+        onClick={handleCreatorClick}
+        role="link"
+        tabIndex={0}
+      >
         <GeneratedAvatar
           seed={project.creatorId.avatarSeed}
           pattern={project.creatorId.avatarPattern}
