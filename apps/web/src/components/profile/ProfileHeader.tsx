@@ -1,7 +1,4 @@
-import "./ProfileHeader.css";
-
 import { useState } from "react";
-import type { ReactElement } from "react";
 
 import EditProfileDialog from "./EditProfileDialog";
 import GeneratedAvatar from "../projects/shared/GeneratedAvatar/GeneratedAvatar";
@@ -9,35 +6,49 @@ import Button from "../ui/Button";
 
 import type { User } from "../../types/user";
 
+import "./ProfileHeader.css";
+
 interface ProfileHeaderProps {
   user: User;
+  isOwnProfile?: boolean;
 }
 
 export default function ProfileHeader({
   user,
-}: ProfileHeaderProps): ReactElement {
+  isOwnProfile = false,
+}: ProfileHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
       <section className="profile-header">
-        <GeneratedAvatar
-          seed={user.avatarSeed}
-          pattern={user.avatarPattern}
-          className="profile-avatar"
-        />
+        <div className="profile-header__identity">
+          <GeneratedAvatar
+            seed={user.avatarSeed}
+            pattern={user.avatarPattern}
+            className="profile-avatar"
+          />
 
-        <div className="profile-info">
-          <h1>{user.username}</h1>
+          <div className="profile-info">
+            <h1>{user.username}</h1>
 
-          <p>{user.bio || "No bio added yet."}</p>
+            <p>{user.bio || "No bio added yet."}</p>
 
-          <small>Joined {new Date(user.createdAt).toLocaleDateString()}</small>
+            {user.createdAt && (
+              <small>
+                Joined {new Date(user.createdAt).toLocaleDateString()}
+              </small>
+            )}
+          </div>
         </div>
 
-        <Button variant="secondary" onClick={() => setIsEditing(true)}>
-          Edit Profile
-        </Button>
+        <div className="profile-header__actions">
+          {isOwnProfile && (
+            <Button variant="secondary" onClick={() => setIsEditing(true)}>
+              Edit Profile
+            </Button>
+          )}
+        </div>
       </section>
 
       {isEditing && (

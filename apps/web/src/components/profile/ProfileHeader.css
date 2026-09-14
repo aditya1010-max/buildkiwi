@@ -1,18 +1,26 @@
 .profile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
 
-  padding: 2rem;
+  width: 100%;
+  padding: 1.5rem 2rem;
 
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 
+.profile-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  min-width: 0;
+}
+
 .profile-avatar {
-  width: 90px;
-  height: 90px;
+  width: 72px;
+  height: 72px;
+
   flex-shrink: 0;
 
   border: 1px solid var(--border);
@@ -20,12 +28,12 @@
 }
 
 .profile-info {
-  flex: 1;
-  min-width: 0;
-
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.25rem;
+
+  min-width: 0;
 }
 
 .profile-info h1 {
@@ -33,42 +41,117 @@
 
   color: var(--text-h);
 
-  font-size: 2rem;
+  font-family: var(--heading);
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.2;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-info p {
-  margin: 0.25rem 0 0;
+  margin: 0;
 
   color: var(--text);
 
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.5;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-info small {
+  margin-top: 0.15rem;
+
   color: var(--text);
+
   font-size: 0.8rem;
-  opacity: 0.7;
+  line-height: 1.4;
+
+  opacity: 0.65;
+}
+
+.profile-header__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  min-width: 0;
+}
+
+.profile-header__actions .ui-button {
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
   .profile-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem;
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+
+    padding: 1.25rem 1rem;
+  }
+
+  .profile-header__identity {
+    gap: 1rem;
   }
 
   .profile-avatar {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
   }
 
   .profile-info h1 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
 
-  .profile-header .ui-button {
+  .profile-info p {
+    font-size: 0.9rem;
+  }
+
+  .profile-info small {
+    font-size: 0.75rem;
+  }
+
+  .profile-header__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 1rem;
+  }
+
+  .profile-header__identity {
+    gap: 0.875rem;
+  }
+
+  .profile-avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .profile-info h1 {
+    font-size: 1.15rem;
+  }
+
+  .profile-info p {
+    font-size: 0.875rem;
+  }
+
+  .profile-info small {
+    font-size: 0.75rem;
+  }
+
+  .profile-header__actions {
+    width: 100%;
+  }
+
+  .profile-header__actions .ui-button {
     width: 100%;
   }
 }
