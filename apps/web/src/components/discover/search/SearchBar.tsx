@@ -2,8 +2,8 @@ import type { FormEvent, ReactNode } from "react";
 import "./SearchBar.css";
 
 import Input from "../../ui/Input";
-import type { SearchFilter } from "./SearchFilters";
 import Button from "../../ui/Button";
+import SearchFilters, { type SearchFilter } from "./SearchFilters";
 
 interface SearchBarProps {
   value: string;
@@ -58,22 +58,7 @@ export default function SearchBar({
           </div>
         </form>
 
-        <div className="search-bar_filters">
-          {(["all", "projects", "tags"] as const).map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={
-                filter === item
-                  ? "search-bar_chip search-bar_chip--active"
-                  : "search-bar_chip"
-              }
-              onClick={() => onFilterChange(item)}
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </button>
-          ))}
-        </div>
+        <SearchFilters activeFilter={filter} onFilterChange={onFilterChange} />
       </section>
 
       {children && <div className="search-bar_results">{children}</div>}
