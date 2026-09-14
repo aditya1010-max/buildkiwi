@@ -1,57 +1,96 @@
 .profile-tabs {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  align-items: stretch;
 
-  margin: 2rem 0;
-  padding-bottom: 1rem;
+  width: 100%;
+  margin: 0;
 
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
+
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.profile-tabs button {
-  padding: 0.75rem 1.25rem;
+.profile-tabs::-webkit-scrollbar {
+  display: none;
+}
 
-  border: none;
+.profile-tabs__tab {
+  position: relative;
+
+  flex: 1;
+  min-width: 120px;
+
+  padding: 1rem 1.25rem;
+
+  border: 0;
   background: transparent;
 
-  color: var(--text-secondary);
+  color: var(--text);
 
-  font-size: 0.95rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.25;
 
   cursor: pointer;
 
-  border-radius: 8px;
-
-  transition: all 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.profile-tabs button:hover {
-  color: var(--text-primary);
-  background: var(--surface-color);
+.profile-tabs__tab:hover {
+  background: var(--accent-bg);
+  color: var(--text-h);
 }
 
-.profile-tabs button.active {
-  background: var(--accent-color);
-  color: #139027ae;
+.profile-tabs__tab::after {
+  content: "";
+
+  position: absolute;
+  right: 20%;
+  bottom: -1px;
+  left: 20%;
+
+  height: 3px;
+
+  border-radius: 999px 999px 0 0;
+
+  background: var(--accent);
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.2s ease;
+}
+
+.profile-tabs__tab--active {
+  color: var(--accent);
+}
+
+.profile-tabs__tab--active::after {
+  transform: scaleX(1);
+}
+
+.profile-tabs__tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 @media (max-width: 768px) {
-  .profile-tabs {
-    overflow-x: auto;
-    gap: 0.75rem;
+  .profile-tabs__tab {
+    flex: 0 0 auto;
+    min-width: 100px;
 
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding: 0.875rem 1rem;
+
+    font-size: 0.875rem;
   }
 
-  .profile-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .profile-tabs button {
-    white-space: nowrap;
-    flex-shrink: 0;
+  .profile-tabs__tab::after {
+    right: 16%;
+    left: 16%;
   }
 }
