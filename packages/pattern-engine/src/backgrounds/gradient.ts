@@ -2,8 +2,8 @@ import type {
   LinearGradient,
   PatternElement,
   SeededRandom,
+  ColorSystem,
 } from "../core/types";
-import type { ColorPalette } from "../palettes";
 
 export type GradientBackground = {
   definition: LinearGradient;
@@ -18,7 +18,7 @@ function createGradientId(seed: string): string {
 
 export function generateGradient(
   seed: string,
-  palette: ColorPalette,
+  palette: ColorSystem,
   random: SeededRandom,
   width: number,
   height: number,
