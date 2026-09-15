@@ -1,5 +1,161 @@
-﻿export type PatternId =
-  "blobs" | "waves" | "constellation" | "halftone" | "geometric";
+﻿
+
+/*
+ * --------------------------------------------------
+ * Asset domain
+ * --------------------------------------------------
+ */
+
+export type AssetType =
+  | "cover"
+  | "profile";
+
+export type AssetRequest = {
+  type: AssetType;
+  seed: string;
+};
+
+export type AssetPreset = {
+  type: AssetType;
+
+  width: number;
+  height: number;
+  borderRadius: number;
+
+  pattern: PatternId;
+
+  composition?: CompositionId;
+  visualStyle?: VisualStyleId;
+
+  colorSystem?: ColorSystem;
+  visualBudget?: VisualBudget;
+
+  background?: string;
+  ring?: RingConfig;
+};
+
+/*
+ * --------------------------------------------------
+ * Composition
+ * --------------------------------------------------
+ */
+
+
+export type CompositionId =
+  | "center"
+  | "corner"
+  | "diagonal"
+  | "radial"
+  | "asymmetric"
+  | "cluster"
+  | "framed"
+  | "modular";
+
+export type CompositionPoint = {
+  x: number;
+  y: number;
+};
+
+export type CompositionRegion = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type Composition = {
+  id: CompositionId;
+
+  focalPoint: CompositionPoint;
+
+  region: CompositionRegion;
+
+  rotation?: number;
+
+  scale?: number;
+
+  balance?: number;
+};
+
+export type CompositionContext = {
+  width: number;
+  height: number;
+
+  random: SeededRandom;
+};
+
+export type CompositionGenerator = {
+  id: CompositionId;
+
+  generate(context: CompositionContext): Composition;
+};
+/*
+ * --------------------------------------------------
+ * Visual style
+ * --------------------------------------------------
+ */
+
+export type VisualStyleId =
+  | "minimal"
+  | "geometric"
+  | "organic"
+  | "editorial"
+  | "technical"
+  | "playful";
+
+
+/*
+ * --------------------------------------------------
+ * Color system
+ * --------------------------------------------------
+ */
+
+export type ColorSystem = {
+  background: string;
+
+  surface: string;
+
+  primary: string;
+
+  secondary: string;
+
+  accent: string;
+
+  muted: string;
+
+  foreground: string;
+};
+/*
+ * --------------------------------------------------
+ * Visual budget
+ * --------------------------------------------------
+ */
+
+export type VisualBudget = {
+  maxElements: number;
+
+  density: number;
+
+  contrast: number;
+
+  complexity: number;
+
+  accentUsage: number;
+};
+
+
+/*
+ * --------------------------------------------------
+ * Existing pattern system
+ * --------------------------------------------------
+ */
+
+export type PatternId =
+  | "blobs"
+  | "waves"
+  | "constellation"
+  | "halftone"
+  | "geometric";
 
 export type PatternRandom = {
   next(): number;
@@ -71,10 +227,18 @@ export type Path = {
   strokeWidth?: number;
 };
 
-export type PatternElement = Circle | Rectangle | Polygon | Line | Path;
+export type PatternElement =
+  | Circle
+  | Rectangle
+  | Polygon
+  | Line
+  | Path;
+
 
 /*
+ * --------------------------------------------------
  * SVG gradient definitions
+ * --------------------------------------------------
  */
 
 export type GradientStop = {
@@ -105,12 +269,21 @@ export type RadialGradient = {
   stops: GradientStop[];
 };
 
-export type PatternDefinition = LinearGradient | RadialGradient;
+export type PatternDefinition =
+  | LinearGradient
+  | RadialGradient;
 
 export type PatternOutput = {
   definitions?: PatternDefinition[];
   elements: PatternElement[];
 };
+
+
+/*
+ * --------------------------------------------------
+ * Existing generator API
+ * --------------------------------------------------
+ */
 
 export type PatternConfig = {
   seed: string;
@@ -123,17 +296,37 @@ export type PatternConfig = {
 
   palette: string[];
 
+  composition?: Composition;
+  visualStyle?: VisualStyleId;
+  visualBudget?: VisualBudget;
+  colorSystem?: ColorSystem;
+
   background?: string;
 
   ring?: RingConfig;
+};
+
+export type VisualHierarchy = {
+  dominant: number;
+  supporting: number;
+  accent: number;
 };
 
 export type PatternContext = {
   width: number;
   height: number;
   borderRadius: number;
+
   palette: readonly string[];
+
   random: SeededRandom;
+
+  composition?: Composition;
+  visualStyle?: VisualStyleId;
+  visualBudget?: VisualBudget;
+  colorSystem?: ColorSystem;
+
+  hierarchy?: VisualHierarchy;
 };
 
 export type GeneratedImage = {
