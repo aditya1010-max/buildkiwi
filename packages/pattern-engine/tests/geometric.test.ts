@@ -1,60 +1,157 @@
 ﻿import { describe, expect, it } from "vitest";
-import { geometricPattern } from "../src/patterns/geometric";
+
 import { createSeededRandom } from "../src/core/random";
+import type {
+  ColorSystem,
+  PatternContext,
+  VisualBudget,
+} from "../src/core/types";
 
-const createContext = (seed: string) => ({
-  width: 512,
-  height: 512,
-  borderRadius: 999,
-  palette: ["#111111", "#555555", "#999999"],
-  random: createSeededRandom(seed),
-});
+import { geometricPattern } from "../src/patterns/geometric";
 
-describe.skip("geometricPattern", () => {
-  //skip intentionally
-  it("has the correct pattern id", () => {
-    expect(geometricPattern.id).toBe("geometric");
-  });
+const colorSystem: ColorSystem = {
+  background: "#ffffff",
+  surface: "#f3f4f6",
+  primary: "#111827",
+  secondary: "#6b7280",
+  accent: "#6366f1",
+  muted: "#9ca3af",
+  foreground: "#4c71b0",
+};
 
-  it("generates the expected number of elements", () => {
-    const output = geometricPattern.generate(createContext("test-seed"));
+const visualBudget: VisualBudget = {
+  maxElements: 12,
+  density: 0.7,
+  contrast: 0.7,
+  complexity: 0.6,
+  accentUsage: 0.2,
+};
 
-    expect(output.elements).toHaveLength(12);
-  });
+function createContext(
+  seed: string,
+  composition:
+    | "center"
+    | "corner"
+    | "diagonal"
+    | "radial"
+    | "asymmetric"
+    | "cluster"
+    | "framed"
+    | "modular" = "center",
+): PatternContext {
+  return {
+    width: 1200,
+    height: 630,
+    borderRadius: 24,
 
-  it("produces deterministic output", () => {
-    const first = geometricPattern.generate(createContext("test-seed"));
+    palette: [
+      colorSystem.background,
+      colorSystem.surface,
+      colorSystem.primary,
+      colorSystem.secondary,
+      colorSystem.accent,
+      colorSystem.muted,
+    ],
 
-    const second = geometricPattern.generate(createContext("test-seed"));
+    random: createSeededRandom(seed),
+
+    composition: {
+      id: composition,
+      focalPoint: {
+        x: 600,
+        y: 315,
+      },
+      region: {
+        x: 0,
+        y: 0,
+        width: 1200,
+        height: 630,
+      },
+    },
+
+    colorSystem,
+    visualBudget,
+  };
+}
+
+describe("geometricPattern", () => {
+  it("produces deterministic output for the same seed", () => {
+    const first = geometricPattern.generate(
+      createContext("deterministic-seed", "center"),
+    );
+
+    const second = geometricPattern.generate(
+      createContext("deterministic-seed", "center"),
+    );
 
     expect(first).toEqual(second);
   });
 
   it("produces different output for different seeds", () => {
-    const first = geometricPattern.generate(createContext("seed-a"));
+    const first = geometricPattern.generate(
+      createContext("seed-a", "center"),
+    );
 
-    const second = geometricPattern.generate(createContext("seed-b"));
+    const second = geometricPattern.generate(
+      createContext("seed-b", "center"),
+    );
 
     expect(first).not.toEqual(second);
   });
 
-  it("keeps generated geometry inside the canvas", () => {
-    const output = geometricPattern.generate(createContext("bounds-test"));
+  it("keeps every composition deterministic", () => {
+    const compositions = [
+      "center",
+      "corner",
+      "diagonal",
+      "radial",
+      "asymmetric",
+      "cluster",
+      "framed",
+      "modular",
+    ] as const;
 
-    for (const element of output.elements) {
-      if (element.type === "circle") {
-        expect(element.cx - element.radius).toBeGreaterThanOrEqual(0);
-        expect(element.cy - element.radius).toBeGreaterThanOrEqual(0);
-        expect(element.cx + element.radius).toBeLessThanOrEqual(512);
-        expect(element.cy + element.radius).toBeLessThanOrEqual(512);
-      }
+    for (const composition of compositions) {
+      const first = geometricPattern.generate(
+        createContext("composition-seed", composition),
+      );
 
-      if (element.type === "rectangle") {
-        expect(element.x).toBeGreaterThanOrEqual(0);
-        expect(element.y).toBeGreaterThanOrEqual(0);
-        expect(element.x + element.width).toBeLessThanOrEqual(512);
-        expect(element.y + element.height).toBeLessThanOrEqual(512);
-      }
+      const second = geometricPattern.generate(
+        createContext("composition-seed", composition),
+      );
+
+      expect(first).toEqual(second);
     }
+  });
+
+  it("respects the visual budget", () => {
+    const context = createContext(
+      "budget-seed",
+      "modular",
+    );
+
+    const output = geometricPattern.generate(context);
+
+    expect(output.elements.length).toBeLessThanOrEqual(
+      context.visualBudget!.maxElements,
+    );
+  });
+
+  it("preserves composition-specific output", () => {
+    const center = geometricPattern.generate(
+      createContext("same-seed", "center"),
+    );
+
+    const diagonal = geometricPattern.generate(
+      createContext("same-seed", "diagonal"),
+    );
+
+    const cluster = geometricPattern.generate(
+      createContext("same-seed", "cluster"),
+    );
+
+    expect(center).not.toEqual(diagonal);
+    expect(diagonal).not.toEqual(cluster);
+    expect(center).not.toEqual(cluster);
   });
 });
