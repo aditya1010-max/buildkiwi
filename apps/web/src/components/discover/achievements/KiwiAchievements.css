@@ -28,7 +28,7 @@
 .kiwi-achievements_list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 
 /* Achievement */
@@ -65,8 +65,8 @@
 
   flex-shrink: 0;
 
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
 
   border: 1px solid var(--accent-border);
   border-radius: var(--radius-md);
@@ -79,8 +79,8 @@
 .kiwi-achievement-image {
   display: block;
 
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
 
   object-fit: contain;
 }
@@ -163,11 +163,10 @@
 .kiwi-achievement-skeleton-image {
   flex-shrink: 0;
 
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
 
   border-radius: var(--radius-md);
-
   background: var(--code-bg);
 }
 
