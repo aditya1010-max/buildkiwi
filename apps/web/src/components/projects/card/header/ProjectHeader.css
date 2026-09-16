@@ -19,7 +19,6 @@
   min-width: 40px;
   min-height: 40px;
   flex: 0 0 40px;
-
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 50%;
@@ -42,12 +41,10 @@
 
 .project-card_username {
   overflow: hidden;
-
   color: var(--text-heading);
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.2;
-
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -57,4 +54,21 @@
   font-size: 0.78rem;
   line-height: 1.2;
   opacity: 0.6;
+}
+
+.project-card_title {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--text-heading);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
