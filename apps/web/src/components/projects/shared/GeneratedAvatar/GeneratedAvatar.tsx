@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import { generatePattern, profilePreset } from "@buildkiwi/pattern-engine";
+import { generateAsset } from "@buildkiwi/pattern-engine";
 import type { PatternId } from "@buildkiwi/pattern-engine";
 
 import "./GeneratedAvatar.css";
@@ -13,10 +13,12 @@ interface GeneratedAvatarProps {
 
 export default function GeneratedAvatar({
   seed,
-  pattern,
   className = "",
 }: GeneratedAvatarProps): ReactElement {
-  const image = generatePattern(profilePreset(seed, pattern));
+  const image = generateAsset({
+    type: "profile",
+    seed,
+  });
 
   return (
     <div

@@ -1,7 +1,8 @@
 import type { ReactElement } from "react";
-import "./GeneratedCover.css";
 
-import { coverPreset, generatePattern } from "@buildkiwi/pattern-engine";
+import { generateAsset } from "@buildkiwi/pattern-engine";
+
+import "./GeneratedCover.css";
 
 interface GeneratedCoverProps {
   seed: string;
@@ -12,7 +13,10 @@ export default function GeneratedCover({
   seed,
   className = "",
 }: GeneratedCoverProps): ReactElement {
-  const image = generatePattern(coverPreset(seed));
+  const image = generateAsset({
+    type: "cover",
+    seed,
+  });
 
   return (
     <div
