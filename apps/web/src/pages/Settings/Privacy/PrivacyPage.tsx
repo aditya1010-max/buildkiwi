@@ -1,92 +1,84 @@
 import { useState } from "react";
 import "./PrivacyPage.css";
 
-interface PolicySection {
-  id: string;
-  title: string;
-  content: string[];
-}
-
-const POLICY_SECTIONS: PolicySection[] = [
+const SECTIONS = [
   {
     id: "privacy",
     title: "Privacy Policy",
     content: [
-      "Privacy Policy Privacy PolicyPrivacy PolicyPrivacy PolicyPrivacy PolicyPrivacy PolicyPrivacy PolicyPrivacy Policy",
+      "Your privacy matters to us. We don't want your personal information any more than you want another 47 marketing emails.",
+      "We collect only the information required to run the app. No secret spy agency. No suspicious basement. Just a database.",
     ],
   },
   {
     id: "data-usage",
     title: "Data Collection & Usage",
     content: [
-      "Data Collection & Usage, Data Collection & UsageData Collection & UsageData Collection & UsageData Collection & UsageData Collection & UsageData Collection & Usage",
+      "We use your data to make the website do website things. Profiles need profiles, projects need projects, and buttons need to know when you clicked them.",
+      "We are not selling your data to fund a private island. Frankly, our server bill is already enough.",
+      "Sometimes we look at technical logs when something explodes. This is called debugging, and yes, it is usually our fault.",
     ],
   },
   {
     id: "cookies",
     title: "Cookies & Tracking Technologies",
     content: [
-      "We use essential cookies to maintain session states and security preferences.",
-      "Optional performance cookies help us understand feature adoption. You can customize cookie preferences in your browser settings.",
+      "We use cookies. Not the chocolate-chip kind. We checked.",
+      "Essential cookies help with things like sessions and security. Basically, they stop the website from having the memory of a goldfish.",
+      "Optional tracking helps us understand how people use the site. If you disable it, we'll survive. Probably.",
     ],
   },
 ];
 
 export default function PrivacyPage() {
-  const [expanded, setExpanded] = useState<string | null>("privacy");
-
-  const toggleSection = (id: string) => {
-    setExpanded((prev) => (prev === id ? null : id));
-  };
+  const [openSection, setOpenSection] = useState<string | null>("privacy");
 
   return (
     <main className="privacy-page">
       <div className="privacy-page_container">
         <header className="privacy-page_header">
-          <h1 className="privacy-page_title">Privacy Center</h1>
-          <br />
-          <p className="privacy-page_subtitle">
-            Understand how your data is handled, stored, and protected.
-          </p>
+          <h1>Privacy Center</h1>
+          <p>Understand how your data is handled, stored, and protected.</p>
         </header>
 
         <section
           className="privacy-page_sections"
           aria-label="Privacy Documentation"
         >
-          {POLICY_SECTIONS.map(({ id, title, content }) => {
-            const isOpen = expanded === id;
+          {SECTIONS.map((section) => {
+            const isOpen = openSection === section.id;
 
             return (
-              <div
-                key={id}
-                className={`privacy-card ${isOpen ? "privacy-card--expanded" : ""}`}
-              >
+              <article key={section.id} className="privacy-section">
                 <button
                   type="button"
-                  className="privacy-card_trigger"
-                  onClick={() => toggleSection(id)}
+                  className="privacy-section_trigger"
+                  onClick={() => setOpenSection(isOpen ? null : section.id)}
                   aria-expanded={isOpen}
-                  aria-controls={`content-${id}`}
+                  aria-controls={`privacy-${section.id}`}
                 >
-                  <span className="privacy-card_title">{title}</span>
+                  <span>{section.title}</span>
                   <span
-                    className={`privacy-card_icon ${isOpen ? "privacy-card_icon--open" : ""}`}
+                    className={`privacy-section_icon ${
+                      isOpen ? "privacy-section_icon--open" : ""
+                    }`}
+                    aria-hidden="true"
                   >
                     ▶
                   </span>
                 </button>
 
                 {isOpen && (
-                  <div id={`content-${id}`} className="privacy-card_content">
-                    {content.map((paragraph, index) => (
-                      <p key={index} className="privacy-card_paragraph">
-                        {paragraph}
-                      </p>
+                  <div
+                    id={`privacy-${section.id}`}
+                    className="privacy-section_content"
+                  >
+                    {section.content.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
                     ))}
                   </div>
                 )}
-              </div>
+              </article>
             );
           })}
         </section>
