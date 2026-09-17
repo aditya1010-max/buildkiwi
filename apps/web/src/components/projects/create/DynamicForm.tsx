@@ -3,23 +3,14 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import type { Field, FormSchema } from "../../../types/schema";
 import { tagSuggestions } from "../../../constants/tagSuggestions";
 import TagInput from "../../ui/TagInput";
-import "./DynamicForm.css";
-
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
+
+import "./DynamicForm.css";
 
 interface DynamicFormProps {
   schema: FormSchema;
   onSubmit: (data: FormData) => Promise<void>;
   initialValues?: Record<string, unknown>;
-}
-
-interface ProjectFormData {
-  coverSeed?: string;
-  title?: string;
-  description?: string;
-  github?: string;
-  demo?: string;
-  tags?: string[];
 }
 
 const SEED_ALPHABET =
@@ -51,6 +42,25 @@ function normalizeTags(value: unknown): string[] {
   return [];
 }
 
+function getInitialValue(
+  field: Field,
+  initialValues?: Record<string, unknown>,
+) {
+  const existingValue = initialValues?.[field.name];
+
+  if (field.type === "tags") {
+    return normalizeTags(existingValue);
+  }
+
+  if (field.type === "cover") {
+    return typeof existingValue === "string" && existingValue
+      ? existingValue
+      : createCoverSeed();
+  }
+
+  return existingValue ?? "";
+}
+
 export default function DynamicForm({
   schema,
   onSubmit,
@@ -60,15 +70,10 @@ export default function DynamicForm({
     const initialState: Record<string, unknown> = {};
 
     schema.fields.forEach((field) => {
-      initialState[field.name] = field.type === "tags" ? [] : "";
+      initialState[field.name] = getInitialValue(field, initialValues);
     });
 
-    return {
-      ...initialState,
-      ...initialValues,
-      tags: normalizeTags(initialValues?.tags),
-      coverSeed: initialValues?.coverSeed ?? createCoverSeed(),
-    };
+    return initialState;
   });
 
   function handleChange(
@@ -82,17 +87,17 @@ export default function DynamicForm({
     }));
   }
 
-  function handleTagsChange(tags: string[]) {
+  function handleTagsChange(fieldName: string, tags: string[]) {
     setFormData((prev) => ({
       ...prev,
-      tags,
+      [fieldName]: tags,
     }));
   }
 
-  function handleRandomizeCover() {
+  function handleRandomizeCover(fieldName: string) {
     setFormData((prev) => ({
       ...prev,
-      coverSeed: createCoverSeed(),
+      [fieldName]: createCoverSeed(),
     }));
   }
 
@@ -101,24 +106,20 @@ export default function DynamicForm({
 
     const submissionData = new FormData();
 
-    const { coverSeed, title, description, github, demo, tags } =
-      formData as ProjectFormData;
+    Object.entries(formData).forEach(([name, value]) => {
+      if (Array.isArray(value)) {
+        submissionData.append(name, JSON.stringify(value));
+        return;
+      }
 
-    submissionData.append("title", title ?? "");
-    submissionData.append("description", description ?? "");
-
-    submissionData.append("tags", JSON.stringify(tags ?? []));
-
-    submissionData.append("links.github", github ?? "");
-    submissionData.append("links.demo", demo ?? "");
-
-    submissionData.append("coverSeed", coverSeed ?? "");
+      submissionData.append(name, String(value ?? ""));
+    });
 
     await onSubmit(submissionData);
   }
 
   function renderField(field: Field) {
-    const fieldValue = (formData[field.name] as string | number) ?? "";
+    const value = formData[field.name];
 
     switch (field.type) {
       case "text":
@@ -127,8 +128,9 @@ export default function DynamicForm({
             className="dynamic-form_input"
             type="text"
             name={field.name}
+            id={field.name}
             placeholder={field.placeholder}
-            value={fieldValue}
+            value={String(value ?? "")}
             onChange={handleChange}
           />
         );
@@ -138,8 +140,9 @@ export default function DynamicForm({
           <textarea
             className="dynamic-form_textarea"
             name={field.name}
+            id={field.name}
             placeholder={field.placeholder}
-            value={fieldValue}
+            value={String(value ?? "")}
             onChange={handleChange}
           />
         );
@@ -147,8 +150,8 @@ export default function DynamicForm({
       case "tags":
         return (
           <TagInput
-            value={normalizeTags(formData[field.name])}
-            onChange={handleTagsChange}
+            value={normalizeTags(value)}
+            onChange={(tags) => handleTagsChange(field.name, tags)}
             suggestions={tagSuggestions}
             placeholder={field.placeholder ?? "Add technologies..."}
             maxTags={10}
@@ -160,7 +163,7 @@ export default function DynamicForm({
           <div className="dynamic-form_cover">
             <div className="dynamic-form_cover-preview">
               <GeneratedCover
-                seed={formData.coverSeed as string}
+                seed={String(value ?? "")}
                 className="dynamic-form_generated-cover"
               />
             </div>
@@ -168,13 +171,13 @@ export default function DynamicForm({
             <button
               type="button"
               className="dynamic-form_cover-randomize"
-              onClick={handleRandomizeCover}
+              onClick={() => handleRandomizeCover(field.name)}
             >
               Randomize
             </button>
 
             <span className="dynamic-form_cover-help">
-              Generate a new cover using BuildKiwi's pattern engine.
+              Generate a new cover using BuildKiwi&apos;s pattern engine.
             </span>
           </div>
         );

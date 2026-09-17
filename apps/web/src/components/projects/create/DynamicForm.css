@@ -4,6 +4,8 @@
   margin: 0 auto;
 }
 
+/* Fields */
+
 .dynamic-form_fields {
   display: flex;
   flex-direction: column;
@@ -15,12 +17,13 @@
   flex-direction: column;
   gap: 0.6rem;
   width: 100%;
-  min-width: 0;
 }
+
+/* Labels */
 
 .dynamic-form_label {
   color: var(--text-h);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -29,7 +32,6 @@
 .dynamic-form_input,
 .dynamic-form_textarea {
   width: 100%;
-  min-width: 0;
   box-sizing: border-box;
 
   border: 1px solid var(--border);
@@ -37,31 +39,31 @@
 
   background: var(--surface);
   color: var(--text);
+
   font: inherit;
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .dynamic-form_input {
-  min-height: 48px;
-  padding: 0.75rem 1rem;
+  min-height: 46px;
+  padding: 0.7rem 0.9rem;
 }
 
 .dynamic-form_textarea {
   min-height: 180px;
-  padding: 1rem;
+  padding: 0.85rem 0.9rem;
 
   resize: vertical;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .dynamic-form_input::placeholder,
 .dynamic-form_textarea::placeholder {
   color: var(--text);
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .dynamic-form_input:hover,
@@ -82,14 +84,7 @@
   cursor: not-allowed;
 }
 
-/* Field types */
-
-.dynamic-form_field--textarea,
-.dynamic-form_field--tags {
-  gap: 0.6rem;
-}
-
-/* Generated Cover */
+/* Cover */
 
 .dynamic-form_cover {
   display: flex;
@@ -101,6 +96,7 @@
 .dynamic-form_cover-preview {
   width: 100%;
   aspect-ratio: 1200 / 630;
+
   overflow: hidden;
   border-radius: var(--radius-lg);
 }
@@ -109,18 +105,19 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
-/* Cover Randomize */
+/* Cover controls */
 
 .dynamic-form_cover-randomize {
+  align-self: flex-start;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
 
-  padding: 0.45rem 0.85rem;
+  min-height: 34px;
+  padding: 0.4rem 0.8rem;
 
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -130,22 +127,18 @@
 
   font: inherit;
   font-size: 0.8rem;
+  font-weight: 500;
 
   cursor: pointer;
 
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    transform 0.15s ease;
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .dynamic-form_cover-randomize:hover {
   border-color: var(--text);
   background: var(--surface-hover);
-}
-
-.dynamic-form_cover-randomize:active {
-  transform: translateY(1px);
 }
 
 .dynamic-form_cover-randomize:focus-visible {
@@ -156,14 +149,12 @@
 .dynamic-form_cover-randomize:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
 }
-
-/* Helper text */
 
 .dynamic-form_cover-help {
   color: var(--text);
   font-size: 0.75rem;
+  line-height: 1.5;
   opacity: 0.6;
 }
 
@@ -172,7 +163,6 @@
 .dynamic-form_actions {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
 
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -186,14 +176,14 @@
   justify-content: center;
 
   min-width: 120px;
-  min-height: 46px;
-  padding: 0.75rem 1.4rem;
+  min-height: 44px;
+  padding: 0.7rem 1.25rem;
 
   border: 1px solid var(--accent);
   border-radius: var(--radius-md);
 
   background: var(--accent);
-  color: white;
+  color: #fff;
 
   font: inherit;
   font-weight: 600;
@@ -201,17 +191,15 @@
   cursor: pointer;
 
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
-.dynamic-form_submit:hover {
+.dynamic-form_submit:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.dynamic-form_submit:active {
+.dynamic-form_submit:active:not(:disabled) {
   transform: translateY(0);
 }
 
@@ -223,7 +211,6 @@
 .dynamic-form_submit:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-  transform: none;
 }
 
 /* Mobile */
