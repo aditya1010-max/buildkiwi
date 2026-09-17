@@ -2,119 +2,109 @@ import { useState } from "react";
 
 import "./DocsPage.css";
 
-import DocumentationCard from "../../components/Documentation/DocumentationCard";
-
-import {
-  RocketIcon,
-  FolderIcon,
-  SearchIcon,
-  HelpCircleIcon,
-} from "../../assets/icons";
-import { ProfileIcon as UserIcon } from "../../assets/icons";
+const SECTIONS = [
+  {
+    id: "getting-started",
+    title: "Getting Started",
+    content: [
+      "Welcome to BuildKiwi. Create an account, set up your profile, and start showcasing the projects you're building.",
+      "To publish your first project, add a title, description, tags, links, and a cover image. Once you're happy with it, publish it to your profile.",
+    ],
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    content: [
+      "Projects are the core of BuildKiwi. Each project gives you a place to explain what you're building and share the resources behind it.",
+      "You can add a project title, description, tags, GitHub and demo links, and a generated or uploaded cover image.",
+      "Published projects can appear on your profile and in the Discover section for other builders to find.",
+    ],
+  },
+  {
+    id: "discover",
+    title: "Discover",
+    content: [
+      "Discover is where you can explore projects and builders from the BuildKiwi community.",
+      "Search for projects by technology, browse different categories, and find ideas or people you might want to learn from or collaborate with.",
+    ],
+  },
+  {
+    id: "profiles",
+    title: "Profiles",
+    content: [
+      "Your profile is your home on BuildKiwi. It gives other builders a quick overview of who you are and what you're working on.",
+      "You can customize your profile information, avatar, and showcase the projects you've created.",
+    ],
+  },
+  {
+    id: "faq",
+    title: "Frequently Asked Questions",
+    content: [
+      "Have a question about BuildKiwi? This section covers some of the common things you might want to know.",
+      "If you can't find an answer here, you can always check the rest of the documentation or reach out to the BuildKiwi team.",
+    ],
+  },
+];
 
 export default function DocsPage() {
-  const [article, setArticle] = useState("getting-started");
-
-  function renderArticle() {
-    switch (article) {
-      case "projects":
-        return (
-          <>
-            <h2>Projects</h2>
-            <p>
-              Projects are the core of BuildKiwi. Add a title, description,
-              tags, links and a cover image to showcase your work.
-            </p>
-          </>
-        );
-
-      case "discover":
-        return (
-          <>
-            <h2>Discover</h2>
-            <p>
-              Browse projects, search by technology and discover builders from
-              the community.
-            </p>
-          </>
-        );
-
-      case "profiles":
-        return (
-          <>
-            <h2>Profiles</h2>
-            <p>Customize your profile and showcase your projects and skills.</p>
-          </>
-        );
-
-      case "faq":
-        return (
-          <>
-            <h2>Frequently Asked Questions</h2>
-            <p>Answers to common questions about BuildKiwi.</p>
-          </>
-        );
-
-      default:
-        return (
-          <>
-            <h2>Getting Started</h2>
-            <p>
-              Welcome to BuildKiwi! Learn how to create and publish your first
-              project.
-            </p>
-          </>
-        );
-    }
-  }
+  const [openSection, setOpenSection] = useState<string | null>(
+    "getting-started",
+  );
 
   return (
     <main className="docs-page">
       <div className="docs-page_container">
-        <h1 className="docs-page_title">Documentation</h1>
+        <header className="docs-page_header">
+          <h1>Documentation</h1>
 
-        <p className="docs-page_subtitle">
-          Everything you need to get started with BuildKiwi.
-        </p>
+          <p>
+            Everything you need to know about building, sharing, and discovering
+            projects on BuildKiwi.
+          </p>
+        </header>
 
-        <div className="docs-page_cards">
-          <DocumentationCard
-            title="Getting Started"
-            description="Create your first project."
-            icon={<RocketIcon size={22} />}
-            onClick={() => setArticle("getting-started")}
-          />
+        <section
+          className="docs-page_sections"
+          aria-label="BuildKiwi Documentation"
+        >
+          {SECTIONS.map((section) => {
+            const isOpen = openSection === section.id;
 
-          <DocumentationCard
-            title="Projects"
-            description="Learn about projects."
-            icon={<FolderIcon size={22} />}
-            onClick={() => setArticle("projects")}
-          />
+            return (
+              <article key={section.id} className="docs-section">
+                <button
+                  type="button"
+                  className="docs-section_trigger"
+                  onClick={() => setOpenSection(isOpen ? null : section.id)}
+                  aria-expanded={isOpen}
+                  aria-controls={`docs-${section.id}`}
+                >
+                  <span>{section.title}</span>
 
-          <DocumentationCard
-            title="Discover"
-            description="Search projects and builders."
-            icon={<SearchIcon size={22} />}
-            onClick={() => setArticle("discover")}
-          />
+                  <span
+                    className={`docs-section_icon ${
+                      isOpen ? "docs-section_icon--open" : ""
+                    }`}
+                    aria-hidden="true"
+                  >
+                    ▶
+                  </span>
+                </button>
 
-          <DocumentationCard
-            title="Profiles"
-            description="Customize your profile."
-            icon={<UserIcon size={22} />}
-            onClick={() => setArticle("profiles")}
-          />
-
-          <DocumentationCard
-            title="FAQ"
-            description="Frequently asked questions."
-            icon={<HelpCircleIcon size={22} />}
-            onClick={() => setArticle("faq")}
-          />
-        </div>
-
-        <div className="docs-page_article">{renderArticle()}</div>
+                {isOpen && (
+                  <div
+                    id={`docs-${section.id}`}
+                    className="docs-section_content"
+                  >
+                    {section.content.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </section>
       </div>
     </main>
   );
