@@ -61,13 +61,15 @@ export default function FeedbackForm() {
 
   if (submitted) {
     return (
-      <div className="feedback-success">
-        <h2>🎉 Thank you!</h2>
+      <section className="feedback-success">
+        <header className="feedback-success_header">
+          <h2>Feedback received 🎉</h2>
 
-        <p>
-          Your feedback has been submitted successfully. Every report and
-          suggestion helps me improve BuildKiwi.
-        </p>
+          <p>
+            Thanks for helping make BuildKiwi better. Your feedback has been
+            submitted successfully.
+          </p>
+        </header>
 
         <button
           type="button"
@@ -80,69 +82,88 @@ export default function FeedbackForm() {
         >
           Send Another Feedback
         </button>
-      </div>
+      </section>
     );
   }
 
   return (
     <form className="feedback-form" onSubmit={handleSubmit}>
-      <div className="feedback-form_field">
-        <label>Category</label>
+      <header className="feedback-form_header">
+        <h1>Send Feedback</h1>
 
-        <FeedbackCategorySelector
-          value={form.category}
-          onChange={(category) =>
-            setForm((prev) => ({
-              ...prev,
-              category,
-            }))
-          }
-        />
-      </div>
+        <p>
+          Found something broken, have an idea, or just want to tell us what you
+          think? We&apos;re listening.
+        </p>
+      </header>
 
-      <div className="feedback-form_field">
-        <label htmlFor="feedback-title">Title</label>
+      <section className="feedback-form_sections">
+        <div className="feedback-form_section">
+          <label className="feedback-form_label">Category</label>
 
-        <input
-          id="feedback-title"
-          type="text"
-          maxLength={150}
-          value={form.title}
-          placeholder="Summarize your feedback in a few words"
-          onChange={(e) =>
-            setForm((prev) => ({
-              ...prev,
-              title: e.target.value,
-            }))
-          }
-        />
-
-        <div className="feedback-form_counter">{form.title.length}/150</div>
-      </div>
-
-      <div className="feedback-form_field">
-        <label htmlFor="feedback-description">Description</label>
-
-        <textarea
-          id="feedback-description"
-          rows={8}
-          maxLength={5000}
-          value={form.description}
-          placeholder={descriptionPlaceholders[form.category]}
-          onChange={(e) =>
-            setForm((prev) => ({
-              ...prev,
-              description: e.target.value,
-            }))
-          }
-        />
-
-        <div className="feedback-form_counter">
-          {form.description.length}/5000
+          <FeedbackCategorySelector
+            value={form.category}
+            onChange={(category) =>
+              setForm((prev) => ({
+                ...prev,
+                category,
+              }))
+            }
+          />
         </div>
-      </div>
 
-      {error && <div className="feedback-form_error">{error}</div>}
+        <div className="feedback-form_section">
+          <label className="feedback-form_label" htmlFor="feedback-title">
+            Title
+          </label>
+
+          <input
+            id="feedback-title"
+            type="text"
+            maxLength={150}
+            value={form.title}
+            placeholder="Summarize your feedback in a few words"
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                title: e.target.value,
+              }))
+            }
+          />
+
+          <span className="feedback-form_counter">{form.title.length}/150</span>
+        </div>
+
+        <div className="feedback-form_section">
+          <label className="feedback-form_label" htmlFor="feedback-description">
+            Description
+          </label>
+
+          <textarea
+            id="feedback-description"
+            rows={8}
+            maxLength={5000}
+            value={form.description}
+            placeholder={descriptionPlaceholders[form.category]}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                description: e.target.value,
+              }))
+            }
+          />
+
+          <span className="feedback-form_counter">
+            {form.description.length}/5000
+          </span>
+        </div>
+      </section>
+
+      {error && (
+        <div className="feedback-form_error" role="alert">
+          {error}
+        </div>
+      )}
 
       <button
         type="submit"
