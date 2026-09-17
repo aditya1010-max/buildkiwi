@@ -4,17 +4,27 @@
   box-sizing: border-box;
 }
 
+/* 1. Global Standard Slim Scrollbar for Firefox and Modern Safari/Chrome */
+html {
+  scrollbar-width: thin;
+}
+
+/* 2. Global Legacy Webkit Slim Scrollbar for older Chrome, Safari, and Edge */
 ::-webkit-scrollbar {
-  /*custom styling for scrollbar*/
-  width: 17px;
+  width: 6px; /* Reduced from 17px to make it slim */
+  height: 6px; /* Added for slim horizontal scrollbars */
 }
 
 ::-webkit-scrollbar-thumb {
   /*below css needs to be adjusted and transferred to variables file*/
-  /*custom styling for scrollbar*/
   background: rgba(113, 207, 106, 0.292);
   border: 1px solid rgba(205, 209, 205, 0.219);
-  /* border-radius: 4px; */
+  border-radius: 10px; /* Optional: Rounded edges look cleaner on slim bars */
+}
+
+/* Hover state so users can see the thin bar clearly when interacting */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 207, 106, 0.5);
 }
 
 html {
