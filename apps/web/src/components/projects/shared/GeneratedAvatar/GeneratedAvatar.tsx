@@ -13,11 +13,13 @@ interface GeneratedAvatarProps {
 
 export default function GeneratedAvatar({
   seed,
+  pattern,
   className = "",
 }: GeneratedAvatarProps): ReactElement {
   const image = generateAsset({
     type: "profile",
     seed,
+    pattern,
   });
 
   return (
