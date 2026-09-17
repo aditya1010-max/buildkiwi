@@ -1,5 +1,5 @@
 import { createSearchParams, useNavigate } from "react-router-dom";
-
+import { TrendIcon } from "../../assets/icons/Trending-icon";
 import "./RightSidebar.css";
 
 import KiwiAchievements from "../discover/achievements/KiwiAchievements";
@@ -32,9 +32,7 @@ export default function RightSidebar() {
     <aside className="right-sidebar">
       <section className="widget trending-widget">
         <h3 className="trending-title">
-          <span className="trending-icon" aria-hidden="true">
-            ↗
-          </span>
+          <TrendIcon />
           Trending
         </h3>
 
