@@ -1,17 +1,39 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./MobileNavbar.css";
 
 import KiwiIcon4 from "../../assets/icons/kiwiIcon4";
+import AppearanceMenu from "../user-menu/menus/AppearanceMenu";
+import HelpMenu from "../user-menu/menus/HelpMenu";
+import LanguageMenu from "../user-menu/menus/LanguageMenu";
+import MainMenu from "../user-menu/menus/MainMenu";
+import NotificationsMenu from "../user-menu/menus/NotificationMenu";
+import LogoutDialog from "../user-menu/dialogs/LogoutDialog";
+import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
+
+type MobileMenuView =
+  "main" | "appearance" | "language" | "notifications" | "help" | "logout";
 
 export default function MobileNav() {
+  const [activeView, setActiveView] = useState<MobileMenuView>("main");
   const [isOpen, setIsOpen] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
   const navigate = useNavigate();
 
+  const { logout, getCurrentUser } = useAuth();
+  const toast = useToast();
+  const user = getCurrentUser();
+
+  function openMenu() {
+    setActiveView("main");
+    setIsOpen(true);
+  }
+
   function closeMenu() {
+    setActiveView("main");
     setIsOpen(false);
   }
 
@@ -42,66 +64,109 @@ export default function MobileNav() {
   }, [isOpen]);
 
   return (
-    <header className="mobile-nav" ref={menuRef}>
-      <Link to="/" className="mobile-nav_button" aria-label="Go to homepage">
-        <KiwiIcon4 size={32} />
-      </Link>
+    <header ref={menuRef} className="mobile-nav">
+      <div className="mobile-nav_header">
+        <button
+          type="button"
+          className="mobile-nav_button"
+          aria-label="Go to homepage"
+          onClick={() => navigate("/")}
+        >
+          <KiwiIcon4 size={32} />
+        </button>
 
-      <span className="mobile-nav_brand">BuildKiwi</span>
+        <span className="mobile-nav_brand">BuildKiwi</span>
 
-      <button
-        type="button"
-        className="mobile-nav_button"
-        aria-label={isOpen ? "Close menu" : "Open menu"}
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen((current) => !current)}
-      >
-        <span className="mobile-nav_menu-icon" aria-hidden="true">
-          ☰
-        </span>
-      </button>
+        <button
+          type="button"
+          className="mobile-nav_button"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+          onClick={() => {
+            if (isOpen) {
+              closeMenu();
+            } else {
+              openMenu();
+            }
+          }}
+        >
+          <span className="mobile-nav_menu-icon" aria-hidden="true">
+            ☰
+          </span>
+        </button>
+      </div>
 
       {isOpen && (
         <div className="mobile-nav_menu">
-          <button
-            type="button"
-            onClick={() => {
-              closeMenu();
-              navigate("/profile");
-            }}
-          >
-            Profile
-          </button>
+          {activeView === "main" && (
+            <MainMenu
+              user={user}
+              onAppearance={() => setActiveView("appearance")}
+              onLanguage={() => setActiveView("language")}
+              onNotifications={() => setActiveView("notifications")}
+              onPrivacy={() => {
+                closeMenu();
+                navigate("/settings/privacy");
+              }}
+              onHelp={() => setActiveView("help")}
+              onFeedback={() => {
+                closeMenu();
+                navigate("/feedback");
+              }}
+              onLogout={() => setActiveView("logout")}
+              onAccount={() => {}}
+              onLogin={() => {
+                closeMenu();
+                navigate("/login");
+              }}
+              onRegister={() => {
+                closeMenu();
+                navigate("/register");
+              }}
+            />
+          )}
 
-          <button
-            type="button"
-            onClick={() => {
-              closeMenu();
-              navigate("/settings");
-            }}
-          >
-            Settings
-          </button>
+          {activeView === "appearance" && (
+            <AppearanceMenu onBack={() => setActiveView("main")} />
+          )}
 
-          <button
-            type="button"
-            onClick={() => {
-              closeMenu();
-              navigate("/notifications");
-            }}
-          >
-            Notifications
-          </button>
+          {activeView === "language" && (
+            <LanguageMenu onBack={() => setActiveView("main")} />
+          )}
 
-          <button
-            type="button"
-            onClick={() => {
-              closeMenu();
-              navigate("/help");
-            }}
-          >
-            Help
-          </button>
+          {activeView === "notifications" && (
+            <NotificationsMenu onBack={() => setActiveView("main")} />
+          )}
+
+          {activeView === "help" && (
+            <HelpMenu
+              onBack={() => setActiveView("main")}
+              onDocumentation={() => {
+                closeMenu();
+                navigate("/docs");
+              }}
+            />
+          )}
+
+          {activeView === "logout" && (
+            <LogoutDialog
+              onCancel={() => setActiveView("main")}
+              onConfirm={async () => {
+                await logout();
+
+                toast.success(
+                  "Signed out",
+                  "You're now browsing BuildKiwi as a guest.",
+                );
+
+                closeMenu();
+
+                navigate("/", {
+                  replace: true,
+                });
+              }}
+            />
+          )}
         </div>
       )}
     </header>

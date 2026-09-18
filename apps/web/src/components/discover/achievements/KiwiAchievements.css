@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
   width: 100%;
 }
 
@@ -14,9 +13,7 @@
 
 .kiwi-achievements_title {
   margin: 0;
-
   color: var(--text-h);
-
   font-family: var(--heading);
   font-size: 1rem;
   font-weight: 700;
@@ -37,22 +34,15 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
   min-width: 0;
   padding: 0.625rem;
-
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
-
-  background: var(--surface);
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  background: var(--bg);
 }
 
 .kiwi-achievement:hover {
-  border-color: var(--border);
+  border-color: var(--accent-border);
   background: var(--accent-bg);
 }
 
@@ -62,26 +52,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   width: 48px;
   height: 48px;
-
+  overflow: hidden;
   border: 1px solid var(--accent-border);
   border-radius: var(--radius-md);
-
   background: var(--accent-bg);
-
-  overflow: hidden;
 }
 
 .kiwi-achievement-image {
   display: block;
-
   width: 38px;
   height: 38px;
-
   object-fit: contain;
 }
 
@@ -91,31 +74,24 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-
   min-width: 0;
 }
 
 .kiwi-achievement-info strong {
   overflow: hidden;
-
   color: var(--text-h);
-
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.3;
-
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .kiwi-achievement-info span {
   overflow: hidden;
-
   color: var(--text);
-
   font-size: 0.75rem;
   line-height: 1.3;
-
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -127,26 +103,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   min-height: 120px;
   padding: 1rem;
-
   border: 1px dashed var(--border);
   border-radius: var(--radius-md);
-
-  background: var(--accent-bg);
+  background: var(--code-bg);
   color: var(--text);
 }
 
 .kiwi-achievements_empty-icon {
   margin-bottom: 0.375rem;
-
+  color: var(--accent);
   font-size: 1.5rem;
 }
 
 .kiwi-achievements_empty p {
   margin: 0;
-
+  color: var(--text);
   font-size: 0.8rem;
 }
 
@@ -156,16 +129,13 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
   padding: 0.625rem;
 }
 
 .kiwi-achievement-skeleton-image {
   flex-shrink: 0;
-
   width: 48px;
   height: 48px;
-
   border-radius: var(--radius-md);
   background: var(--code-bg);
 }
@@ -175,13 +145,11 @@
   flex: 1;
   flex-direction: column;
   gap: 0.4rem;
-
   min-width: 0;
 }
 
 .kiwi-achievement-skeleton-line {
   border-radius: 999px;
-
   background: var(--code-bg);
 }
 
