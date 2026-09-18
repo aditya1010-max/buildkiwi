@@ -1,30 +1,55 @@
-import { useCallback, useEffect, useRef, type PropsWithChildren } from "react";
+import { useEffect, useRef, type PropsWithChildren } from "react";
 import {
   useLocation,
   useNavigationType,
-  type Location,
+  type NavigationType,
 } from "react-router-dom";
-
-import {
-  NavigationSnapshotContext,
-  type ViewSnapshotData,
-  type ViewSnapshotRegistration,
-} from "./NavigationSnapshotContext";
 
 import { getSnapshot, saveSnapshot } from "./snapshot-store";
 
-import type { SnapshotLocation, ViewSnapshot } from "./snapshot-types";
+function isNewNavigation(navigationType: NavigationType) {
+  return navigationType === "PUSH" || navigationType === "REPLACE";
+}
 
-type LocationState = {
-  background?: Location;
-};
+function getScrollContainer(pathname: string) {
+  if (pathname === "/") {
+    return document.querySelector<HTMLElement>(".feed-content");
+  }
 
-function getSnapshotLocation(location: Location): SnapshotLocation {
-  return {
-    pathname: location.pathname,
-    search: location.search,
-    hash: location.hash,
-  };
+  return null;
+}
+
+function scrollToPosition(
+  container: HTMLElement | null,
+  scrollX: number,
+  scrollY: number,
+) {
+  if (container) {
+    container.scrollTo({
+      left: scrollX,
+      top: scrollY,
+      behavior: "auto",
+    });
+
+    return;
+  }
+
+  window.scrollTo({
+    left: scrollX,
+    top: scrollY,
+    behavior: "auto",
+  });
+}
+
+function canReachScrollPosition(
+  container: HTMLElement | null,
+  scrollY: number,
+) {
+  if (!container) {
+    return true;
+  }
+
+  return container.scrollHeight - container.clientHeight >= scrollY;
 }
 
 export default function NavigationSnapshotProvider({
@@ -33,282 +58,162 @@ export default function NavigationSnapshotProvider({
   const location = useLocation();
   const navigationType = useNavigationType();
 
-  const state = location.state as LocationState | null;
+  const previousLocationRef = useRef(location);
 
-  const isModalRoute = Boolean(state?.background);
-
-  const viewLocation = state?.background ?? location;
-
-  const registrationsRef = useRef<Map<string, ViewSnapshotRegistration>>(
-    new Map(),
-  );
-
-  const previousLocationRef = useRef(viewLocation);
-
-  const scrollPositionRef = useRef(window.scrollY);
-
-  /*
-   * --------------------------------------------------
-   * Scroll tracking
-   * --------------------------------------------------
-   */
+  const scrollPositionRef = useRef({
+    scrollX: 0,
+    scrollY: 0,
+  });
 
   useEffect(() => {
+    const container = getScrollContainer(location.pathname);
+
+    if (container) {
+      const handleScroll = () => {
+        scrollPositionRef.current = {
+          scrollX: container.scrollLeft,
+          scrollY: container.scrollTop,
+        };
+      };
+
+      handleScroll();
+
+      container.addEventListener("scroll", handleScroll, {
+        passive: true,
+      });
+
+      return () => {
+        saveSnapshot(location.key, {
+          locationKey: location.key,
+          pathname: location.pathname,
+          search: location.search,
+          hash: location.hash,
+          scrollX: scrollPositionRef.current.scrollX,
+          scrollY: scrollPositionRef.current.scrollY,
+        });
+
+        container.removeEventListener("scroll", handleScroll);
+      };
+    }
+
     const handleScroll = () => {
-      scrollPositionRef.current = window.scrollY;
+      scrollPositionRef.current = {
+        scrollX: window.scrollX,
+        scrollY: window.scrollY,
+      };
     };
 
-    scrollPositionRef.current = window.scrollY;
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     });
 
     return () => {
+      saveSnapshot(location.key, {
+        locationKey: location.key,
+        pathname: location.pathname,
+        search: location.search,
+        hash: location.hash,
+        scrollX: scrollPositionRef.current.scrollX,
+        scrollY: scrollPositionRef.current.scrollY,
+      });
+
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-
-  /*
-   * --------------------------------------------------
-   * Browser restoration
-   * --------------------------------------------------
-   */
+  }, [location.pathname, location.key]);
 
   useEffect(() => {
-    const previous = window.history.scrollRestoration;
+    const previousRestoration = window.history.scrollRestoration;
 
     window.history.scrollRestoration = "manual";
 
     return () => {
-      window.history.scrollRestoration = previous;
+      window.history.scrollRestoration = previousRestoration;
     };
   }, []);
-
-  /*
-   * --------------------------------------------------
-   * Registration
-   * --------------------------------------------------
-   */
-
-  const register = useCallback((registration: ViewSnapshotRegistration) => {
-    registrationsRef.current.set(registration.id, registration);
-
-    return () => {
-      registrationsRef.current.delete(registration.id);
-    };
-  }, []);
-
-  /*
-   * --------------------------------------------------
-   * Capture
-   * --------------------------------------------------
-   */
-
-  const capture = useCallback(() => {
-    const registrations = Array.from(registrationsRef.current.values());
-
-    if (registrations.length === 0) {
-      return null;
-    }
-
-    const result: ViewSnapshotData = {};
-
-    for (const registration of registrations) {
-      try {
-        const captured = registration.capture();
-
-        if (captured.state) {
-          result.state = {
-            ...(result.state ?? {}),
-            ...captured.state,
-          };
-        }
-      } catch (error) {
-        console.warn(
-          `[NavigationSnapshot] Failed to capture "${registration.id}"`,
-          error,
-        );
-      }
-    }
-
-    return result;
-  }, []);
-
-  /*
-   * --------------------------------------------------
-   * Restore
-   * --------------------------------------------------
-   */
-
-  const restore = useCallback((snapshot: ViewSnapshot) => {
-    const registrations = Array.from(registrationsRef.current.values());
-
-    for (const registration of registrations) {
-      try {
-        registration.restore(snapshot);
-      } catch (error) {
-        console.warn(
-          `[NavigationSnapshot] Failed to restore "${registration.id}"`,
-          error,
-        );
-      }
-    }
-  }, []);
-
-  /*
-   * --------------------------------------------------
-   * Save previous view
-   * --------------------------------------------------
-   */
 
   useEffect(() => {
-    const previousLocation = previousLocationRef.current;
+    if (isNewNavigation(navigationType)) {
+      const frame = requestAnimationFrame(() => {
+        scrollToPosition(getScrollContainer(location.pathname), 0, 0);
+      });
 
-    return () => {
-      /*
-       * Opening a modal does not mean the
-       * background view was left.
-       */
-      if (isModalRoute) {
+      previousLocationRef.current = location;
+
+      return () => {
+        cancelAnimationFrame(frame);
+      };
+    }
+
+    const snapshot = getSnapshot(location.key);
+
+    if (!snapshot) {
+      const frame = requestAnimationFrame(() => {
+        scrollToPosition(getScrollContainer(location.pathname), 0, 0);
+      });
+
+      previousLocationRef.current = location;
+
+      return () => {
+        cancelAnimationFrame(frame);
+      };
+    }
+
+    const container = getScrollContainer(location.pathname);
+
+    if (canReachScrollPosition(container, snapshot.scrollY)) {
+      const frame = requestAnimationFrame(() => {
+        scrollToPosition(
+          getScrollContainer(location.pathname),
+          snapshot.scrollX,
+          snapshot.scrollY,
+        );
+      });
+
+      previousLocationRef.current = location;
+
+      return () => {
+        cancelAnimationFrame(frame);
+      };
+    }
+
+    if (!container) {
+      previousLocationRef.current = location;
+      return;
+    }
+
+    let restored = false;
+
+    const restore = () => {
+      if (restored) {
         return;
       }
 
-      const captured = capture();
+      if (!canReachScrollPosition(container, snapshot.scrollY)) {
+        return;
+      }
 
-      const snapshot: ViewSnapshot = {
-        version: 1,
+      restored = true;
 
-        location: getSnapshotLocation(previousLocation),
+      scrollToPosition(container, snapshot.scrollX, snapshot.scrollY);
 
-        scroll: {
-          x: window.scrollX,
-          y: scrollPositionRef.current,
-        },
-
-        ...(captured ?? {}),
-      };
-
-      saveSnapshot(previousLocation.key, snapshot);
-
-      console.log("[NavigationSnapshot] Saved:", {
-        key: previousLocation.key,
-        snapshot,
-      });
+      observer.disconnect();
     };
-  }, [
-    viewLocation.pathname,
-    viewLocation.search,
-    viewLocation.hash,
-    isModalRoute,
-    capture,
-  ]);
 
-  /*
-   * --------------------------------------------------
-   * Restore navigation
-   * --------------------------------------------------
-   */
+    const observer = new ResizeObserver(restore);
 
-  useEffect(() => {
-    /*
-     * Modal opening:
-     *
-     * /discover → /create
-     *
-     * Preserve the background page exactly as it is.
-     */
-    if (isModalRoute) {
-      previousLocationRef.current = viewLocation;
+    observer.observe(container);
 
-      return;
-    }
+    requestAnimationFrame(restore);
 
-    /*
-     * PUSH / REPLACE
-     *
-     * New navigation starts at the top.
-     */
-    if (navigationType !== "POP") {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "auto",
-      });
-
-      scrollPositionRef.current = 0;
-
-      previousLocationRef.current = viewLocation;
-
-      return;
-    }
-
-    /*
-     * POP
-     *
-     * Back / Forward.
-     */
-    const snapshot = getSnapshot(viewLocation.key);
-
-    console.log("[NavigationSnapshot] POP:", {
-      key: viewLocation.key,
-      pathname: viewLocation.pathname,
-      snapshot,
-    });
-
-    /*
-     * No snapshot → default to top.
-     */
-    if (!snapshot) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "auto",
-      });
-
-      scrollPositionRef.current = 0;
-
-      previousLocationRef.current = viewLocation;
-
-      return;
-    }
-
-    /*
-     * First allow participating components
-     * to restore their own state.
-     */
-    restore(snapshot);
-
-    /*
-     * Then restore the physical scroll
-     * after React commits.
-     */
-    const frame = requestAnimationFrame(() => {
-      window.scrollTo({
-        top: snapshot.scroll.y,
-        left: snapshot.scroll.x,
-        behavior: "auto",
-      });
-
-      scrollPositionRef.current = snapshot.scroll.y;
-    });
-
-    previousLocationRef.current = viewLocation;
+    previousLocationRef.current = location;
 
     return () => {
-      cancelAnimationFrame(frame);
+      restored = true;
+      observer.disconnect();
     };
-  }, [viewLocation, navigationType, isModalRoute, restore]);
+  }, [location, navigationType]);
 
-  const contextValue = {
-    register,
-    capture,
-    restore,
-  };
-
-  return (
-    <NavigationSnapshotContext.Provider value={contextValue}>
-      {children}
-    </NavigationSnapshotContext.Provider>
-  );
+  return children;
 }

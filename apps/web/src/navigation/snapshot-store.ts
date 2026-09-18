@@ -1,82 +1,29 @@
-import type { ViewSnapshot } from "./snapshot-types";
+export type NavigationSnapshot = {
+  locationKey: string;
+  pathname: string;
+  search: string;
+  hash: string;
+  scrollX: number;
+  scrollY: number;
+};
 
-const STORAGE_PREFIX = "buildkiwi:navigation-snapshot:";
+const snapshots = new Map<string, NavigationSnapshot>();
 
-function getStorageKey(locationKey: string) {
-  return `${STORAGE_PREFIX}${locationKey}`;
+export function saveSnapshot(
+  locationKey: string,
+  snapshot: NavigationSnapshot,
+) {
+  snapshots.set(locationKey, snapshot);
 }
 
-function isBrowser() {
-  return typeof window !== "undefined";
-}
-
-export function saveSnapshot(locationKey: string, snapshot: ViewSnapshot) {
-  if (!isBrowser()) {
-    return;
-  }
-
-  try {
-    sessionStorage.setItem(
-      getStorageKey(locationKey),
-      JSON.stringify(snapshot),
-    );
-  } catch (error) {
-    console.warn("[NavigationSnapshot] Failed to save snapshot:", error);
-  }
-}
-
-export function getSnapshot(locationKey: string): ViewSnapshot | null {
-  if (!isBrowser()) {
-    return null;
-  }
-
-  try {
-    const raw = sessionStorage.getItem(getStorageKey(locationKey));
-
-    if (!raw) {
-      return null;
-    }
-
-    return JSON.parse(raw) as ViewSnapshot;
-  } catch (error) {
-    console.warn("[NavigationSnapshot] Failed to read snapshot:", error);
-
-    return null;
-  }
+export function getSnapshot(locationKey: string): NavigationSnapshot | null {
+  return snapshots.get(locationKey) ?? null;
 }
 
 export function removeSnapshot(locationKey: string) {
-  if (!isBrowser()) {
-    return;
-  }
-
-  try {
-    sessionStorage.removeItem(getStorageKey(locationKey));
-  } catch (error) {
-    console.warn("[NavigationSnapshot] Failed to remove snapshot:", error);
-  }
+  snapshots.delete(locationKey);
 }
 
 export function clearSnapshots() {
-  if (!isBrowser()) {
-    return;
-  }
-
-  try {
-    const keysToRemove: string[] = [];
-
-    for (let index = 0; index < sessionStorage.length; index++) {
-      const key = sessionStorage.key(index);
-
-      if (key?.startsWith(STORAGE_PREFIX)) {
-        keysToRemove.push(key);
-      }
-    }
-
-    for (const key of keysToRemove) {
-      sessionStorage.removeItem(key);
-    }
-  } catch (error) {
-    console.warn("[NavigationSnapshot] Failed to clear snapshots:", error);
-  }
+  snapshots.clear();
 }
