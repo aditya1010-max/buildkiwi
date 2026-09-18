@@ -14,12 +14,8 @@
 
 .project-page::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
-  border: 2px solid red;
-
   pointer-events: none;
   z-index: 9999;
 }
