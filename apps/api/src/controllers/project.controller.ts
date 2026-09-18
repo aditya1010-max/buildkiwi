@@ -44,12 +44,17 @@ const runSecondaryValidation = (
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
     const authReq = req as AuthenticatedRequest;
+
     const payload = {
       ...authReq.body,
 
       tags: (() => {
         if (!authReq.body.tags) return [];
-        if (Array.isArray(authReq.body.tags)) return authReq.body.tags;
+
+        if (Array.isArray(authReq.body.tags)) {
+          return authReq.body.tags;
+        }
+
         try {
           return JSON.parse(authReq.body.tags);
         } catch {
@@ -61,19 +66,14 @@ export const createProject = asyncHandler(
         github: authReq.body["links.github"] || "",
         demo: authReq.body["links.demo"] || "",
       },
-
-      coverImage: authReq.file?.filename,
     };
-    const validatedData = CreateProjectSchema.parse(payload);
 
-    // const validatedData = CreateProjectSchema.parse({
-    //   ...req.body,
-    //   coverImage: file?.originalname,
-    // });
+    const validatedData = CreateProjectSchema.parse(payload);
 
     if (!authReq.user) {
       throw new AppError("Unauthorized", 401);
     }
+
     runSecondaryValidation(projectSchema, validatedData);
 
     const result = await createProjectService(
