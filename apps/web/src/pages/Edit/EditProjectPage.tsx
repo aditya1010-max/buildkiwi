@@ -1,47 +1,70 @@
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getEditableProject } from "../../api/project.api";
+import { getEditableProject, updateProject } from "../../api/project.api";
 
-import "./EditProjectPage.css";
-import DynamicForm from "../../components/projects/create/DynamicForm";
-import projectSchema from "../../schema/projectSchema";
-import { updateProject } from "../../api/project.api";
 import type { Project } from "../../types/project";
+
+import DynamicForm from "../../components/projects/create/DynamicForm";
 import Loader from "../../components/ui/Loader";
 
-export default function EditProjectPage(): ReactElement {
+import projectSchema from "../../schema/projectSchema";
+
+import { useToast } from "../../hooks/useToast";
+
+import "./EditProjectPage.css";
+
+export default function EditProjectPage() {
   const { id } = useParams();
+  const toast = useToast();
 
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
-  async function handleUpdateProject(formData: FormData) {
-    if (!id) return;
-
-    try {
-      await updateProject(id, formData);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
     async function loadProject() {
-      if (!id) return;
+      if (!id) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const data = await getEditableProject(id);
         setProject(data);
       } catch (error) {
         console.error("Failed to load project:", error);
+
+        toast.error(
+          "Failed to load project",
+          "We couldn't load this project. Please try again.",
+        );
       } finally {
         setLoading(false);
       }
     }
 
     loadProject();
-  }, [id]);
+  }, [id, toast]);
+
+  async function handleUpdateProject(formData: FormData) {
+    if (!id) return;
+
+    try {
+      await updateProject(id, formData);
+
+      toast.success(
+        "Project updated",
+        "Your project has been updated successfully.",
+      );
+    } catch (error) {
+      console.error("Failed to update project:", error);
+
+      toast.error(
+        "Update failed",
+        "We couldn't update your project. Please try again.",
+      );
+    }
+  }
 
   if (loading) {
     return (
@@ -77,6 +100,7 @@ export default function EditProjectPage(): ReactElement {
               github: project.links?.github ?? "",
               demo: project.links?.demo ?? "",
               tags: project.tags?.join(", ") ?? "",
+              coverSeed: project.coverSeed,
             }}
             onSubmit={handleUpdateProject}
           />
