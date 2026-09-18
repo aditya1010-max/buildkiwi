@@ -41,7 +41,10 @@ const projectSchema = new mongoose.Schema(
       },
     },
 
-    coverImage: String,
+    coverSeed: {
+      type: String,
+      required: true,
+    },
 
     stats: {
       likes: {

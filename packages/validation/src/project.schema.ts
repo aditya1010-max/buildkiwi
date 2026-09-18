@@ -4,7 +4,7 @@ export const CreateProjectSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description too short"),
   tags: z.array(z.string()).default([]),
-  coverImage: z.string().optional(),
+  coverSeed: z.string().min(1, "Cover seed is required"),
 
   links: z
     .object({

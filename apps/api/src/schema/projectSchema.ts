@@ -18,5 +18,12 @@ export const projectSchema = {
       type: "tags",
       placeholder: "React, Node.js, MongoDB",
     },
+    {
+      name: "coverSeed",
+      label: "Cover",
+      type: "cover",
+    },
   ],
 };
+
+export default projectSchema;
