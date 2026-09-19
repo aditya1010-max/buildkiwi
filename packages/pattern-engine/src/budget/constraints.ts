@@ -1,8 +1,4 @@
-import type {
-  PatternElement,
-  SeededRandom,
-  VisualBudget,
-} from "../core/types";
+import type { PatternElement, SeededRandom, VisualBudget } from "../core/types";
 
 export function getElementLimit(
   budget: VisualBudget,
@@ -22,30 +18,21 @@ export function getElementLimit(
   );
 }
 
-export function scaleCount(
-  baseCount: number,
-  budget: VisualBudget,
-): number {
+export function scaleCount(baseCount: number, budget: VisualBudget): number {
   if (baseCount <= 0) {
     return 0;
   }
 
   const density = clamp01(budget.density);
 
-  return Math.max(
-    1,
-    Math.round(baseCount * density),
-  );
+  return Math.max(1, Math.round(baseCount * density));
 }
 
 export function limitElements(
   elements: PatternElement[],
   budget: VisualBudget,
 ): PatternElement[] {
-  const limit = Math.max(
-    0,
-    Math.floor(budget.maxElements),
-  );
+  const limit = Math.max(0, Math.floor(budget.maxElements));
 
   if (elements.length <= limit) {
     return elements;
@@ -74,10 +61,7 @@ export function shuffleAndLimit(
     ];
   }
 
-  return shuffled.slice(
-    0,
-    Math.max(0, Math.floor(budget.maxElements)),
-  );
+  return shuffled.slice(0, Math.max(0, Math.floor(budget.maxElements)));
 }
 
 export function shouldUseAccent(
@@ -87,15 +71,10 @@ export function shouldUseAccent(
   return random.next() < clamp01(budget.accentUsage);
 }
 
-export function getOpacity(
-  baseOpacity: number,
-  budget: VisualBudget,
-): number {
+export function getOpacity(baseOpacity: number, budget: VisualBudget): number {
   const contrast = clamp01(budget.contrast);
 
-  return clamp01(
-    baseOpacity * (0.65 + contrast * 0.35),
-  );
+  return clamp01(baseOpacity * (0.65 + contrast * 0.35));
 }
 
 export function clamp01(value: number): number {

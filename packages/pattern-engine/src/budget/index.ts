@@ -1,10 +1,6 @@
-export {
-  getDefaultVisualBudget,
-} from "./defaults";
+export { getDefaultVisualBudget } from "./defaults";
 
-export {
-  resolveVisualBudget,
-} from "./resolver";
+export { resolveVisualBudget } from "./resolver";
 
 export {
   getElementLimit,

@@ -18,8 +18,6 @@ const budgets: Record<AssetType, VisualBudget> = {
   },
 };
 
-export function getDefaultVisualBudget(
-  type: AssetType,
-): VisualBudget {
+export function getDefaultVisualBudget(type: AssetType): VisualBudget {
   return budgets[type];
 }
