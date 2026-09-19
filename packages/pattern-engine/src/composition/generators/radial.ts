@@ -1,7 +1,4 @@
-import type {
-  Composition,
-  CompositionGenerator,
-} from "../../core/types";
+import type { Composition, CompositionGenerator } from "../../core/types";
 
 export const radialComposition: CompositionGenerator = {
   id: "radial",

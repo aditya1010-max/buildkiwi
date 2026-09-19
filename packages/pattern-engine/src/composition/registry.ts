@@ -1,7 +1,4 @@
-import type {
-  CompositionGenerator,
-  CompositionId,
-} from "../core/types";
+import type { CompositionGenerator, CompositionId } from "../core/types";
 
 import { centerComposition } from "./generators/center";
 import { cornerComposition } from "./generators/corner";
@@ -12,10 +9,7 @@ import { clusterComposition } from "./generators/cluster";
 import { framedComposition } from "./generators/framed";
 import { modularComposition } from "./generators/modular";
 
-const compositions: Record<
-  CompositionId,
-  CompositionGenerator
-> = {
+const compositions: Record<CompositionId, CompositionGenerator> = {
   center: centerComposition,
   corner: cornerComposition,
   diagonal: diagonalComposition,
@@ -26,15 +20,11 @@ const compositions: Record<
   modular: modularComposition,
 };
 
-export function getComposition(
-  id: CompositionId,
-): CompositionGenerator {
+export function getComposition(id: CompositionId): CompositionGenerator {
   const composition = compositions[id];
 
   if (!composition) {
-    throw new Error(
-      `No composition registered for "${id}".`,
-    );
+    throw new Error(`No composition registered for "${id}".`);
   }
 
   return composition;
