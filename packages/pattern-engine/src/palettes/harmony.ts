@@ -15,9 +15,7 @@ const HARMONIES: readonly ColorHarmony[] = [
   "neutral-accent",
 ];
 
-export function selectColorHarmony(
-  random: SeededRandom,
-): ColorHarmony {
+export function selectColorHarmony(random: SeededRandom): ColorHarmony {
   return random.pick(HARMONIES);
 }
 
@@ -25,24 +23,14 @@ export function normalizeHue(hue: number): number {
   return ((hue % 360) + 360) % 360;
 }
 
-export function analogousHue(
-  baseHue: number,
-  offset: number,
-): number {
+export function analogousHue(baseHue: number, offset: number): number {
   return normalizeHue(baseHue + offset);
 }
 
-export function complementaryHue(
-  baseHue: number,
-): number {
+export function complementaryHue(baseHue: number): number {
   return normalizeHue(baseHue + 180);
 }
 
-export function splitComplementaryHues(
-  baseHue: number,
-): [number, number] {
-  return [
-    normalizeHue(baseHue + 150),
-    normalizeHue(baseHue + 210),
-  ];
+export function splitComplementaryHues(baseHue: number): [number, number] {
+  return [normalizeHue(baseHue + 150), normalizeHue(baseHue + 210)];
 }

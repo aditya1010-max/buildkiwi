@@ -28,16 +28,12 @@ function isValidColor(value: string): boolean {
   return false;
 }
 
-export function validateColorSystem(
-  colors: ColorSystem,
-): void {
+export function validateColorSystem(colors: ColorSystem): void {
   for (const role of REQUIRED_ROLES) {
     const value = colors[role];
 
     if (!isValidColor(value)) {
-      throw new Error(
-        `Invalid color for "${role}": "${value}".`,
-      );
+      throw new Error(`Invalid color for "${role}": "${value}".`);
     }
   }
 }

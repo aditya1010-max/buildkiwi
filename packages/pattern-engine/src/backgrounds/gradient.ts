@@ -2,7 +2,6 @@ import type {
   LinearGradient,
   PatternElement,
   SeededRandom,
-  ColorSystem,
 } from "../core/types";
 
 export type GradientBackground = {
@@ -11,14 +10,35 @@ export type GradientBackground = {
 };
 
 function createGradientId(seed: string): string {
-  const sanitizedSeed = seed.replace(/[^a-zA-Z0-9_-]/g, "-");
+  return `background-gradient-${seed.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+}
 
-  return `background-gradient-${sanitizedSeed}`;
+function pickColors(
+  colors: readonly string[],
+  random: SeededRandom,
+): [string, string] {
+  if (colors.length === 0) {
+    return ["#ffffff", "#ffffff"];
+  }
+
+  const start = random.pick(colors);
+
+  if (colors.length === 1) {
+    return [start, start];
+  }
+
+  let end = random.pick(colors);
+
+  while (end === start) {
+    end = random.pick(colors);
+  }
+
+  return [start, end];
 }
 
 export function generateGradient(
   seed: string,
-  palette: ColorSystem,
+  colors: readonly string[],
   random: SeededRandom,
   width: number,
   height: number,
@@ -26,7 +46,6 @@ export function generateGradient(
   const gradientId = createGradientId(seed);
 
   const angle = random.int(0, 359);
-
   const radians = (angle * Math.PI) / 180;
 
   const x1 = 0.5 - Math.cos(radians) * 0.5;
@@ -34,36 +53,35 @@ export function generateGradient(
   const x2 = 0.5 + Math.cos(radians) * 0.5;
   const y2 = 0.5 + Math.sin(radians) * 0.5;
 
-  const definition: LinearGradient = {
-    type: "linear-gradient",
-    id: gradientId,
-    x1,
-    y1,
-    x2,
-    y2,
-    stops: [
-      {
-        offset: 0,
-        color: palette.primary,
-      },
-      {
-        offset: 1,
-        color: palette.secondary,
-      },
-    ],
-  };
-
-  const element: PatternElement = {
-    type: "rectangle",
-    x: 0,
-    y: 0,
-    width,
-    height,
-    fill: `url(#${gradientId})`,
-  };
+  const [startColor, endColor] = pickColors(colors, random);
 
   return {
-    definition,
-    element,
+    definition: {
+      type: "linear-gradient",
+      id: gradientId,
+      x1,
+      y1,
+      x2,
+      y2,
+      stops: [
+        {
+          offset: 0,
+          color: startColor,
+        },
+        {
+          offset: 1,
+          color: endColor,
+        },
+      ],
+    },
+
+    element: {
+      type: "rectangle",
+      x: 0,
+      y: 0,
+      width,
+      height,
+      fill: `url(#${gradientId})`,
+    },
   };
 }

@@ -1,9 +1,6 @@
 import { createSeededRandom } from "../core/random";
 
-import type {
-  ColorSystem,
-  SeededRandom,
-} from "../core/types";
+import type { ColorSystem, SeededRandom } from "../core/types";
 
 import {
   analogousHue,
@@ -29,9 +26,7 @@ type PaletteSeed = {
   surface: string;
 };
 
-function createPaletteSeed(
-  seed: string,
-): PaletteSeed {
+function createPaletteSeed(seed: string): PaletteSeed {
   const random = createSeededRandom(seed);
 
   return {
@@ -40,10 +35,7 @@ function createPaletteSeed(
   };
 }
 
-function generateBackground(
-  harmony: ColorHarmony,
-  hue: number,
-): string {
+function generateBackground(harmony: ColorHarmony, hue: number): string {
   if (harmony === "neutral-accent") {
     return "hsl(220, 15%, 8%)";
   }
@@ -51,22 +43,15 @@ function generateBackground(
   return `hsl(${hue}, 20%, 8%)`;
 }
 
-function generateSurface(
-  surface: string,
-): string {
+function generateSurface(surface: string): string {
   return surface;
 }
 
-function generatePrimary(
-  hue: number,
-): string {
+function generatePrimary(hue: number): string {
   return `hsla(${hue}, 65%, 55%, 0.65)`;
 }
 
-function generateSecondary(
-  hue: number,
-  harmony: ColorHarmony,
-): string {
+function generateSecondary(hue: number, harmony: ColorHarmony): string {
   switch (harmony) {
     case "analogous":
       return `hsla(${analogousHue(hue, 30)}, 60%, 48%, 0.65)`;
@@ -75,8 +60,7 @@ function generateSecondary(
       return `hsla(${complementaryHue(hue)}, 60%, 48%, 0.65)`;
 
     case "split-complementary": {
-      const [secondaryHue] =
-        splitComplementaryHues(hue);
+      const [secondaryHue] = splitComplementaryHues(hue);
 
       return `hsla(${secondaryHue}, 60%, 48%, 0.65)`;
     }
@@ -89,10 +73,7 @@ function generateSecondary(
   }
 }
 
-function generateAccent(
-  hue: number,
-  harmony: ColorHarmony,
-): string {
+function generateAccent(hue: number, harmony: ColorHarmony): string {
   switch (harmony) {
     case "analogous":
       return `hsla(${analogousHue(hue, 60)}, 70%, 62%, 0.75)`;
@@ -101,8 +82,7 @@ function generateAccent(
       return `hsla(${complementaryHue(hue)}, 70%, 65%, 0.75)`;
 
     case "split-complementary": {
-      const [, accentHue] =
-        splitComplementaryHues(hue);
+      const [, accentHue] = splitComplementaryHues(hue);
 
       return `hsla(${accentHue}, 70%, 65%, 0.75)`;
     }
@@ -115,10 +95,7 @@ function generateAccent(
   }
 }
 
-function generateMuted(
-  hue: number,
-  harmony: ColorHarmony,
-): string {
+function generateMuted(hue: number, harmony: ColorHarmony): string {
   if (harmony === "neutral-accent") {
     return "hsla(220, 10%, 65%, 0.4)";
   }
@@ -126,9 +103,7 @@ function generateMuted(
   return `hsla(${hue}, 15%, 65%, 0.4)`;
 }
 
-function generateForeground(
-  harmony: ColorHarmony,
-): string {
+function generateForeground(harmony: ColorHarmony): string {
   if (harmony === "neutral-accent") {
     return "#f5f5f5";
   }
@@ -136,48 +111,27 @@ function generateForeground(
   return "#ffffff";
 }
 
-export function generatePalette(
-  seed: string,
-): ColorSystem {
-  const random: SeededRandom =
-    createSeededRandom(`${seed}:palette`);
+export function generatePalette(seed: string): ColorSystem {
+  const random: SeededRandom = createSeededRandom(`${seed}:palette`);
 
   const paletteSeed = createPaletteSeed(seed);
 
   const harmony = selectColorHarmony(random);
 
   const colors: ColorSystem = {
-    background: generateBackground(
-      harmony,
-      paletteSeed.hue,
-    ),
+    background: generateBackground(harmony, paletteSeed.hue),
 
-    surface: generateSurface(
-      paletteSeed.surface,
-    ),
+    surface: generateSurface(paletteSeed.surface),
 
-    primary: generatePrimary(
-      paletteSeed.hue,
-    ),
+    primary: generatePrimary(paletteSeed.hue),
 
-    secondary: generateSecondary(
-      paletteSeed.hue,
-      harmony,
-    ),
+    secondary: generateSecondary(paletteSeed.hue, harmony),
 
-    accent: generateAccent(
-      paletteSeed.hue,
-      harmony,
-    ),
+    accent: generateAccent(paletteSeed.hue, harmony),
 
-    muted: generateMuted(
-      paletteSeed.hue,
-      harmony,
-    ),
+    muted: generateMuted(paletteSeed.hue, harmony),
 
-    foreground: generateForeground(
-      harmony,
-    ),
+    foreground: generateForeground(harmony),
   };
 
   validateColorSystem(colors);
