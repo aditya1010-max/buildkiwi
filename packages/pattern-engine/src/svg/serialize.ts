@@ -17,7 +17,6 @@ import {
 export type SvgDocumentOptions = {
   width: number;
   height: number;
-  borderRadius: number;
   background?: string;
 };
 
@@ -35,16 +34,7 @@ export function serializeSvg(
     ? `<rect width="100%" height="100%" fill="${escapeAttribute(options.background)}" />`
     : "";
 
-  const clipPath = `
-    <clipPath id="pattern-clip">
-      <rect
-        width="${options.width}"
-        height="${options.height}"
-        rx="${options.borderRadius}"
-        ry="${options.borderRadius}"
-      />
-    </clipPath>
-  `;
+  const defs = definitions ? `<defs>${definitions}</defs>` : "";
 
   const svg = [
     `<svg xmlns="http://www.w3.org/2000/svg"`,
@@ -52,14 +42,9 @@ export function serializeSvg(
     ` height="${options.height}"`,
     ` viewBox="0 0 ${options.width} ${options.height}"`,
     ` preserveAspectRatio="none">`,
-    "<defs>",
-    clipPath,
-    definitions,
-    "</defs>",
-    `<g clip-path="url(#pattern-clip)">`,
+    defs,
     background,
     elements,
-    "</g>",
     "</svg>",
   ].join("");
 
