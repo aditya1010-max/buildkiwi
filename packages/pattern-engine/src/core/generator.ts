@@ -10,8 +10,9 @@ import { getPattern } from "./registry";
 import { serializeSvg } from "../svg/serialize";
 import { generatePalette } from "../palettes";
 import { generateGradient } from "../backgrounds/gradient";
+import { resolvePatternTheme } from "../themes/resolve";
 
-function applyVisualBudget(
+function applyElementBudget(
   elements: PatternElement[],
   maxElements: number,
 ): PatternElement[] {
@@ -26,36 +27,43 @@ function applyVisualBudget(
   return elements.slice(0, maxElements);
 }
 
-export function generatePattern(
-  config: PatternConfig,
-): GeneratedImage {
+export function generatePattern(config: PatternConfig): GeneratedImage {
   const random = createSeededRandom(config.seed);
 
-  const colors = config.colorSystem ?? generatePalette(config.seed);
+  const theme = resolvePatternTheme(config.pattern);
 
-  const gradient = generateGradient(
-    config.seed,
-    colors,
-    random,
-    config.width,
-    config.height,
-  );
+  const colors =
+    config.colorSystem ?? theme.colorSystem ?? generatePalette(config.seed);
+
+  const palette = [
+    colors.background,
+    colors.surface,
+    colors.primary,
+    colors.secondary,
+    colors.accent,
+    colors.muted,
+  ] as const;
+
+  const background = theme.background;
+
+  const gradient =
+    background?.type === "gradient"
+      ? generateGradient(
+          config.seed,
+          background.colors ?? [colors.background],
+          random,
+          config.width,
+          config.height,
+        )
+      : null;
 
   const pattern = getPattern(config.pattern);
 
   const output = pattern.generate({
     width: config.width,
     height: config.height,
-    borderRadius: config.borderRadius,
 
-    palette: [
-      colors.background,
-      colors.surface,
-      colors.primary,
-      colors.secondary,
-      colors.accent,
-      colors.muted,
-    ],
+    palette,
 
     random,
 
@@ -63,16 +71,13 @@ export function generatePattern(
 
     visualStyle: config.visualStyle,
 
-    visualBudget: config.visualBudget,
+    visualBudget: config.visualBudget ?? theme.visualBudget,
 
     colorSystem: colors,
   });
 
   const elements = config.visualBudget
-    ? applyVisualBudget(
-        output.elements,
-        config.visualBudget.maxElements,
-      )
+    ? applyElementBudget(output.elements, config.visualBudget.maxElements)
     : output.elements;
 
   const ring: Circle[] = config.ring
@@ -82,8 +87,7 @@ export function generatePattern(
           cx: config.width / 2,
           cy: config.height / 2,
           radius:
-            Math.min(config.width, config.height) / 2 -
-            config.ring.width / 2,
+            Math.min(config.width, config.height) / 2 - config.ring.width / 2,
           fill: "none",
           stroke: config.ring.color,
           strokeWidth: config.ring.width,
@@ -94,21 +98,16 @@ export function generatePattern(
   return serializeSvg(
     {
       definitions: [
-        gradient.definition,
+        ...(gradient ? [gradient.definition] : []),
         ...(output.definitions ?? []),
       ],
 
-      elements: [
-        gradient.element,
-        ...elements,
-        ...ring,
-      ],
+      elements: [...(gradient ? [gradient.element] : []), ...elements, ...ring],
     },
 
     {
       width: config.width,
       height: config.height,
-      borderRadius: config.borderRadius,
       background: config.background ?? colors.background,
     },
   );
