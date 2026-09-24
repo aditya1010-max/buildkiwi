@@ -13,16 +13,9 @@ export function distributeSpacing(
 
   const step = (end - start) / (count - 1);
 
-  return Array.from(
-    { length: count },
-    (_, index) => start + step * index,
-  );
+  return Array.from({ length: count }, (_, index) => start + step * index);
 }
 
-export function lerp(
-  start: number,
-  end: number,
-  amount: number,
-): number {
+export function lerp(start: number, end: number, amount: number): number {
   return start + (end - start) * amount;
 }

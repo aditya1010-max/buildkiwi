@@ -1,14 +1,8 @@
-import type {
-  Point,
-  SeededRandom,
-} from "../core/types";
+import type { Point, SeededRandom } from "../core/types";
 
 import type { Bounds } from "./bounds";
 
-export function samplePoint(
-  bounds: Bounds,
-  random: SeededRandom,
-): Point {
+export function samplePoint(bounds: Bounds, random: SeededRandom): Point {
   return {
     x: bounds.x + random.next() * bounds.width,
     y: bounds.y + random.next() * bounds.height,
@@ -20,9 +14,8 @@ export function samplePoints(
   count: number,
   random: SeededRandom,
 ): Point[] {
-  return Array.from(
-    { length: Math.max(0, count) },
-    () => samplePoint(bounds, random),
+  return Array.from({ length: Math.max(0, count) }, () =>
+    samplePoint(bounds, random),
   );
 }
 

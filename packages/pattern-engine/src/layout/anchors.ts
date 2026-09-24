@@ -1,7 +1,4 @@
-import type {
-  Composition,
-  Point,
-} from "../core/types";
+import type { Composition, Point } from "../core/types";
 
 export type Anchor =
   | "center"
@@ -14,10 +11,7 @@ export type Anchor =
   | "bottom-center"
   | "bottom-right";
 
-export function getAnchor(
-  composition: Composition,
-  anchor: Anchor,
-): Point {
+export function getAnchor(composition: Composition, anchor: Anchor): Point {
   const { x, y, width, height } = composition.region;
 
   switch (anchor) {

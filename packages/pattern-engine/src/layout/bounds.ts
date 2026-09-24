@@ -16,10 +16,7 @@ export function createBounds(
   };
 }
 
-export function containsPoint(
-  bounds: Bounds,
-  point: Point,
-): boolean {
+export function containsPoint(bounds: Bounds, point: Point): boolean {
   return (
     point.x >= bounds.x &&
     point.x <= bounds.x + bounds.width &&
@@ -28,35 +25,21 @@ export function containsPoint(
   );
 }
 
-export function clampPoint(
-  point: Point,
-  bounds: Bounds,
-): Point {
+export function clampPoint(point: Point, bounds: Bounds): Point {
   return {
-    x: Math.min(
-      bounds.x + bounds.width,
-      Math.max(bounds.x, point.x),
-    ),
-    y: Math.min(
-      bounds.y + bounds.height,
-      Math.max(bounds.y, point.y),
-    ),
+    x: Math.min(bounds.x + bounds.width, Math.max(bounds.x, point.x)),
+    y: Math.min(bounds.y + bounds.height, Math.max(bounds.y, point.y)),
   };
 }
 
-export function getBoundsCenter(
-  bounds: Bounds,
-): Point {
+export function getBoundsCenter(bounds: Bounds): Point {
   return {
     x: bounds.x + bounds.width / 2,
     y: bounds.y + bounds.height / 2,
   };
 }
 
-export function insetBounds(
-  bounds: Bounds,
-  padding: number,
-): Bounds {
+export function insetBounds(bounds: Bounds, padding: number): Bounds {
   return {
     x: bounds.x + padding,
     y: bounds.y + padding,

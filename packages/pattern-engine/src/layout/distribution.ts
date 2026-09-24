@@ -1,7 +1,4 @@
-import type {
-  Point,
-  SeededRandom,
-} from "../core/types";
+import type { Point, SeededRandom } from "../core/types";
 
 import type { Bounds } from "./bounds";
 
@@ -47,17 +44,14 @@ export function createRadialPositions(
 
   const angleStep = (Math.PI * 2) / count;
 
-  return Array.from(
-    { length: count },
-    (_, index) => {
-      const angle = startAngle + angleStep * index;
+  return Array.from({ length: count }, (_, index) => {
+    const angle = startAngle + angleStep * index;
 
-      return {
-        x: center.x + Math.cos(angle) * radius,
-        y: center.y + Math.sin(angle) * radius,
-      };
-    },
-  );
+    return {
+      x: center.x + Math.cos(angle) * radius,
+      y: center.y + Math.sin(angle) * radius,
+    };
+  });
 }
 
 export function distributeRandomly(
@@ -69,11 +63,8 @@ export function distributeRandomly(
     return [];
   }
 
-  return Array.from(
-    { length: count },
-    () => ({
-      x: bounds.x + random.next() * bounds.width,
-      y: bounds.y + random.next() * bounds.height,
-    }),
-  );
+  return Array.from({ length: count }, () => ({
+    x: bounds.x + random.next() * bounds.width,
+    y: bounds.y + random.next() * bounds.height,
+  }));
 }
