@@ -1,21 +1,21 @@
 .project-page {
-  position: relative;
-
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2rem;
 
   width: 100%;
+  max-width: 1200px;
   min-width: 0;
 
+  margin: 0 auto;
   padding: 2rem;
+
   box-sizing: border-box;
 }
 
-.project-page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
+@media (max-width: 768px) {
+  .project-page {
+    gap: 1.5rem;
+    padding: 1rem;
+  }
 }

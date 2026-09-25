@@ -24,20 +24,16 @@ export default function ProjectHero({
       </div>
 
       <div className="project-hero_content">
-        <h1 className="project-hero_title">
-          {project.title || "Untitled Project"}
-        </h1>
+        <div className="project-hero_identity">
+          <div className="project-hero_identity-info">
+            <h1 className="project-hero_title">
+              {project.title || "Untitled Project"}
+            </h1>
 
-        <div className="project-hero_meta">
-          <span className="project-hero_creator">
-            @{project.creatorId.username}
-          </span>
-
-          <span className="project-hero_separator">•</span>
-
-          <span className="project-hero_date">
-            {new Date(project.createdAt).toLocaleDateString()}
-          </span>
+            <span className="project-hero_creator">
+              @{project.creatorId.username}
+            </span>
+          </div>
         </div>
 
         <div className="project-hero_actions">
@@ -54,7 +50,7 @@ export default function ProjectHero({
             <Button
               type="button"
               variant="secondary"
-              className="project-hero_button disabled"
+              className="project-hero_button"
               disabled
             >
               GitHub Unavailable
@@ -74,7 +70,7 @@ export default function ProjectHero({
             <Button
               type="button"
               variant="secondary"
-              className="project-hero_button disabled"
+              className="project-hero_button"
               disabled
             >
               Demo Unavailable
