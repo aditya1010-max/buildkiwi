@@ -1,7 +1,37 @@
-.project-card_tags {
+.project-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+
   width: 100%;
   min-width: 0;
+}
+
+.project-tags_empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+  min-height: 160px;
+  padding: 1.5rem;
+
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+
+  text-align: center;
+}
+
+.project-tags_empty h3 {
+  margin: 0;
+  color: var(--text-h);
+}
+
+.project-tags_empty p {
+  max-width: 360px;
+  margin: 0;
+
+  color: var(--text);
+  line-height: 1.7;
 }
