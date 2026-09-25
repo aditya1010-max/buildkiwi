@@ -1,6 +1,7 @@
 .project-metadata_list {
   display: flex;
   flex-direction: column;
+
   width: 100%;
   min-width: 0;
 }
@@ -9,30 +10,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 1rem;
 
   width: 100%;
   min-width: 0;
+
   padding: 1rem 0;
 
   border-bottom: 1px solid var(--border);
 }
 
-.project-metadata_item:last-child {
-  border-bottom: none;
-}
-
 .project-metadata_label {
   flex: 0 0 auto;
+
   color: var(--text);
   font-size: 0.95rem;
 }
 
 .project-metadata_value {
   min-width: 0;
+
   color: var(--text-h);
   font-weight: 600;
   text-align: right;
+
   overflow-wrap: anywhere;
   word-break: break-word;
 }

@@ -37,6 +37,16 @@ export default function ProjectMetadata({ project }: ProjectMetadataProps) {
           label="Views"
           value={project.stats.views.toLocaleString()}
         />
+
+        <MetadataItem
+          label="Created"
+          value={new Date(project.createdAt).toLocaleDateString()}
+        />
+
+        <MetadataItem
+          label="Updated"
+          value={new Date(project.updatedAt).toLocaleDateString()}
+        />
       </div>
     </ProjectSection>
   );
