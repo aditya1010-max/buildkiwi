@@ -70,3 +70,12 @@
     transform: translateY(0) scale(1);
   }
 }
+
+@media (max-width: 768px) {
+  .user-menu_popup {
+    top: calc(100% + 0.75rem);
+    right: 0;
+    bottom: auto;
+    left: auto;
+  }
+}
