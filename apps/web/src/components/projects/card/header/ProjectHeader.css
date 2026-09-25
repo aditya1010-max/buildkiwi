@@ -3,6 +3,7 @@
   align-items: center;
   width: 100%;
   min-width: 0;
+  z-index: 1;
 }
 
 .project-card_creator {

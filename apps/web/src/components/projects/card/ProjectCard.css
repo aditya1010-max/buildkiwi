@@ -14,7 +14,8 @@
 }
 
 .project-card:hover {
-  border-color: var(--accent);
+  border-color: rgb(212, 202, 202);
+  background: #e4ece03d;
 }
 
 @media (max-width: 768px) {

@@ -43,7 +43,8 @@
 
 .kiwi-achievement:hover {
   border-color: var(--accent-border);
-  background: var(--accent-bg);
+  /* background: var(--accent-bg); */
+  background: #e4ece03d;
 }
 
 /* Achievement image */
