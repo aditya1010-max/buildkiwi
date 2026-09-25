@@ -88,13 +88,9 @@ describe("geometricPattern", () => {
   });
 
   it("produces different output for different seeds", () => {
-    const first = geometricPattern.generate(
-      createContext("seed-a", "center"),
-    );
+    const first = geometricPattern.generate(createContext("seed-a", "center"));
 
-    const second = geometricPattern.generate(
-      createContext("seed-b", "center"),
-    );
+    const second = geometricPattern.generate(createContext("seed-b", "center"));
 
     expect(first).not.toEqual(second);
   });
@@ -125,10 +121,7 @@ describe("geometricPattern", () => {
   });
 
   it("respects the visual budget", () => {
-    const context = createContext(
-      "budget-seed",
-      "modular",
-    );
+    const context = createContext("budget-seed", "modular");
 
     const output = geometricPattern.generate(context);
 
