@@ -62,6 +62,7 @@ describe("bookmark repository", () => {
         github: "https://github.com/example/buildkiwi",
         demo: "https://buildkiwi.dev",
       },
+      coverSeed: "test-seed",
       stats: {
         likes: 0,
         comments: 0,

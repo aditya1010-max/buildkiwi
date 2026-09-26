@@ -38,6 +38,7 @@ describe("project repository", () => {
         title: "BuildKiwi",
         description: "Developer platform",
         tags: ["React", "Node"],
+        coverSeed: "test-seed",
         links: {},
       };
 

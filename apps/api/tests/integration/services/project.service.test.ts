@@ -82,6 +82,7 @@ describe("project service", () => {
           github: "",
           demo: "",
         },
+        coverSeed: "test-seed",
       };
 
       const project = {

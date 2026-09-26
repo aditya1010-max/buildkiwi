@@ -89,6 +89,7 @@ describe("project service", () => {
             github: "",
             demo: "",
           },
+          coverSeed: "test-seed",
         },
         "user-123",
       );

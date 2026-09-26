@@ -196,6 +196,7 @@ describe("project HTTP", () => {
         .field("title", "BuildKiwi")
         .field("description", "Developer platform")
         .field("tags", JSON.stringify(["React"]))
+        .field("coverSeed", "test-seed")
         .field("links.github", "https://github.com/example")
         .field("links.demo", "https://buildkiwi.dev");
 
@@ -212,6 +213,7 @@ describe("project HTTP", () => {
           title: "BuildKiwi",
           description: "Developer platform",
           tags: ["React"],
+          coverSeed: "test-seed",
           links: {
             github: "https://github.com/example",
             demo: "https://buildkiwi.dev",
