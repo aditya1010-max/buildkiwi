@@ -197,8 +197,8 @@ describe("project HTTP", () => {
         .field("description", "Developer platform")
         .field("tags", JSON.stringify(["React"]))
         .field("coverSeed", "test-seed")
-        .field("links.github", "https://github.com/example")
-        .field("links.demo", "https://buildkiwi.dev");
+        .field("github", "https://github.com/example")
+        .field("demo", "https://buildkiwi.dev");
 
       expect(response.status).toBe(201);
 

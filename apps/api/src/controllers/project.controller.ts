@@ -40,6 +40,20 @@ const runSecondaryValidation = (
   }
 };
 
+function normalizeUrl(value: unknown): string {
+  if (typeof value !== "string") return "";
+
+  const url = value.trim();
+
+  if (!url) return "";
+
+  if (/^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  return `https://${url}`;
+}
+
 // --- CREATE PROJECT ---
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
@@ -63,8 +77,8 @@ export const createProject = asyncHandler(
       })(),
 
       links: {
-        github: authReq.body["links.github"] || "",
-        demo: authReq.body["links.demo"] || "",
+        github: normalizeUrl(authReq.body.github),
+        demo: normalizeUrl(authReq.body.demo),
       },
     };
 
@@ -158,8 +172,8 @@ export const updateProject = asyncHandler(
       })(),
 
       links: {
-        github: authReq.body["links.github"] || "",
-        demo: authReq.body["links.demo"] || "",
+        github: normalizeUrl(authReq.body.github),
+        demo: normalizeUrl(authReq.body.demo),
       },
 
       ...(authReq.file?.filename && {
