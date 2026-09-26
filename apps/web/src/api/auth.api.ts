@@ -8,7 +8,11 @@ interface ApiUser extends Omit<User, "id"> {
   _id: string;
 }
 
-function normalizeUser(user: User | ApiUser): User {
+function normalizeUser(user: User | ApiUser | null): User | null {
+  if (!user) {
+    return null;
+  }
+
   if ("id" in user) {
     return user;
   }
@@ -21,7 +25,7 @@ function normalizeUser(user: User | ApiUser): User {
 
 interface MeResponse {
   success: boolean;
-  user: ApiUser;
+  user: ApiUser | null;
 }
 
 export const login = async (email: string, password: string) => {
@@ -53,7 +57,7 @@ export const register = async (
   };
 };
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<User | null> {
   const token = localStorage.getItem("token");
 
   const { data } = await api.get<MeResponse>(`${API}/me`, {

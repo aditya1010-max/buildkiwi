@@ -13,7 +13,6 @@ interface PublicProfileProps {
 }
 
 export default function PublicProfile({ username }: PublicProfileProps) {
-  console.log("🔥 PUBLIC PROFILE RENDERED:", username);
   const { user, loading: userLoading } = useUserProfile(username);
   const { projects, loading: projectsLoading } = useUserProjects(username);
 

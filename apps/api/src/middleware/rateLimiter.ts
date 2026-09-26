@@ -5,9 +5,7 @@ export const apiLimiter = rateLimit({
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
-  handler: (req, res) => {
-    console.log("RATE LIMIT HIT:", req.method, req.originalUrl);
-
+  handler: (_req, res) => {
     res.status(429).json({
       success: false,
       message: "Rate limited",

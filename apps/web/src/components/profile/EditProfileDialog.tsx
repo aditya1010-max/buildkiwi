@@ -32,15 +32,6 @@ export default function EditProfileDialog({
 
   const handleRandomize = () => {
     const candidates = generateAvatarCandidates();
-
-    console.log("[Avatar Randomize] Candidates:", candidates);
-
-    candidates.forEach((candidate, index) => {
-      console.log(`\n[Avatar ${index + 1}]`);
-      console.log("Pattern:", candidate.pattern);
-      console.log("Seed:", candidate.seed);
-    });
-
     setAvatarCandidates(candidates);
   };
 
