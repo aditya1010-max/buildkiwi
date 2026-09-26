@@ -11,7 +11,7 @@ describe("CreateProjectSchema", () => {
       title: "BuildKiwi",
       description: "A platform for developers to showcase projects.",
       tags: ["React", "TypeScript"],
-      coverImage: "https://example.com/image.png",
+      coverSeed: "buildkiwi-123",
       links: {
         github: "https://github.com/example/project",
         demo: "https://example.com",
@@ -27,6 +27,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "AB",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -38,6 +39,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "ABC",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -49,6 +51,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "Too short",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -60,6 +63,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "1234567890",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -71,6 +75,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -87,6 +92,7 @@ describe("CreateProjectSchema", () => {
       title: "BuildKiwi",
       description: "A valid project description.",
       tags: ["React", "Node.js", "MongoDB"],
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -99,6 +105,7 @@ describe("CreateProjectSchema", () => {
       title: "BuildKiwi",
       description: "A valid project description.",
       tags: ["React", 123],
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -106,19 +113,23 @@ describe("CreateProjectSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("accepts a cover image when provided", () => {
+  it("accepts a cover seed when provided", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
-      coverImage: "https://example.com/image.png",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
 
     expect(result.success).toBe(true);
+
+    if (result.success) {
+      expect(result.data.coverSeed).toBe("buildkiwi-123");
+    }
   });
 
-  it("accepts an omitted cover image", () => {
+  it("rejects project data when cover seed is missing", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
@@ -126,13 +137,14 @@ describe("CreateProjectSchema", () => {
 
     const result = CreateProjectSchema.safeParse(input);
 
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false);
   });
 
   it("defaults links to an empty object when omitted", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -148,6 +160,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
       links: {
         github: "https://github.com/example/project",
         demo: "https://example.com",
@@ -163,6 +176,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
       links: {
         github: "",
         demo: "",
@@ -178,6 +192,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
       links: {},
     };
 
@@ -190,6 +205,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
       links: {
         github: "not-a-url",
       },
@@ -204,6 +220,7 @@ describe("CreateProjectSchema", () => {
     const input = {
       title: "BuildKiwi",
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
       links: {
         demo: "not-a-url",
       },
@@ -217,6 +234,7 @@ describe("CreateProjectSchema", () => {
   it("rejects project data when title is missing", () => {
     const input = {
       description: "A valid project description.",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -227,6 +245,7 @@ describe("CreateProjectSchema", () => {
   it("rejects project data when description is missing", () => {
     const input = {
       title: "BuildKiwi",
+      coverSeed: "buildkiwi-123",
     };
 
     const result = CreateProjectSchema.safeParse(input);
@@ -241,7 +260,7 @@ describe("UpdateProjectSchema", () => {
       title: "Updated Project",
       description: "Updated project description.",
       tags: ["React", "TypeScript"],
-      coverImage: "https://example.com/image.png",
+      coverSeed: "updated-seed-123",
       links: {
         github: "https://github.com/example/project",
         demo: "https://example.com",
@@ -321,9 +340,9 @@ describe("UpdateProjectSchema", () => {
     expect(result.success).toBe(true);
   });
 
-  it("accepts an update containing only a cover image", () => {
+  it("accepts an update containing only a cover seed", () => {
     const input = {
-      coverImage: "https://example.com/image.png",
+      coverSeed: "updated-seed-123",
     };
 
     const result = UpdateProjectSchema.safeParse(input);

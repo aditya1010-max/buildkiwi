@@ -121,8 +121,7 @@ export default function NavigationSnapshotProvider({
 
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [location.pathname, location.key]);
-
+  }, [location.pathname, location.search, location.hash, location.key]);
   useEffect(() => {
     const previousRestoration = window.history.scrollRestoration;
 
