@@ -1,43 +1,130 @@
+/**
+ * Test Scope
+ * ----------
+ * Handles asset generation, preset lookup, and asset request resolution.
+ *
+ * Covers:
+ * - Asset preset registration
+ * - Asset preset lookup
+ * - Asset request resolution
+ * - Pattern overrides
+ * - Asset generation
+ * - Asset dimensions
+ *
+ * Does not cover:
+ * - Core pattern generation
+ * - Pattern implementation details
+ * - Theme resolution
+ * - Visual budget rules
+ * - SVG serialization
+ */
+
 import { describe, expect, it } from "vitest";
 
-import { generateAsset } from "../src/assets/generator";
+import {
+  generateAsset,
+  getAssetPreset,
+  resolveAssetRequest,
+} from "../src/assets";
 
-describe("generateAsset", () => {
-  it("produces identical SVG for the same asset request", () => {
-    const request = {
-      type: "cover" as const,
-      seed: "deterministic-cover-seed",
-    };
-
-    const first = generateAsset(request);
-    const second = generateAsset(request);
-
-    expect(first.svg).toBe(second.svg);
-  });
-
-  it("produces identical profile SVG for the same asset request", () => {
-    const request = {
-      type: "profile" as const,
-      seed: "deterministic-profile-seed",
-    };
-
-    const first = generateAsset(request);
-    const second = generateAsset(request);
-
-    expect(first.svg).toBe(second.svg);
-  });
-
-  it("produces different SVG for different seeds", () => {
-    const first = generateAsset({
-      type: "cover",
-      seed: "seed-a",
+describe("assets", () => {
+  describe("presets", () => {
+    it("returns the cover preset", () => {
+      expect(getAssetPreset("cover")).toEqual({
+        type: "cover",
+        width: 1200,
+        height: 630,
+        pattern: "geometric",
+      });
     });
 
-    const second = generateAsset({
-      type: "cover",
-      seed: "seed-b",
+    it("returns the profile preset", () => {
+      expect(getAssetPreset("profile")).toEqual({
+        type: "profile",
+        width: 512,
+        height: 512,
+        pattern: "geometric",
+      });
+    });
+  });
+
+  describe("resolveAssetRequest", () => {
+    it("resolves a cover request using its preset", () => {
+      const config = resolveAssetRequest({
+        type: "cover",
+        seed: "test-seed",
+      });
+
+      expect(config).toEqual({
+        seed: "test-seed",
+        pattern: "geometric",
+        width: 1200,
+        height: 630,
+      });
     });
 
-    expect(first.svg).not.toBe(second.svg);
+    it("resolves a profile request using its preset", () => {
+      const config = resolveAssetRequest({
+        type: "profile",
+        seed: "test-seed",
+      });
+
+      expect(config).toEqual({
+        seed: "test-seed",
+        pattern: "geometric",
+        width: 512,
+        height: 512,
+      });
+    });
+
+    it("allows the requested pattern to override the preset pattern", () => {
+      const config = resolveAssetRequest({
+        type: "cover",
+        seed: "test-seed",
+        pattern: "blobs",
+      });
+
+      expect(config.pattern).toBe("blobs");
+      expect(config.width).toBe(1200);
+      expect(config.height).toBe(630);
+    });
+  });
+
+  describe("generateAsset", () => {
+    it("generates a cover with the preset dimensions", () => {
+      const result = generateAsset({
+        type: "cover",
+        seed: "test-seed",
+      });
+
+      expect(result.width).toBe(1200);
+      expect(result.height).toBe(630);
+      expect(result.svg).toContain("<svg");
+    });
+
+    it("generates a profile with the preset dimensions", () => {
+      const result = generateAsset({
+        type: "profile",
+        seed: "test-seed",
+      });
+
+      expect(result.width).toBe(512);
+      expect(result.height).toBe(512);
+      expect(result.svg).toContain("<svg");
+    });
+
+    it("produces deterministic output for the same request", () => {
+      const first = generateAsset({
+        type: "cover",
+        seed: "same-seed",
+      });
+
+      const second = generateAsset({
+        type: "cover",
+        seed: "same-seed",
+      });
+
+      expect(first).toEqual(second);
+    });
   });
 });

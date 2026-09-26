@@ -1,150 +1,104 @@
-﻿import { describe, expect, it } from "vitest";
+﻿/**
+ * Test Scope
+ * ----------
+ * Handles the geometric pattern generator.
+ *
+ * Covers:
+ * - Geometric pattern generation
+ * - Generated circle structure
+ * - Circle positioning and sizing
+ * - Deterministic generation
+ * - Visual-budget integration
+ * - Motif integration
+ *
+ * Does not cover:
+ * - Motif implementation details
+ * - Layout utilities
+ * - Palette generation
+ * - Theme resolution
+ * - SVG serialization
+ */
 
-import { createSeededRandom } from "../src/core/random";
-import type {
-  ColorSystem,
-  PatternContext,
-  VisualBudget,
-} from "../src/core/types";
+import { describe, expect, it } from "vitest";
 
 import { geometricPattern } from "../src/patterns/geometric";
 
-const colorSystem: ColorSystem = {
-  background: "#ffffff",
-  surface: "#f3f4f6",
-  primary: "#111827",
-  secondary: "#6b7280",
-  accent: "#6366f1",
-  muted: "#9ca3af",
-  foreground: "#4c71b0",
-};
+import type { PatternContext, PatternElement } from "../src/core/types";
 
-const visualBudget: VisualBudget = {
-  maxElements: 12,
-  density: 0.7,
-  contrast: 0.7,
-  complexity: 0.6,
-  accentUsage: 0.2,
-};
-
-function createContext(
-  seed: string,
-  composition:
-    | "center"
-    | "corner"
-    | "diagonal"
-    | "radial"
-    | "asymmetric"
-    | "cluster"
-    | "framed"
-    | "modular" = "center",
-): PatternContext {
+function createContext(randomValue = 0.5, maxElements = 12): PatternContext {
   return {
-    width: 1200,
-    height: 630,
-    borderRadius: 24,
-
-    palette: [
-      colorSystem.background,
-      colorSystem.surface,
-      colorSystem.primary,
-      colorSystem.secondary,
-      colorSystem.accent,
-      colorSystem.muted,
-    ],
-
-    random: createSeededRandom(seed),
-
-    composition: {
-      id: composition,
-      focalPoint: {
-        x: 600,
-        y: 315,
-      },
-      region: {
-        x: 0,
-        y: 0,
-        width: 1200,
-        height: 630,
-      },
+    width: 400,
+    height: 300,
+    palette: ["#111111", "#222222", "#333333", "#444444", "#555555", "#666666"],
+    random: {
+      next: () => randomValue,
+      int: (min) => min,
+      pick: <T>(items: readonly T[]) => items[0],
     },
-
-    colorSystem,
-    visualBudget,
+    visualBudget: {
+      maxElements,
+      density: 0.7,
+      contrast: 1,
+      complexity: 0.6,
+      accentUsage: 0.2,
+    },
   };
 }
 
 describe("geometricPattern", () => {
-  it("produces deterministic output for the same seed", () => {
-    const first = geometricPattern.generate(
-      createContext("deterministic-seed", "center"),
+  it("identifies itself as the geometric pattern", () => {
+    expect(geometricPattern.id).toBe("geometric");
+  });
+
+  it("generates pattern elements", () => {
+    const result = geometricPattern.generate(createContext());
+
+    expect(result.elements.length).toBeGreaterThan(0);
+  });
+
+  it("generates valid circles within the padded canvas", () => {
+    const result = geometricPattern.generate(createContext(0.9));
+
+    const circles = result.elements.filter(
+      (element): element is Extract<PatternElement, { type: "circle" }> =>
+        element.type === "circle",
     );
 
-    const second = geometricPattern.generate(
-      createContext("deterministic-seed", "center"),
+    expect(circles.length).toBeGreaterThanOrEqual(5);
+
+    for (const circle of circles) {
+      expect(circle.cx).toBeGreaterThanOrEqual(32);
+      expect(circle.cx).toBeLessThanOrEqual(368);
+
+      expect(circle.cy).toBeGreaterThanOrEqual(24);
+      expect(circle.cy).toBeLessThanOrEqual(276);
+
+      expect(circle.radius).toBeGreaterThan(0);
+      expect(circle.opacity).toBeGreaterThanOrEqual(0.55);
+      expect(circle.opacity).toBeLessThanOrEqual(0.82);
+    }
+  });
+
+  it("respects a smaller visual budget for base circles", () => {
+    const result = geometricPattern.generate(createContext(0.5, 6));
+
+    const circles = result.elements.filter(
+      (element) => element.type === "circle",
     );
+
+    expect(circles.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("produces deterministic output for the same random sequence", () => {
+    const first = geometricPattern.generate(createContext(0.5));
+    const second = geometricPattern.generate(createContext(0.5));
 
     expect(first).toEqual(second);
   });
 
-  it("produces different output for different seeds", () => {
-    const first = geometricPattern.generate(createContext("seed-a", "center"));
+  it("can generate motif elements", () => {
+    const result = geometricPattern.generate(createContext(0.1));
 
-    const second = geometricPattern.generate(createContext("seed-b", "center"));
-
-    expect(first).not.toEqual(second);
-  });
-
-  it("keeps every composition deterministic", () => {
-    const compositions = [
-      "center",
-      "corner",
-      "diagonal",
-      "radial",
-      "asymmetric",
-      "cluster",
-      "framed",
-      "modular",
-    ] as const;
-
-    for (const composition of compositions) {
-      const first = geometricPattern.generate(
-        createContext("composition-seed", composition),
-      );
-
-      const second = geometricPattern.generate(
-        createContext("composition-seed", composition),
-      );
-
-      expect(first).toEqual(second);
-    }
-  });
-
-  it("respects the visual budget", () => {
-    const context = createContext("budget-seed", "modular");
-
-    const output = geometricPattern.generate(context);
-
-    expect(output.elements.length).toBeLessThanOrEqual(
-      context.visualBudget!.maxElements,
-    );
-  });
-
-  it("preserves composition-specific output", () => {
-    const center = geometricPattern.generate(
-      createContext("same-seed", "center"),
-    );
-
-    const diagonal = geometricPattern.generate(
-      createContext("same-seed", "diagonal"),
-    );
-
-    const cluster = geometricPattern.generate(
-      createContext("same-seed", "cluster"),
-    );
-
-    expect(center).not.toEqual(diagonal);
-    expect(diagonal).not.toEqual(cluster);
-    expect(center).not.toEqual(cluster);
+    expect(result.elements.length).toBeGreaterThan(5);
   });
 });

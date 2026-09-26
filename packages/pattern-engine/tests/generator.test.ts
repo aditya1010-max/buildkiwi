@@ -1,155 +1,177 @@
-﻿// import { describe, expect, it } from "vitest";
-// import { generatePattern } from "../src/core/generator";
+﻿/**
+ * Test Scope
+ * ----------
+ * Handles the core pattern generation pipeline.
+ *
+ * Covers:
+ * - Pattern configuration
+ * - Pattern resolution
+ * - Deterministic generation
+ * - Output dimensions
+ * - Theme integration
+ * - Color system resolution
+ * - Background handling
+ * - Visual budget enforcement
+ * - Ring generation
+ * - Generator integration
+ *
+ * Does not cover:
+ * - Asset generation
+ * - Asset presets
+ * - Asset request resolution
+ * - Individual pattern implementation details
+ * - Low-level SVG serialization
+ */
 
-// import { coverPreset } from "../src/presets/cover";
-// import { profilePreset } from "../src/presets/profile";
+import { describe, expect, it } from "vitest";
 
-// describe("generatePattern", () => {
-//   it("produces identical SVG for the same seed and configuration", () => {
-//     const config = {
-//       ...coverPreset,
-//       seed: "deterministic-test-seed",
-//       palette: [],
-//     };
+import { generatePattern } from "../src/core/generator";
 
-//     const first = generatePattern(config);
-//     const second = generatePattern(config);
+describe("generatePattern", () => {
+  const baseConfig = {
+    seed: "generator-test",
+    pattern: "geometric" as const,
+    width: 400,
+    height: 300,
+  };
 
-//     expect(first.svg).toBe(second.svg);
-//   });
+  describe("basic generation", () => {
+    it("generates an image from a valid pattern configuration", () => {
+      const result = generatePattern(baseConfig);
 
-//   it("produces identical SVG for the same profile seed", () => {
-//     const config = {
-//       ...profilePreset,
-//       seed: "deterministic-profile-seed",
-//       palette: [],
-//     };
+      expect(result).toBeDefined();
+      expect(result.svg).toBeTypeOf("string");
+    });
 
-//     const first = generatePattern(config);
-//     const second = generatePattern(config);
+    it("generates output with the requested dimensions", () => {
+      const result = generatePattern(baseConfig);
 
-//     expect(first.svg).toBe(second.svg);
-//   });
-// });
+      expect(result.width).toBe(400);
+      expect(result.height).toBe(300);
+    });
 
-// const config = {
-//   seed: "buildkiwi-test",
-//   pattern: "geometric" as const,
-//   width: 512,
-//   height: 512,
-//   borderRadius: 999,
-//   palette: ["#111111", "#555555", "#999999"],
-// };
+    it("generates SVG output", () => {
+      const result = generatePattern(baseConfig);
 
-// describe("generatePattern", () => {
-//   it("generates an SVG image", () => {
-//     const result = generatePattern(config);
+      expect(result.svg).toContain("<svg");
+      expect(result.svg).toContain("</svg>");
+    });
+  });
 
-//     expect(result.width).toBe(512);
-//     expect(result.height).toBe(512);
-//     expect(result.svg).toContain("<svg");
-//     expect(result.svg).toContain("<defs>");
-//     expect(result.svg).toContain("<linearGradient");
-//     expect(result.svg).toContain('id="background-gradient-buildkiwi-test"');
-//     expect(result.svg).toContain("<circle");
-//     expect(result.svg).toContain("<rect");
-//   });
+  describe("determinism", () => {
+    it("produces identical output for the same configuration", () => {
+      const first = generatePattern(baseConfig);
+      const second = generatePattern(baseConfig);
 
-//   it("is deterministic", () => {
-//     const first = generatePattern(config);
-//     const second = generatePattern(config);
+      expect(first).toEqual(second);
+    });
 
-//     expect(first).toEqual(second);
-//   });
+    it("produces different output for different seeds", () => {
+      const first = generatePattern({
+        ...baseConfig,
+        seed: "seed-a",
+      });
 
-//   it("changes when the seed changes", () => {
-//     const first = generatePattern(config);
+      const second = generatePattern({
+        ...baseConfig,
+        seed: "seed-b",
+      });
 
-//     const second = generatePattern({
-//       ...config,
-//       seed: "different-seed",
-//     });
+      expect(first.svg).not.toBe(second.svg);
+    });
+  });
 
-//     expect(first.svg).not.toBe(second.svg);
-//   });
+  describe("dimensions", () => {
+    it("preserves custom dimensions", () => {
+      const result = generatePattern({
+        ...baseConfig,
+        width: 1200,
+        height: 630,
+      });
 
-//   it("supports different rendering dimensions", () => {
-//     const result = generatePattern({
-//       ...config,
-//       width: 1200,
-//       height: 630,
-//       borderRadius: 16,
-//     });
+      expect(result.width).toBe(1200);
+      expect(result.height).toBe(630);
+    });
+  });
 
-//     expect(result.width).toBe(1200);
-//     expect(result.height).toBe(630);
-//     expect(result.svg).toContain('width="1200"');
-//     expect(result.svg).toContain('height="630"');
-//   });
+  describe("background", () => {
+    it("uses the configured background", () => {
+      const result = generatePattern({
+        ...baseConfig,
+        background: "#123456",
+      });
 
-//   it("uses different gradient IDs for different seeds", () => {
-//     const first = generatePattern({
-//       ...config,
-//       seed: "seed-a",
-//     });
+      expect(result.svg).toContain("#123456");
+    });
+  });
 
-//     const second = generatePattern({
-//       ...config,
-//       seed: "seed-b",
-//     });
+  describe("color system", () => {
+    it("uses the provided color system", () => {
+      const result = generatePattern({
+        ...baseConfig,
+        colorSystem: {
+          background: "#111111",
+          surface: "#222222",
+          primary: "#333333",
+          secondary: "#444444",
+          accent: "#555555",
+          muted: "#666666",
+          foreground: "#777777",
+        },
+      });
 
-//     expect(first.svg).toContain('id="background-gradient-seed-a"');
-//     expect(second.svg).toContain('id="background-gradient-seed-b"');
+      expect(result.svg).toContain("#111111");
+    });
+  });
 
-//     expect(first.svg).not.toContain('id="background-gradient-seed-b"');
+  describe("visual budget", () => {
+    it("accepts an explicit visual budget", () => {
+      const result = generatePattern({
+        ...baseConfig,
+        visualBudget: {
+          maxElements: 5,
+          density: 0.5,
+          contrast: 0.5,
+          complexity: 0.5,
+          accentUsage: 0.5,
+        },
+      });
 
-//     expect(second.svg).not.toContain('id="background-gradient-seed-a"');
-//   });
+      expect(result).toBeDefined();
+      expect(result.svg).toContain("<svg");
+    });
 
-// describe("generatePattern", () => {
-//   it("produces identical SVG for the same seed and configuration", () => {
-//     const config = {
-//       ...coverPreset,
-//       seed: "deterministic-test-seed",
-//       palette: [],
-//     };
+    it("supports a zero-element budget", () => {
+      const result = generatePattern({
+        ...baseConfig,
+        visualBudget: {
+          maxElements: 0,
+          density: 0.5,
+          contrast: 0.5,
+          complexity: 0.5,
+          accentUsage: 0.5,
+        },
+      });
 
-//     const first = generatePattern(config);
-//     const second = generatePattern(config);
+      expect(result).toBeDefined();
+      expect(result.svg).toContain("<svg");
+    });
+  });
 
-//     expect(first.svg).toBe(second.svg);
-//   });
+  describe("ring", () => {
+    it("adds a ring when ring configuration is provided", () => {
+      const withoutRing = generatePattern(baseConfig);
 
-//   it("produces identical SVG for the same profile seed", () => {
-//     const config = {
-//       ...profilePreset,
-//       seed: "deterministic-profile-seed",
-//       palette: [],
-//     };
+      const withRing = generatePattern({
+        ...baseConfig,
+        ring: {
+          color: "#ff0000",
+          width: 4,
+        },
+      });
 
-//     const first = generatePattern(config);
-//     const second = generatePattern(config);
-
-//     expect(first.svg).toBe(second.svg);
-//   });
-// });
-
-// });
-
-// /*
-// Test coverage:
-
-// 1. Generates an SVG image
-//    → Verifies the generated output contains a valid SVG, expected dimensions,
-//      definitions, a unique seed-based gradient, and pattern elements.
-
-// 2. Produces deterministic output
-//    → Verifies the same configuration always produces exactly the same SVG.
-
-// 3. Produces different output for different seeds
-//    → Verifies changing the seed results in a different generated SVG.
-
-// 4. Supports different rendering dimensions
-//    → Verifies the generator correctly produces SVGs with custom width, height,
-//      and border radius values.
-// */
+      expect(withRing.svg).not.toBe(withoutRing.svg);
+      expect(withRing.svg).toContain("#ff0000");
+    });
+  });
+});
