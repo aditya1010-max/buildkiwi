@@ -44,37 +44,40 @@ function createWavePath(
   context: Parameters<PatternGenerator["generate"]>[0],
   baseY: number,
   amplitude: number,
-  pointCount: number,
+  points: number,
   phase: number,
+  zigzag: boolean,
 ): string {
-  const points: Array<{ x: number; y: number }> = [];
+  let path = "";
 
-  for (let index = 0; index <= pointCount; index += 1) {
-    const progress = index / pointCount;
-
+  for (let index = 0; index <= points; index += 1) {
+    const progress = index / points;
     const x = progress * context.width;
 
-    const y = baseY + Math.sin(progress * Math.PI * 2 + phase) * amplitude;
+    const wave = zigzag
+      ? (index % 2 === 0 ? 1 : -1) * amplitude
+      : Math.sin(progress * Math.PI * 2 + phase) * amplitude;
 
-    points.push({ x, y });
-  }
+    const y = baseY + wave;
 
-  if (points.length < 2) {
-    return "";
-  }
+    if (index === 0) {
+      path = `M ${x} ${y}`;
+      continue;
+    }
 
-  let path = `M ${points[0].x} ${points[0].y}`;
+    if (zigzag) {
+      path += ` L ${x} ${y}`;
+      continue;
+    }
 
-  for (let index = 1; index < points.length; index += 1) {
-    const previous = points[index - 1];
-    const current = points[index];
+    const previousProgress = (index - 1) / points;
+    const previousX = previousProgress * context.width;
+    const previousY =
+      baseY + Math.sin(previousProgress * Math.PI * 2 + phase) * amplitude;
 
-    const midpoint = (previous.x + current.x) / 2;
+    const midpoint = (previousX + x) / 2;
 
-    path +=
-      ` C ${midpoint} ${previous.y}` +
-      ` ${midpoint} ${current.y}` +
-      ` ${current.x} ${current.y}`;
+    path += ` C ${midpoint} ${previousY}` + ` ${midpoint} ${y}` + ` ${x} ${y}`;
   }
 
   return path;
@@ -86,26 +89,21 @@ function createWaves(
   const elements: Path[] = [];
 
   const budget = context.visualBudget?.maxElements;
-
   const waveCount = budget === undefined ? 5 : Math.max(3, Math.min(9, budget));
 
-  const pointCount = Math.max(8, Math.min(24, Math.floor(context.width / 32)));
-
-  const baseSpacing = context.height / (waveCount + 1);
-
   const baseSize = Math.min(context.width, context.height);
+  const spacing = context.height / (waveCount + 1);
 
-  const density = 0.75 + context.random.next() * 0.5;
-
+  const zigzag = context.random.next() > 0.65;
   const direction = context.random.next() > 0.5 ? 1 : -1;
+  const phase = context.random.next() * Math.PI * 2;
 
-  const baseAmplitude =
-    baseSize * (0.035 + context.random.next() * 0.035) * density;
+  const baseAmplitude = baseSize * (0.035 + context.random.next() * 0.03);
 
-  const phaseOffset = context.random.next() * Math.PI * 2;
+  const pointCount = Math.max(8, Math.min(20, Math.floor(context.width / 32)));
 
-  for (let wave = 0; wave < waveCount; wave += 1) {
-    const role = getRole(wave, waveCount);
+  for (let index = 0; index < waveCount; index += 1) {
+    const role = getRole(index, waveCount);
 
     const amplitude =
       role === "dominant"
@@ -114,28 +112,38 @@ function createWaves(
           ? baseAmplitude
           : baseAmplitude * 0.7;
 
-    const baseY = baseSpacing * (wave + 1);
+    const baseY =
+      spacing * (index + 1) + (context.random.next() - 0.5) * spacing * 0.15;
 
-    const phase = phaseOffset + direction * wave * (Math.PI / 7);
+    const path = createWavePath(
+      context,
+      baseY,
+      amplitude,
+      pointCount,
+      phase + direction * index * 0.35,
+      zigzag,
+    );
 
-    const path = createWavePath(context, baseY, amplitude, pointCount, phase);
-
-    const strokeWidth =
+    const width =
       role === "dominant"
-        ? baseSize * 0.035
+        ? baseSize * (0.025 + context.random.next() * 0.015)
         : role === "supporting"
-          ? baseSize * 0.024
-          : baseSize * 0.014;
+          ? baseSize * (0.016 + context.random.next() * 0.01)
+          : baseSize * (0.008 + context.random.next() * 0.008);
 
     const opacity =
-      role === "dominant" ? 0.9 : role === "supporting" ? 0.6 : 0.35;
+      role === "dominant"
+        ? 0.9
+        : role === "supporting"
+          ? 0.6
+          : 0.3 + context.random.next() * 0.15;
 
     elements.push({
       type: "path",
       d: path,
       fill: "none",
       stroke: getColor(context, role),
-      strokeWidth,
+      strokeWidth: width,
       opacity,
     });
   }
