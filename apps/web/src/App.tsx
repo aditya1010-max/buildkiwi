@@ -36,7 +36,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/discover" element={<Discover />} />
-          <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/:username/project/:id" element={<ProjectPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:username" element={<Profile />} />
         </Route>

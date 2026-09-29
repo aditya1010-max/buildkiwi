@@ -47,7 +47,9 @@ export default function ProjectManagerCard({
       <button
         type="button"
         className="project-manager-card_cover"
-        onClick={() => navigate(`/projects/${project._id}`)}
+        onClick={() =>
+          navigate(`/${project.creatorId.username}/project/${project._id}`)
+        }
         aria-label={`View ${project.title}`}
       >
         <GeneratedCover
@@ -67,7 +69,9 @@ export default function ProjectManagerCard({
       <footer className="project-manager-card_actions">
         <button
           type="button"
-          onClick={() => navigate(`/projects/${project._id}`)}
+          onClick={() =>
+            navigate(`/${project.creatorId.username}/project/${project._id}`)
+          }
         >
           View
         </button>

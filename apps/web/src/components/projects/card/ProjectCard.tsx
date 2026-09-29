@@ -75,7 +75,7 @@ export default function ProjectCard({
   }
 
   function handleCardClick() {
-    navigate(`/projects/${project._id}`);
+    navigate(`/${project.creatorId.username}/project/${project._id}`);
   }
 
   return (
