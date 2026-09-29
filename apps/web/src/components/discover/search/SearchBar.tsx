@@ -1,4 +1,4 @@
-import type { FormEvent, ReactNode } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import "./SearchBar.css";
 
 import Input from "../../ui/Input";
@@ -6,9 +6,8 @@ import Button from "../../ui/Button";
 import SearchFilters, { type SearchFilter } from "./SearchFilters";
 
 interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
-  onSearch: () => void;
+  initialValue: string;
+  onSearch: (value: string) => void;
   filter: SearchFilter;
   onFilterChange: (filter: SearchFilter) => void;
   children?: ReactNode;
@@ -21,16 +20,17 @@ const placeholders: Record<SearchFilter, string> = {
 };
 
 export default function SearchBar({
-  value,
-  onChange,
+  initialValue,
   onSearch,
   filter,
   onFilterChange,
   children,
 }: SearchBarProps) {
+  const [value, setValue] = useState(initialValue);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSearch();
+    onSearch(value);
   };
 
   return (
@@ -42,7 +42,7 @@ export default function SearchBar({
               type="text"
               placeholder={placeholders[filter]}
               value={value}
-              onChange={(event) => onChange(event.target.value)}
+              onChange={(event) => setValue(event.target.value)}
               className="search-bar_input"
               aria-label={placeholders[filter]}
             />

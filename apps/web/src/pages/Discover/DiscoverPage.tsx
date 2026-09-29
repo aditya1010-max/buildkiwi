@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import DiscoverLayout from "../../components/discover/DiscoverLayout";
@@ -14,13 +13,10 @@ export default function DiscoverPage() {
 
   const searchQuery = searchParams.get("q") ?? "";
 
-  const [searchInput, setSearchInput] = useState(searchQuery);
+  const { projects, loading, filter, setFilter } = useDiscover(searchQuery);
 
-  const { projects, loading, setQuery, filter, setFilter } =
-    useDiscover(searchQuery);
-
-  const handleSearch = () => {
-    const trimmedValue = searchInput.trim();
+  const handleSearch = (value: string) => {
+    const trimmedValue = value.trim();
 
     if (!trimmedValue) {
       return;
@@ -34,16 +30,14 @@ export default function DiscoverPage() {
       },
       { replace: true },
     );
-
-    setQuery(trimmedValue);
   };
 
   return (
     <main className="discover-page">
       <DiscoverLayout>
         <SearchBar
-          value={searchInput}
-          onChange={setSearchInput}
+          key={searchQuery}
+          initialValue={searchQuery}
           onSearch={handleSearch}
           filter={filter}
           onFilterChange={setFilter}

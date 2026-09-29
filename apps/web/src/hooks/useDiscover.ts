@@ -5,7 +5,6 @@ import type { Project } from "../types/project";
 import type { SearchFilter } from "../components/discover/search/SearchFilters";
 
 export function useDiscover(initialQuery = "") {
-  const [query, setQuery] = useState(initialQuery);
   const [filter, setFilter] = useState<SearchFilter>("all");
 
   const [projects, setProjects] = useState<Project[]>([]);
@@ -19,7 +18,7 @@ export function useDiscover(initialQuery = "") {
         setError(null);
 
         const response = await fetchProjects({
-          query,
+          query: initialQuery,
           filter,
         });
 
@@ -32,14 +31,12 @@ export function useDiscover(initialQuery = "") {
     }
 
     searchProjects();
-  }, [query, filter]);
+  }, [initialQuery, filter]);
 
   return {
     projects,
     loading,
     error,
-    query,
-    setQuery,
     filter,
     setFilter,
   };
