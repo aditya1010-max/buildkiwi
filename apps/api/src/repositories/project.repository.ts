@@ -10,6 +10,25 @@ interface FindProjectsOptions {
 }
 
 export const projectRepository = {
+  incrementCommentCount: async (id: string) => {
+    return Project.findByIdAndUpdate(
+      id,
+      { $inc: { "stats.comments": 1 } },
+      { new: true },
+    );
+  },
+
+  decrementCommentCount: async (id: string) => {
+    return Project.findOneAndUpdate(
+      {
+        _id: id,
+        "stats.comments": { $gt: 0 },
+      },
+      { $inc: { "stats.comments": -1 } },
+      { new: true },
+    );
+  },
+
   create: async (data: CreateProjectInput) => {
     return Project.create(data);
   },
