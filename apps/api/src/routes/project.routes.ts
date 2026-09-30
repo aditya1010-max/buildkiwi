@@ -15,6 +15,7 @@ import { authMiddleware } from "../middleware/auth.middleware";
 import { upload } from "../middleware/upload.middleware";
 import { recordView } from "../controllers/projectView.controller";
 import { visitorMiddleware } from "../middleware/visitor.middleware";
+import { createComment, getComments } from "../controllers/comment.controller";
 
 const router = Router();
 
@@ -28,6 +29,8 @@ router.get("/saved", authMiddleware, getSavedProjects);
 router.get("/mine", authMiddleware, getMyProjects);
 router.get("/:id/edit", authMiddleware, getEditableProject);
 router.post("/:id/view", visitorMiddleware, recordView);
+router.get("/:id/comments", getComments);
+router.post("/:id/comments", authMiddleware, createComment);
 router.get("/:id", getProject);
 router.post("/:id/save", authMiddleware, saveProject);
 router.delete("/:id/save", authMiddleware, unsaveProject);
