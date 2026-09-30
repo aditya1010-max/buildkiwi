@@ -10,11 +10,15 @@ import {
 jest.mock("../../../src/models/comment.model", () => ({
   Comment: {
     create: jest.fn(),
+    findById: jest.fn(),
     find: jest.fn(),
+    countDocuments: jest.fn(),
+    findByIdAndDelete: jest.fn(),
   },
 }));
 
 const mockCreate = jest.mocked(Comment.create);
+const mockFindById = jest.mocked(Comment.findById);
 const mockFind = jest.mocked(Comment.find);
 
 describe("comment repository", () => {
@@ -35,17 +39,39 @@ describe("comment repository", () => {
         ...data,
       };
 
+      const lean = jest
+        .fn<() => Promise<typeof comment>>()
+        .mockResolvedValue(comment);
+
+      const populate = jest.fn().mockReturnValue({
+        lean,
+      });
+
       mockCreate.mockResolvedValue(comment as never);
+
+      mockFindById.mockReturnValue({
+        populate,
+      } as never);
 
       const result = await createCommentRepository(data);
 
       expect(mockCreate).toHaveBeenCalledWith(data);
+
+      expect(mockFindById).toHaveBeenCalledWith(comment._id);
+
+      expect(populate).toHaveBeenCalledWith(
+        "userId",
+        "username avatarSeed avatarPattern",
+      );
+
+      expect(lean).toHaveBeenCalled();
+
       expect(result).toBe(comment);
     });
   });
 
   describe("getCommentsByProjectRepository", () => {
-    it("gets project comments populated with users and sorted by newest first", async () => {
+    it("gets comments by project with pagination and newest first", async () => {
       const comments = [
         {
           _id: "comment-1",
@@ -57,10 +83,21 @@ describe("comment repository", () => {
         },
       ];
 
-      const sort =
-        jest.fn<(options: { createdAt: -1 }) => Promise<typeof comments>>();
+      const lean = jest
+        .fn<() => Promise<typeof comments>>()
+        .mockResolvedValue(comments);
 
-      sort.mockResolvedValue(comments);
+      const limit = jest.fn().mockReturnValue({
+        lean,
+      });
+
+      const skip = jest.fn().mockReturnValue({
+        limit,
+      });
+
+      const sort = jest.fn().mockReturnValue({
+        skip,
+      });
 
       const populate = jest.fn().mockReturnValue({
         sort,
@@ -70,17 +107,25 @@ describe("comment repository", () => {
         populate,
       } as unknown as ReturnType<typeof Comment.find>);
 
-      const result = await getCommentsByProjectRepository("project-123");
+      const result = await getCommentsByProjectRepository("project-123", 1, 10);
 
       expect(mockFind).toHaveBeenCalledWith({
         projectId: "project-123",
       });
 
-      expect(populate).toHaveBeenCalledWith("userId", "username");
+      expect(populate).toHaveBeenCalledWith(
+        "userId",
+        "username avatarSeed avatarPattern",
+      );
 
       expect(sort).toHaveBeenCalledWith({
         createdAt: -1,
       });
+
+      expect(skip).toHaveBeenCalledWith(0);
+      expect(limit).toHaveBeenCalledWith(10);
+
+      expect(lean).toHaveBeenCalled();
 
       expect(result).toBe(comments);
     });
@@ -91,10 +136,12 @@ describe("comment repository", () => {
 Test coverage:
 
 1. Creates a comment with the provided data
-   → Verifies the repository passes the comment data directly to
-     Comment.create() and returns the created comment.
+   → Verifies the repository passes the comment data to
+     Comment.create(), then finds the created comment,
+     populates the author, and returns the result.
 
 2. Gets comments by project
-   → Verifies comments are filtered by project ID, the comment author's
-     username is populated, and comments are sorted newest first.
+   → Verifies comments are filtered by project ID, the
+     comment author's profile fields are populated, sorted
+     newest first, paginated, and returned.
 */
