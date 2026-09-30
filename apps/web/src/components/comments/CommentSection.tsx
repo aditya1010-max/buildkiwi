@@ -1,8 +1,157 @@
-export default function CommentSection() {
+import { useEffect, useState } from "react";
+
+import {
+  createComment,
+  deleteComment,
+  getComments,
+  type Comment,
+  type CommentPagination,
+} from "../../api/comment.api";
+
+import CommentInput from "./CommentInput";
+import CommentList from "./CommentList";
+
+interface CommentsSectionProps {
+  projectId: string;
+  projectOwnerId: string;
+  currentUserId?: string;
+}
+
+export default function CommentsSection({
+  projectId,
+  projectOwnerId,
+  currentUserId,
+}: CommentsSectionProps) {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [pagination, setPagination] = useState<CommentPagination | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadComments = async (page: number) => {
+    const response = await getComments(projectId, page, 10);
+
+    if (page === 1) {
+      setComments(response.data);
+    } else {
+      setComments((current) => [...current, ...response.data]);
+    }
+
+    setPagination(response.pagination);
+  };
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        await loadComments(1);
+      } catch {
+        setError("Failed to load comments.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, [projectId]);
+
+  const handleCreate = async (content: string) => {
+    try {
+      setError(null);
+
+      const response = await createComment(projectId, content);
+
+      setComments((current) => [response.data, ...current]);
+
+      setPagination((current) =>
+        current
+          ? {
+              ...current,
+              total: current.total + 1,
+            }
+          : current,
+      );
+    } catch {
+      setError("Failed to post comment.");
+      throw new Error("Failed to post comment.");
+    }
+  };
+
+  const handleLoadMore = async () => {
+    if (!pagination?.hasMore || loadingMore) {
+      return;
+    }
+
+    try {
+      setLoadingMore(true);
+
+      await loadComments(pagination.page + 1);
+    } catch {
+      setError("Failed to load more comments.");
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const handleDelete = async (commentId: string) => {
+    try {
+      setError(null);
+
+      await deleteComment(commentId);
+
+      setComments((current) =>
+        current.filter((comment) => comment._id !== commentId),
+      );
+
+      setPagination((current) =>
+        current
+          ? {
+              ...current,
+              total: Math.max(0, current.total - 1),
+            }
+          : current,
+      );
+    } catch {
+      setError("Failed to delete comment.");
+    }
+  };
+
   return (
-    <section className="comment-section">
-      <h2>Comments</h2>
-      <p>No comments yet. Be the first to comment!</p>
+    <section className="comments-section">
+      <div className="comments-section_header">
+        <h2>Comments</h2>
+
+        {pagination && <span>{pagination.total}</span>}
+      </div>
+
+      {currentUserId && <CommentInput onSubmit={handleCreate} />}
+
+      {error && <p className="comments-section_error">{error}</p>}
+
+      {loading ? (
+        <p className="comments-section_loading">Loading comments...</p>
+      ) : (
+        <>
+          <CommentList
+            comments={comments}
+            currentUserId={currentUserId}
+            projectOwnerId={projectOwnerId}
+            onDelete={handleDelete}
+          />
+
+          {pagination?.hasMore && (
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              disabled={loadingMore}
+            >
+              {loadingMore ? "Loading..." : "Load more"}
+            </button>
+          )}
+        </>
+      )}
     </section>
   );
 }

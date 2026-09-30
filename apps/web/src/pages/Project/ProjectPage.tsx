@@ -2,6 +2,7 @@ import "./projectPage.css";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 import {
   ProjectHero,
@@ -12,10 +13,15 @@ import {
 import type { Project } from "../../types/project";
 import { fetchProjectById, recordProjectView } from "../../api/project.api";
 
+import CommentsSection from "../../components/comments/CommentSection";
+
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
+  const { getCurrentUser } = useAuth();
+  const user = getCurrentUser();
 
   const [project, setProject] = useState<Project | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,8 +36,8 @@ export default function ProjectPage() {
         recordProjectView(id).catch((error) => {
           console.error("Failed to record project view", error);
         });
-      } catch (err) {
-        console.error("Failed to fetch project", err);
+      } catch (error) {
+        console.error("Failed to fetch project", error);
       } finally {
         setLoading(false);
       }
@@ -59,8 +65,16 @@ export default function ProjectPage() {
   return (
     <main className="project-page">
       <ProjectHero project={project} />
+
       <ProjectOverview project={project} />
+
       <ProjectMetadata project={project} />
+
+      <CommentsSection
+        projectId={project._id}
+        projectOwnerId={project.creatorId._id}
+        currentUserId={user?._id}
+      />
     </main>
   );
 }
