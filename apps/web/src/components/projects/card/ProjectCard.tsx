@@ -5,6 +5,7 @@ import { useState } from "react";
 import "./ProjectCard.css";
 
 import { useToast } from "../../../hooks/useToast";
+import { useAuth } from "../../../hooks/useAuth";
 import type { Project } from "../../../types/project";
 import { useBookmarkContext } from "../../../context/useBookmarkContext";
 import { useLikeContext } from "../../../context/useLikeContext";
@@ -14,6 +15,8 @@ import ProjectHeader from "./header/ProjectHeader";
 import ProjectContent from "./content/ProjectContent";
 import ProjectEngagement from "./engagement/ProjectEngagement";
 import ProjectTags from "./tags/ProjectTags";
+
+import CommentModal from "../../comments/CommentModal";
 
 interface ProjectCardProps {
   project: Project;
@@ -25,20 +28,25 @@ export default function ProjectCard({
   const toast = useToast();
   const navigate = useNavigate();
 
+  const { getCurrentUser } = useAuth();
+  const user = getCurrentUser();
+
   const { isBookmarked, toggleBookmark } = useBookmarkContext();
 
   const { isLiked, toggleLike } = useLikeContext();
 
   const [displayLikes, setDisplayLikes] = useState(project.stats?.likes ?? 0);
 
+  const [commentsOpen, setCommentsOpen] = useState(false);
+
   const isGuest = !getAccessToken();
 
   const saved = isBookmarked(project._id);
   const liked = isLiked(project._id);
 
-  async function handleBookmark(e: SyntheticEvent) {
-    e.preventDefault();
-    e.stopPropagation();
+  async function handleBookmark(event: SyntheticEvent) {
+    event.preventDefault();
+    event.stopPropagation();
 
     if (isGuest) {
       toast.error("Please sign in to save projects");
@@ -60,8 +68,8 @@ export default function ProjectCard({
     }
   }
 
-  async function handleLike(e: MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation();
+  async function handleLike(event: MouseEvent<HTMLButtonElement>) {
+    event.stopPropagation();
 
     if (isGuest) return;
 
@@ -74,28 +82,44 @@ export default function ProjectCard({
     await toggleLike(project._id);
   }
 
+  function handleComments(event: MouseEvent<HTMLButtonElement>) {
+    event.stopPropagation();
+    setCommentsOpen(true);
+  }
+
   function handleCardClick() {
     navigate(`/${project.creatorId.username}/project/${project._id}`);
   }
 
   return (
-    <article className="project-card" onClick={handleCardClick}>
-      <ProjectHeader project={project} />
+    <>
+      <article className="project-card" onClick={handleCardClick}>
+        <ProjectHeader project={project} />
 
-      <ProjectContent project={project} />
+        <ProjectContent project={project} />
 
-      <ProjectTags project={project} />
+        <ProjectTags project={project} />
 
-      <ProjectEngagement
-        likes={displayLikes}
-        comments={project.stats?.comments ?? 0}
-        views={project.stats?.views ?? 0}
-        liked={liked}
-        saved={saved}
-        isGuest={isGuest}
-        onLike={handleLike}
-        onBookmark={handleBookmark}
-      />
-    </article>
+        <ProjectEngagement
+          likes={displayLikes}
+          comments={project.stats?.comments ?? 0}
+          views={project.stats?.views ?? 0}
+          liked={liked}
+          saved={saved}
+          isGuest={isGuest}
+          onLike={handleLike}
+          onBookmark={handleBookmark}
+          onComments={handleComments}
+        />
+      </article>
+
+      {commentsOpen && (
+        <CommentModal
+          projectId={project._id}
+          currentUserId={user?._id}
+          onClose={() => setCommentsOpen(false)}
+        />
+      )}
+    </>
   );
 }

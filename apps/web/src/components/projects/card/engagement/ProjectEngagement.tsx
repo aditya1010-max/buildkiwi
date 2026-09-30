@@ -18,6 +18,7 @@ interface ProjectEngagementProps {
   isGuest: boolean;
   onLike: (event: MouseEvent<HTMLButtonElement>) => void;
   onBookmark: (event: SyntheticEvent) => void;
+  onComments: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function ProjectEngagement({
@@ -29,6 +30,7 @@ export default function ProjectEngagement({
   isGuest,
   onLike,
   onBookmark,
+  onComments,
 }: ProjectEngagementProps): ReactElement {
   return (
     <div className="project-card_engagement">
@@ -41,10 +43,14 @@ export default function ProjectEngagement({
           onLike={onLike}
         />
 
-        <span className="project-card_metric">
+        <button
+          type="button"
+          className="project-card_metric"
+          onClick={onComments}
+        >
           <CommentIcon size={24} />
           {comments}
-        </span>
+        </button>
 
         <span className="project-card_metric">
           <ViewIcon size={24} />
