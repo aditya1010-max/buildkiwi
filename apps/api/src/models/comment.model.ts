@@ -18,7 +18,7 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 1000,
+      maxlength: 500,
     },
   },
   {
@@ -26,8 +26,7 @@ const commentSchema = new mongoose.Schema(
   },
 );
 
-commentSchema.index({ projectId: 1 });
+commentSchema.index({ projectId: 1, createdAt: -1 });
 commentSchema.index({ userId: 1 });
-commentSchema.index({ createdAt: -1 });
 
 export const Comment = mongoose.model("Comment", commentSchema);
