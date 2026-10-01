@@ -62,6 +62,7 @@
 
   --social-bg: rgba(240, 242, 232, 0.6);
   --progress-bar-color: #bdaa4a;
+  --color-border: #dde3d2;
 
   /* --------------------------------
      Shadows
@@ -157,6 +158,11 @@
   --radius-lg: 18px;
 
   color-scheme: light;
+
+  /* Comments */
+
+  --comments-bg: rgb(225, 241, 248);
+  --comments-modal-backdrop: rgba(15, 20, 12, 0.45);
 }
 
 /* =================================
@@ -222,7 +228,7 @@
 
   --social-bg: rgba(34, 38, 29, 0.6);
   --progress-bar-color: #e1ecaa;
-
+  --color-border: #3c3d3a;
   /* --------------------------------
      Shadows
   -------------------------------- */
@@ -231,4 +237,8 @@
     rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
 
   color-scheme: dark;
+
+  /* Comments */
+  --comments-bg: rgb(24, 35, 40);
+  --comments-modal-backdrop: rgba(0, 0, 0, 0.6);
 }
