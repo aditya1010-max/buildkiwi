@@ -4,10 +4,7 @@
 
 :root,
 [data-theme="light"] {
-  /* --------------------------------
-     Base
-  -------------------------------- */
-
+  /* Base */
   --bg: #f8faf4;
   --surface: #ffffff;
   --searchbar-background-color: #ffffff;
@@ -19,19 +16,13 @@
   --border: #dde3d2;
   --code-bg: #eef3e6;
 
-  /* --------------------------------
-     Kiwi Accent
-  -------------------------------- */
-
+  /* Accent */
   --accent: #7cb342;
   --accent-hover: #689f38;
   --accent-bg: rgba(124, 179, 66, 0.1);
   --accent-border: rgba(124, 179, 66, 0.35);
 
-  /* --------------------------------
-     Status
-  -------------------------------- */
-
+  /* Status */
   --success: #16a34a;
   --success-bg: #ecfdf3;
   --success-border: #bbf7d0;
@@ -44,10 +35,7 @@
   --danger-bg: #fef2f2;
   --danger-border: #fecaca;
 
-  /* --------------------------------
-      Badge
-   -------------------------------- */
-
+  /* Badge */
   --badge-default-bg: var(--code-bg);
   --badge-default-border: var(--border);
   --badge-default-text: var(--text-h);
@@ -56,103 +44,36 @@
   --badge-primary-border: var(--accent);
   --badge-primary-text: #ffffff;
 
-  /* --------------------------------
-     Other
-  -------------------------------- */
-
+  /* Other */
   --social-bg: rgba(240, 242, 232, 0.6);
   --progress-bar-color: #bdaa4a;
   --color-border: #dde3d2;
 
-  /* --------------------------------
-     Shadows
-  -------------------------------- */
-
+  /* Shadows */
   --shadow:
     rgba(28, 35, 18, 0.06) 0 10px 15px -3px,
     rgba(28, 35, 18, 0.03) 0 4px 6px -2px;
 
-  /* --------------------------------
-     Typography
-  -------------------------------- */
-
+  /* Typography */
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --heading: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 
-  /* --------------------------------
-   Layout
--------------------------------- */
-
+  /* Layout */
   --navbar-height: 64px;
-
-  /*
-   Three-region layout
-
-   Desktop:
-   [ Sidebar ] [ Feed ] [ Right Sidebar ]
-
-   Tablet:
-   [ Collapsed Sidebar ] [ Feed ]
-
-   Mobile:
-   [ Feed ]
-*/
-
-  /* --------------------------------
-   Layout
--------------------------------- */
-
-  --navbar-height: 64px;
-
   --sidebar-width-expanded: 240px;
   --sidebar-width-collapsed: 70px;
-
   --right-sidebar-width: 300px;
-
-  /*
-   Feed
-   --------------------------------
-   Preferred width for project/feed
-   content. The feed can shrink on
-   smaller screens but should not
-   stretch indefinitely.
-*/
   --feed-max-width: 680px;
-
-  --layout-gap: 0px;
-
   --app-max-width: 1290px;
-
   --layout-gap: 0px;
 
-  /* --------------------------------
-   Breakpoints
--------------------------------- */
-
-  /*
-   Desktop
-   Full three-column layout.
-*/
+  /* Breakpoints */
   --layout-desktop: 1101px;
-
-  /*
-   Tablet
-   Collapsed left sidebar.
-   Right sidebar is removed.
-*/
   --layout-tablet: 769px;
-
-  /*
-   Mobile
-   Sidebar becomes bottom navigation.
-*/
   --layout-mobile: 768px;
 
-  /* --------------------------------
-     Radius
-  -------------------------------- */
-
+  /* Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 18px;
@@ -160,7 +81,6 @@
   color-scheme: light;
 
   /* Comments */
-
   --comments-bg: rgb(225, 241, 248);
   --comments-modal-backdrop: rgba(15, 20, 12, 0.45);
 }
@@ -170,10 +90,7 @@
 ================================= */
 
 [data-theme="dark"] {
-  /* --------------------------------
-     Base
-  -------------------------------- */
-
+  /* Base */
   --bg: #171914;
   --surface: #1e211b;
   --searchbar-background-color: #1e211b;
@@ -185,19 +102,13 @@
   --border: #2f3528;
   --code-bg: #23271f;
 
-  /* --------------------------------
-     Kiwi Accent
-  -------------------------------- */
-
+  /* Accent */
   --accent: #9ccc65;
   --accent-hover: #aed581;
   --accent-bg: rgba(156, 204, 101, 0.15);
   --accent-border: rgba(156, 204, 101, 0.45);
 
-  /* --------------------------------
-     Status
-  -------------------------------- */
-
+  /* Status */
   --success: #4ade80;
   --success-bg: rgba(74, 222, 128, 0.12);
   --success-border: rgba(74, 222, 128, 0.35);
@@ -210,10 +121,7 @@
   --danger-bg: rgba(248, 113, 113, 0.12);
   --danger-border: rgba(248, 113, 113, 0.35);
 
-  /* --------------------------------
-     Badge
-  -------------------------------- */
-
+  /* Badge */
   --badge-default-bg: #272a24;
   --badge-default-border: #3a3f34;
   --badge-default-text: #d1d7ca;
@@ -222,17 +130,12 @@
   --badge-primary-border: #edf2e8;
   --badge-primary-text: #171914;
 
-  /* --------------------------------
-     Other
-  -------------------------------- */
-
+  /* Other */
   --social-bg: rgba(34, 38, 29, 0.6);
   --progress-bar-color: #e1ecaa;
   --color-border: #3c3d3a;
-  /* --------------------------------
-     Shadows
-  -------------------------------- */
 
+  /* Shadows */
   --shadow:
     rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
 

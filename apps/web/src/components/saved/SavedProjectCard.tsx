@@ -15,7 +15,11 @@ export default function SavedProjectCard({
   project,
 }: SavedProjectCardProps): ReactElement {
   return (
-    <Link to={`/projects/${project._id}`} className="saved-project-card_link">
+    <Link
+      to={`/${project.creatorId.username}/project/${project._id}`}
+      className="saved-project-card_link"
+    >
+      {" "}
       <Card className="saved-project-card">
         <div className="saved-project-card_cover">
           <GeneratedCover
