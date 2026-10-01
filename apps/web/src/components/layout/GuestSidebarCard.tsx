@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+import Button from "../ui/Button";
 import "./GuestSidebarCard.css";
 
 export default function GuestSidebarCard() {
@@ -7,33 +8,25 @@ export default function GuestSidebarCard() {
 
   return (
     <section className="guest-sidebar-card">
-      <div>
-        <div className="guest-sidebar-card_icon">🚀</div>
+      <h3 className="guest-sidebar-card_title">A community for builders.</h3>
 
-        <h3 className="guest-sidebar-card_title">Join BuildKiwi</h3>
-      </div>
+      <p className="guest-sidebar-card_description">
+        Share your projects, discover what others are building, and grow
+        together.
+      </p>
 
-      <ul className="guest-sidebar-card_features">
-        <li>Create projects</li>
-        <li>Save favourites</li>
-        <li>Like projects</li>
-      </ul>
-
-      <button
-        type="button"
-        className="guest-sidebar-card_primary"
-        onClick={() => navigate("/login")}
-      >
+      <Button size="sm" fullWidth onClick={() => navigate("/login")}>
         Sign In
-      </button>
+      </Button>
 
-      <button
-        type="button"
-        className="guest-sidebar-card_secondary"
+      <Button
+        variant="secondary"
+        size="sm"
+        fullWidth
         onClick={() => navigate("/register")}
       >
         Create Account
-      </button>
+      </Button>
     </section>
   );
 }
