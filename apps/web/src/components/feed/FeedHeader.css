@@ -12,20 +12,15 @@
 }
 
 .feed-header h1 {
+  margin: 0;
+
   font-size: 20px;
   color: var(--text-h);
 }
 
-.feed-header_button {
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
-  background: var(--accent);
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .feed-header_subtitle {
+  margin: 0.35rem 0 0;
+
   font-size: 14px;
   color: var(--text);
   opacity: 0.7;

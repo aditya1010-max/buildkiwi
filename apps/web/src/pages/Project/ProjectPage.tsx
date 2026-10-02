@@ -14,6 +14,7 @@ import type { Project } from "../../types/project";
 import { fetchProjectById, recordProjectView } from "../../api/project.api";
 
 import CommentsSection from "../../components/comments/CommentSection";
+import Loader from "../../components/ui/Loader";
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +22,6 @@ export default function ProjectPage() {
   const user = getCurrentUser();
 
   const [project, setProject] = useState<Project | null>(null);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function ProjectPage() {
   if (loading) {
     return (
       <main className="project-page">
-        <h2>Loading...</h2>
+        <Loader size="lg" />
       </main>
     );
   }
@@ -65,10 +65,9 @@ export default function ProjectPage() {
   return (
     <main className="project-page">
       <ProjectHero project={project} />
+      {/* <ProjectMetadata project={project} /> */}
 
       <ProjectOverview project={project} />
-
-      <ProjectMetadata project={project} />
 
       <CommentsSection
         projectId={project._id}

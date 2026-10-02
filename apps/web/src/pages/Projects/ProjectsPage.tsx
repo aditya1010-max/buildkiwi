@@ -6,6 +6,7 @@ import ProjectGrid from "../../components/projects/manager/ProjectsGrid";
 import ProjectStats from "../../components/projects/card/stats/ProjectStats";
 import GuestPrompt from "../../components/auth/GuestPrompt";
 import { getAccessToken } from "../../utils/token";
+import Button from "../../components/ui/Button";
 
 import "./ProjectsPage.css";
 
@@ -78,13 +79,14 @@ export default function ProjectsPage(): ReactElement {
             </p>
           </div>
 
-          <button
+          <Button
+            size="lg"
             type="button"
             className="projects-page_create-button"
             onClick={openCreateModal}
           >
-            + Create Project
-          </button>
+            + Create
+          </Button>
         </header>
 
         <section
