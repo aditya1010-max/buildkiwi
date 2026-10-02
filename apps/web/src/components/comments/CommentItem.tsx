@@ -26,7 +26,7 @@ export default function CommentItem({
       <p className="comment-item_content">{comment.content}</p>
 
       <time dateTime={comment.createdAt}>
-        {new Date(comment.createdAt).toLocaleDateString()}
+        ({new Date(comment.createdAt).toLocaleDateString()})
       </time>
     </article>
   );

@@ -121,9 +121,7 @@ export default function CommentsSection({
   return (
     <section className="comments-section">
       <div className="comments-section_header">
-        <h2>Comments</h2>
-
-        {pagination && <span>{pagination.total}</span>}
+        <h2>Comments ({pagination && <>{pagination.total}</>})</h2>
       </div>
 
       {currentUserId && <CommentInput onSubmit={handleCreate} />}
