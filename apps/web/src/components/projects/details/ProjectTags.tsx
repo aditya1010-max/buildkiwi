@@ -1,5 +1,7 @@
 import "./ProjectTags.css";
 
+import { createSearchParams, useNavigate } from "react-router-dom";
+
 import type { Project } from "../../../types/project";
 import Badge from "../../ui/Badge";
 import ProjectSection from "../shared/ProjectSection";
@@ -9,14 +11,33 @@ interface ProjectTagsProps {
 }
 
 export default function ProjectTags({ project }: ProjectTagsProps) {
+  const navigate = useNavigate();
+
   const tags = [...new Set(project.tags ?? [])];
+
+  function handleTagClick(tag: string) {
+    navigate({
+      pathname: "/discover",
+      search: createSearchParams({
+        q: tag,
+      }).toString(),
+    });
+  }
 
   return (
     <ProjectSection title="Technologies">
       {tags.length > 0 ? (
         <div className="project-tags">
           {tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
+            <button
+              key={tag}
+              type="button"
+              className="project-tags_button"
+              onClick={() => handleTagClick(tag)}
+              aria-label={`Search for ${tag}`}
+            >
+              <Badge>#{tag}</Badge>
+            </button>
           ))}
         </div>
       ) : (

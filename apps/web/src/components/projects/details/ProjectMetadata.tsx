@@ -1,52 +1,27 @@
 import "./ProjectMetadata.css";
 
-import type { ReactNode } from "react";
-
 import type { Project } from "../../../types/project";
 import ProjectSection from "../shared/ProjectSection";
+
+import { HeartIcon, ViewIcon } from "../../../assets/icons/ProjectCardIcons";
 
 interface ProjectMetadataProps {
   project: Project;
 }
 
-interface MetadataItemProps {
-  label: string;
-  value: ReactNode;
-}
-
-function MetadataItem({ label, value }: MetadataItemProps) {
-  return (
-    <div className="project-metadata_item">
-      <div className="project-metadata_label">{label}</div>
-
-      <div className="project-metadata_value">{value}</div>
-    </div>
-  );
-}
-
 export default function ProjectMetadata({ project }: ProjectMetadataProps) {
   return (
     <ProjectSection title="Project Information">
-      <div className="project-metadata_list">
-        <MetadataItem
-          label="Creator"
-          value={`@${project.creatorId.username}`}
-        />
+      <div className="project-metadata">
+        <span className="project-metadata_item">
+          <HeartIcon size={24} />
+          {project.stats.likes.toLocaleString()}
+        </span>
 
-        <MetadataItem
-          label="Views"
-          value={project.stats.views.toLocaleString()}
-        />
-
-        <MetadataItem
-          label="Created"
-          value={new Date(project.createdAt).toLocaleDateString()}
-        />
-
-        <MetadataItem
-          label="Updated"
-          value={new Date(project.updatedAt).toLocaleDateString()}
-        />
+        <span className="project-metadata_item">
+          <ViewIcon size={24} />
+          {project.stats.views.toLocaleString()}
+        </span>
       </div>
     </ProjectSection>
   );

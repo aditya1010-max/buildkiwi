@@ -35,3 +35,10 @@
   color: var(--text);
   line-height: 1.7;
 }
+
+.project-tags_button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
