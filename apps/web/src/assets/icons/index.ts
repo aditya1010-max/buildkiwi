@@ -10,3 +10,4 @@ export * from "./HelpCircleIcon";
 export * from "./BookOpenIcon";
 export * from "./RocketIcon";
 export * from "./FolderIcon";
+export * from "./GitHubIcon";
