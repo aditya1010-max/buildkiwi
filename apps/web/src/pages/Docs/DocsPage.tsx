@@ -51,6 +51,10 @@ export default function DocsPage() {
     "getting-started",
   );
 
+  function toggleSection(id: string) {
+    setOpenSection((current) => (current === id ? null : id));
+  }
+
   return (
     <main className="docs-page">
       <div className="docs-page_container">
@@ -75,15 +79,15 @@ export default function DocsPage() {
                 <button
                   type="button"
                   className="docs-section_trigger"
-                  onClick={() => setOpenSection(isOpen ? null : section.id)}
+                  onClick={() => toggleSection(section.id)}
                   aria-expanded={isOpen}
                   aria-controls={`docs-${section.id}`}
                 >
                   <span>{section.title}</span>
 
                   <span
-                    className={`docs-section_icon ${
-                      isOpen ? "docs-section_icon--open" : ""
+                    className={`docs-section_icon${
+                      isOpen ? " docs-section_icon--open" : ""
                     }`}
                     aria-hidden="true"
                   >
@@ -96,8 +100,8 @@ export default function DocsPage() {
                     id={`docs-${section.id}`}
                     className="docs-section_content"
                   >
-                    {section.content.map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
+                    {section.content.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
                 )}
