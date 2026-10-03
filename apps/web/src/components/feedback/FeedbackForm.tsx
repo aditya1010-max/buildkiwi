@@ -6,14 +6,16 @@ import FeedbackCategorySelector from "./FeedbackCategorySelector";
 import { submitFeedback } from "../../services/feedback.api";
 import { FeedbackCategory, FeedbackRequest } from "../../types/feedback";
 
-const initialForm: FeedbackRequest = {
-  category: "bug",
-  title: "",
-  description: "",
-  page: window.location.pathname,
-  language: navigator.language,
-  userAgent: navigator.userAgent,
-};
+function createInitialForm(): FeedbackRequest {
+  return {
+    category: "bug",
+    title: "",
+    description: "",
+    page: window.location.pathname,
+    language: navigator.language,
+    userAgent: navigator.userAgent,
+  };
+}
 
 const descriptionPlaceholders: Record<FeedbackCategory, string> = {
   bug: "What happened? What did you expect to happen? How can we reproduce the issue?",
@@ -22,7 +24,7 @@ const descriptionPlaceholders: Record<FeedbackCategory, string> = {
 };
 
 export default function FeedbackForm() {
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState<FeedbackRequest>(createInitialForm);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -30,16 +32,23 @@ export default function FeedbackForm() {
   const isValid =
     form.title.trim().length > 0 && form.description.trim().length > 0;
 
+  function updateForm(updates: Partial<FeedbackRequest>) {
+    setError("");
+    setForm((prev) => ({
+      ...prev,
+      ...updates,
+    }));
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    setError("");
+    if (!isValid || loading) return;
 
-    if (!isValid) return;
+    setError("");
+    setLoading(true);
 
     try {
-      setLoading(true);
-
       await submitFeedback({
         ...form,
         title: form.title.trim(),
@@ -50,7 +59,7 @@ export default function FeedbackForm() {
       });
 
       setSubmitted(true);
-      setForm(initialForm);
+      setForm(createInitialForm());
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
@@ -77,7 +86,7 @@ export default function FeedbackForm() {
           onClick={() => {
             setSubmitted(false);
             setError("");
-            setForm(initialForm);
+            setForm(createInitialForm());
           }}
         >
           Send Another Feedback
@@ -88,27 +97,13 @@ export default function FeedbackForm() {
 
   return (
     <form className="feedback-form" onSubmit={handleSubmit}>
-      <header className="feedback-form_header">
-        <h1>Send Feedback</h1>
-
-        <p>
-          Found something broken, have an idea, or just want to tell us what you
-          think? We&apos;re listening.
-        </p>
-      </header>
-
       <section className="feedback-form_sections">
         <div className="feedback-form_section">
           <label className="feedback-form_label">Category</label>
 
           <FeedbackCategorySelector
             value={form.category}
-            onChange={(category) =>
-              setForm((prev) => ({
-                ...prev,
-                category,
-              }))
-            }
+            onChange={(category) => updateForm({ category })}
           />
         </div>
 
@@ -121,14 +116,10 @@ export default function FeedbackForm() {
             id="feedback-title"
             type="text"
             maxLength={150}
+            required
             value={form.title}
             placeholder="Summarize your feedback in a few words"
-            onChange={(e) =>
-              setForm((prev) => ({
-                ...prev,
-                title: e.target.value,
-              }))
-            }
+            onChange={(e) => updateForm({ title: e.target.value })}
           />
 
           <span className="feedback-form_counter">{form.title.length}/150</span>
@@ -143,14 +134,10 @@ export default function FeedbackForm() {
             id="feedback-description"
             rows={8}
             maxLength={5000}
+            required
             value={form.description}
             placeholder={descriptionPlaceholders[form.category]}
-            onChange={(e) =>
-              setForm((prev) => ({
-                ...prev,
-                description: e.target.value,
-              }))
-            }
+            onChange={(e) => updateForm({ description: e.target.value })}
           />
 
           <span className="feedback-form_counter">

@@ -1,51 +1,58 @@
 .feedback-category-selector {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .feedback-category {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 1rem;
 
   width: 100%;
-  padding: 16px;
+  padding: 1rem;
 
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 
-  background: var(--surface-color);
-  color: inherit;
+  background: var(--surface);
+  color: var(--text);
 
+  font: inherit;
   text-align: left;
+
   cursor: pointer;
 
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    transform 150ms ease,
-    box-shadow 150ms ease;
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    transform 0.12s ease,
+    box-shadow 0.16s ease;
 }
 
 .feedback-category:hover {
-  border-color: var(--accent-color);
-  transform: translateY(-1px);
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.feedback-category:active {
+  transform: translateY(1px);
 }
 
 .feedback-category:focus-visible {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px var(--accent-color);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
 }
 
 .feedback-category--active {
-  border-color: 1px solid green;
-  background: rgb(228, 244, 233);
+  border-color: var(--accent);
+  background: var(--accent-bg);
 }
 
 .feedback-category_icon {
   flex-shrink: 0;
+
   font-size: 1.5rem;
   line-height: 1;
 }
@@ -53,26 +60,31 @@
 .feedback-category_content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
-.feedback-category_content h3 {
-  margin: 0;
-  font-size: 1rem;
+.feedback-category_title {
+  color: var(--text-h);
+
+  font-size: 0.95rem;
   font-weight: 600;
+  line-height: 1.4;
 }
 
-.feedback-category_content p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+.feedback-category_description {
+  color: var(--text);
+
+  font-size: 0.85rem;
   line-height: 1.5;
+  opacity: 0.75;
 }
 
-@media (max-width: 640px) {
+/* Mobile */
+
+@media (max-width: 600px) {
   .feedback-category {
-    padding: 14px;
-    gap: 12px;
+    gap: 0.75rem;
+    padding: 0.875rem;
   }
 
   .feedback-category_icon {
