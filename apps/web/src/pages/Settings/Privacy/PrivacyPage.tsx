@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import "./PrivacyPage.css";
 
 const SECTIONS = [
@@ -33,6 +34,10 @@ const SECTIONS = [
 export default function PrivacyPage() {
   const [openSection, setOpenSection] = useState<string | null>("privacy");
 
+  function toggleSection(id: string) {
+    setOpenSection((current) => (current === id ? null : id));
+  }
+
   return (
     <main className="privacy-page">
       <div className="privacy-page_container">
@@ -53,14 +58,15 @@ export default function PrivacyPage() {
                 <button
                   type="button"
                   className="privacy-section_trigger"
-                  onClick={() => setOpenSection(isOpen ? null : section.id)}
+                  onClick={() => toggleSection(section.id)}
                   aria-expanded={isOpen}
                   aria-controls={`privacy-${section.id}`}
                 >
                   <span>{section.title}</span>
+
                   <span
-                    className={`privacy-section_icon ${
-                      isOpen ? "privacy-section_icon--open" : ""
+                    className={`privacy-section_icon${
+                      isOpen ? " privacy-section_icon--open" : ""
                     }`}
                     aria-hidden="true"
                   >
@@ -73,8 +79,8 @@ export default function PrivacyPage() {
                     id={`privacy-${section.id}`}
                     className="privacy-section_content"
                   >
-                    {section.content.map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
+                    {section.content.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
                 )}
