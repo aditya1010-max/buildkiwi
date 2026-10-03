@@ -1,5 +1,7 @@
 import "./LogoutDialog.css";
 
+import Button from "../../ui/Button";
+
 interface LogoutDialogProps {
   onCancel: () => void;
   onConfirm: () => void;
@@ -16,21 +18,13 @@ export default function LogoutDialog({
       <p className="logout-dialog_message">Are you sure you want to logout?</p>
 
       <div className="logout-dialog_actions">
-        <button
-          type="button"
-          className="logout-dialog_button logout-dialog_button--secondary"
-          onClick={onCancel}
-        >
+        <Button variant="secondary" type="button" onClick={onCancel}>
           Cancel
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className="logout-dialog_button logout-dialog_button--danger"
-          onClick={onConfirm}
-        >
+        <Button variant="danger" type="button" onClick={onConfirm}>
           Logout
-        </button>
+        </Button>
       </div>
     </div>
   );
