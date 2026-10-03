@@ -1,29 +1,55 @@
 .feedback-page {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 48px 24px;
+  padding: 3rem 1.5rem 4rem;
 }
 
 .feedback-page_container {
   width: 100%;
   max-width: 760px;
+  margin: 0 auto;
 }
 
 .feedback-page_header {
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
 }
 
 .feedback-page_header h1 {
+  margin: 0;
+
+  color: var(--text-h);
+
   font-size: 2rem;
-  margin-bottom: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .feedback-page_header p {
-  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0.75rem 0 0;
+
+  color: var(--text);
+
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
-h1 {
-  text-align: center;
+/* Mobile */
+
+@media (max-width: 600px) {
+  .feedback-page {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .feedback-page_header {
+    margin-bottom: 1.5rem;
+  }
+
+  .feedback-page_header h1 {
+    font-size: 1.6rem;
+  }
+
+  .feedback-page_header p {
+    font-size: 0.9rem;
+  }
 }
