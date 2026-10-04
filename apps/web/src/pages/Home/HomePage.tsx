@@ -6,6 +6,7 @@ import ProjectCard from "../../components/projects/card/ProjectCard";
 import { useProjects } from "../../hooks/useProjects";
 import { useLanguage } from "../../hooks/useLanguage";
 import ErrorState from "../../components/ui/ErrorState";
+import Button from "../../components/ui/Button";
 
 export default function Home() {
   const { projects, initialLoading, loadingMore, error, pagination, loadMore } =
@@ -46,14 +47,16 @@ export default function Home() {
 
             {pagination.hasMore && (
               <>
-                <button
+                <Button
                   type="button"
-                  className="feed_load-more"
+                  variant="secondary"
+                  size="sm"
                   onClick={loadMore}
-                  disabled={loadingMore}
+                  loading={loadingMore}
+                  className="feed_load-more"
                 >
                   Load More
-                </button>
+                </Button>
               </>
             )}
           </>

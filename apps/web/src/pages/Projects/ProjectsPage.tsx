@@ -80,7 +80,7 @@ export default function ProjectsPage(): ReactElement {
           </div>
 
           <Button
-            size="lg"
+            size="md"
             type="button"
             className="projects-page_create-button"
             onClick={openCreateModal}
