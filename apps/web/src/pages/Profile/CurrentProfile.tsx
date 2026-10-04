@@ -15,6 +15,7 @@ import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { useLikedProjects } from "../../hooks/useLikedProjects";
 import { useMyProjects } from "../../hooks/useMyProjects";
+import { User } from "../../types/user";
 
 export default function CurrentProfile() {
   const { projects: myProjects } = useMyProjects();
@@ -22,7 +23,9 @@ export default function CurrentProfile() {
   const { likedProjects } = useLikedProjects();
 
   const [activeTab, setActiveTab] = useState<ProfileTab>("projects");
+
   const { user, loading } = useCurrentUser();
+  const [profileUser, setProfileUser] = useState<User | null>(null);
 
   if (loading) {
     return <Loader />;
@@ -37,10 +40,15 @@ export default function CurrentProfile() {
     );
   }
 
+  const currentProfileUser = profileUser ?? user;
+
   return (
     <main className="profile-page">
-      <ProfileHeader user={user} isOwnProfile={true} />
-
+      <ProfileHeader
+        user={currentProfileUser}
+        isOwnProfile={true}
+        onSave={setProfileUser}
+      />
       <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {activeTab === "projects" &&

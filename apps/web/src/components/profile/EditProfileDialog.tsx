@@ -13,11 +13,13 @@ import type { AvatarCandidate } from "../../types/avatar";
 interface EditProfileDialogProps {
   user: User;
   onClose: () => void;
+  onSave: (user: User) => void;
 }
 
 export default function EditProfileDialog({
   user,
   onClose,
+  onSave,
 }: EditProfileDialogProps) {
   const [bio, setBio] = useState(user.bio ?? "");
 
@@ -45,6 +47,13 @@ export default function EditProfileDialog({
       setSaving(true);
 
       await updateUser(user.id, {
+        bio,
+        avatarSeed,
+        avatarPattern,
+      });
+
+      onSave({
+        ...user,
         bio,
         avatarSeed,
         avatarPattern,

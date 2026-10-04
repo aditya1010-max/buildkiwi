@@ -11,11 +11,13 @@ import "./ProfileHeader.css";
 interface ProfileHeaderProps {
   user: User;
   isOwnProfile?: boolean;
+  onSave: (user: User) => void;
 }
 
 export default function ProfileHeader({
   user,
   isOwnProfile = false,
+  onSave,
 }: ProfileHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -52,7 +54,11 @@ export default function ProfileHeader({
       </section>
 
       {isEditing && (
-        <EditProfileDialog user={user} onClose={() => setIsEditing(false)} />
+        <EditProfileDialog
+          user={user}
+          onClose={() => setIsEditing(false)}
+          onSave={onSave}
+        />
       )}
     </>
   );
