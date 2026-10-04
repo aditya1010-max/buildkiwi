@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   createComment,
@@ -28,17 +28,20 @@ export default function CommentsSection({
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadComments = async (page: number) => {
-    const response = await getComments(projectId, page, 10);
+  const loadComments = useCallback(
+    async (page: number) => {
+      const response = await getComments(projectId, page, 10);
 
-    if (page === 1) {
-      setComments(response.data);
-    } else {
-      setComments((current) => [...current, ...response.data]);
-    }
+      if (page === 1) {
+        setComments(response.data);
+      } else {
+        setComments((current) => [...current, ...response.data]);
+      }
 
-    setPagination(response.pagination);
-  };
+      setPagination(response.pagination);
+    },
+    [projectId],
+  );
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -55,7 +58,7 @@ export default function CommentsSection({
     };
 
     fetchComments();
-  }, [projectId]);
+  }, [loadComments]);
 
   const handleCreate = async (content: string) => {
     try {
