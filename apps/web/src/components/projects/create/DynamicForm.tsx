@@ -6,6 +6,7 @@ import TagInput from "../../ui/TagInput";
 import GeneratedCover from "../shared/GeneratedCover/GeneratedCover";
 
 import "./DynamicForm.css";
+import Button from "../../ui/Button";
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -168,13 +169,13 @@ export default function DynamicForm({
               />
             </div>
 
-            <button
+            <Button
               type="button"
-              className="dynamic-form_cover-randomize"
+              className="dynamic-form_cover-randomize-button"
               onClick={() => handleRandomizeCover(field.name)}
             >
               Randomize
-            </button>
+            </Button>
 
             <span className="dynamic-form_cover-help">
               Generate a new cover using BuildKiwi&apos;s pattern engine.
