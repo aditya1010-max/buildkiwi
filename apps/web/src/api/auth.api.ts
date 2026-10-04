@@ -2,8 +2,6 @@ import type { User } from "../types/user";
 
 import api from "../services/api";
 
-const API = "http://localhost:3000/api/v1/auth";
-
 interface ApiUser extends Omit<User, "id"> {
   _id: string;
 }
@@ -60,14 +58,17 @@ export const register = async (
 export async function getCurrentUser(): Promise<User | null> {
   const token = localStorage.getItem("token");
 
-  const { data } = await api.get<MeResponse>(`${API}/me`, {
-    withCredentials: true,
+  if (!token) {
+    return null;
+  }
+
+  const { data } = await api.get<MeResponse>("/auth/me", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  return normalizeUser(data.user);
+  return data.user ? normalizeUser(data.user) : null;
 }
 
 export async function logout() {

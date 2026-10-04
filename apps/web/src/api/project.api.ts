@@ -1,10 +1,8 @@
-import axios from "axios";
+import api from "../services/api";
 import { Project } from "../types/project";
 import { trackProgress } from "../services/progressBarManager";
 import { getVisitorId } from "../services/visitor";
 import type { CreateProjectResponse } from "../types/project";
-
-const API = "http://localhost:3000/api/v1/projects";
 
 export interface ProjectsResponse {
   success: boolean;
@@ -50,7 +48,7 @@ export async function fetchProjects({
   }
 
   const response = await trackProgress(
-    axios.get<ProjectsResponse>(API, {
+    api.get<ProjectsResponse>(`/projects`, {
       params,
     }),
   );
@@ -62,7 +60,7 @@ export const fetchProjectById = async (
   id: string,
 ): Promise<SingleProjectResponse> => {
   const response = await trackProgress(
-    axios.get<SingleProjectResponse>(`${API}/${id}`),
+    api.get<SingleProjectResponse>(`/projects/${id}`),
   );
   return response.data;
 };
@@ -71,7 +69,7 @@ export async function getSavedProjects() {
   const token = localStorage.getItem("token");
 
   const response = await trackProgress(
-    axios.get(`${API}/saved`, {
+    api.get(`/projects/saved`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,7 +83,7 @@ export async function getEditableProject(projectId: string) {
   const token = localStorage.getItem("token");
 
   const response = await trackProgress(
-    axios.get(`${API}/${projectId}/edit`, {
+    api.get(`/projects/${projectId}/edit`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -99,7 +97,7 @@ export async function updateProject(projectId: string, formData: FormData) {
   const token = localStorage.getItem("token");
 
   const { data } = await trackProgress(
-    axios.patch(`${API}/${projectId}`, formData, {
+    api.patch(`/projects/${projectId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -115,7 +113,7 @@ export async function createProject(
   const token = localStorage.getItem("token");
 
   const { data } = await trackProgress(
-    axios.post<CreateProjectResponse>(API, formData, {
+    api.post<CreateProjectResponse>(`/projects`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -129,7 +127,7 @@ export async function getMyProjects() {
   const token = localStorage.getItem("token");
 
   const { data } = await trackProgress(
-    axios.get(`${API}/mine`, {
+    api.get(`/projects/mine`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -141,23 +139,21 @@ export async function getMyProjects() {
 
 export async function getUserProjects(userId: string): Promise<Project[]> {
   const { data } = await trackProgress(
-    axios.get<{ success: boolean; data: Project[] }>(
-      `http://localhost:3000/api/v1/users/${userId}/projects`,
-    ),
+    api.get<{ success: boolean; data: Project[] }>(`/users/${userId}/projects`),
   );
 
   return data.data;
 }
 
 export async function getProjects() {
-  const response = await trackProgress(axios.get("/projects"));
+  const response = await trackProgress(api.get("/projects"));
 
   return response.data;
 }
 
 export async function recordProjectView(projectId: string) {
-  await axios.post(
-    `${API}/${projectId}/view`,
+  await api.post(
+    `/projects/${projectId}/view`,
     {},
     {
       headers: {
@@ -171,7 +167,7 @@ export async function deleteProject(projectId: string) {
   const token = localStorage.getItem("token");
 
   const { data } = await trackProgress(
-    axios.delete(`${API}/${projectId}`, {
+    api.delete(`/projects/${projectId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,8 +1,6 @@
 import type { User } from "../types/user";
 import api from "../services/api";
 
-const API = "http://localhost:3000/api/v1/users";
-
 interface ApiUser extends Omit<User, "id"> {
   _id: string;
 }
@@ -24,7 +22,7 @@ function normalizeUser(user: User | ApiUser): User {
 }
 
 export async function getUserProfile(id: string): Promise<User> {
-  const { data } = await api.get<UserProfileResponse>(`${API}/${id}`);
+  const { data } = await api.get<UserProfileResponse>(`/users/${id}`);
 
   return normalizeUser(data.user);
 }
