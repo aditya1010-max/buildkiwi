@@ -1,4 +1,4 @@
-import "./projectPage.css";
+import "./ProjectPage.css";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
