@@ -7,7 +7,6 @@ import { useAuth } from "../../hooks/useAuth";
 import {
   ProjectHero,
   ProjectOverview,
-  ProjectMetadata,
 } from "../../components/projects/details";
 
 import type { Project } from "../../types/project";
@@ -65,7 +64,6 @@ export default function ProjectPage() {
   return (
     <main className="project-page">
       <ProjectHero project={project} />
-      {/* <ProjectMetadata project={project} /> */}
 
       <ProjectOverview project={project} />
 
