@@ -23,6 +23,8 @@ import { describe, expect, it } from "vitest";
 
 import { resolvePatternTheme } from "../src/themes";
 
+import type { PatternId } from "../src/core/types";
+
 describe("resolvePatternTheme", () => {
   it("resolves the registered geometric theme", () => {
     const theme = resolvePatternTheme("geometric");
@@ -78,9 +80,9 @@ describe("resolvePatternTheme", () => {
   });
 
   it("returns the default theme for different unregistered patterns", () => {
-    const blobs = resolvePatternTheme("blobs");
-    const waves = resolvePatternTheme("waves");
+    const first = resolvePatternTheme("unknown-pattern-a" as PatternId);
+    const second = resolvePatternTheme("unknown-pattern-b" as PatternId);
 
-    expect(blobs).toEqual(waves);
+    expect(first).toEqual(second);
   });
 });

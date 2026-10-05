@@ -5,13 +5,8 @@ type WaveRole = "dominant" | "supporting" | "accent";
 function getRole(index: number, count: number): WaveRole {
   const center = Math.floor(count / 2);
 
-  if (index === center) {
-    return "dominant";
-  }
-
-  if (index === center - 1 || index === center + 1) {
-    return "supporting";
-  }
+  if (index === center) return "dominant";
+  if (Math.abs(index - center) === 1) return "supporting";
 
   return "accent";
 }
@@ -40,44 +35,50 @@ function getColor(
   );
 }
 
-function createWavePath(
-  context: Parameters<PatternGenerator["generate"]>[0],
+function createSmoothWavePath(
+  width: number,
   baseY: number,
   amplitude: number,
-  points: number,
-  phase: number,
-  zigzag: boolean,
+  cycles: number,
 ): string {
-  let path = "";
+  const segmentWidth = width / cycles;
+  let path = `M 0 ${baseY}`;
 
-  for (let index = 0; index <= points; index += 1) {
-    const progress = index / points;
-    const x = progress * context.width;
+  for (let index = 0; index < cycles; index += 1) {
+    const startX = index * segmentWidth;
+    const endX = startX + segmentWidth;
 
-    const wave = zigzag
-      ? (index % 2 === 0 ? 1 : -1) * amplitude
-      : Math.sin(progress * Math.PI * 2 + phase) * amplitude;
+    const direction = index % 2 === 0 ? -1 : 1;
+    const controlY = baseY + direction * amplitude;
+    const controlOffset = segmentWidth * 0.5;
 
-    const y = baseY + wave;
+    path += ` C ${startX + controlOffset} ${controlY}`;
+    path += ` ${endX - controlOffset} ${controlY}`;
+    path += ` ${endX} ${baseY}`;
+  }
 
-    if (index === 0) {
-      path = `M ${x} ${y}`;
-      continue;
-    }
+  return path;
+}
 
-    if (zigzag) {
-      path += ` L ${x} ${y}`;
-      continue;
-    }
+function createSharpWavePath(
+  width: number,
+  baseY: number,
+  amplitude: number,
+  cycles: number,
+): string {
+  const segmentWidth = width / cycles;
+  let path = `M 0 ${baseY}`;
 
-    const previousProgress = (index - 1) / points;
-    const previousX = previousProgress * context.width;
-    const previousY =
-      baseY + Math.sin(previousProgress * Math.PI * 2 + phase) * amplitude;
+  for (let index = 0; index < cycles; index += 1) {
+    const startX = index * segmentWidth;
+    const middleX = startX + segmentWidth * 0.5;
+    const endX = startX + segmentWidth;
 
-    const midpoint = (previousX + x) / 2;
+    const direction = index % 2 === 0 ? -1 : 1;
+    const peakY = baseY + direction * amplitude;
 
-    path += ` C ${midpoint} ${previousY}` + ` ${midpoint} ${y}` + ` ${x} ${y}`;
+    path += ` L ${middleX} ${peakY}`;
+    path += ` L ${endX} ${baseY}`;
   }
 
   return path;
@@ -88,62 +89,45 @@ function createWaves(
 ): PatternElement[] {
   const elements: Path[] = [];
 
-  const budget = context.visualBudget?.maxElements;
-  const waveCount = budget === undefined ? 5 : Math.max(3, Math.min(9, budget));
-
   const baseSize = Math.min(context.width, context.height);
+
+  const thickness = baseSize * (0.012 + context.random.next() * 0.025);
+
+  const waveCount =
+    thickness > baseSize * 0.025 ? 5 : thickness > baseSize * 0.018 ? 7 : 14;
   const spacing = context.height / (waveCount + 1);
+  const offset = spacing * 0.5;
+  const amplitude = baseSize * (0.12 + context.random.next() * 0.04);
+  const cycles = 3;
 
-  const zigzag = context.random.next() > 0.65;
-  const direction = context.random.next() > 0.5 ? 1 : -1;
-  const phase = context.random.next() * Math.PI * 2;
-
-  const baseAmplitude = baseSize * (0.035 + context.random.next() * 0.03);
-
-  const pointCount = Math.max(8, Math.min(20, Math.floor(context.width / 32)));
+  // The entire generated pattern uses one wave style.
+  const sharp = context.random.next() < 0.3;
 
   for (let index = 0; index < waveCount; index += 1) {
     const role = getRole(index, waveCount);
+    const baseY = offset + spacing * index;
+    const path = sharp
+      ? createSharpWavePath(context.width, baseY, amplitude, cycles)
+      : createSmoothWavePath(context.width, baseY, amplitude, cycles);
 
-    const amplitude =
+    const variation = 0.7 + context.random.next() * 0.7;
+
+    const lineWidth =
       role === "dominant"
-        ? baseAmplitude * 1.35
+        ? thickness * 1.8 * variation
         : role === "supporting"
-          ? baseAmplitude
-          : baseAmplitude * 0.7;
-
-    const baseY =
-      spacing * (index + 1) + (context.random.next() - 0.5) * spacing * 0.15;
-
-    const path = createWavePath(
-      context,
-      baseY,
-      amplitude,
-      pointCount,
-      phase + direction * index * 0.35,
-      zigzag,
-    );
-
-    const width =
-      role === "dominant"
-        ? baseSize * (0.025 + context.random.next() * 0.015)
-        : role === "supporting"
-          ? baseSize * (0.016 + context.random.next() * 0.01)
-          : baseSize * (0.008 + context.random.next() * 0.008);
+          ? thickness * 1.25 * variation
+          : thickness * 0.75 * variation;
 
     const opacity =
-      role === "dominant"
-        ? 0.9
-        : role === "supporting"
-          ? 0.6
-          : 0.3 + context.random.next() * 0.15;
+      role === "dominant" ? 0.9 : role === "supporting" ? 0.6 : 0.35;
 
     elements.push({
       type: "path",
       d: path,
       fill: "none",
       stroke: getColor(context, role),
-      strokeWidth: width,
+      strokeWidth: lineWidth,
       opacity,
     });
   }
