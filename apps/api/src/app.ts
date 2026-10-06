@@ -35,7 +35,7 @@ const PORT = env.PORT;
 connectDB();
 
 const allowedOrigins = [
-  "http://localhost:5173",
+  "http://localhost:5174",
   "https://buildkiwi.pages.dev",
   "https://buildkiwi.space",
 ];
@@ -54,6 +54,20 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 // app.use(apiLimiter); //rate limmiters always below every other middleware except routes
+
+app.use((req, res, next) => {
+  const start = performance.now();
+
+  res.on("finish", () => {
+    const duration = performance.now() - start;
+
+    console.log(
+      `${req.method} ${req.originalUrl} - ${res.statusCode} - ${duration.toFixed(2)}ms`,
+    );
+  });
+
+  next();
+});
 
 app.use("/api/v1/auth", apiLimiter, authRoutes);
 app.use("/api/v1/users", userRoutes);
