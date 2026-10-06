@@ -1,9 +1,9 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import "./SearchBar.css";
 
-import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import SearchFilters, { type SearchFilter } from "./SearchFilters";
+
+import "./SearchBar.css";
 
 interface SearchBarProps {
   initialValue: string;
@@ -27,6 +27,7 @@ export default function SearchBar({
   children,
 }: SearchBarProps) {
   const [value, setValue] = useState(initialValue);
+  const placeholder = placeholders[filter];
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,26 +37,24 @@ export default function SearchBar({
   return (
     <>
       <section className="search-bar">
-        <form className="search-bar_content" onSubmit={handleSubmit}>
-          <div className="search-bar_input-wrapper">
-            <Input
-              type="text"
-              placeholder={placeholders[filter]}
-              value={value}
-              onChange={(event) => setValue(event.target.value)}
-              className="search-bar_input"
-              aria-label={placeholders[filter]}
-            />
+        <form className="search-bar_input-wrapper" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={value}
+            placeholder={placeholder}
+            aria-label={placeholder}
+            className="search-bar_input"
+            onChange={(event) => setValue(event.target.value)}
+          />
 
-            <Button
-              type="submit"
-              variant="primary"
-              className="search-bar_button"
-              disabled={!value.trim()}
-            >
-              Search
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            variant="primary"
+            className="search-bar_button"
+            disabled={!value.trim()}
+          >
+            Search
+          </Button>
         </form>
 
         <SearchFilters activeFilter={filter} onFilterChange={onFilterChange} />
