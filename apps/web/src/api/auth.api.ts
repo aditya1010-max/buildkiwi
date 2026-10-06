@@ -1,5 +1,4 @@
 import type { User } from "../types/user";
-
 import api from "../services/api";
 
 interface ApiUser extends Omit<User, "id"> {
@@ -26,11 +25,18 @@ interface MeResponse {
   user: ApiUser | null;
 }
 
+interface RefreshResponse {
+  success: boolean;
+  accessToken: string;
+}
+
 export const login = async (email: string, password: string) => {
   const { data } = await api.post("/auth/login", {
     email,
     password,
   });
+
+  localStorage.setItem("token", data.accessToken);
 
   return {
     ...data,
@@ -55,22 +61,46 @@ export const register = async (
   };
 };
 
+async function refreshAccessToken(): Promise<string | null> {
+  try {
+    const { data } = await api.post<RefreshResponse>("/auth/refresh");
+
+    localStorage.setItem("token", data.accessToken);
+
+    return data.accessToken;
+  } catch {
+    localStorage.removeItem("token");
+    return null;
+  }
+}
+
 export async function getCurrentUser(): Promise<User | null> {
-  const token = localStorage.getItem("token");
+  let token = localStorage.getItem("token");
+
+  if (!token) {
+    token = await refreshAccessToken();
+  }
 
   if (!token) {
     return null;
   }
 
-  const { data } = await api.get<MeResponse>("/auth/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const { data } = await api.get<MeResponse>("/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  return data.user ? normalizeUser(data.user) : null;
+    return data.user ? normalizeUser(data.user) : null;
+  } catch {
+    localStorage.removeItem("token");
+
+    return null;
+  }
 }
 
 export async function logout() {
   await api.post("/auth/logout");
+  localStorage.removeItem("token");
 }
