@@ -46,50 +46,61 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form_field">
-            <label htmlFor="login-email">Email</label>
+<form className="login-form" onSubmit={handleSubmit}>
+  <div className="login-form_field">
+    <label htmlFor="login-email">Email</label>
 
-            <Input
-              id="login-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              autoComplete="email"
-              required
-            />
-          </div>
+    <Input
+      id="login-email"
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      placeholder="Enter your email"
+      autoComplete="email"
+      required
+    />
+  </div>
 
-          <div className="login-form_field">
-            <label htmlFor="login-password">Password</label>
+  <div className="login-form_field">
+    <label htmlFor="login-password">Password</label>
 
-            <Input
-              id="login-password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              autoComplete="current-password"
-              required
-            />
-          </div>
+    <Input
+      id="login-password"
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      placeholder="Enter your password"
+      autoComplete="current-password"
+      required
+    />
+  </div>
 
-          {error && (
-            <p className="login-form_error" role="alert">
-              {error}
-            </p>
-          )}
+  {error && (
+    <p className="login-form_error" role="alert">
+      {error}
+    </p>
+  )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={loading}
-            className="login-form_button"
-          >
-            {loading ? "Logging in..." : "Log in"}
-          </Button>
-        </form>
+  <Button
+    type="submit"
+    variant="primary"
+    disabled={loading}
+    className="login-form_button"
+  >
+    {loading ? "Logging in..." : "Log in"}
+  </Button>
+</form>
+
+<p className="login-card_footer">
+  Don't have an account?{" "}
+  <button
+    type="button"
+    className="login-card_link"
+    onClick={() => navigate("/register")}
+  >
+    Sign up
+  </button>
+</p>
       </section>
     </main>
   );

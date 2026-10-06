@@ -105,3 +105,25 @@
     font-size: 1.5rem;
   }
 }
+
+
+.login-card_footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.login-card_link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-card_link:hover {
+  text-decoration: underline;
+}
