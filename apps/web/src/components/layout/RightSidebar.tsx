@@ -6,14 +6,12 @@ import KiwiAchievements from "../discover/achievements/KiwiAchievements";
 import Badge from "../ui/Badge";
 
 const trendingTags = [
-  "nodejs",
-  "gemini",
-  "css",
   "javascript",
-  "ai",
-  "react",
-  "typescript",
+  "nodejs",
   "opensource",
+  "react",
+  "weebdev",
+  "typescript",
 ];
 
 export default function RightSidebar() {
