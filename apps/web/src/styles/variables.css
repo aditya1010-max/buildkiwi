@@ -61,12 +61,16 @@
 
   /* Layout */
   --navbar-height: 64px;
-  --sidebar-width-expanded: 240px;
-  --sidebar-width-collapsed: 70px;
-  --right-sidebar-width: 300px;
-  --feed-max-width: 680px;
-  --app-max-width: 1290px;
-  --layout-gap: 0px;
+
+  --sidebar-width-expanded: 220px;
+  --sidebar-width-collapsed: 64px;
+
+  --right-sidebar-width: 280px;
+
+  --feed-max-width: 640px;
+
+  --app-max-width: 1200px;
+  --layout-gap: 12px;
 
   /* Breakpoints */
   --layout-desktop: 1101px;
@@ -83,6 +87,10 @@
   /* Comments */
   --comments-bg: rgb(225, 241, 248);
   --comments-modal-backdrop: rgba(15, 20, 12, 0.45);
+
+  /* Interaction on hover on project cards */
+  --surface-hover: #f1f5eb;
+  --border-hover: #cfd8c3;
 }
 
 /* =================================
@@ -144,4 +152,8 @@
   /* Comments */
   --comments-bg: rgb(24, 35, 40);
   --comments-modal-backdrop: rgba(0, 0, 0, 0.6);
+
+  /* Interaction */
+  --surface-hover: #24291f;
+  --border-hover: #424a38;
 }
