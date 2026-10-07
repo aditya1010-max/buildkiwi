@@ -91,6 +91,31 @@
   /* Interaction on hover on project cards */
   --surface-hover: #f1f5eb;
   --border-hover: #cfd8c3;
+
+  /* Toast */
+  --toast-bg: #ffffff;
+  --toast-border: #e5e7eb;
+  --toast-text: #111827;
+  --toast-description: #6b7280;
+  --toast-close: #6b7280;
+  --toast-close-hover-bg: #f3f4f6;
+  --toast-close-hover-text: #111827;
+
+  --toast-success: #16a34a;
+  --toast-success-bg: #f0fdf4;
+  --toast-success-border: #bbf7d0;
+
+  --toast-error: #dc2626;
+  --toast-error-bg: #fef2f2;
+  --toast-error-border: #fecaca;
+
+  --toast-warning: #d97706;
+  --toast-warning-bg: #fffbeb;
+  --toast-warning-border: #fde68a;
+
+  --toast-info: #2563eb;
+  --toast-info-bg: #eff6ff;
+  --toast-info-border: #bfdbfe;
 }
 
 /* =================================
@@ -156,4 +181,29 @@
   /* Interaction */
   --surface-hover: #24291f;
   --border-hover: #424a38;
+
+  /* Toast */
+  --toast-bg: #18181b;
+  --toast-border: #27272a;
+  --toast-text: #f4f4f5;
+  --toast-description: #a1a1aa;
+  --toast-close: #a1a1aa;
+  --toast-close-hover-bg: #27272a;
+  --toast-close-hover-text: #f4f4f5;
+
+  --toast-success: #4ade80;
+  --toast-success-bg: #14261b;
+  --toast-success-border: #245c38;
+
+  --toast-error: #f87171;
+  --toast-error-bg: #2a1719;
+  --toast-error-border: #64282c;
+
+  --toast-warning: #fbbf24;
+  --toast-warning-bg: #29220f;
+  --toast-warning-border: #66521c;
+
+  --toast-info: #60a5fa;
+  --toast-info-bg: #141f2e;
+  --toast-info-border: #29496b;
 }
