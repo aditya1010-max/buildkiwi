@@ -29,3 +29,10 @@
 .guest-sidebar-card .ui-button + .ui-button {
   margin-top: 0.5rem;
 }
+
+/* First layout collision */
+@media (max-width: 1200px) {
+  .guest-sidebar-card {
+    display: none;
+  }
+}
