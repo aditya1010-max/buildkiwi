@@ -6,8 +6,6 @@ export default defineConfig({
   },
 
   preview: {
-    allowedHosts: [
-      "buildkiwi-pattern-lab-production.up.railway.app",
-    ],
+    allowedHosts: ["buildkiwi-pattern-lab-production.up.railway.app"],
   },
 });
