@@ -15,7 +15,8 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Attach access token to every request
+let refreshPromise: Promise<string> | null = null;
+
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {
@@ -24,7 +25,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Automatically refresh expired access tokens
 api.interceptors.response.use(
   (response) => response,
 
@@ -36,7 +36,6 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Guest browsing
     if (!currentToken) {
       return Promise.reject(error);
     }
@@ -48,13 +47,16 @@ api.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      // Get a fresh access token
-      const newAccessToken = await refreshAccessToken();
+      if (!refreshPromise) {
+        refreshPromise = refreshAccessToken().finally(() => {
+          refreshPromise = null;
+        });
+      }
 
-      // Save it
+      const newAccessToken = await refreshPromise;
+
       setAccessToken(newAccessToken);
 
-      // Retry the original request with the new token
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
       return api(originalRequest);
