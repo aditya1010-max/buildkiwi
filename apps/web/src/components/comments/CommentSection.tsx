@@ -10,6 +10,7 @@ import {
 
 import CommentInput from "./CommentInput";
 import CommentList from "./CommentList";
+import { useToast } from "../../hooks/useToast";
 
 interface CommentsSectionProps {
   projectId: string;
@@ -27,6 +28,7 @@ export default function CommentsSection({
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   const loadComments = useCallback(
     async (page: number) => {
@@ -127,8 +129,13 @@ export default function CommentsSection({
         <h2>Comments ({pagination && <>{pagination.total}</>})</h2>
       </div>
 
-      {currentUserId && <CommentInput onSubmit={handleCreate} />}
-
+      <CommentInput
+        onSubmit={handleCreate}
+        isAuthenticated={!!currentUserId}
+        onUnauthenticated={() => {
+          toast.error("Please log in to comment.", "error");
+        }}
+      />
       {error && <p className="comments-section_error">{error}</p>}
 
       {loading ? (

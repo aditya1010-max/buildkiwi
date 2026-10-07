@@ -261,3 +261,53 @@ button:disabled {
     padding: 1rem;
   }
 }
+
+.comment-modal_error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 12px;
+
+  color: var(--error-text);
+
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.comment-modal_auth {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-modal_auth button {
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  color: var(--link);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  cursor: pointer;
+
+  transition:
+    color 120ms ease,
+    background 120ms ease;
+}
+
+.comment-modal_auth button:hover {
+  color: blue;
+  background: var(--link-hover-bg);
+}
+
+@media (max-width: 480px) {
+  .comment-modal_error {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

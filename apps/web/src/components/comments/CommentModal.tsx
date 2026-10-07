@@ -5,6 +5,7 @@ import { createComment } from "../../api/comment.api";
 import CommentInput from "./CommentInput";
 
 import "./comments.css";
+import { useNavigate } from "react-router-dom";
 
 interface CommentModalProps {
   projectId: string;
@@ -18,7 +19,7 @@ export default function CommentModal({
   onClose,
 }: CommentModalProps) {
   const [error, setError] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const handleSubmit = async (content: string) => {
     try {
       setError(null);
@@ -48,12 +49,30 @@ export default function CommentModal({
         aria-labelledby="comment-modal-title"
       >
         <div className="comment-modal_content">
-          {error && <p className="comments-section_error">{error}</p>}
+          <CommentInput
+            onSubmit={handleSubmit}
+            isAuthenticated={!!currentUserId}
+            onUnauthenticated={() => {
+              setError("Please log in to comment.");
+            }}
+          />
 
-          {currentUserId ? (
-            <CommentInput onSubmit={handleSubmit} />
-          ) : (
-            <p className="comment-modal_guest">Sign in to leave a comment.</p>
+          {error && (
+            <div className="comment-modal_error">
+              <span>{error}</span>
+
+              {!currentUserId && (
+                <div className="comment-modal_auth">
+                  <button type="button" onClick={() => navigate("/login")}>
+                    Log in
+                  </button>
+
+                  <button type="button" onClick={() => navigate("/register")}>
+                    Register
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </section>

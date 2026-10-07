@@ -3,6 +3,8 @@ import { FormEvent, useState } from "react";
 interface CommentInputProps {
   onSubmit: (content: string) => Promise<void>;
   disabled?: boolean;
+  isAuthenticated: boolean;
+  onUnauthenticated: () => void;
 }
 
 const MAX_LENGTH = 500;
@@ -10,6 +12,8 @@ const MAX_LENGTH = 500;
 export default function CommentInput({
   onSubmit,
   disabled = false,
+  isAuthenticated,
+  onUnauthenticated,
 }: CommentInputProps) {
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -20,6 +24,11 @@ export default function CommentInput({
     const value = content.trim();
 
     if (!value || submitting || disabled) {
+      return;
+    }
+
+    if (!isAuthenticated) {
+      onUnauthenticated();
       return;
     }
 
