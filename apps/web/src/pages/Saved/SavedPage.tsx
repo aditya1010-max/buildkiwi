@@ -12,7 +12,14 @@ import SavedProjectCard from "../../components/saved/SavedProjectCard";
 import "./SavedPage.css";
 
 export default function SavedPage(): ReactElement {
-  const { bookmarks, loading, error } = useBookmarks();
+  const {
+    bookmarks,
+    bookmarkedIds,
+    loading,
+    error,
+    pendingIds,
+    toggleBookmark,
+  } = useBookmarks();
 
   const isGuest = !getAccessToken();
 
@@ -50,7 +57,7 @@ export default function SavedPage(): ReactElement {
     return (
       <main className="saved-page">
         <div className="saved-page_container">
-          <SavedHeader count={0} />
+          <SavedHeader count={bookmarks.length} />
 
           <div
             className="saved-page_state saved-page_state--error"
@@ -77,7 +84,13 @@ export default function SavedPage(): ReactElement {
         ) : (
           <section className="saved-grid" aria-label="Saved projects">
             {validBookmarks.map((project) => (
-              <SavedProjectCard key={project._id} project={project} />
+              <SavedProjectCard
+                key={project._id}
+                project={project}
+                isPending={pendingIds.has(project._id)}
+                isBookmarked={bookmarkedIds.has(project._id)}
+                onToggleBookmark={toggleBookmark}
+              />
             ))}
           </section>
         )}

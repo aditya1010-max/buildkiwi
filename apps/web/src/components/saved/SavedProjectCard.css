@@ -120,3 +120,43 @@
     padding: 0.9rem 1rem 1rem;
   }
 }
+
+.saved-project-card_bookmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: transparent;
+  color: var(--text-h);
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.saved-project-card_bookmark:hover:not(:disabled) {
+  border-color: var(--border-hover, var(--border));
+  background: var(--surface-hover, var(--surface));
+  transform: translateY(-1px);
+}
+
+.saved-project-card_bookmark:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.saved-project-card_bookmark:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}

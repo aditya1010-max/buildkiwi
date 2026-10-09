@@ -1,45 +1,76 @@
 import type { ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import type { Project } from "../../types/project";
-import GeneratedCover from "../projects/shared/GeneratedCover/GeneratedCover";
-import Card from "../ui/Card";
-
-import "./SavedProjectCard.css";
+import SharedProjectCard from "../projects/shared/SharedProjectCard";
+import { useToast } from "../../hooks/useToast";
 
 interface SavedProjectCardProps {
   project: Project;
+  isPending: boolean;
+  isBookmarked: boolean;
+  onToggleBookmark: (project: Project) => void | Promise<void>;
 }
 
 export default function SavedProjectCard({
   project,
+  isPending,
+  isBookmarked,
+  onToggleBookmark,
 }: SavedProjectCardProps): ReactElement {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  async function handleToggleBookmark(): Promise<void> {
+    try {
+      await onToggleBookmark(project);
+
+      toast.success(
+        isBookmarked
+          ? "Removed from saved projects."
+          : "Added to saved projects.",
+        "success",
+      );
+    } catch (error) {
+      console.error("Failed to update bookmark:", error);
+    }
+  }
+
   return (
-    <Link
-      to={`/${project.creatorId.username}/project/${project._id}`}
-      className="saved-project-card_link"
-    >
-      {" "}
-      <Card className="saved-project-card">
-        <div className="saved-project-card_cover">
-          <GeneratedCover
-            seed={project.coverSeed ?? project._id}
-            className="saved-project-card_generated-cover"
-          />
-        </div>
-
-        <div className="saved-project-card_content">
-          <h3 className="saved-project-card_title">{project.title}</h3>
-
-          <p className="saved-project-card_description">
-            {project.description || "No description provided."}
-          </p>
-
-          <span className="saved-project-card_creator">
-            @{project.creatorId.username}
-          </span>
-        </div>
-      </Card>
-    </Link>
+    <SharedProjectCard
+      project={project}
+      onView={() =>
+        navigate(`/${project.creatorId.username}/project/${project._id}`)
+      }
+      actions={
+        <button
+          type="button"
+          className="saved-project-card_bookmark"
+          disabled={isPending}
+          onClick={() => void handleToggleBookmark()}
+          aria-label={
+            isBookmarked
+              ? `Remove ${project.title} from saved projects`
+              : `Save ${project.title}`
+          }
+          aria-pressed={isBookmarked}
+          title={isBookmarked ? "Remove bookmark" : "Save project"}
+        >
+          <svg
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+            fill={isBookmarked ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-4-6 4V4.75Z" />
+          </svg>
+        </button>
+      }
+    />
   );
 }
