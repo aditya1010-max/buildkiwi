@@ -12,20 +12,8 @@
    Padding
 -------------------------------- */
 
-.ui-card--padding-none {
-  padding: 0;
-}
-
-.ui-card--padding-sm {
-  padding: 12px;
-}
-
 .ui-card--padding-md {
-  padding: 16px;
-}
-
-.ui-card--padding-lg {
-  padding: 24px;
+  padding: 12px 14px 6px 14px;
 }
 
 /* --------------------------------
