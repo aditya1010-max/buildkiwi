@@ -1,11 +1,13 @@
-//this will call login , store token , store user , logout
-
 import { useState } from "react";
 import { login, register, logout as logoutApi } from "../api/auth.api";
+import {
+  getAccessToken,
+  setAccessToken,
+  clearAccessToken,
+} from "../utils/token";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState<string | null>(null);
 
   const loginUser = async (email: string, password: string) => {
@@ -15,7 +17,7 @@ export const useAuth = () => {
 
       const response = await login(email, password);
 
-      localStorage.setItem("token", response.accessToken);
+      setAccessToken(response.accessToken);
       localStorage.setItem("user", JSON.stringify(response.user));
 
       return response.user;
@@ -51,7 +53,7 @@ export const useAuth = () => {
     try {
       await logoutApi();
     } finally {
-      localStorage.removeItem("token");
+      clearAccessToken();
       localStorage.removeItem("user");
     }
   };
@@ -59,12 +61,19 @@ export const useAuth = () => {
   const getCurrentUser = () => {
     const user = localStorage.getItem("user");
 
-    return user ? JSON.parse(user) : null;
+    if (!user) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(user);
+    } catch {
+      localStorage.removeItem("user");
+      return null;
+    }
   };
 
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
+  const getToken = () => getAccessToken();
 
   return {
     loginUser,

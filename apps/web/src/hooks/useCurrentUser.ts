@@ -1,25 +1,39 @@
 import { useEffect, useState } from "react";
 
 import { getCurrentUser } from "../api/auth.api";
-import { User } from "../types/user";
+import type { User } from "../types/user";
 
 export function useCurrentUser() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadUser() {
       try {
         const currentUser = await getCurrentUser();
-        setUser(currentUser);
+
+        if (!cancelled) {
+          setUser(currentUser);
+        }
       } catch (error) {
-        console.error(error);
+        if (!cancelled) {
+          console.error("Failed to restore current user:", error);
+          setUser(null);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
 
-    loadUser();
+    void loadUser();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return {

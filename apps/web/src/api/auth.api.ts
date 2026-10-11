@@ -1,5 +1,11 @@
 import type { User } from "../types/user";
 import api from "../services/api";
+import {
+  getAccessToken,
+  setAccessToken,
+  clearAccessToken,
+} from "../utils/token";
+import { refreshAccessToken } from "./refresh.api";
 
 interface ApiUser extends Omit<User, "id"> {
   _id: string;
@@ -25,18 +31,13 @@ interface MeResponse {
   user: ApiUser | null;
 }
 
-interface RefreshResponse {
-  success: boolean;
-  accessToken: string;
-}
-
 export const login = async (email: string, password: string) => {
   const { data } = await api.post("/auth/login", {
     email,
     password,
   });
 
-  localStorage.setItem("token", data.accessToken);
+  setAccessToken(data.accessToken);
 
   return {
     ...data,
@@ -61,28 +62,16 @@ export const register = async (
   };
 };
 
-async function refreshAccessToken(): Promise<string | null> {
-  try {
-    const { data } = await api.post<RefreshResponse>("/auth/refresh");
-
-    localStorage.setItem("token", data.accessToken);
-
-    return data.accessToken;
-  } catch {
-    localStorage.removeItem("token");
-    return null;
-  }
-}
-
 export async function getCurrentUser(): Promise<User | null> {
-  let token = localStorage.getItem("token");
+  let token = getAccessToken();
 
   if (!token) {
-    token = await refreshAccessToken();
-  }
-
-  if (!token) {
-    return null;
+    try {
+      token = await refreshAccessToken();
+      setAccessToken(token);
+    } catch {
+      return null;
+    }
   }
 
   try {
@@ -93,14 +82,27 @@ export async function getCurrentUser(): Promise<User | null> {
     });
 
     return data.user ? normalizeUser(data.user) : null;
-  } catch {
-    localStorage.removeItem("token");
+  } catch (error) {
+    // Preserve the token on server/network failures.
+    // A 401 is handled by the API interceptor when refresh is possible.
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "response" in error &&
+      (error as { response?: { status?: number } }).response?.status === 401
+    ) {
+      clearAccessToken();
+    }
 
     return null;
   }
 }
 
 export async function logout() {
-  await api.post("/auth/logout");
-  localStorage.removeItem("token");
+  try {
+    await api.post("/auth/logout");
+  } finally {
+    clearAccessToken();
+    localStorage.removeItem("user");
+  }
 }
