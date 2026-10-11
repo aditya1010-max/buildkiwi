@@ -257,11 +257,11 @@ describe("auth HTTP", () => {
         .post("/auth/refresh")
         .set("Cookie", "refreshToken=invalid-refresh-token");
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(401);
 
       expect(response.body).toEqual({
         success: false,
-        message: "Invalid token",
+        message: "Refresh token expired or invalid",
       });
 
       expect(mockGenerateAccessToken).not.toHaveBeenCalled();

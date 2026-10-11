@@ -15,6 +15,13 @@ export interface AuthenticatedRequest extends Request {
   };
 }
 
+const refreshCookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: "none" as const,
+  path: "/",
+};
+
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
@@ -39,10 +46,8 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   );
 
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    ...refreshCookieOptions,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
@@ -63,7 +68,7 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const refresh = asyncHandler(async (req: Request, res: Response) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies?.refreshToken;
 
   if (!refreshToken) {
     return res.status(401).json({
@@ -72,30 +77,34 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
     });
   }
 
-  const payload = verifyRefreshToken(refreshToken) as {
-    userId: string;
-    email: string;
-  };
+  let payload: { userId: string; email: string };
+
+  try {
+    payload = verifyRefreshToken(refreshToken);
+  } catch {
+    res.clearCookie("refreshToken", refreshCookieOptions);
+
+    return res.status(401).json({
+      success: false,
+      message: "Refresh token expired or invalid",
+    });
+  }
 
   const accessToken = generateAccessToken({
     userId: payload.userId,
     email: payload.email,
   });
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     accessToken,
   });
 });
 
 export const logout = asyncHandler(async (_req: Request, res: Response) => {
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "lax",
-  });
+  res.clearCookie("refreshToken", refreshCookieOptions);
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Logged out successfully.",
   });
