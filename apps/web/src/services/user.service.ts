@@ -3,6 +3,7 @@ import type { PatternId } from "@buildkiwi/pattern-engine";
 import api from "./api";
 
 interface UpdateUserData {
+  username?: string;
   bio?: string;
   avatarSeed?: string;
   avatarPattern?: PatternId;

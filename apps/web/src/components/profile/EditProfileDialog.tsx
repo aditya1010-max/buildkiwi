@@ -21,20 +21,19 @@ export default function EditProfileDialog({
   onClose,
   onSave,
 }: EditProfileDialogProps) {
+  const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio ?? "");
-
   const [avatarSeed, setAvatarSeed] = useState(user.avatarSeed);
   const [avatarPattern, setAvatarPattern] = useState(user.avatarPattern);
-
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   const [avatarCandidates, setAvatarCandidates] = useState<AvatarCandidate[]>(
     [],
   );
 
   const handleRandomize = () => {
-    const candidates = generateAvatarCandidates();
-    setAvatarCandidates(candidates);
+    setAvatarCandidates(generateAvatarCandidates());
   };
 
   const handleSelectCandidate = (candidate: AvatarCandidate) => {
@@ -43,10 +42,19 @@ export default function EditProfileDialog({
   };
 
   const handleSave = async () => {
+    const trimmedUsername = username.trim();
+
+    if (!trimmedUsername) {
+      setError("Username cannot be empty.");
+      return;
+    }
+
     try {
       setSaving(true);
+      setError("");
 
       await updateUser(user.id, {
+        username: trimmedUsername,
         bio,
         avatarSeed,
         avatarPattern,
@@ -54,6 +62,7 @@ export default function EditProfileDialog({
 
       onSave({
         ...user,
+        username: trimmedUsername,
         bio,
         avatarSeed,
         avatarPattern,
@@ -62,6 +71,11 @@ export default function EditProfileDialog({
       onClose();
     } catch (error) {
       console.error("Failed to update profile", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to update profile. Please try again.",
+      );
     } finally {
       setSaving(false);
     }
@@ -113,6 +127,7 @@ export default function EditProfileDialog({
                       onClick={() => handleSelectCandidate(candidate)}
                       aria-label={`Select ${candidate.pattern} avatar`}
                       aria-pressed={isSelected}
+                      disabled={saving}
                     >
                       <GeneratedAvatar
                         seed={candidate.seed}
@@ -128,15 +143,19 @@ export default function EditProfileDialog({
         </div>
 
         <div className="edit-profile_field">
-          <label>Username</label>
+          <label htmlFor="edit-profile-username">Username</label>
 
-          <div className="edit-profile_readonly">{user.username}</div>
-        </div>
-
-        <div className="edit-profile_field">
-          <label>Email</label>
-
-          <div className="edit-profile_readonly">{user.email}</div>
+          <input
+            id="edit-profile-username"
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            maxLength={30}
+            autoComplete="username"
+            placeholder="Choose a username"
+            disabled={saving}
+            required
+          />
         </div>
 
         <div className="edit-profile_field">
@@ -145,14 +164,21 @@ export default function EditProfileDialog({
           <textarea
             id="edit-profile-bio"
             value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            onChange={(event) => setBio(event.target.value)}
             maxLength={120}
             placeholder="Tell people a little about yourself..."
             rows={4}
+            disabled={saving}
           />
 
           <span className="edit-profile_counter">{bio.length}/120</span>
         </div>
+
+        {error && (
+          <p className="edit-profile_error" role="alert">
+            {error}
+          </p>
+        )}
       </div>
 
       <div className="edit-profile_actions">
@@ -161,6 +187,7 @@ export default function EditProfileDialog({
           variant="secondary"
           className="edit-profile_cancel"
           onClick={onClose}
+          disabled={saving}
         >
           Cancel
         </Button>
@@ -171,6 +198,7 @@ export default function EditProfileDialog({
           className="edit-profile_save"
           onClick={handleSave}
           loading={saving}
+          disabled={saving}
         >
           Save
         </Button>
