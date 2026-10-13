@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   addLike as addLikeRequest,
@@ -7,17 +7,17 @@ import {
 } from "../api/like.api";
 
 import { getAccessToken } from "../utils/token";
-
 import { LikeContext } from "./LikeContext";
 
 export function LikeProvider({ children }: { children: React.ReactNode }) {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-
   const [loadingLikes, setLoadingLikes] = useState(() =>
     Boolean(getAccessToken()),
   );
-
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
+
+  // A synchronous lock prevents duplicate operations before React rerenders.
+  const inFlightRef = useRef(new Set<string>());
 
   useEffect(() => {
     if (!getAccessToken()) {
@@ -44,7 +44,7 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    loadLikes();
+    void loadLikes();
   }, []);
 
   const setPending = useCallback((projectId: string, isPending: boolean) => {
@@ -62,13 +62,18 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addLikeOptimistic = useCallback(
-    async (projectId: string) => {
-      setPending(projectId, true);
+    async (projectId: string): Promise<boolean> => {
+      if (inFlightRef.current.has(projectId)) {
+        return false;
+      }
 
+      inFlightRef.current.add(projectId);
+      setPending(projectId, true);
       setLikedIds((prev) => new Set(prev).add(projectId));
 
       try {
         await addLikeRequest(projectId);
+        return true;
       } catch (error) {
         console.error("Failed to add like:", error);
 
@@ -77,7 +82,10 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
           next.delete(projectId);
           return next;
         });
+
+        return false;
       } finally {
+        inFlightRef.current.delete(projectId);
         setPending(projectId, false);
       }
     },
@@ -85,7 +93,12 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   );
 
   const removeLikeOptimistic = useCallback(
-    async (projectId: string) => {
+    async (projectId: string): Promise<boolean> => {
+      if (inFlightRef.current.has(projectId)) {
+        return false;
+      }
+
+      inFlightRef.current.add(projectId);
       setPending(projectId, true);
 
       setLikedIds((prev) => {
@@ -96,30 +109,48 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
 
       try {
         await removeLikeRequest(projectId);
+        return true;
       } catch (error) {
         console.error("Failed to remove like:", error);
 
         setLikedIds((prev) => new Set(prev).add(projectId));
+        return false;
       } finally {
+        inFlightRef.current.delete(projectId);
         setPending(projectId, false);
       }
     },
     [setPending],
   );
 
+  const addLike = useCallback(
+    async (projectId: string): Promise<void> => {
+      await addLikeOptimistic(projectId);
+    },
+    [addLikeOptimistic],
+  );
+
+  const removeLike = useCallback(
+    async (projectId: string): Promise<void> => {
+      await removeLikeOptimistic(projectId);
+    },
+    [removeLikeOptimistic],
+  );
+
   const toggleLike = useCallback(
-    async (projectId: string) => {
-      if (pendingIds.has(projectId)) {
-        return;
+    async (projectId: string): Promise<boolean> => {
+      // This check is synchronous, unlike checking pendingIds state alone.
+      if (inFlightRef.current.has(projectId)) {
+        return false;
       }
 
       if (likedIds.has(projectId)) {
-        await removeLikeOptimistic(projectId);
-      } else {
-        await addLikeOptimistic(projectId);
+        return removeLikeOptimistic(projectId);
       }
+
+      return addLikeOptimistic(projectId);
     },
-    [likedIds, pendingIds, addLikeOptimistic, removeLikeOptimistic],
+    [likedIds, addLikeOptimistic, removeLikeOptimistic],
   );
 
   const isLiked = useCallback(
@@ -139,8 +170,8 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
       loadingLikes,
       isLiked,
       isPending,
-      addLike: addLikeOptimistic,
-      removeLike: removeLikeOptimistic,
+      addLike,
+      removeLike,
       toggleLike,
     }),
     [
@@ -148,8 +179,8 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
       loadingLikes,
       isLiked,
       isPending,
-      addLikeOptimistic,
-      removeLikeOptimistic,
+      addLike,
+      removeLike,
       toggleLike,
     ],
   );

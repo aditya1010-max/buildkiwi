@@ -73,13 +73,12 @@ export default function ProjectCard({
 
     if (isGuest) return;
 
-    if (liked) {
-      setDisplayLikes((prev) => Math.max(0, prev - 1));
-    } else {
-      setDisplayLikes((prev) => prev + 1);
-    }
+    const wasLiked = liked;
+    const succeeded = await toggleLike(project._id);
 
-    await toggleLike(project._id);
+    if (!succeeded) return;
+
+    setDisplayLikes((prev) => Math.max(0, prev + (wasLiked ? -1 : 1)));
   }
 
   function handleComments(event: MouseEvent<HTMLButtonElement>) {

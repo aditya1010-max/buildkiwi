@@ -8,7 +8,7 @@ export interface LikeContextType {
   isLiked: (projectId: string) => boolean;
   addLike: (projectId: string) => Promise<void>;
   removeLike: (projectId: string) => Promise<void>;
-  toggleLike: (projectId: string) => Promise<void>;
+  toggleLike: (projectId: string) => Promise<boolean>;
 }
 
 export const LikeContext = createContext<LikeContextType | null>(null);
