@@ -3,35 +3,40 @@ import type { PatternTheme } from "../types";
 export const halftoneTheme: PatternTheme = {
   colorSystem: {
     // Base UI / background
-    background: "#f8fafc", // crisp off-white
+    background: "#FFF8E8",
+    surface: "#FFFFFF",
 
-    // Dot grid points
-    primary: "#0f172a", // dark high-contrast dots
-    secondary: "#0d9488", // teal accent dots
-    accent: "#f97316", // vibrant orange highlight dot
+    // Halftone dots
+    primary: "#24315C",
+    secondary: "#4C69F6",
+    accent: "#EE5454",
 
     // Supporting tone
-    muted: "#cbd5e1", // subtle background dots
+    muted: "#4C94F6",
 
     // Text / foreground
-    foreground: "#334155",
-    surface: "",
+    foreground: "#25263A",
   },
 
   background: {
     type: "gradient",
-
-    // Modern, clean, technical gradient tones.
-    colors: ["#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b"],
-
-    opacity: 0.8,
+    colors: [
+      "#FFF8E8",
+      "#FFF0C2",
+      "#FCE3D8",
+      "#DCE8FF",
+      "#E0E5FF",
+      "#FFF0B0",
+      "#FFF8E8",
+    ],
+    opacity: 0.95,
   },
 
   visualBudget: {
     maxElements: 40,
     density: 0.9,
-    contrast: 1.0,
-    complexity: 0.4,
-    accentUsage: 0.1,
+    contrast: 1.2,
+    complexity: 0.55,
+    accentUsage: 0.15,
   },
 };
