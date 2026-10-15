@@ -1,4 +1,8 @@
-import { UpdateProjectInput } from "@buildkiwi/validation";
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from "@buildkiwi/validation";
+
 import {
   getEditableProjectById,
   projectRepository,
@@ -18,18 +22,14 @@ interface GetProjectsOptions {
   filter?: "all" | "projects" | "users" | "tags";
 }
 
-import type { CreateProjectInput } from "@buildkiwi/validation";
-
 export const createProjectService = async (
   data: CreateProjectInput,
   creatorId: string,
 ) => {
-  const projectData = {
+  const project = await projectRepository.create({
     ...data,
     creatorId,
-  };
-
-  const project = await projectRepository.create(projectData);
+  });
 
   const achievement = await checkFirstProject(creatorId);
 
@@ -66,13 +66,14 @@ export const getProjectsService = async ({
   };
 };
 
-export const getProjectsByUserService = async (userId: string) => {
-  return await projectRepository.findByUserId(userId);
+export const getProjectsByUserService = (userId: string) => {
+  return projectRepository.findByUserId(userId);
 };
 
-export const getProjectByIdService = async (id: string) => {
+export const getProjectByIdService = (id: string) => {
   if (!id) return null;
-  return await projectRepository.findById(id);
+
+  return projectRepository.findById(id);
 };
 
 export const updateProjectService = async (
@@ -86,52 +87,44 @@ export const updateProjectService = async (
     return false;
   }
 
-  if (
-    !project.creatorId ||
-    project.creatorId.toString() !== userId.toString()
-  ) {
+  if (!project.creatorId || project.creatorId.toString() !== userId) {
     throw new AppError("Unauthorized: You do not own this project", 403);
   }
 
-  return await projectRepository.update(id, data);
+  return projectRepository.update(id, data);
 };
 
 export const deleteProjectService = async (id: string, userId: string) => {
   if (!id) return false;
 
   const project = await projectRepository.findByIdForUpdate(id);
+
   if (!project) {
     throw new AppError("Project not found", 404);
   }
 
-  if (
-    !project.creatorId ||
-    project.creatorId.toString() !== userId.toString()
-  ) {
+  if (!project.creatorId || project.creatorId.toString() !== userId) {
     throw new AppError("You do not own this project", 403);
   }
 
-  return await projectRepository.delete(id);
+  return projectRepository.delete(id);
 };
 
-export const saveProjectService = async (userId: string, projectId: string) => {
-  await saveProjectRepository(userId, projectId);
+export const saveProjectService = (userId: string, projectId: string) => {
+  return saveProjectRepository(userId, projectId);
 };
 
-export const unsaveProjectService = async (
-  userId: string,
-  projectId: string,
-) => {
-  await unsaveProjectRepository(userId, projectId);
+export const unsaveProjectService = (userId: string, projectId: string) => {
+  return unsaveProjectRepository(userId, projectId);
 };
 
-export const getSavedProjectsService = async (userId: string) => {
-  return await getSavedProjectsRepository(userId);
+export const getSavedProjectsService = (userId: string) => {
+  return getSavedProjectsRepository(userId);
 };
 
-export async function getEditableProjectService(
+export function getEditableProjectService(
   projectId: string,
   authUserId: string,
 ) {
-  return await getEditableProjectById(projectId, authUserId);
+  return getEditableProjectById(projectId, authUserId);
 }

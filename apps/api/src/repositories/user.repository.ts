@@ -1,29 +1,27 @@
 import { User } from "../models/user.model";
 
 import type { CreateUserData, UpdateUserProfileData } from "../types/user";
+import { AppError } from "../utils/AppError";
 
-export const createUserRepository = async (data: CreateUserData) => {
+export const createUserRepository = (data: CreateUserData) => {
   return User.create(data);
 };
 
-export const findUserByEmailRepository = async (email: string) => {
+export const findUserByEmailRepository = (email: string) => {
   return User.findOne({ email });
 };
 
-export const findUserByIdRepository = async (id: string) => {
+export const findUserByIdRepository = (id: string) => {
   return User.findById(id).select("-passwordHash -__v");
 };
 
-export const findPublicUserByUsernameRepository = async (username: string) => {
+export const findPublicUserByUsernameRepository = (username: string) => {
   return User.findOne({ username }).select(
     "_id username avatarSeed avatarPattern bio createdAt",
   );
 };
 
-export const saveProjectRepository = async (
-  userId: string,
-  projectId: string,
-) => {
+export const saveProjectRepository = (userId: string, projectId: string) => {
   return User.findByIdAndUpdate(
     userId,
     {
@@ -37,10 +35,7 @@ export const saveProjectRepository = async (
   );
 };
 
-export const unsaveProjectRepository = async (
-  userId: string,
-  projectId: string,
-) => {
+export const unsaveProjectRepository = (userId: string, projectId: string) => {
   return User.findByIdAndUpdate(
     userId,
     {
@@ -58,7 +53,7 @@ export const getSavedProjectsRepository = async (userId: string) => {
   const user = await User.findById(userId);
 
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError("User not found", 404);
   }
 
   await user.populate({
@@ -72,7 +67,7 @@ export const getSavedProjectsRepository = async (userId: string) => {
   return user.savedProjects;
 };
 
-export const updateUserProfileRepository = async (
+export const updateUserProfileRepository = (
   userId: string,
   data: UpdateUserProfileData,
 ) => {

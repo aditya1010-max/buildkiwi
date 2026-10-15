@@ -1,4 +1,6 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
+import { CreateProjectSchema } from "@buildkiwi/validation";
+
 import {
   createProjectService,
   getProjectsService,
@@ -12,27 +14,32 @@ import {
   getProjectsByUserService,
 } from "../services/project.services";
 import { projectSchema } from "../schema/projectSchema";
-import { validateSchemaData } from "../utils/validateSchema";
-import { CreateProjectSchema } from "@buildkiwi/validation";
+import { validateSchemaData, type Schema } from "../utils/validateSchema";
 import { asyncHandler } from "../utils/asyncHandler";
 import { AppError } from "../utils/AppError";
-import { type Schema } from "../utils/validateSchema";
+import { normalizeProjectPayload } from "../utils/normalizeProjectPayload";
 
-// Define a strict, local type for requests that pass through your auth middleware
 interface AuthenticatedRequest extends Request {
-  user: {
+  user?: {
     userId: string;
   };
   file?: Express.Multer.File;
 }
 
-/**
- * Validates dynamic schema data structure
- */
+const requireAuthenticatedUser = (req: Request): string => {
+  const userId = (req as AuthenticatedRequest).user?.userId;
+
+  if (!userId) {
+    throw new AppError("Unauthorized", 401);
+  }
+
+  return userId;
+};
+
 const runSecondaryValidation = (
   schema: Schema,
   data: Record<string, unknown>,
-) => {
+): void => {
   const errors = validateSchemaData(schema, data);
 
   if (errors.length > 0) {
@@ -40,60 +47,16 @@ const runSecondaryValidation = (
   }
 };
 
-function normalizeUrl(value: unknown): string {
-  if (typeof value !== "string") return "";
-
-  const url = value.trim();
-
-  if (!url) return "";
-
-  if (/^https?:\/\//i.test(url)) {
-    return url;
-  }
-
-  return `https://${url}`;
-}
-
-// --- CREATE PROJECT ---
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
-    const authReq = req as AuthenticatedRequest;
+    const userId = requireAuthenticatedUser(req);
 
-    const payload = {
-      ...authReq.body,
-
-      tags: (() => {
-        if (!authReq.body.tags) return [];
-
-        if (Array.isArray(authReq.body.tags)) {
-          return authReq.body.tags;
-        }
-
-        try {
-          return JSON.parse(authReq.body.tags);
-        } catch {
-          return [];
-        }
-      })(),
-
-      links: {
-        github: normalizeUrl(authReq.body.github),
-        demo: normalizeUrl(authReq.body.demo),
-      },
-    };
-
+    const payload = normalizeProjectPayload(req.body);
     const validatedData = CreateProjectSchema.parse(payload);
-
-    if (!authReq.user) {
-      throw new AppError("Unauthorized", 401);
-    }
 
     runSecondaryValidation(projectSchema, validatedData);
 
-    const result = await createProjectService(
-      validatedData,
-      authReq.user.userId,
-    );
+    const result = await createProjectService(validatedData, userId);
 
     res.status(201).json({
       success: true,
@@ -103,7 +66,6 @@ export const createProject = asyncHandler(
   },
 );
 
-// --- GET ALL PROJECTS ---
 export const getProjects = asyncHandler(async (req: Request, res: Response) => {
   const page = Math.max(1, Number(req.query.page) || 1);
   const limit = Math.min(20, Math.max(1, Number(req.query.limit) || 10));
@@ -111,8 +73,7 @@ export const getProjects = asyncHandler(async (req: Request, res: Response) => {
   const query =
     typeof req.query.q === "string" ? req.query.q.trim() : undefined;
 
-  const allowedFilters = ["all", "projects", "users", "tags"] as const; //eventually move this to buildkiwi/validation
-
+  const allowedFilters = ["all", "projects", "users", "tags"] as const;
   type SearchFilter = (typeof allowedFilters)[number];
 
   const filter: SearchFilter | undefined =
@@ -135,9 +96,9 @@ export const getProjects = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-// --- GET SINGLE PROJECT ---
 export const getProject = asyncHandler(async (req: Request, res: Response) => {
   const project = await getProjectByIdService(String(req.params.id));
+
   if (!project) {
     throw new AppError("Project not found", 404);
   }
@@ -148,36 +109,15 @@ export const getProject = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-// --- UPDATE PROJECT ---
 export const updateProject = asyncHandler(
   async (req: Request, res: Response) => {
+    const userId = requireAuthenticatedUser(req);
     const id = String(req.params.id);
-    const authReq = req as AuthenticatedRequest;
 
     const payload = {
-      ...authReq.body,
-
-      tags: (() => {
-        if (!authReq.body.tags) return [];
-
-        if (Array.isArray(authReq.body.tags)) {
-          return authReq.body.tags;
-        }
-
-        try {
-          return JSON.parse(authReq.body.tags);
-        } catch {
-          return [];
-        }
-      })(),
-
-      links: {
-        github: normalizeUrl(authReq.body.github),
-        demo: normalizeUrl(authReq.body.demo),
-      },
-
-      ...(authReq.file?.filename && {
-        coverImage: authReq.file.filename,
+      ...normalizeProjectPayload(req.body),
+      ...(req.file?.filename && {
+        coverImage: req.file.filename,
       }),
     };
 
@@ -185,12 +125,10 @@ export const updateProject = asyncHandler(
 
     runSecondaryValidation(projectSchema, validatedData);
 
-    const authUserId = authReq.user.userId;
-
     const updatedProject = await updateProjectService(
       id,
       validatedData,
-      authUserId,
+      userId,
     );
 
     if (!updatedProject) {
@@ -204,13 +142,13 @@ export const updateProject = asyncHandler(
   },
 );
 
-// --- DELETE PROJECT ---
 export const deleteProject = asyncHandler(
   async (req: Request, res: Response) => {
+    const userId = requireAuthenticatedUser(req);
     const id = String(req.params.id);
-    const authUserId = (req as AuthenticatedRequest).user.userId;
 
-    const isDeleted = await deleteProjectService(id, authUserId);
+    const isDeleted = await deleteProjectService(id, userId);
+
     if (!isDeleted) {
       throw new AppError("Project not found or unauthorized", 404);
     }
@@ -223,8 +161,8 @@ export const deleteProject = asyncHandler(
 );
 
 export const saveProject = asyncHandler(async (req: Request, res: Response) => {
+  const userId = requireAuthenticatedUser(req);
   const projectId = String(req.params.id);
-  const userId = (req as AuthenticatedRequest).user.userId;
 
   await saveProjectService(userId, projectId);
 
@@ -236,8 +174,8 @@ export const saveProject = asyncHandler(async (req: Request, res: Response) => {
 
 export const unsaveProject = asyncHandler(
   async (req: Request, res: Response) => {
+    const userId = requireAuthenticatedUser(req);
     const projectId = String(req.params.id);
-    const userId = (req as AuthenticatedRequest).user.userId;
 
     await unsaveProjectService(userId, projectId);
 
@@ -250,8 +188,7 @@ export const unsaveProject = asyncHandler(
 
 export const getSavedProjects = asyncHandler(
   async (req: Request, res: Response) => {
-    const userId = (req as AuthenticatedRequest).user.userId;
-
+    const userId = requireAuthenticatedUser(req);
     const projects = await getSavedProjectsService(userId);
 
     res.status(200).json({
@@ -263,10 +200,10 @@ export const getSavedProjects = asyncHandler(
 
 export const getEditableProject = asyncHandler(
   async (req: Request, res: Response) => {
+    const userId = requireAuthenticatedUser(req);
     const id = String(req.params.id);
-    const authUserId = (req as AuthenticatedRequest).user.userId;
 
-    const project = await getEditableProjectService(id, authUserId);
+    const project = await getEditableProjectService(id, userId);
 
     if (!project) {
       throw new AppError("Project not found or unauthorized", 404);
@@ -281,8 +218,7 @@ export const getEditableProject = asyncHandler(
 
 export const getMyProjects = asyncHandler(
   async (req: Request, res: Response) => {
-    const userId = (req as AuthenticatedRequest).user.userId;
-
+    const userId = requireAuthenticatedUser(req);
     const projects = await getProjectsByUserService(userId);
 
     res.json({

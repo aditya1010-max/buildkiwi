@@ -1,4 +1,7 @@
-import { CreateProjectInput, UpdateProjectInput } from "@buildkiwi/validation";
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from "@buildkiwi/validation";
 
 import { Project } from "../models/project.model";
 
@@ -29,7 +32,7 @@ export const projectRepository = {
     );
   },
 
-  create: async (data: CreateProjectInput) => {
+  create: async (data: CreateProjectInput & { creatorId: string }) => {
     return Project.create(data);
   },
 
@@ -67,9 +70,7 @@ export const projectRepository = {
       .lean();
   },
 
-  count: async () => {
-    return Project.countDocuments();
-  },
+  count: () => Project.countDocuments(),
 
   findByUserId: async (userId: string) => {
     return Project.find({ creatorId: userId })
@@ -84,9 +85,7 @@ export const projectRepository = {
       .lean();
   },
 
-  findByIdForUpdate: async (id: string) => {
-    return Project.findById(id);
-  },
+  findByIdForUpdate: (id: string) => Project.findById(id),
 
   update: async (id: string, updateData: UpdateProjectInput) => {
     return Project.findByIdAndUpdate(
