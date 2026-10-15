@@ -38,14 +38,26 @@ jest.mock("../../../src/utils/jwt", () => ({
 
 const mockCreateProject = jest.mocked(createProjectService);
 const mockGetProjects = jest.mocked(getProjectsService);
-const mockGetProjectById = jest.mocked(getProjectByIdService);
 const mockUpdateProject = jest.mocked(updateProjectService);
 const mockDeleteProject = jest.mocked(deleteProjectService);
-const mockSaveProject = jest.mocked(saveProjectService);
-const mockUnsaveProject = jest.mocked(unsaveProjectService);
+
 const mockGetSavedProjects = jest.mocked(getSavedProjectsService);
 const mockGetEditableProject = jest.mocked(getEditableProjectService);
 const mockGetMyProjects = jest.mocked(getProjectsByUserService);
+
+const mockGetProjectById = jest.mocked(
+  getProjectByIdService,
+) as jest.MockedFunction<(id: string) => Promise<unknown | null>>;
+
+const mockSaveProject = jest.mocked(saveProjectService) as jest.MockedFunction<
+  (userId: string, projectId: string) => Promise<unknown | null>
+>;
+
+const mockUnsaveProject = jest.mocked(
+  unsaveProjectService,
+) as jest.MockedFunction<
+  (userId: string, projectId: string) => Promise<unknown | null>
+>;
 
 const mockVerifyAccessToken = jest.mocked(verifyAccessToken);
 

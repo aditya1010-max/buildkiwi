@@ -34,6 +34,7 @@ import {
 } from "../../../src/services/bookmark.service";
 
 import { errorHandler } from "../../../src/middleware/errorHandler";
+import { AppError } from "../../../src/utils/AppError";
 
 jest.mock("../../../src/services/bookmark.service", () => ({
   addBookmarkService: jest.fn(),
@@ -42,9 +43,7 @@ jest.mock("../../../src/services/bookmark.service", () => ({
 }));
 
 const mockAddBookmark = jest.mocked(addBookmarkService);
-
 const mockRemoveBookmark = jest.mocked(removeBookmarkService);
-
 const mockGetBookmarks = jest.mocked(getBookmarksService);
 
 const app = express();
@@ -80,14 +79,16 @@ describe("bookmark HTTP", () => {
       expect(mockAddBookmark).toHaveBeenCalledWith("user-123", "project-123");
     });
 
-    it("returns an error when the project is not found", async () => {
-      mockAddBookmark.mockRejectedValue(new Error("Project not found."));
+    it("returns 404 when the project is not found", async () => {
+      mockAddBookmark.mockRejectedValue(
+        new AppError("Project not found.", 404),
+      );
 
       const response = await request(app)
         .post("/bookmarks/project-123")
         .set("Authorization", "Bearer valid-access-token");
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(404);
 
       expect(response.body).toEqual({
         success: false,
@@ -95,9 +96,26 @@ describe("bookmark HTTP", () => {
       });
     });
 
-    it("returns an error when the project is already bookmarked", async () => {
+    it("returns 409 when the project is already bookmarked", async () => {
       mockAddBookmark.mockRejectedValue(
-        new Error("Project already bookmarked."),
+        new AppError("Project already bookmarked.", 409),
+      );
+
+      const response = await request(app)
+        .post("/bookmarks/project-123")
+        .set("Authorization", "Bearer valid-access-token");
+
+      expect(response.status).toBe(409);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Project already bookmarked.",
+      });
+    });
+
+    it("hides unexpected errors when adding a bookmark fails", async () => {
+      mockAddBookmark.mockRejectedValue(
+        new Error("Unexpected database failure"),
       );
 
       const response = await request(app)
@@ -108,7 +126,7 @@ describe("bookmark HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "Project already bookmarked.",
+        message: "Internal Server Error",
       });
     });
   });
@@ -129,13 +147,32 @@ describe("bookmark HTTP", () => {
       });
 
       expect(mockRemoveBookmark).toHaveBeenCalledWith(
-        expect.any(String),
+        "user-123",
         "project-123",
       );
     });
 
-    it("returns an error when the bookmark does not exist", async () => {
-      mockRemoveBookmark.mockRejectedValue(new Error("Bookmark not found."));
+    it("returns 404 when the bookmark does not exist", async () => {
+      mockRemoveBookmark.mockRejectedValue(
+        new AppError("Bookmark not found.", 404),
+      );
+
+      const response = await request(app)
+        .delete("/bookmarks/project-123")
+        .set("Authorization", "Bearer valid-access-token");
+
+      expect(response.status).toBe(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Bookmark not found.",
+      });
+    });
+
+    it("hides unexpected errors when removing a bookmark fails", async () => {
+      mockRemoveBookmark.mockRejectedValue(
+        new Error("Unexpected database failure"),
+      );
 
       const response = await request(app)
         .delete("/bookmarks/project-123")
@@ -145,7 +182,7 @@ describe("bookmark HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "Bookmark not found.",
+        message: "Internal Server Error",
       });
     });
   });
@@ -176,7 +213,7 @@ describe("bookmark HTTP", () => {
         projects,
       });
 
-      expect(mockGetBookmarks).toHaveBeenCalledWith(expect.any(String));
+      expect(mockGetBookmarks).toHaveBeenCalledWith("user-123");
     });
   });
 });
@@ -184,26 +221,12 @@ describe("bookmark HTTP", () => {
 /*
 Test coverage:
 
-1. Adds a bookmark
-   → Verifies an authenticated request reaches the controller,
-     calls the bookmark service with the project ID, and returns 201.
-
-2. Handles a missing project
-   → Verifies a service error is returned to the HTTP client.
-
-3. Handles a duplicate bookmark
-   → Verifies an already-bookmarked project produces the expected
-     error response.
-
-4. Removes a bookmark
-   → Verifies an authenticated request removes the requested project
-     bookmark and returns 200.
-
-5. Handles a missing bookmark
-   → Verifies the service error reaches the HTTP response.
-
-6. Gets bookmarked projects
-   → Verifies the authenticated user's bookmarks are returned in
-     the expected response structure.
-
+1. Adds a bookmark successfully.
+2. Returns HTTP 404 when the project does not exist.
+3. Returns HTTP 409 when the project is already bookmarked.
+4. Hides unexpected errors during bookmark creation.
+5. Removes a bookmark successfully.
+6. Returns HTTP 404 when the bookmark does not exist.
+7. Hides unexpected errors during bookmark removal.
+8. Returns the authenticated user's bookmarked projects.
 */

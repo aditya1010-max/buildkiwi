@@ -6,6 +6,7 @@ import projectRouter from "../../../src/routes/project.routes";
 
 import { recordProjectView } from "../../../src/services/projectView.service";
 import { errorHandler } from "../../../src/middleware/errorHandler";
+import { AppError } from "../../../src/utils/AppError";
 
 jest.mock("../../../src/services/projectView.service", () => ({
   recordProjectView: jest.fn(),
@@ -57,7 +58,29 @@ describe("project view HTTP", () => {
       expect(mockRecordProjectView).not.toHaveBeenCalled();
     });
 
-    it("handles errors from the view service", async () => {
+    it("returns 404 when the project does not exist", async () => {
+      mockRecordProjectView.mockRejectedValue(
+        new AppError("Project not found.", 404),
+      );
+
+      const response = await request(app)
+        .post("/projects/project-123/view")
+        .set("X-Visitor-Id", "visitor-123");
+
+      expect(response.status).toBe(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Project not found.",
+      });
+
+      expect(mockRecordProjectView).toHaveBeenCalledWith(
+        "project-123",
+        "visitor-123",
+      );
+    });
+
+    it("handles unexpected errors from the view service", async () => {
       mockRecordProjectView.mockRejectedValue(
         new Error("Failed to record project view"),
       );
@@ -70,8 +93,13 @@ describe("project view HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "Failed to record project view",
+        message: "Internal Server Error",
       });
+
+      expect(mockRecordProjectView).toHaveBeenCalledWith(
+        "project-123",
+        "visitor-123",
+      );
     });
   });
 });
@@ -79,15 +107,19 @@ describe("project view HTTP", () => {
 /*
 Test coverage:
 
-1. Records a project view
-   → Verifies the visitor ID middleware, project ID, visitor ID,
-     service call, and successful HTTP response.
+1. Records a project view successfully.
+   -> Verifies the endpoint returns HTTP 200.
+   -> Verifies the project ID and visitor ID reach the service.
 
-2. Rejects a missing visitor ID
-   → Verifies visitorMiddleware blocks the request before the
-     project view service is called.
+2. Rejects a missing visitor ID.
+   -> Verifies the endpoint returns HTTP 400.
+   -> Verifies the service is not called.
 
-3. Handles service errors
-   → Verifies errors from recordProjectView reach the HTTP error
-     handler.
+3. Handles a missing project.
+   -> Verifies AppError returns HTTP 404.
+   -> Verifies the expected error message is preserved.
+
+4. Handles unexpected service failures.
+   -> Verifies ordinary errors return HTTP 500.
+   -> Verifies internal error messages are not exposed.
 */

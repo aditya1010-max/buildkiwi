@@ -35,11 +35,12 @@ describe("project repository", () => {
   describe("create", () => {
     it("creates a project with the provided data", async () => {
       const data = {
-        title: "BuildKiwi",
-        description: "Developer platform",
-        tags: ["React", "Node"],
+        title: "Test project",
+        description: "Test description",
+        tags: [],
         coverSeed: "test-seed",
         links: {},
+        creatorId: "user-123",
       };
 
       const project = {

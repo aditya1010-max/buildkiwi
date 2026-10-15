@@ -13,6 +13,7 @@ import {
 
 import { findUserByIdService } from "../../../src/services/user.service";
 import { errorHandler } from "../../../src/middleware/errorHandler";
+import { AppError } from "../../../src/utils/AppError";
 
 import {
   verifyRefreshToken,
@@ -58,9 +59,7 @@ jest.mock("../../../src/middleware/auth.middleware", () => ({
 const mockRegisterUser = jest.mocked(registerUserService);
 const mockLoginUser = jest.mocked(loginUserService);
 const mockFindUserById = jest.mocked(findUserByIdService);
-
 const mockVerifyRefreshToken = jest.mocked(verifyRefreshToken);
-
 const mockGenerateAccessToken = jest.mocked(generateAccessToken);
 
 const app = express();
@@ -68,7 +67,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/auth", authRouter);
-
 app.use(errorHandler);
 
 describe("auth HTTP", () => {
@@ -106,8 +104,29 @@ describe("auth HTTP", () => {
       });
     });
 
-    it("returns an error when registration fails", async () => {
-      mockRegisterUser.mockRejectedValue(new Error("User already exists"));
+    it("returns 409 when the user already exists", async () => {
+      mockRegisterUser.mockRejectedValue(
+        new AppError("User already exists", 409),
+      );
+
+      const response = await request(app).post("/auth/register").send({
+        username: "aditya",
+        email: "aditya@example.com",
+        password: "password123",
+      });
+
+      expect(response.status).toBe(409);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "User already exists",
+      });
+    });
+
+    it("hides unexpected registration errors", async () => {
+      mockRegisterUser.mockRejectedValue(
+        new Error("Unexpected database failure"),
+      );
 
       const response = await request(app).post("/auth/register").send({
         username: "aditya",
@@ -119,7 +138,7 @@ describe("auth HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "User already exists",
+        message: "Internal Server Error",
       });
     });
   });
@@ -163,19 +182,35 @@ describe("auth HTTP", () => {
       );
     });
 
-    it("returns an error for invalid credentials", async () => {
-      mockLoginUser.mockRejectedValue(new Error("Invalid credentials"));
+    it("returns 401 for invalid credentials", async () => {
+      mockLoginUser.mockRejectedValue(new AppError("Invalid credentials", 401));
 
       const response = await request(app).post("/auth/login").send({
         email: "aditya@example.com",
         password: "wrong-password",
       });
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(401);
 
       expect(response.body).toEqual({
         success: false,
         message: "Invalid credentials",
+      });
+    });
+
+    it("hides unexpected login errors", async () => {
+      mockLoginUser.mockRejectedValue(new Error("Unexpected database failure"));
+
+      const response = await request(app).post("/auth/login").send({
+        email: "aditya@example.com",
+        password: "password123",
+      });
+
+      expect(response.status).toBe(500);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Internal Server Error",
       });
     });
   });
@@ -292,34 +327,35 @@ describe("auth HTTP", () => {
 Test coverage:
 
 1. Register success
-   → Verifies the HTTP endpoint accepts the request, calls the
-     registration service, and returns HTTP 201 with the user.
+   -> Verifies successful registration returns HTTP 201 and the user.
 
-2. Register failure
-   → Verifies service errors are converted into an HTTP error response.
+2. Registration conflict
+   -> Verifies AppError with status 409 is returned safely.
 
-3. Login success
-   → Verifies the endpoint returns the access token and sets the
-     refresh token as a cookie.
+3. Unexpected registration failure
+   -> Verifies unexpected errors return a generic HTTP 500 response.
 
-4. Login failure
-   → Verifies invalid credentials produce an error response.
+4. Login success
+   -> Verifies the access token response and refresh cookie.
 
-5. Authenticated /me request
-   → Verifies an authenticated user can access the endpoint and
-     the user's data is returned.
+5. Invalid credentials
+   -> Verifies AppError with status 401 is returned safely.
 
-6. Refresh success
-   → Verifies a valid refresh cookie produces a new access token.
+6. Unexpected login failure
+   -> Verifies unexpected errors return a generic HTTP 500 response.
 
-7. Refresh without a cookie
-   → Verifies the endpoint returns 401 when the refresh token is missing.
+7. Authenticated /me request
+   -> Verifies the authenticated user's data is returned.
 
-8. Refresh with an invalid token
-   → Verifies an invalid refresh token does not generate a new
-     access token and returns an error response.
+8. Refresh success
+   -> Verifies a valid refresh cookie generates a new access token.
 
-9. Logout
-   → Verifies the refresh token cookie is cleared and the endpoint
-     returns the expected success response.
+9. Missing refresh token
+   -> Verifies a missing cookie returns HTTP 401.
+
+10. Invalid refresh token
+    -> Verifies an invalid token is rejected without generating an access token.
+
+11. Logout
+    -> Verifies the refresh cookie is cleared.
 */

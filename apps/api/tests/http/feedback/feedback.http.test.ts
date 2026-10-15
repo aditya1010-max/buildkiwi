@@ -4,8 +4,8 @@ import request from "supertest";
 
 import feedbackRouter from "../../../src/routes/feedback.routes";
 import { errorHandler } from "../../../src/middleware/errorHandler";
-
 import { submitFeedback } from "../../../src/services/feedback.service";
+import { AppError } from "../../../src/utils/AppError";
 
 jest.mock("../../../src/services/feedback.service", () => ({
   submitFeedback: jest.fn(),
@@ -106,8 +106,10 @@ describe("feedback HTTP", () => {
       );
     });
 
-    it("returns an error when feedback submission fails", async () => {
-      mockSubmitFeedback.mockRejectedValue(new Error("Title is required."));
+    it("returns a validation error when the title is missing", async () => {
+      mockSubmitFeedback.mockRejectedValue(
+        new AppError("Title is required.", 400),
+      );
 
       const response = await request(app).post("/feedback").send({
         category: "bug",
@@ -118,11 +120,33 @@ describe("feedback HTTP", () => {
         userAgent: "test-agent",
       });
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
 
       expect(response.body).toEqual({
         success: false,
         message: "Title is required.",
+      });
+    });
+
+    it("hides unexpected feedback submission errors", async () => {
+      mockSubmitFeedback.mockRejectedValue(
+        new Error("Unexpected database failure"),
+      );
+
+      const response = await request(app).post("/feedback").send({
+        category: "bug",
+        title: "Broken button",
+        description: "Something is broken.",
+        page: "/projects",
+        language: "en",
+        userAgent: "test-agent",
+      });
+
+      expect(response.status).toBe(500);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Internal Server Error",
       });
     });
   });
@@ -131,14 +155,15 @@ describe("feedback HTTP", () => {
 /*
 Test coverage:
 
-1. Submits feedback
-   → Verifies the endpoint passes the feedback data to the service
-     and returns the created feedback with HTTP 201.
+1. Bug feedback submission
+   -> Verifies successful submission returns HTTP 201 and the feedback.
 
-2. Supports feature feedback
-   → Verifies another valid feedback category is accepted and
-     passed through to the service.
+2. Feature feedback submission
+   -> Verifies feature requests are accepted and passed to the service.
 
-3. Handles feedback validation errors
-   → Verifies a service error reaches the HTTP error response.
+3. Missing title
+   -> Verifies an AppError validation failure returns HTTP 400.
+
+4. Unexpected service failure
+   -> Verifies internal errors return a generic HTTP 500 response.
 */

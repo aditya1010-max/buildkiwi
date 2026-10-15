@@ -12,6 +12,7 @@ import {
 
 import { verifyAccessToken } from "../../../src/utils/jwt";
 import { errorHandler } from "../../../src/middleware/errorHandler";
+import { AppError } from "../../../src/utils/AppError";
 
 jest.mock("../../../src/services/like.service", () => ({
   addLikeService: jest.fn(),
@@ -26,7 +27,6 @@ jest.mock("../../../src/utils/jwt", () => ({
 const mockAddLike = jest.mocked(addLikeService);
 const mockRemoveLike = jest.mocked(removeLikeService);
 const mockGetLikes = jest.mocked(getLikesService);
-
 const mockVerifyAccessToken = jest.mocked(verifyAccessToken);
 
 const app = express();
@@ -69,14 +69,16 @@ describe("like HTTP", () => {
       expect(mockAddLike).toHaveBeenCalledWith("user-123", "project-123");
     });
 
-    it("returns an error when the project is already liked", async () => {
-      mockAddLike.mockRejectedValue(new Error("Project already liked."));
+    it("returns 409 when the project is already liked", async () => {
+      mockAddLike.mockRejectedValue(
+        new AppError("Project already liked.", 409),
+      );
 
       const response = await request(app)
         .post("/likes/project-123")
         .set("Authorization", "Bearer valid-access-token");
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(409);
 
       expect(response.body).toEqual({
         success: false,
@@ -84,8 +86,23 @@ describe("like HTTP", () => {
       });
     });
 
-    it("returns an error when the project does not exist", async () => {
-      mockAddLike.mockRejectedValue(new Error("Project not found."));
+    it("returns 404 when the project does not exist", async () => {
+      mockAddLike.mockRejectedValue(new AppError("Project not found.", 404));
+
+      const response = await request(app)
+        .post("/likes/project-123")
+        .set("Authorization", "Bearer valid-access-token");
+
+      expect(response.status).toBe(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Project not found.",
+      });
+    });
+
+    it("hides unexpected errors when adding a like fails", async () => {
+      mockAddLike.mockRejectedValue(new Error("Unexpected database failure"));
 
       const response = await request(app)
         .post("/likes/project-123")
@@ -95,7 +112,7 @@ describe("like HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "Project not found.",
+        message: "Internal Server Error",
       });
     });
 
@@ -135,14 +152,14 @@ describe("like HTTP", () => {
       expect(mockRemoveLike).toHaveBeenCalledWith("user-123", "project-123");
     });
 
-    it("returns an error when the like does not exist", async () => {
-      mockRemoveLike.mockRejectedValue(new Error("Like not found."));
+    it("returns 404 when the like does not exist", async () => {
+      mockRemoveLike.mockRejectedValue(new AppError("Like not found.", 404));
 
       const response = await request(app)
         .delete("/likes/project-123")
         .set("Authorization", "Bearer valid-access-token");
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(404);
 
       expect(response.body).toEqual({
         success: false,
@@ -150,8 +167,25 @@ describe("like HTTP", () => {
       });
     });
 
-    it("returns an error when the project does not exist", async () => {
-      mockRemoveLike.mockRejectedValue(new Error("Project not found."));
+    it("returns 404 when the project does not exist", async () => {
+      mockRemoveLike.mockRejectedValue(new AppError("Project not found.", 404));
+
+      const response = await request(app)
+        .delete("/likes/project-123")
+        .set("Authorization", "Bearer valid-access-token");
+
+      expect(response.status).toBe(404);
+
+      expect(response.body).toEqual({
+        success: false,
+        message: "Project not found.",
+      });
+    });
+
+    it("hides unexpected errors when removing a like fails", async () => {
+      mockRemoveLike.mockRejectedValue(
+        new Error("Unexpected database failure"),
+      );
 
       const response = await request(app)
         .delete("/likes/project-123")
@@ -161,7 +195,7 @@ describe("like HTTP", () => {
 
       expect(response.body).toEqual({
         success: false,
-        message: "Project not found.",
+        message: "Internal Server Error",
       });
     });
 
@@ -280,38 +314,16 @@ describe("like HTTP", () => {
 /*
 Test coverage:
 
-1. Adds a like
-   → Verifies an authenticated request reaches the controller,
-     passes the authenticated user ID and project ID to the service,
-     and returns the created like.
-
-2. Handles an already-liked project
-   → Verifies a service error is returned to the HTTP client.
-
-3. Handles a missing project
-   → Verifies a project-not-found error reaches the HTTP response.
-
-4. Rejects unauthenticated like creation
-   → Verifies the auth middleware blocks the request before
-     the service is called.
-
-5. Removes a like
-   → Verifies an authenticated request passes the correct user and
-     project IDs to the service and returns the expected response.
-
-6. Handles a missing like
-   → Verifies the service error reaches the HTTP response.
-
-7. Handles a missing project during removal
-   → Verifies the project-not-found error reaches the HTTP response.
-
-8. Rejects unauthenticated like removal
-   → Verifies auth middleware prevents the service from being called.
-
-9. Gets the user's liked projects
-   → Verifies populated project data, including creator avatarSeed
-     and avatarPattern, is returned by the HTTP endpoint.
-
-10. Rejects unauthenticated like retrieval
-    → Verifies auth middleware prevents access to the endpoint.
+1. Adds a like successfully.
+2. Returns HTTP 409 when the project is already liked.
+3. Returns HTTP 404 when the project does not exist.
+4. Hides unexpected errors during like creation.
+5. Rejects unauthenticated like creation.
+6. Removes a like successfully.
+7. Returns HTTP 404 when the like does not exist.
+8. Returns HTTP 404 when the project does not exist during removal.
+9. Hides unexpected errors during like removal.
+10. Rejects unauthenticated like removal.
+11. Returns the user's liked projects and populated project data.
+12. Rejects unauthenticated like retrieval.
 */

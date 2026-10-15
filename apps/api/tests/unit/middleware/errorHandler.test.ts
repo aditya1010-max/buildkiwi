@@ -13,6 +13,7 @@ describe("errorHandler", () => {
 
     const res = {
       status,
+      headersSent: false,
     } as unknown as Response;
 
     const req = {} as Request;
@@ -26,9 +27,11 @@ describe("errorHandler", () => {
       success: false,
       message: "Project not found",
     });
+
+    expect(next).not.toHaveBeenCalled();
   });
 
-  it("returns 500 for a regular error", () => {
+  it("returns a generic 500 response for a regular error", () => {
     const error = new Error("Something went wrong");
 
     const json = jest.fn();
@@ -36,29 +39,7 @@ describe("errorHandler", () => {
 
     const res = {
       status,
-    } as unknown as Response;
-
-    const req = {} as Request;
-    const next = jest.fn() as NextFunction;
-
-    errorHandler(error, req, res, next);
-
-    expect(status).toHaveBeenCalledWith(500);
-
-    expect(json).toHaveBeenCalledWith({
-      success: false,
-      message: "Something went wrong",
-    });
-  });
-
-  it("uses the fallback message when an error has no message", () => {
-    const error = new Error();
-
-    const json = jest.fn();
-    const status = jest.fn().mockReturnValue({ json });
-
-    const res = {
-      status,
+      headersSent: false,
     } as unknown as Response;
 
     const req = {} as Request;
@@ -72,5 +53,52 @@ describe("errorHandler", () => {
       success: false,
       message: "Internal Server Error",
     });
+
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it("uses the fallback message when an error has no message", () => {
+    const error = new Error();
+
+    const json = jest.fn();
+    const status = jest.fn().mockReturnValue({ json });
+
+    const res = {
+      status,
+      headersSent: false,
+    } as unknown as Response;
+
+    const req = {} as Request;
+    const next = jest.fn() as NextFunction;
+
+    errorHandler(error, req, res, next);
+
+    expect(status).toHaveBeenCalledWith(500);
+
+    expect(json).toHaveBeenCalledWith({
+      success: false,
+      message: "Internal Server Error",
+    });
+  });
+
+  it("passes the error to next when headers have already been sent", () => {
+    const error = new Error("Something went wrong");
+
+    const status = jest.fn();
+    const json = jest.fn();
+
+    const res = {
+      status,
+      headersSent: true,
+    } as unknown as Response;
+
+    const req = {} as Request;
+    const next = jest.fn() as NextFunction;
+
+    errorHandler(error, req, res, next);
+
+    expect(next).toHaveBeenCalledWith(error);
+    expect(status).not.toHaveBeenCalled();
+    expect(json).not.toHaveBeenCalled();
   });
 });
