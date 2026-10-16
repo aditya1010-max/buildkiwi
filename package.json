@@ -27,10 +27,5 @@
     "turbo": "^2.9.14",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.2"
-  },
-  "dependencies": {
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.4.2",
-    "zod": "^4.4.3"
   }
 }
