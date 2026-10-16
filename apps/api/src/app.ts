@@ -5,13 +5,8 @@ import hpp from "hpp";
 import compression from "compression";
 import path from "path";
 import cookieParser from "cookie-parser";
-
-import { env } from "./config/env";
-import { connectDB } from "./config/db";
-
 import { errorHandler } from "./middleware/errorHandler";
 import { apiLimiter } from "./middleware/rateLimiter";
-
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import projectRoutes from "./routes/project.routes";
@@ -27,9 +22,6 @@ import achievementRoutes from "./routes/achievemnet.routes";
 dns.setServers(["1.1.1.1", "1.0.0.1"]);
 
 export const app = express(); //wll be used in tests
-const PORT = env.PORT;
-
-connectDB();
 
 const allowedOrigins = [
   "http://localhost:5174",
@@ -82,7 +74,3 @@ app.get("/health", (_req, res) => {
 });
 
 app.use(errorHandler);
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});

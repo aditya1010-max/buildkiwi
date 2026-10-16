@@ -5,8 +5,8 @@
   "description": "Backend API for BuildKiwi, a full-stack form builder platform.",
   "main": "dist/app.js",
   "scripts": {
-    "dev": "ts-node-dev --files -r tsconfig-paths/register src/app.ts",
-    "start": "node dist/app.js",
+    "dev": "ts-node-dev --files -r tsconfig-paths/register src/server.ts",
+    "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
