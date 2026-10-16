@@ -29,7 +29,9 @@ describe("bookmark repository", () => {
   }, 15000);
 
   afterAll(async () => {
-    await mongoose.connection.close();
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close();
+    }
   }, 15000);
 
   beforeEach(async () => {
