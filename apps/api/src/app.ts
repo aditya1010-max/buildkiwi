@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import hpp from "hpp";
@@ -26,8 +25,6 @@ import bookmarkRoutes from "./routes/bookmark.routes";
 import achievementRoutes from "./routes/achievemnet.routes";
 
 dns.setServers(["1.1.1.1", "1.0.0.1"]);
-
-dotenv.config();
 
 export const app = express(); //wll be used in tests
 const PORT = env.PORT;
