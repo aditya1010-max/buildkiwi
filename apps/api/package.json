@@ -1,8 +1,9 @@
 {
   "name": "buildkiwi-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "Backend API for BuildKiwi, a full-stack form builder platform.",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "ts-node-dev --files -r tsconfig-paths/register src/app.ts",
     "start": "node dist/app.js",
@@ -15,15 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/buildkiwi-api.git"
+    "url": "https://github.com/aditya1010-max/buildkiwi.git",
+    "directory": "apps/api"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/your-username/buildkiwi-api/issues"
+    "url": "https://github.com/aditya1010-max/buildkiwi/issues"
   },
-  "homepage": "https://github.com/your-username/buildkiwi-api#readme",
+  "homepage": "https://github.com/aditya1010-max/buildkiwi#readme",
   "dependencies": {
     "@buildkiwi/pattern-engine": "*",
     "@buildkiwi/validation": "*",
