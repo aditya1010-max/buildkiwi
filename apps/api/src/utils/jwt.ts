@@ -2,7 +2,7 @@ import jwt, { type JwtPayload, type SignOptions } from "jsonwebtoken";
 
 import { env } from "../config/env";
 
-interface TokenPayload extends JwtPayload {
+export interface TokenPayload extends JwtPayload {
   userId: string;
   email: string;
 }

@@ -10,12 +10,7 @@ import {
 
 import { asyncHandler } from "../utils/asyncHandler";
 import { AppError } from "../utils/AppError";
-
-interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-  };
-}
+import { AuthenticatedRequest } from "../types/auth";
 
 export const createComment = asyncHandler(
   async (req: Request, res: Response) => {

@@ -21,13 +21,7 @@ import { validateSchemaData, type Schema } from "../utils/validateSchema";
 import { asyncHandler } from "../utils/asyncHandler";
 import { AppError } from "../utils/AppError";
 import { normalizeProjectPayload } from "../utils/normalizeProjectPayload";
-
-interface AuthenticatedRequest extends Request {
-  user?: {
-    userId: string;
-  };
-  file?: Express.Multer.File;
-}
+import type { AuthenticatedRequest } from "../types/auth";
 
 const requireAuthenticatedUser = (req: Request): string => {
   const userId = (req as AuthenticatedRequest).user?.userId;

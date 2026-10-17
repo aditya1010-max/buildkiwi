@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
+import type { AuthenticatedRequest } from "../types/auth";
 import { asyncHandler } from "../utils/asyncHandler";
 import { findUserByIdService } from "../services/user.service";
 import {
@@ -7,13 +8,7 @@ import {
 } from "../services/auth.service";
 import { env } from "../config/env";
 import { verifyRefreshToken, generateAccessToken } from "../utils/jwt";
-
-export interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
+import { AppError } from "../utils/AppError";
 
 const refreshCookieOptions = {
   httpOnly: true,
@@ -59,6 +54,11 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
 export const me = asyncHandler(async (req: Request, res: Response) => {
   const authReq = req as AuthenticatedRequest;
+
+  if (!authReq.user) {
+    throw new AppError("Unauthorized", 401);
+  }
+
   const user = await findUserByIdService(authReq.user.userId);
 
   res.json({
