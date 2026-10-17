@@ -1,3 +1,4 @@
+import { PatternId } from "packages/pattern-engine/dist/core/types";
 import { z } from "zod";
 
 export const UpdateUserSchema = z
@@ -27,3 +28,16 @@ export const UpdateUserSchema = z
       message: "At least one field must be provided",
     },
   );
+
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatarSeed: string;
+  avatarPattern: PatternId;
+  bio?: string;
+  createdAt: string;
+  updatedAt: string;
+}

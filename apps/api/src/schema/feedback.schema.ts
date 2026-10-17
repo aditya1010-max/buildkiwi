@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { FeedbackCategorySchema } from "@buildkiwi/validation";
 
 export const CreateFeedbackSchema = z.object({
-  category: z.enum(["bug", "feature", "general"]),
+  category: FeedbackCategorySchema,
 
   title: z
     .string()

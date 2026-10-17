@@ -9,3 +9,38 @@ export const CreateCommentSchema = z.object({
 });
 
 export type CreateCommentInput = z.infer<typeof CreateCommentSchema>;
+
+export interface CommentUser {
+  _id: string;
+  username: string;
+  avatarSeed?: string;
+  avatarPattern?: string;
+}
+
+export interface Comment {
+  _id: string;
+  projectId: string;
+  userId: CommentUser;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CommentPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasMore: boolean;
+}
+
+export interface GetCommentsResponse {
+  success: boolean;
+  data: Comment[];
+  pagination: CommentPagination;
+}
+
+export interface CreateCommentResponse {
+  success: boolean;
+  data: Comment;
+}
