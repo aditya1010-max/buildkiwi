@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "../services/api";
 
 export const searchProjects = async (query: string) => {
-  const response = await axios.get(
-    `http://localhost:3000/search?q=${encodeURIComponent(query)}`,
-  );
+  const response = await api.get("/search", {
+    params: { q: query },
+  });
 
   return response.data;
 };

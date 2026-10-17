@@ -1,5 +1,5 @@
 import api from "../services/api";
-import { Project } from "../types/project";
+import type { Project } from "../types/project";
 
 export interface LikedProject {
   _id: string;

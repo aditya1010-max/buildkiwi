@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-
-import {
-  addBookmark,
-  getBookmarks,
-  removeBookmark,
-} from "../services/bookmark.service";
+import { addBookmark, getBookmarks, removeBookmark } from "../api/bookmark.api";
 import type { Project } from "../types/project";
 
 export function useBookmarks() {

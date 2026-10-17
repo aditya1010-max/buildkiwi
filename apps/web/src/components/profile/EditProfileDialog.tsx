@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./EditProfileDialog.css";
 
 import type { User } from "../../types/user";
-import { updateUser } from "../../services/user.service";
+import { updateUser } from "../../api/user.api";
 import GeneratedAvatar from "../projects/shared/GeneratedAvatar/GeneratedAvatar";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
@@ -54,7 +54,6 @@ export default function EditProfileDialog({
       setError("");
 
       await updateUser(user.id, {
-        username: trimmedUsername,
         bio,
         avatarSeed,
         avatarPattern,

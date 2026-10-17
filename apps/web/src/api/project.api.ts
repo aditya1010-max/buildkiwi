@@ -1,25 +1,12 @@
+import type {
+  Project,
+  ProjectsResponse,
+  SingleProjectResponse,
+} from "@buildkiwi/validation";
 import api from "../services/api";
-import { Project } from "../types/project";
 import { trackProgress } from "../services/progressBarManager";
 import { getVisitorId } from "../services/visitor";
 import type { CreateProjectResponse } from "../types/project";
-
-export interface ProjectsResponse {
-  success: boolean;
-  data: Project[];
-  pagination: {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-    hasMore: boolean;
-  };
-}
-
-export interface SingleProjectResponse {
-  success: boolean;
-  data: Project;
-}
 
 interface FetchProjectsOptions {
   page?: number;
@@ -48,9 +35,7 @@ export async function fetchProjects({
   }
 
   const response = await trackProgress(
-    api.get<ProjectsResponse>(`/projects`, {
-      params,
-    }),
+    api.get<ProjectsResponse>("/projects", { params }),
   );
 
   return response.data;
@@ -62,46 +47,25 @@ export const fetchProjectById = async (
   const response = await trackProgress(
     api.get<SingleProjectResponse>(`/projects/${id}`),
   );
+
   return response.data;
 };
 
 export async function getSavedProjects() {
-  const token = localStorage.getItem("token");
-
-  const response = await trackProgress(
-    api.get(`/projects/saved`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-  );
+  const response = await trackProgress(api.get("/projects/saved"));
 
   return response.data.data;
 }
 
 export async function getEditableProject(projectId: string) {
-  const token = localStorage.getItem("token");
-
-  const response = await trackProgress(
-    api.get(`/projects/${projectId}/edit`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-  );
+  const response = await trackProgress(api.get(`/projects/${projectId}/edit`));
 
   return response.data.data;
 }
 
 export async function updateProject(projectId: string, formData: FormData) {
-  const token = localStorage.getItem("token");
-
   const { data } = await trackProgress(
-    api.patch(`/projects/${projectId}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+    api.patch(`/projects/${projectId}`, formData),
   );
 
   return data;
@@ -110,29 +74,15 @@ export async function updateProject(projectId: string, formData: FormData) {
 export async function createProject(
   formData: FormData,
 ): Promise<CreateProjectResponse> {
-  const token = localStorage.getItem("token");
-
   const { data } = await trackProgress(
-    api.post<CreateProjectResponse>(`/projects`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+    api.post<CreateProjectResponse>("/projects", formData),
   );
 
   return data;
 }
 
 export async function getMyProjects() {
-  const token = localStorage.getItem("token");
-
-  const { data } = await trackProgress(
-    api.get(`/projects/mine`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-  );
+  const { data } = await trackProgress(api.get("/projects/mine"));
 
   return data.data;
 }
@@ -143,12 +93,6 @@ export async function getUserProjects(userId: string): Promise<Project[]> {
   );
 
   return data.data;
-}
-
-export async function getProjects() {
-  const response = await trackProgress(api.get("/projects"));
-
-  return response.data;
 }
 
 export async function recordProjectView(projectId: string) {
@@ -164,15 +108,7 @@ export async function recordProjectView(projectId: string) {
 }
 
 export async function deleteProject(projectId: string) {
-  const token = localStorage.getItem("token");
-
-  const { data } = await trackProgress(
-    api.delete(`/projects/${projectId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-  );
+  const { data } = await trackProgress(api.delete(`/projects/${projectId}`));
 
   return data;
 }

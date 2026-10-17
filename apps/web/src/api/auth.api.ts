@@ -1,30 +1,13 @@
 import type { User } from "../types/user";
 import api from "../services/api";
+import { normalizeUser } from "../utils/normalizeUser";
+import type { ApiUser } from "../utils/normalizeUser";
 import {
   getAccessToken,
   setAccessToken,
   clearAccessToken,
 } from "../utils/token";
 import { refreshAccessToken } from "./refresh.api";
-
-interface ApiUser extends Omit<User, "id"> {
-  _id: string;
-}
-
-function normalizeUser(user: User | ApiUser | null): User | null {
-  if (!user) {
-    return null;
-  }
-
-  if ("id" in user) {
-    return user;
-  }
-
-  return {
-    ...user,
-    id: user._id,
-  };
-}
 
 interface MeResponse {
   success: boolean;
