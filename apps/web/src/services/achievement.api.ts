@@ -5,7 +5,6 @@
 // GET /achievements/recent
 
 import api from "./api";
-
 import type { AchievementActivity } from "../types/achievement";
 
 export async function getAchievementActivity(

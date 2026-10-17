@@ -40,7 +40,7 @@ export const bookmarkRepository = {
       .populate<{ projectId: PopulatedProject }>({
         path: "projectId",
         select:
-          "title description tags coverImage links stats creatorId createdAt updatedAt",
+          "title description tags coverSeed links stats creatorId createdAt updatedAt",
         populate: {
           path: "creatorId",
           select: "username avatarSeed avatarPattern",
