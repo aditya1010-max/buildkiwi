@@ -1,5 +1,8 @@
 import type { Request, Response } from "express";
-import { CreateProjectSchema } from "@buildkiwi/validation";
+import {
+  CreateProjectSchema,
+  UpdateProjectSchema,
+} from "@buildkiwi/validation";
 
 import {
   createProjectService,
@@ -121,7 +124,7 @@ export const updateProject = asyncHandler(
       }),
     };
 
-    const validatedData = CreateProjectSchema.partial().parse(payload);
+    const validatedData = UpdateProjectSchema.parse(payload);
 
     runSecondaryValidation(projectSchema, validatedData);
 
