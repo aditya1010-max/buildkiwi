@@ -1,4 +1,4 @@
-import { PatternId } from "packages/pattern-engine/dist/core/types";
+import type { PatternId } from "@buildkiwi/pattern-engine";
 import { z } from "zod";
 
 export const UpdateUserSchema = z
