@@ -24,9 +24,11 @@ dns.setServers(["1.1.1.1", "1.0.0.1"]);
 export const app = express(); //wll be used in tests
 
 const allowedOrigins = [
+  "http://localhost:5173",
   "http://localhost:5174",
   "https://buildkiwi.pages.dev",
   "https://buildkiwi.space",
+  "https://www.buildkiwi.space",
 ];
 
 app.use(
