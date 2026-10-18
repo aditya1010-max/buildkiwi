@@ -1,10 +1,11 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 
 import "./FeedbackForm.css";
 
 import FeedbackCategorySelector from "./FeedbackCategorySelector";
 import { submitFeedback } from "../../services/feedback.api";
-import { FeedbackCategory, FeedbackRequest } from "../../types/feedback";
+import type { FeedbackCategory, FeedbackRequest } from "../../types/feedback";
 
 function createInitialForm(): FeedbackRequest {
   return {
@@ -34,7 +35,7 @@ export default function FeedbackForm() {
 
   function updateForm(updates: Partial<FeedbackRequest>) {
     setError("");
-    setForm((prev) => ({
+    setForm((prev: FeedbackRequest) => ({
       ...prev,
       ...updates,
     }));

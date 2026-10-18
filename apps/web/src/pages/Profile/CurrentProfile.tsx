@@ -15,7 +15,7 @@ import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { useLikedProjects } from "../../hooks/useLikedProjects";
 import { useMyProjects } from "../../hooks/useMyProjects";
-import { User } from "../../types/user";
+import type { User } from "../../types/user";
 
 export default function CurrentProfile() {
   const { projects: myProjects } = useMyProjects();

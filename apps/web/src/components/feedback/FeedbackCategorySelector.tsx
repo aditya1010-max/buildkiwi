@@ -1,6 +1,6 @@
 import "./FeedbackCategorySelector.css";
 
-import { FeedbackCategory } from "../../types/feedback";
+import type { FeedbackCategory } from "../../types/feedback";
 
 interface FeedbackCategorySelectorProps {
   value: FeedbackCategory;

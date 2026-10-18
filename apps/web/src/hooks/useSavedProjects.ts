@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getSavedProjects } from "../api/project.api";
-import { Project } from "../types/project";
+import type { Project } from "../types/project";
 
 export function useSavedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
