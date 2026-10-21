@@ -23,7 +23,6 @@ createRoot(document.getElementById("root")!).render(
         <LanguageProvider>
           <ProgressProvider>
             <TopLoadingBar />
-
             <ToastProvider>
               <App />
             </ToastProvider>

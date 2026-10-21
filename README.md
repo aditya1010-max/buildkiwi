@@ -1,10 +1,12 @@
 # BuildKiwi
 
-- **Live site:** [https://buildkiwi.space](https://buildkiwi.space)
-- **Pattern Lab:** [https://buildkiwi-pattern-lab.pages.dev](https://buildkiwi-pattern-lab.pages.dev)
-- **Repository:** Add your GitHub repository URL here
+A social platform for developers and makers to showcase projects, discover what others are building, and connect with the community.
 
-## Tech stack
+- **Live site:** [buildkiwi.space](https://buildkiwi.space)
+- **Pattern Lab:** [Open Pattern Lab](https://buildkiwi-pattern-lab-production.up.railway.app/)
+- **Repository:** [GitHub](https://github.com/aditya1010-max/buildkiwi)
+
+## Tech Stack
 
 | Area                | Technologies                                |
 | ------------------- | ------------------------------------------- |
@@ -26,16 +28,14 @@ Package names and folders may evolve as the project develops.
 - npm
 - A MongoDB database, such as a MongoDB Atlas cluster
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone https://github.com/aditya1010-max/buildkiwi.git
 cd buildkiwi
 ```
 
-Replace `<YOUR_REPOSITORY_URL>` with the repository's HTTPS or SSH URL.
-
-### 2. Install dependencies
+### 2. Install Dependencies
 
 Run this from the repository root:
 
@@ -59,8 +59,6 @@ The API needs a MongoDB connection string and authentication secrets. The fronte
 **Frontend**
 
 - `VITE_API_URL` — API base URL, including the `/api/v1` prefix if required by the app's configuration.
-
-Use strong, unique secrets in each environment. Never publish `.env` files, API keys, database credentials, or production tokens.
 
 ### 4. Start development
 
