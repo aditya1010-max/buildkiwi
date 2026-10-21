@@ -15,4 +15,5 @@ export const tagSuggestions = [
   "Tailwind CSS",
   "Framer Motion",
   "Firebase",
+  "Rust",
 ];

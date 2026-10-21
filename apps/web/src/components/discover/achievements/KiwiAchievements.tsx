@@ -25,11 +25,13 @@ function AchievementItem({ activity }: { activity: AchievementActivity }) {
     <div className="kiwi-achievement">
       <Tooltip content={activity.achievement.name} placement="top">
         <div className="kiwi-achievement-image-wrapper">
-          <img
-            src={activity.achievement.image}
-            alt=""
-            className="kiwi-achievement-image"
-          />
+          <div className="kiwi-achievement-badge">
+            <img
+              src={activity.achievement.image}
+              alt={activity.achievement.name}
+              className="kiwi-achievement-image"
+            />
+          </div>
         </div>
       </Tooltip>
 
